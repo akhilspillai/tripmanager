@@ -1,0 +1,50 @@
+package com.trip.expensemanager;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.trip.expensemanager.fragments.AddTripFragment;
+import com.trip.expensemanager.fragments.LoginFragment;
+import com.trip.utils.LocalDB;
+
+public class ExpenseActivity extends ActionBarActivity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_expense);
+
+		LocalDB localDb=new LocalDB(this);
+		if (savedInstanceState == null) {
+			long lngUserId=localDb.retrieve();
+			if(lngUserId==0L){
+				getSupportFragmentManager().beginTransaction().add(R.id.container, LoginFragment.newInstance()).commit();
+			} else{
+				getSupportFragmentManager().beginTransaction().add(R.id.container, AddTripFragment.newInstance(lngUserId)).commit();
+				Intent serviceIntent=new Intent(this, SyncIntentService.class);
+				startService(serviceIntent);
+			}
+			AdView adView = (AdView)findViewById(R.id.adView);
+			AdRequest adRequest = new AdRequest.Builder().addTestDevice("73F2A5CA55F628C98441DA7DAFECE33C").addTestDevice("D343E752F78628B89D77D8DC1FB8F12F").addTestDevice("E0AD16F9A6CB88345E2E96D2323E9BB7").build();
+			adView.loadAd(adRequest);
+		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if(getSupportFragmentManager().getBackStackEntryCount()==0){
+			finish();
+		} else{
+			super.onBackPressed();
+		}
+	}
+
+}

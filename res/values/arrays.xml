@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menu_trip_list_admin">
+        <item >Change EG Name</item>
+        <item >Delete EG</item>
+    </string-array>
+    
+    <string-array name="menu_trip_list">
+        <item >Change EG Name</item>
+    </string-array>
+    
+    <string-array name="menu_expense_list">
+        <item >Delete Expense</item>
+    </string-array>
+    
+    <string-array name="menu_people_list">
+        <item >Delete Person</item>
+    </string-array>
+    
+</resources>

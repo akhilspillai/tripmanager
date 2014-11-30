@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/android-support-v7-appcompat"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="lib" path="libs/core-2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/zbar.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gcm.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-api-client-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-api-client-android-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-http-client-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-http-client-android-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-http-client-gson-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-http-client-jackson2-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-http-client-jdo-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-oauth-client-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gson-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jackson-core-2.1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jsr305-1.3.9.jar"/>
+	<classpathentry kind="lib" path="libs/achartengine-1.1.0.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/E:/Expense/Code/Achart/achartengine-1.1.0-javadocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path=".apt_generated">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/google-play-services_lib"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="lib" path="C:/adt-bundle-windows-x86-20140702/sdk/platforms/android-17/android.jar" sourcepath="C:/Program Files/adt-bundle-windows-x86-20140702/sdk/sources/android-17">
+		<attributes>
+			<attribute name="javadoc_location" value="http://developer.android.com/reference/"/>
+		</attributes>
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="com/android/internal/**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="src" path="endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/deviceinfoendpoint-v1-generated-source"/>
+	<classpathentry kind="src" path="endpoint-libs/libdistributionendpoint-v1/distributionendpoint/distributionendpoint-v1-generated-source"/>
+	<classpathentry kind="src" path="endpoint-libs/libexpenseendpoint-v1/expenseendpoint/expenseendpoint-v1-generated-source"/>
+	<classpathentry kind="src" path="endpoint-libs/libloginendpoint-v1/loginendpoint/loginendpoint-v1-generated-source"/>
+	<classpathentry kind="src" path="endpoint-libs/libmessageEndpoint-v1/messageEndpoint/messageendpoint-v1-generated-source"/>
+	<classpathentry kind="src" path="endpoint-libs/libtosyncendpoint-v1/tosyncendpoint/tosyncendpoint-v1-generated-source"/>
+	<classpathentry kind="src" path="endpoint-libs/libtripendpoint-v1/tripendpoint/tripendpoint-v1-generated-source"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>
