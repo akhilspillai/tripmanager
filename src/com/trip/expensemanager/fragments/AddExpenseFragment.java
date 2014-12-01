@@ -8,12 +8,11 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -34,7 +34,7 @@ import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
 
-public class AddExpenseFragment extends CustomFragment {
+public class AddExpenseFragment extends CustomFragment implements OnClickListener {
 
 	public static Fragment newInstance(long lngTripId, long lngUserId, int iOpcode) {
 		Fragment fragment=new AddExpenseFragment();
@@ -90,6 +90,8 @@ public class AddExpenseFragment extends CustomFragment {
 	private List<Boolean> bLstEnabled=new ArrayList<Boolean>();
 	private List<String> strLstPrevAmounts;
 	private boolean isAutoChanged;
+	private TextView txtSelectAll;
+	private TextView txtSelectNone;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,52 +126,48 @@ public class AddExpenseFragment extends CustomFragment {
 			eTxtExpenseName = (EditText)rootView.findViewById(R.id.etxt_expense_name);
 			eTxtExpenseDetail = (EditText)rootView.findViewById(R.id.etxt_expense_detail);
 			eTxtExpenseAmount = (EditText)rootView.findViewById(R.id.etxt_expense_amount);
-			eTxtExpenseAmount.addTextChangedListener(new TextWatcher() {
+			txtSelectAll = (TextView)rootView.findViewById(R.id.txt_all);
+			txtSelectNone = (TextView)rootView.findViewById(R.id.txt_none);
+			txtSelectAll.setOnClickListener(this);
+			txtSelectNone.setOnClickListener(this);
+
+			eTxtExpenseAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
 				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-				}
-
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count,
-						int after) {
-
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-					if(!isAutoChanged){
-						String amount=s.toString();;
-						if(amount.equals("")){
-							amount="0";
-						}
-						float fAmount=Float.parseFloat(amount);
-						int size=strLstAmounts.size();
-						int checked=0;
-						boolean[] isChecked=new boolean[size];
-						for(int i=0;i<size;i++){
-							if(bLstChecked.get(i)){
-								checked++;
-								isChecked[i]=true;
-							} else{
-								isChecked[i]=false;
+				public void onFocusChange(View v, boolean hasFocus) {
+					if(!hasFocus){
+						if(!isAutoChanged){
+							String amount=((EditText)v).getText().toString();;
+							if(amount.equals("")){
+								amount="0";
 							}
-						}
-						float fDistAmount=0f;
-						if(checked!=0){
-							fDistAmount=Global.divide(fAmount, checked);
-						}
-						for(int i=0;i<size;i++){
-							if(isChecked[i]){
-								strLstAmounts.set(i, String.valueOf(fDistAmount));
-							} else{
-								strLstAmounts.set(i, String.valueOf(0f));
+							float fAmount=Float.parseFloat(amount);
+							int size=strLstAmounts.size();
+							int checked=0;
+							boolean[] isChecked=new boolean[size];
+							for(int i=0;i<size;i++){
+								if(bLstChecked.get(i)){
+									checked++;
+									isChecked[i]=true;
+								} else{
+									isChecked[i]=false;
+								}
 							}
+							float fDistAmount=0f;
+							if(checked!=0){
+								fDistAmount=Global.divide(fAmount, checked);
+							}
+							for(int i=0;i<size;i++){
+								if(isChecked[i]){
+									strLstAmounts.set(i, String.valueOf(fDistAmount));
+								} else{
+									strLstAmounts.set(i, String.valueOf(0f));
+								}
+							}
+							listAdapter.notifyDataSetChanged();
+						} else{
+							isAutoChanged=false;
 						}
-						listAdapter.notifyDataSetChanged();
-					} else{
-						isAutoChanged=false;
 					}
 				}
 			});
@@ -183,7 +181,7 @@ public class AddExpenseFragment extends CustomFragment {
 			if(opcode==Constants.I_OPCODE_ADD_EXPENSE){
 				username=localDb.retrievePrefferedName(lngUserId);
 				date=new Date();
-
+				lngAdminId=lngUserId;
 				loadUsers(trip);
 			} else{
 				expense=localDb.retrieveExpense(lngExpenseId);
@@ -256,7 +254,7 @@ public class AddExpenseFragment extends CustomFragment {
 		LocalDB localDb=new LocalDB(getActivity());
 		for(long userId:userIds){
 			strLstAmounts.add("0");
-			bLstChecked.add(true);
+			bLstChecked.add(false);
 			bLstEnabled.add(true);
 			strLstUserIds.add(userId);
 			strLstUsers.add(localDb.retrievePrefferedName(userId));
@@ -284,6 +282,9 @@ public class AddExpenseFragment extends CustomFragment {
 		switch (item.getItemId()) {
 		case R.id.action_save_expense:
 			eTxtExpenseName.requestFocus();
+			InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+					Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(eTxtExpenseName.getWindowToken(), 0);
 			if(Global.validate(eTxtExpenseName, eTxtExpenseDetail, eTxtExpenseAmount)){
 				String strExpenseName=eTxtExpenseName.getText().toString();
 				String strExpenseDetail=eTxtExpenseDetail.getText().toString();
@@ -319,10 +320,20 @@ public class AddExpenseFragment extends CustomFragment {
 							fTotal=Global.add(fTotal, strAmount);
 						}
 					}
+					if(fTotal==0f){
+						//						Toast.makeText(getActivity(), "Please select atleast one user!!", Toast.LENGTH_LONG).show();
+						showInfoMessage("Please select atleast one user!!");
+						lvUsersList.post(new Runnable(){
+							public void run() {
+								lvUsersList.setSelection(lvUsersList.getCount() - 1);
+							}});;
+							return false;
+					}
 					if(Math.abs(fAmount-fTotal)>0.1f){
 						showError(eTxtExpenseAmount, Constants.STR_ERROR_AMT);
 						return false;
 					}
+
 					sbAmounts.deleteCharAt(sbAmounts.length()-1);
 					sbUsers.deleteCharAt(sbUsers.length()-1);
 					//					if(strAmount!=null){
@@ -400,38 +411,60 @@ public class AddExpenseFragment extends CustomFragment {
 	}
 
 	public void changeData() {
+		String strAmount=eTxtExpenseAmount.getText().toString();
 		float fAmount=0f;
-		try {
-			fAmount = Float.parseFloat(eTxtExpenseAmount.getText().toString());
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
+		int size=strLstAmounts.size();
+		if(!"".equals(strAmount)){
+			try {
+				fAmount = Float.parseFloat(strAmount);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
 
-		if(fAmount!=0f){
-			int size=strLstAmounts.size();
-			int checked=0;
-			boolean[] isItemChecked=new boolean[size];
-			for(int i=0;i<size;i++){
-				if(bLstChecked.get(i)){
-					checked++;
-					isItemChecked[i]=true;
-				} else{
-					isItemChecked[i]=false;
-				}
-			}
 			float fDistAmount=0f;
-			if(checked!=0){
-				fDistAmount=Global.divide(fAmount, checked);
-			}
-			for(int i=0;i<size;i++){
-				if(isItemChecked[i]){
-					strLstAmounts.set(i, String.valueOf(fDistAmount));
-				} else{
-					strLstAmounts.set(i, String.valueOf(0f));
+			if(fAmount!=0f){
+				int checked=0;
+				boolean[] isItemChecked=new boolean[size];
+				for(int i=0;i<size;i++){
+					if(bLstChecked.get(i)){
+						checked++;
+						isItemChecked[i]=true;
+					} else{
+						isItemChecked[i]=false;
+					}
 				}
+				if(checked!=0){
+					fDistAmount=Global.divide(fAmount, checked);
+				}
+				for(int i=0;i<size;i++){
+					if(isItemChecked[i]){
+						strLstAmounts.set(i, String.valueOf(fDistAmount));
+					} else{
+						strLstAmounts.set(i, String.valueOf(0f));
+					}
+				}
+			} 
+		} else{
+			for(int i=0;i<size;i++){
+				strLstAmounts.set(i, String.valueOf(0f));
 			}
 		}
 		listAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onClick(View v) {
+		if(lngAdminId==lngUserId){
+			int size=bLstChecked.size();
+			for(int i=0;i<size;i++){
+				if(v.equals(txtSelectAll)){
+					bLstChecked.set(i, true);
+				} else if(v.equals(txtSelectNone)){
+					bLstChecked.set(i, false);
+				}
+			}
+			changeData();
+		}
 	}
 
 }

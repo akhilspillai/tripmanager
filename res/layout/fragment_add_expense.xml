@@ -19,6 +19,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/expense_name"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
@@ -46,6 +47,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/expense_detail"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
@@ -74,6 +76,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/spent_amount"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
@@ -101,6 +104,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/expense_admin"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
@@ -127,6 +131,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/expense_creation_date"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
@@ -141,6 +146,52 @@
             android:layout_marginStart="5dp"
             android:enabled="false"
             android:inputType="datetime" />
+        
+         <TextView
+            android:id="@+id/txt_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etxt_expense_creation_date"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/select"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+         
+         <TextView
+            android:id="@+id/txt_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etxt_expense_creation_date"
+            android:layout_toRightOf="@+id/txt_select"
+            android:layout_toEndOf="@+id/txt_select"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/all"
+            android:textSize="18sp"
+            android:textColor="@color/app_color" />
+         
+         <TextView
+            android:id="@+id/txt_none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etxt_expense_creation_date"
+            android:layout_toRightOf="@+id/txt_all"
+            android:layout_toEndOf="@+id/txt_all"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/none"
+            android:textSize="18sp"
+            android:textColor="@color/app_color" />
 
     </RelativeLayout>
 

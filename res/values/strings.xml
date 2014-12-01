@@ -59,5 +59,8 @@
     <string name="qr_code_size">200</string>
     <string name="updates">Update Center</string>
     <string name="unit_id">ca-app-pub-3626039642054183/1450564550</string>
+    <string name="select">Select:</string>
+    <string name="all">All</string>
+    <string name="none">None</string>
 
 </resources>
