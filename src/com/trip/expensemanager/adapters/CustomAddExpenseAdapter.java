@@ -1,12 +1,8 @@
 package com.trip.expensemanager.adapters;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;

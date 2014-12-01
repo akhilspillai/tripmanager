@@ -431,13 +431,17 @@ public class SyncIntentService extends IntentService{
 									List<String> lstAmountsPrev=Global.stringToList(expenseBean.getAmounts());
 									if(!(lstUsers.equals(lstUsersPrev) && lstAmounts.equals(lstAmountsPrev))){
 										DistributionBean1 distBean;
-										String strAmountPrev, strAmount;
+										String strAmountPrev="0", strAmount="0";
 										distBean=localDb.retrieveDistributionByUsers(expenseBean.getUserId(), lngUserId, expenseBean.getTripId());
 										int posPrev=lstUsersPrev.indexOf(lngUserId);
 										int pos=lstUsers.indexOf(lngUserId);
-										if(posPrev!=-1 && pos!=-1){
-											strAmountPrev=lstAmountsPrev.get(pos);
-											strAmount=lstAmounts.get(pos);
+										if(posPrev!=-1 || pos!=-1){
+											if(posPrev!=-1){
+												strAmountPrev=lstAmountsPrev.get(posPrev);
+											}
+											if(pos!=-1){
+												strAmount=lstAmounts.get(pos);
+											}
 											if(distBean==null){
 												long rowId=localDb.insertDistribution(lngUserId, expenseBean.getUserId(), strAmount, expenseBean.getTripId());
 												localDb.updateDistributionId(rowId, rowId);
