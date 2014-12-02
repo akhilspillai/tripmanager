@@ -234,6 +234,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		switch (item.getItemId()) {
 		case R.id.action_add_expense:
 			showAddExpense();
+			
 			return true;
 			
 		case R.id.action_exit_eg:
