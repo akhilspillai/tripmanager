@@ -206,6 +206,22 @@ public class Global {
 		return bg3.floatValue();
 	}
 	
+	public static String subtract(String amount1, String amount2) {
+		BigDecimal bg1, bg2, bg3=new BigDecimal(0f);
+		try {
+
+			bg1 = new BigDecimal(amount1);
+			bg2 = new BigDecimal(amount2);
+
+			// subtract bg1 with bg2 using mc and assign result to bg3
+			bg3 = bg1.subtract(bg2);
+			bg3.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bg3.toPlainString();
+	}
+	
 	public static float divide(float f1, int i2) {
 		BigDecimal bg1, bg2, bg3=new BigDecimal(0f);
 		try {

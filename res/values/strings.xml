@@ -62,5 +62,7 @@
     <string name="select">Select:</string>
     <string name="all">All</string>
     <string name="none">None</string>
+    <string name="settled">Settled</string>
+    <string name="unsettled">Unsettled</string>
 
 </resources>

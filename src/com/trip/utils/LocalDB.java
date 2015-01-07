@@ -12,7 +12,7 @@ public class LocalDB{
 	private Context context=null;
 	Cursor cursor=null;
 	private SQLiteHelper dbHelper;
-	private final String[] COLUMNS_LOGIN = {SQLiteHelper.COLUMN_USER_ID, SQLiteHelper.COLUMN_USERNAME, SQLiteHelper.COLUMN_PREFFERED_NAME, SQLiteHelper.COLUMN_PASSWORD};
+//	private final String[] COLUMNS_LOGIN = {SQLiteHelper.COLUMN_USER_ID, SQLiteHelper.COLUMN_USERNAME, SQLiteHelper.COLUMN_PREFFERED_NAME, SQLiteHelper.COLUMN_PASSWORD};
 	private final String[] COLUMNS_TRIP = {SQLiteHelper.COLUMN_TRIP_ID, SQLiteHelper.COLUMN_TRIP_NAME, SQLiteHelper.COLUMN_ADMIN, SQLiteHelper.COLUMN_USERS, SQLiteHelper.COLUMN_CREATION_TIME, SQLiteHelper.COLUMN_TRIP_STATUS, SQLiteHelper.COLUMN_IS_SYNCHED, SQLiteHelper.ROW_ID};
 	private final String[] COLUMNS_EXPENSE = {SQLiteHelper.COLUMN_EXPENSE_ID, SQLiteHelper.COLUMN_EXPENSE_NAME, SQLiteHelper.COLUMN_EXPENSE_DESC, SQLiteHelper.COLUMN_EXPENSE_AMOUNT, SQLiteHelper.COLUMN_EXPENSE_CURRENCY, SQLiteHelper.COLUMN_TRIP_ID, SQLiteHelper.COLUMN_USER_ID, SQLiteHelper.COLUMN_USERS, SQLiteHelper.COLUMN_AMOUNTS, SQLiteHelper.COLUMN_EXPENSE_CREATION_TIME, SQLiteHelper.COLUMN_IS_SYNCHED, SQLiteHelper.ROW_ID};
 	private final String[] COLUMNS_TO_SYNC = {SQLiteHelper.ROW_ID, SQLiteHelper.COLUMN_ACTION, SQLiteHelper.COLUMN_UPDATE, SQLiteHelper.COLUMN_ITEM_ID};
@@ -71,7 +71,7 @@ public class LocalDB{
 		return done;
 	}
 
-	public long insertDistribution(long lngFromId, long lngToId, String strAmount, long lngTripId) {
+	public long insertDistribution(long lngFromId, long lngToId, String strAmount, long lngTripId, String strPaidStatus) {
 		long id=0L;
 		try{
 			SQLiteDatabase database=open();
@@ -80,7 +80,7 @@ public class LocalDB{
 			values.put(SQLiteHelper.COLUMN_TO_ID, lngToId);
 			values.put(SQLiteHelper.COLUMN_EXPENSE_AMOUNT, strAmount);
 			values.put(SQLiteHelper.COLUMN_TRIP_ID, lngTripId);
-			values.put(SQLiteHelper.COLUMN_PAID, Constants.STR_NO);
+			values.put(SQLiteHelper.COLUMN_PAID, strPaidStatus);
 			id=database.insert(SQLiteHelper.TABLE_DISTRIBUTION, null,values);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -111,12 +111,41 @@ public class LocalDB{
 
 	}
 
-	public ArrayList<DistributionBean1> retrieveDistributionForTrip(long lngTripId) {
+	public ArrayList<DistributionBean1> retrieveUnsettledDistributionForTrip(long lngTripId) {
 		ArrayList<DistributionBean1> strArrDistribution=new ArrayList<DistributionBean1>();
 		DistributionBean1 distributionBean=null;
 		try {
 			SQLiteDatabase database=open(); 
-			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_TRIP_ID+"=?", new String[]{String.valueOf(lngTripId)},null, null, null);
+			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+SQLiteHelper.COLUMN_PAID+"=?", new String[]{String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
+			if (cursor.moveToFirst()) {
+				do {
+					distributionBean=new DistributionBean1();
+					distributionBean.setDistributionId(cursor.getLong(0));
+					distributionBean.setFromId(cursor.getLong(1));
+					distributionBean.setToId(cursor.getLong(2));
+					distributionBean.setAmount(cursor.getString(3));
+					distributionBean.setTripId(cursor.getLong(4));
+					distributionBean.setPaid(cursor.getString(5));
+					strArrDistribution.add(distributionBean);
+				} while (cursor.moveToNext());
+			}
+		} catch (Exception e) {
+
+		}finally{
+			if(cursor!=null){
+				cursor.close();
+			}
+			close();
+		}
+		return strArrDistribution;
+	}
+	
+	public ArrayList<DistributionBean1> retrieveSettledDistributionForTrip(long lngTripId) {
+		ArrayList<DistributionBean1> strArrDistribution=new ArrayList<DistributionBean1>();
+		DistributionBean1 distributionBean=null;
+		try {
+			SQLiteDatabase database=open(); 
+			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"!=?", new String[]{String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
 			if (cursor.moveToFirst()) {
 				do {
 					distributionBean=new DistributionBean1();
@@ -145,7 +174,7 @@ public class LocalDB{
 		DistributionBean1 distributionBean=null;
 		try {
 			SQLiteDatabase database=open(); 
-			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_IS_SYNCHED+"!=?", new String[]{"S"},null, null, null);
+			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_PAID+"=?", new String[]{Constants.STR_UNSYNCED},null, null, null);
 			if (cursor.moveToFirst()) {
 				do {
 					distributionBean=new DistributionBean1();
@@ -155,7 +184,6 @@ public class LocalDB{
 					distributionBean.setAmount(cursor.getString(3));
 					distributionBean.setTripId(cursor.getLong(4));
 					distributionBean.setPaid(cursor.getString(5));
-					distributionBean.setSynced(cursor.getString(6));
 					strArrDistribution.add(distributionBean);
 				} while (cursor.moveToNext());
 			}
@@ -170,13 +198,42 @@ public class LocalDB{
 		return strArrDistribution;
 	}
 
-	public DistributionBean1 retrieveDistributionByUsers(long frmUserId, long toUserId, long lngTripId) {
+	public DistributionBean1 retrieveSettledDistributionByUsers(long frmUserId, long toUserId, long lngTripId) {
 		DistributionBean1 distributionBean=null;
 		try {
 			SQLiteDatabase database=open(); 
-			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=?", new String[]{String.valueOf(frmUserId), String.valueOf(toUserId), String.valueOf(lngTripId)},null, null, null);
+			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"!=?", new String[]{String.valueOf(frmUserId), String.valueOf(toUserId), String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
 			if (!cursor.moveToFirst()) {
-				cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=?", new String[]{String.valueOf(toUserId), String.valueOf(frmUserId), String.valueOf(lngTripId)},null, null, null);
+				cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"!=?", new String[]{String.valueOf(toUserId), String.valueOf(frmUserId), String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
+			}
+			if (cursor.moveToFirst()) {
+				distributionBean=new DistributionBean1();
+				distributionBean.setDistributionId(cursor.getLong(0));
+				distributionBean.setFromId(cursor.getLong(1));
+				distributionBean.setToId(cursor.getLong(2));
+				distributionBean.setAmount(cursor.getString(3));
+				distributionBean.setTripId(cursor.getLong(4));
+				distributionBean.setPaid(cursor.getString(5));
+				distributionBean.setSynced(cursor.getString(6));
+			}
+		} catch (Exception e) {
+
+		}finally{
+			if(cursor!=null){
+				cursor.close();
+			}
+			close();
+		}
+		return distributionBean;
+	}
+	
+	public DistributionBean1 retrieveUnsettledDistributionByUsers(long frmUserId, long toUserId, long lngTripId) {
+		DistributionBean1 distributionBean=null;
+		try {
+			SQLiteDatabase database=open(); 
+			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"=?", new String[]{String.valueOf(frmUserId), String.valueOf(toUserId), String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
+			if (!cursor.moveToFirst()) {
+				cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"=?", new String[]{String.valueOf(toUserId), String.valueOf(frmUserId), String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
 			}
 			if (cursor.moveToFirst()) {
 				distributionBean=new DistributionBean1();

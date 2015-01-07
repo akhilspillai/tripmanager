@@ -75,6 +75,8 @@ public class Constants {
 	public static final String STR_TRIP_ADDED = "TA";
 	public static final String STR_NO = "N";
 	public static final String STR_YES = "Y";
+	public static final String STR_UNSYNCED = "U";
 	public static final String STR_YOU = "You";
 	public static final String STR_ERROR_AMT = "Amount and total doesn't match!!";
+	public static final Object STR_DISTRIBUTION_ADDED = "DA";
 }

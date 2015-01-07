@@ -270,6 +270,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 														showMessage("Unable to contact the server. Please try again later!!");
 													}
 												});
+												pbUsername.setVisibility(View.INVISIBLE);
 											}
 										}
 									} catch(Exception e){
@@ -327,6 +328,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
 					eTxtConfPassword.setError(null);
+					pbConfPwd.setVisibility(View.INVISIBLE);
 				}
 
 				@Override
@@ -394,6 +396,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
 					eTxtConfPassword.setError(null);
+					pbConfPwd.setVisibility(View.INVISIBLE);
 				}
 
 				@Override

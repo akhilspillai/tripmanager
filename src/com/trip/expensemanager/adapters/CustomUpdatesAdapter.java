@@ -69,6 +69,8 @@ public class CustomUpdatesAdapter extends ArrayAdapter<String> {
 			viewHolder.ivIcon.setImageResource(R.drawable.ic_expense_deleted);
 		} else if(action.equals(Constants.STR_EXPENSE_UPDATED)){
 			viewHolder.ivIcon.setImageResource(R.drawable.ic_expense_updated);
+		}  else if(action.equals(Constants.STR_DISTRIBUTION_ADDED)){
+			viewHolder.ivIcon.setImageResource(R.drawable.ic_debt_paid);
 		}
 		
 		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);

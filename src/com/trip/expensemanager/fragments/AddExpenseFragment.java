@@ -137,34 +137,37 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 				public void onFocusChange(View v, boolean hasFocus) {
 					if(!hasFocus){
 						if(!isAutoChanged){
-							String amount=((EditText)v).getText().toString();;
-							if(amount.equals("")){
-								amount="0";
-							}
-							float fAmount=Float.parseFloat(amount);
+							String amount=((EditText)v).getText().toString();
 							int size=strLstAmounts.size();
-							int checked=0;
-							boolean[] isChecked=new boolean[size];
-							for(int i=0;i<size;i++){
-								if(bLstChecked.get(i)){
-									checked++;
-									isChecked[i]=true;
-								} else{
-									isChecked[i]=false;
+							if(amount.equals("")){
+								for(int i=0;i<size;i++){
+									strLstAmounts.set(i, "0");
 								}
-							}
-							float fDistAmount=0f;
-							if(checked!=0){
-								fDistAmount=Global.divide(fAmount, checked);
-							}
-							for(int i=0;i<size;i++){
-								if(isChecked[i]){
-									strLstAmounts.set(i, String.valueOf(fDistAmount));
-								} else{
-									strLstAmounts.set(i, String.valueOf(0f));
+							} else{
+								float fAmount=Float.parseFloat(amount);
+								int checked=0;
+								boolean[] isChecked=new boolean[size];
+								for(int i=0;i<size;i++){
+									if(bLstChecked.get(i)){
+										checked++;
+										isChecked[i]=true;
+									} else{
+										isChecked[i]=false;
+									}
 								}
+								float fDistAmount=0f;
+								if(checked!=0){
+									fDistAmount=Global.divide(fAmount, checked);
+								}
+								for(int i=0;i<size;i++){
+									if(isChecked[i]){
+										strLstAmounts.set(i, String.valueOf(fDistAmount));
+									} else{
+										strLstAmounts.set(i, String.valueOf(0f));
+									}
+								}
+								listAdapter.notifyDataSetChanged();
 							}
-							listAdapter.notifyDataSetChanged();
 						} else{
 							isAutoChanged=false;
 						}
@@ -410,7 +413,7 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 		}
 	}
 
-	public void changeData() {
+	public void changeData(boolean isRefreshRequired) {
 		String strAmount=eTxtExpenseAmount.getText().toString();
 		float fAmount=0f;
 		int size=strLstAmounts.size();
@@ -449,7 +452,9 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 				strLstAmounts.set(i, String.valueOf(0f));
 			}
 		}
-		listAdapter.notifyDataSetChanged();
+		if(isRefreshRequired){
+			listAdapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
@@ -463,7 +468,7 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 					bLstChecked.set(i, false);
 				}
 			}
-			changeData();
+			changeData(true);
 		}
 	}
 

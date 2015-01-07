@@ -139,6 +139,14 @@ public class UpdatesFragment extends CustomFragment implements OnItemClickListen
 			intentToCall.putExtra(Constants.STR_USER_ID, userId);
 			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
 			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+		} else if(listActions.get(position).equals(Constants.STR_DISTRIBUTION_ADDED)){
+			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+			intentToCall.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intentToCall.putExtra(Constants.STR_SHOW_TAB, 1);
+			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+			intentToCall.putExtra(Constants.STR_USER_ID, userId);
+			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
 		}
 		localDb.deleteToSync(listUpdates.get(position).getId());
 		startActivity(intentToCall);

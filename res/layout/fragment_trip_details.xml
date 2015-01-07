@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="10dp"
-    android:paddingTop="10dp"
     android:paddingEnd="20dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:paddingStart="20dp" >
+    android:paddingStart="20dp"
+    android:paddingTop="10dp" >
 
     <TextView
         android:id="@+id/txt_trip_name"
@@ -51,10 +51,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/v_view_expenses"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:textSize="18sp"
-        android:text="@string/no_expenses" />
+        android:layout_marginTop="20dp"
+        android:text="@string/no_expenses"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/ll_chart_container"
@@ -85,16 +85,51 @@
         android:layout_below="@+id/txt_distribution"
         android:layout_marginTop="1dp"
         android:background="@color/app_color" />
-    
-    
+
     <TextView
         android:id="@+id/txt_trip_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
         android:layout_below="@+id/v_view_distribution"
+        android:layout_marginTop="10dp"
         android:textSize="18sp" />
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/txt_trip_amount"
+        android:weightSum="2" >
+
+        <RadioButton
+            android:id="@+id/btn_unsettled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button_tab"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:text="@string/unsettled" />
+
+        <RadioButton
+            android:id="@+id/btn_settled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button_tab"
+            android:button="@null"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:text="@string/settled" />
+    </RadioGroup>
 
 </RelativeLayout>

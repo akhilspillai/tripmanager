@@ -492,10 +492,10 @@ public class ProcessingActivity extends Activity{
 			if(userIdTemp==lngUserId){
 				int i=0;
 				for(long userId:lstUserIds){
-					distBean=localDb.retrieveDistributionByUsers(userId, lngUserId, expenseTemp.getTripId());
+					distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, expenseTemp.getTripId());
 					strAmount=lstAmounts.get(i);
 					if(distBean==null){
-						rowId=localDb.insertDistribution(userId, lngUserId, strAmount, expenseTemp.getTripId());
+						rowId=localDb.insertDistribution(userId, lngUserId, strAmount, expenseTemp.getTripId(), Constants.STR_NO);
 						localDb.updateDistributionId(rowId, rowId);
 					} else{
 						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
@@ -508,12 +508,12 @@ public class ProcessingActivity extends Activity{
 					i++;
 				}
 			} else{
-				distBean=localDb.retrieveDistributionByUsers(userIdTemp, lngUserId, expenseTemp.getTripId());
+				distBean=localDb.retrieveUnsettledDistributionByUsers(userIdTemp, lngUserId, expenseTemp.getTripId());
 				int pos=lstUserIds.indexOf(lngUserId);
 				if(pos!=-1){
 					strAmount=lstAmounts.get(pos);
 					if(distBean==null){
-						rowId=localDb.insertDistribution(lngUserId, userIdTemp, strAmount, expenseTemp.getTripId());
+						rowId=localDb.insertDistribution(lngUserId, userIdTemp, strAmount, expenseTemp.getTripId(), Constants.STR_NO);
 						localDb.updateDistributionId(rowId, rowId);
 					} else{
 						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){

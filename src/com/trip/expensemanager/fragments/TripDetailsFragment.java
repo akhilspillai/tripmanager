@@ -28,6 +28,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +37,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,7 +55,7 @@ import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
 
-public class TripDetailsFragment extends CustomFragment implements OnClickListener {
+public class TripDetailsFragment extends CustomFragment implements OnClickListener, OnCheckedChangeListener, OnItemClickListener {
 
 	public static TripDetailsFragment newInstance(String strTrip, long lngUserId, long lngTripId) {
 		TripDetailsFragment fragment=null;
@@ -80,6 +85,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	private LongSparseArray<DistributionBean> expenseSparseArr=new LongSparseArray<DistributionBean>();
 	private String strTotalSpent="0";
 	private ArrayList<String> arrDistribution=new ArrayList<String>();
+	private ArrayList<Long> arrDistUsrIds=new ArrayList<Long>();
 	private ListView lvDistributionList;
 	private ArrayAdapter<String> listAdapter;
 	private EditText eTxtTripName;
@@ -89,7 +95,11 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	private long lngAdminId;
 	private TextView txtTripAmount;
 	private ArrayList<DistributionBean1> arrDistfromDB;
-	@SuppressLint("InflateParams")
+	private RadioGroup floatingBarHeader;
+	private RadioButton btnUnsettled;
+	private RadioButton btnSettled;
+	private RadioGroup rgDist;
+	@SuppressLint({ "InflateParams", "InlinedApi" })
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		View rootView=null;
@@ -111,6 +121,8 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			lvDistributionList.addHeaderView(header);
 			listAdapter = new CustomDistributionAdapter(getActivity(), arrDistribution);
 			lvDistributionList.setAdapter(listAdapter);
+
+
 			txtTripName=(TextView)rootView.findViewById(R.id.txt_trip_name);
 			ivEdit=(ImageView)rootView.findViewById(R.id.iv_edit_trip);
 			txtNoExpenses=(TextView)rootView.findViewById(R.id.tv_no_expenses);
@@ -118,10 +130,16 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 
 			llChartContainer=(LinearLayout)rootView.findViewById(R.id.ll_chart_container);
 			txtTripAmount=(TextView)rootView.findViewById(R.id.txt_trip_amount);
+			rgDist=(RadioGroup)rootView.findViewById(R.id.rg);
+
+
+			btnUnsettled=(RadioButton)rootView.findViewById(R.id.btn_unsettled);
+			btnSettled=(RadioButton)rootView.findViewById(R.id.btn_settled);
 
 			txtTripName.setText(strTripName);
 			ivEdit.setOnClickListener(this);
 			lvDistributionList.setDivider(null);
+			lvDistributionList.setOnItemClickListener(this);
 			loadData(trip);
 			setHasOptionsMenu(true);
 		} catch (Exception e) {
@@ -131,27 +149,24 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	}
 
 	private void loadData(TripBean trip) {
-		LocalDB localDb=new LocalDB(getActivity());
 		arrDistribution.removeAll(arrDistribution);
 		try{
+			LocalDB localDb=new LocalDB(getActivity());
 			lngAdminId=trip.getAdminId();
-			arrExpenses = localDb.retrieveExpenses(lngTripId);
 
 			if(trip.getSyncStatus().equals(Constants.STR_QR_ADDED)){
 				ivEdit.setVisibility(View.INVISIBLE);
 			}
-			
+			arrExpenses = localDb.retrieveExpenses(lngTripId);
 			if(arrExpenses.size()==0){
 				txtNoExpenses.setVisibility(View.VISIBLE);
 				txtTripAmount.setText("Total amount spent:0");
 				arrDistribution.add("Nobody owes anybody anything!!");
 				listAdapter.notifyDataSetChanged();
 			} else{
-				arrDistribution.removeAll(arrDistribution);
 				txtNoExpenses.setVisibility(View.INVISIBLE);
 				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) txtDistribution.getLayoutParams();
 				params.addRule(RelativeLayout.BELOW, R.id.ll_chart_container);
-				
 				long userId=0L;
 				String strUser=null;
 				DistributionBean dbTemp=null;
@@ -175,47 +190,15 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 				}
 
 				txtTripAmount.setText("Total amount spent:"+strTotalSpent);
-				arrDistfromDB=localDb.retrieveDistributionForTrip(lngTripId);
-				DistributionBean1 distBean=localDb.retrieveDistributionByUsers(lngUserId, lngUserId, lngTripId);
-				if(distBean!=null){
-					arrDistribution.add("Own expense: "+distBean.getAmount());
+				
+				rgDist.setOnCheckedChangeListener(this);
+				if(btnUnsettled.isChecked()){
+					showUnsettledDistribution();
+				} else{
+					showSettledDistribution();
 				}
-				long fromId, toId;
-				String toUser, fromUser, strAmount, tempUser;
-				float fAmount;
-				for(DistributionBean1 dist:arrDistfromDB){
-					fromId=dist.getFromId();
-					toId=dist.getToId();
-					fromUser=localDb.retrievePrefferedName(fromId);
-					
-					toUser=localDb.retrievePrefferedName(toId);
-					strAmount=dist.getAmount();
-					fAmount=Float.parseFloat(strAmount);
-					if(fAmount<0){
-						tempUser=fromUser;
-						fromUser=toUser;
-						toUser=tempUser;
-						strAmount=strAmount.substring(1);
-					}
-					if(toUser.equalsIgnoreCase(Constants.STR_YOU)){
-						toUser="you";
-					}
-					if(fromId!=toId && fAmount!=0){
-						if(fromUser.equalsIgnoreCase(Constants.STR_YOU)){
-							arrDistribution.add(fromUser+" owe "+toUser+" an amount of "+strAmount);
-						} else{
-							arrDistribution.add(fromUser+" owes "+toUser+" an amount of "+strAmount);
-						}
-					}
-				}
-
-				tempUser=null;
-				if(arrDistribution.size()==0){
-					arrDistribution.add("Nobody owes anybody anything!!");
-				}
-
-				listAdapter.notifyDataSetChanged();
 				openChart();
+
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -223,6 +206,121 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 
 	}
 
+	@Override
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		reBuildDestribution();
+	}
+
+	private void reBuildDestribution() {
+		if(btnUnsettled.isChecked()){
+			showUnsettledDistribution();
+		} else{
+			showSettledDistribution();
+		}
+	}
+
+	private void showSettledDistribution() {
+		LocalDB localDb=new LocalDB(getActivity());
+		arrDistribution.removeAll(arrDistribution);
+		arrDistUsrIds.removeAll(arrDistUsrIds);
+		arrDistfromDB=localDb.retrieveSettledDistributionForTrip(lngTripId);
+		long fromId, toId;
+		String toUser, fromUser, strAmount, tempUser;
+		float fAmount;
+		if(arrDistfromDB.size()==0){
+			arrDistribution.add("No settled debts!!");
+		} else{
+			for(DistributionBean1 dist:arrDistfromDB){
+				fromId=dist.getFromId();
+				toId=dist.getToId();
+				fromUser=localDb.retrievePrefferedName(fromId);
+
+				toUser=localDb.retrievePrefferedName(toId);
+				strAmount=dist.getAmount();
+				fAmount=Float.parseFloat(strAmount);
+				long tempId;
+				if(fAmount<0){
+					tempUser=fromUser;
+					fromUser=toUser;
+					toUser=tempUser;
+					strAmount=strAmount.substring(1);
+					tempId=fromId;
+					fromId=toId;
+					toId=tempId;
+				}
+				if(toUser.equalsIgnoreCase(Constants.STR_YOU)){
+					toUser="you";
+				}
+				if(fromId!=toId && fAmount!=0){
+					arrDistUsrIds.add(fromId);
+					arrDistribution.add(fromUser+" paid "+toUser+" back an amount of "+strAmount);
+				}
+			}
+		}
+
+		tempUser=null;
+		if(arrDistribution.size()==0){
+			arrDistribution.add("Nobody owes anybody anything!!");
+		}
+		listAdapter.notifyDataSetChanged();
+	}
+
+	private void showUnsettledDistribution() {
+		LocalDB localDb=new LocalDB(getActivity());
+		arrDistribution.removeAll(arrDistribution);
+		arrDistUsrIds.removeAll(arrDistUsrIds);
+		arrDistfromDB=localDb.retrieveUnsettledDistributionForTrip(lngTripId);
+		DistributionBean1 distBean=localDb.retrieveUnsettledDistributionByUsers(lngUserId, lngUserId, lngTripId);
+		if(distBean!=null){
+			arrDistribution.add("Own expense: "+distBean.getAmount());
+			arrDistUsrIds.add(0L);
+		}
+		long fromId, toId;
+		String toUser, fromUser, strAmount, tempUser;
+		float fAmount;
+
+		if(arrDistfromDB.size()==0){
+			arrDistribution.add("No unsettled debts!!");
+		} else{
+			for(DistributionBean1 dist:arrDistfromDB){
+				fromId=dist.getFromId();
+				toId=dist.getToId();
+				fromUser=localDb.retrievePrefferedName(fromId);
+
+				toUser=localDb.retrievePrefferedName(toId);
+				strAmount=dist.getAmount();
+				fAmount=Float.parseFloat(strAmount);
+				
+				long tempId;
+				if(fAmount<0){
+					tempUser=fromUser;
+					fromUser=toUser;
+					toUser=tempUser;
+					strAmount=strAmount.substring(1);
+					tempId=fromId;
+					fromId=toId;
+					toId=tempId;
+				} 
+				if(toUser.equalsIgnoreCase(Constants.STR_YOU)){
+					toUser="you";
+				}
+				if(fromId!=toId && fAmount!=0){
+					arrDistUsrIds.add(fromId);
+					if(fromUser.equalsIgnoreCase(Constants.STR_YOU)){
+						arrDistribution.add(fromUser+" owe "+toUser+" an amount of "+strAmount);
+					} else{
+						arrDistribution.add(fromUser+" owes "+toUser+" an amount of "+strAmount);
+					}
+				}
+			}
+		}
+
+		tempUser=null;
+		if(arrDistribution.size()==0){
+			arrDistribution.add("Nobody owes anybody anything!!");
+		}
+		listAdapter.notifyDataSetChanged();
+	}
 
 	private void openChart(){
 		int size=expenseSparseArr.size();
@@ -448,5 +546,71 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		}
 	}
 
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		long fromUser=arrDistUsrIds.get(position-1).longValue();
+		if(fromUser!=0L && fromUser!=lngUserId){
+			showSettleDeptDialog(fromUser);
+		}
+	}
+
+	@SuppressLint("InflateParams")
+	private void showSettleDeptDialog(final long userId) {
+		try{
+			String user=new LocalDB(getActivity()).retrievePrefferedName(userId);
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			View view = getActivity().getLayoutInflater().inflate(R.layout.delete_expensegroup_dialog, null);
+			builder.setCancelable(true);
+			TextView textView = (TextView)view.findViewById(R.id.tv_message);
+			Button btnYes = (Button) view.findViewById(R.id.btn_yes);
+			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+			btnYes.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					markDistributionAsSettled(userId);
+					alert.cancel();
+				}
+			});
+			btnCancel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					alert.cancel();
+				}
+			});
+
+			textView.setText("Do you want to mark "+user+"'s debt as settled?");
+
+			alert = builder.create();
+			alert.setView(view, 0, 0, 0, 0);
+			alert.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+	}
+
+	protected void markDistributionAsSettled(long userId) {
+		Context context=getActivity();
+		LocalDB localDb=new LocalDB(context);
+		DistributionBean1 distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, lngTripId);
+		if(distBean!=null){
+			String strAmount=distBean.getAmount();
+			String strNewAmount;
+			if(strAmount.startsWith("-")){
+				strAmount=strAmount.substring(1);
+			}
+			if(distBean.getFromId()==lngUserId){
+				strNewAmount=Global.add(distBean.getAmount(), strAmount);
+			} else{
+				strNewAmount=Global.subtract(distBean.getAmount(), strAmount);
+			}
+			localDb.updateDistAmount(distBean.getDistributionId(), strNewAmount);
+			localDb.insertDistribution(userId, lngUserId, strAmount, lngTripId, Constants.STR_UNSYNCED);
+			reBuildDestribution();
+			context.startService(new Intent(context, SyncIntentService.class));
+		}
+	}
 
 }
