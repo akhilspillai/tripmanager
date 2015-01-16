@@ -30,6 +30,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint;
 import com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo;
 import com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo;
+import com.trip.expensemanager.distributionendpoint.Distributionendpoint;
+import com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution;
+import com.trip.expensemanager.distributionendpoint.model.Distribution;
 import com.trip.expensemanager.expenseendpoint.Expenseendpoint;
 import com.trip.expensemanager.expenseendpoint.model.CollectionResponseExpense;
 import com.trip.expensemanager.expenseendpoint.model.Expense;
@@ -389,9 +392,6 @@ public class ProcessingActivity extends Activity{
 						cancel(true);
 						finish();
 					} else{
-						//						login.setRegId(strRegID);
-						//						retLogin=endpoint.createAccount(strRegID, strDeviceName, strArrData[0], strHashPwd, login.getId()).execute();
-						//						retLogin=endpoint.createAccount(strRegID, strDeviceName, strArrData[0], strHashPwd, 0L).execute();
 						CollectionResponseDeviceInfo devInfoEntities = devInfoEndpoint.listDeviceInfo().setGcmRegId(strRegID).execute();
 						if (devInfoEntities == null || devInfoEntities.getItems() == null || devInfoEntities.getItems().size() < 1) {
 							devInfo.setGcmRegId(strRegID);
@@ -416,12 +416,21 @@ public class ProcessingActivity extends Activity{
 						Tripendpoint tripEndpoint = tripBuilder.build();
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 						String date=null;
+						
 						Expenseendpoint.Builder expenseBuilder = new Expenseendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
 						expenseBuilder = CloudEndpointUtils.updateBuilder(expenseBuilder);
 						Expenseendpoint expenseEndpoint = expenseBuilder.build();
 						CollectionResponseExpense response=null;
 						ArrayList<Expense> arrExpense=null;
+						
+						Distributionendpoint.Builder distBuilder = new Distributionendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
+						distBuilder = CloudEndpointUtils.updateBuilder(distBuilder);
+						Distributionendpoint distEndpoint = distBuilder.build();
+						CollectionResponseDistribution distResponse=null;
+						ArrayList<Distribution> arrDist=null;
+						
 						List<Long> listUserIdsTemp=null;
+						long rowId;
 						while (listTripIds!=null && i<listTripIds.size()) {
 							retTrip=tripEndpoint.getTrip(listTripIds.get(i++)).execute();
 							if(retTrip!=null){
@@ -467,6 +476,18 @@ public class ProcessingActivity extends Activity{
 										}
 									}
 								}
+								
+								distResponse=distEndpoint.listDistribution().setTripId(retTrip.getId()).setUserId(lngUserId).execute();
+								if(distResponse!=null){
+									arrDist=(ArrayList<Distribution>) distResponse.getItems();
+									if(arrDist!=null && arrDist.size()!=0){
+										for(Distribution tempDist:arrDist){
+											date = sdf.format(new Date(tempDist.getCreationDate().getValue()));
+											rowId=localDb.insertDistribution(tempDist.getFromId(), tempDist.getToId(), tempDist.getAmount(), tempDist.getTripId(), Constants.STR_YES, date);
+											localDb.updateDistributionId(rowId, tempDist.getId());
+										}
+									}
+								}
 							}
 						}
 						endpoint.updateLogIn(login).execute();
@@ -495,7 +516,7 @@ public class ProcessingActivity extends Activity{
 					distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, expenseTemp.getTripId());
 					strAmount=lstAmounts.get(i);
 					if(distBean==null){
-						rowId=localDb.insertDistribution(userId, lngUserId, strAmount, expenseTemp.getTripId(), Constants.STR_NO);
+						rowId=localDb.insertDistribution(userId, lngUserId, strAmount, expenseTemp.getTripId(), Constants.STR_NO, "");
 						localDb.updateDistributionId(rowId, rowId);
 					} else{
 						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
@@ -513,7 +534,7 @@ public class ProcessingActivity extends Activity{
 				if(pos!=-1){
 					strAmount=lstAmounts.get(pos);
 					if(distBean==null){
-						rowId=localDb.insertDistribution(lngUserId, userIdTemp, strAmount, expenseTemp.getTripId(), Constants.STR_NO);
+						rowId=localDb.insertDistribution(lngUserId, userIdTemp, strAmount, expenseTemp.getTripId(), Constants.STR_NO, "");
 						localDb.updateDistributionId(rowId, rowId);
 					} else{
 						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){

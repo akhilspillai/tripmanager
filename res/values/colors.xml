@@ -6,6 +6,11 @@
     <color name="unselected_color">#4169B1</color>
     <color name="app_color_transparent">#BF4169E1</color>
     <color name="button_focused_color">#40E0D0</color>
+    <color name="button_settle_color">#40E0D0</color>
+    <color name="button_settle_dsbld_color">#3b3b3b</color>
+    <color name="button_settle_prsd_color">#FF8100</color>
+    <color name="button_settle_fcsd_color">#4169B1</color>
+    <color name="button_transparent_color">#FF000000</color>
     <color name="button_pressed_color">#FF8C00</color>
     <color name="button_disabled_color">#ADD8E6</color>
     <color name="button_cancel_color">#FF0000</color>

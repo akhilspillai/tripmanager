@@ -60,8 +60,10 @@ public class CustomAddExpenseAdapter extends ArrayAdapter<String> {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				isCheckedLst.set(pos, isChecked);
-				fragment.changeData(false);
+				if(isCheckedLst.get(pos)!=isChecked){
+					isCheckedLst.set(pos, isChecked);
+					fragment.changeData(false);
+				}
 			}
 		});
 		

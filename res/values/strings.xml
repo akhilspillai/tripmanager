@@ -3,6 +3,7 @@
 
     <string name="app_name">Group Expense Manager</string>
     <string name="amount">Amount</string>
+    <string name="amount_to_settle">Amount to Settle:</string>
     <string name="hello_world">Hello world!</string>
     <string name="username">Username</string>
     <string name="preffered_name">Screen Name</string>
@@ -63,6 +64,7 @@
     <string name="all">All</string>
     <string name="none">None</string>
     <string name="settled">Settled</string>
+    <string name="settle_expenses">Settle</string>
     <string name="unsettled">Unsettled</string>
 
 </resources>

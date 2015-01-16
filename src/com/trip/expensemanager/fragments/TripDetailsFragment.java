@@ -1,6 +1,9 @@
 package com.trip.expensemanager.fragments;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -99,6 +102,9 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	private RadioButton btnUnsettled;
 	private RadioButton btnSettled;
 	private RadioGroup rgDist;
+	private List<Boolean> arrPossibletoSettle=new ArrayList<Boolean>();
+	private Button btnYes;
+	protected String strAmount;
 	@SuppressLint({ "InflateParams", "InlinedApi" })
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -119,7 +125,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			View header = inflater.inflate(R.layout.fragment_trip_details, null, false); 
 
 			lvDistributionList.addHeaderView(header);
-			listAdapter = new CustomDistributionAdapter(getActivity(), arrDistribution);
+			listAdapter = new CustomDistributionAdapter(getActivity(), arrDistribution, arrPossibletoSettle, this);
 			lvDistributionList.setAdapter(listAdapter);
 
 
@@ -138,8 +144,8 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 
 			txtTripName.setText(strTripName);
 			ivEdit.setOnClickListener(this);
-			lvDistributionList.setDivider(null);
 			lvDistributionList.setOnItemClickListener(this);
+			lvDistributionList.setDivider(null);
 			loadData(trip);
 			setHasOptionsMenu(true);
 		} catch (Exception e) {
@@ -162,6 +168,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 				txtNoExpenses.setVisibility(View.VISIBLE);
 				txtTripAmount.setText("Total amount spent:0");
 				arrDistribution.add("Nobody owes anybody anything!!");
+				arrPossibletoSettle.add(false);
 				listAdapter.notifyDataSetChanged();
 			} else{
 				txtNoExpenses.setVisibility(View.INVISIBLE);
@@ -208,10 +215,10 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		reBuildDestribution();
+		reBuildDistribution();
 	}
 
-	private void reBuildDestribution() {
+	private void reBuildDistribution() {
 		if(btnUnsettled.isChecked()){
 			showUnsettledDistribution();
 		} else{
@@ -223,6 +230,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		LocalDB localDb=new LocalDB(getActivity());
 		arrDistribution.removeAll(arrDistribution);
 		arrDistUsrIds.removeAll(arrDistUsrIds);
+		arrPossibletoSettle.removeAll(arrPossibletoSettle);
 		arrDistfromDB=localDb.retrieveSettledDistributionForTrip(lngTripId);
 		long fromId, toId;
 		String toUser, fromUser, strAmount, tempUser;
@@ -255,6 +263,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 					arrDistUsrIds.add(fromId);
 					arrDistribution.add(fromUser+" paid "+toUser+" back an amount of "+strAmount);
 				}
+				arrPossibletoSettle.add(false);
 			}
 		}
 
@@ -268,11 +277,13 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	private void showUnsettledDistribution() {
 		LocalDB localDb=new LocalDB(getActivity());
 		arrDistribution.removeAll(arrDistribution);
+		arrPossibletoSettle.removeAll(arrPossibletoSettle);
 		arrDistUsrIds.removeAll(arrDistUsrIds);
 		arrDistfromDB=localDb.retrieveUnsettledDistributionForTrip(lngTripId);
 		DistributionBean1 distBean=localDb.retrieveUnsettledDistributionByUsers(lngUserId, lngUserId, lngTripId);
 		if(distBean!=null){
 			arrDistribution.add("Own expense: "+distBean.getAmount());
+			arrPossibletoSettle.add(false);
 			arrDistUsrIds.add(0L);
 		}
 		long fromId, toId;
@@ -281,6 +292,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 
 		if(arrDistfromDB.size()==0){
 			arrDistribution.add("No unsettled debts!!");
+			arrPossibletoSettle.add(false);
 		} else{
 			for(DistributionBean1 dist:arrDistfromDB){
 				fromId=dist.getFromId();
@@ -308,8 +320,10 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 					arrDistUsrIds.add(fromId);
 					if(fromUser.equalsIgnoreCase(Constants.STR_YOU)){
 						arrDistribution.add(fromUser+" owe "+toUser+" an amount of "+strAmount);
+						arrPossibletoSettle.add(false);
 					} else{
 						arrDistribution.add(fromUser+" owes "+toUser+" an amount of "+strAmount);
+						arrPossibletoSettle.add(true);
 					}
 				}
 			}
@@ -318,6 +332,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		tempUser=null;
 		if(arrDistribution.size()==0){
 			arrDistribution.add("Nobody owes anybody anything!!");
+			arrPossibletoSettle.add(false);
 		}
 		listAdapter.notifyDataSetChanged();
 	}
@@ -468,7 +483,12 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 
 	@Override
 	public void onClick(View v) {
-		showUpdateTripNameDialog(strTripName);
+		if(v.equals(ivEdit)){
+			showUpdateTripNameDialog(strTripName);
+		} else{
+			int position = (int) v.getTag();
+			showSettleDeptDialog(arrDistUsrIds.get(position));
+		}
 	}
 
 	@SuppressLint("InflateParams")
@@ -548,27 +568,63 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		long fromUser=arrDistUsrIds.get(position-1).longValue();
-		if(fromUser!=0L && fromUser!=lngUserId){
-			showSettleDeptDialog(fromUser);
-		}
+		
 	}
 
 	@SuppressLint("InflateParams")
 	private void showSettleDeptDialog(final long userId) {
 		try{
-			String user=new LocalDB(getActivity()).retrievePrefferedName(userId);
+			Context context=getActivity();
+			LocalDB localDb=new LocalDB(context);
+			DistributionBean1 distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, lngTripId);
+			String user=localDb.retrievePrefferedName(userId);
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.delete_expensegroup_dialog, null);
+			View view = getActivity().getLayoutInflater().inflate(R.layout.settle_debt_dialog, null);
 			builder.setCancelable(true);
 			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			Button btnYes = (Button) view.findViewById(R.id.btn_yes);
+			EditText etAmount=(EditText) view.findViewById(R.id.et_amount);
+			etAmount.setText(distBean.getAmount());
+			btnYes = (Button) view.findViewById(R.id.btn_yes);
 			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+			etAmount.addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					btnYes.setEnabled(false);
+				}
+				
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count,
+						int after) {
+					
+				}
+				
+				@Override
+				public void afterTextChanged(Editable s) {
+					if(s.length()==0){
+						btnYes.setEnabled(false);
+					} else{
+						strAmount=s.toString();
+						if(strAmount.startsWith("-")){
+							strAmount=strAmount.substring(1);
+						}
+						float fAmount;
+						try {
+							fAmount=Float.parseFloat(strAmount);
+						} catch (NumberFormatException e) {
+							fAmount=0;
+						}
+						if(fAmount!=0){
+							btnYes.setEnabled(true);
+						}
+					}
+				}
+			});
 			btnYes.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					markDistributionAsSettled(userId);
+					markDistributionAsSettled(userId, strAmount);
 					alert.cancel();
 				}
 			});
@@ -591,9 +647,10 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	
 	}
 
-	protected void markDistributionAsSettled(long userId) {
+	protected void markDistributionAsSettled(long userId, String strSettledAmount) {
 		Context context=getActivity();
 		LocalDB localDb=new LocalDB(context);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		DistributionBean1 distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, lngTripId);
 		if(distBean!=null){
 			String strAmount=distBean.getAmount();
@@ -602,15 +659,21 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 				strAmount=strAmount.substring(1);
 			}
 			if(distBean.getFromId()==lngUserId){
-				strNewAmount=Global.add(distBean.getAmount(), strAmount);
+				strNewAmount=Global.add(distBean.getAmount(), strSettledAmount);
 			} else{
-				strNewAmount=Global.subtract(distBean.getAmount(), strAmount);
+				strNewAmount=Global.subtract(distBean.getAmount(), strSettledAmount);
 			}
 			localDb.updateDistAmount(distBean.getDistributionId(), strNewAmount);
-			localDb.insertDistribution(userId, lngUserId, strAmount, lngTripId, Constants.STR_UNSYNCED);
-			reBuildDestribution();
+			String date = sdf.format(new Date());
+			long rowId=localDb.insertDistribution(userId, lngUserId, strSettledAmount, lngTripId, Constants.STR_UNSYNCED, date);
+			localDb.updateDistributionId(rowId, rowId);
+			reBuildDistribution();
 			context.startService(new Intent(context, SyncIntentService.class));
 		}
+	}
+	
+	public void settlePaymentClickHandler(View v) {
+		
 	}
 
 }

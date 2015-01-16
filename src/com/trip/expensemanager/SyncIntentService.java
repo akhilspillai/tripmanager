@@ -411,7 +411,7 @@ public class SyncIntentService extends IntentService{
 								if(pos!=-1){
 									strAmount=amounts.get(pos);
 									if(distBean==null){
-										rowId=localDb.insertDistribution(lngUserId, expenseTemp.getUserId(), strAmount, expenseTemp.getTripId(), Constants.STR_NO);
+										rowId=localDb.insertDistribution(lngUserId, expenseTemp.getUserId(), strAmount, expenseTemp.getTripId(), Constants.STR_NO, "");
 										localDb.updateDistributionId(rowId, rowId);
 									} else{
 										if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
@@ -480,7 +480,7 @@ public class SyncIntentService extends IntentService{
 												strAmount=lstAmounts.get(pos);
 											}
 											if(distBean==null){
-												long rowId=localDb.insertDistribution(lngUserId, expenseBean.getUserId(), strAmount, expenseBean.getTripId(), Constants.STR_NO);
+												long rowId=localDb.insertDistribution(lngUserId, expenseBean.getUserId(), strAmount, expenseBean.getTripId(), Constants.STR_NO, "");
 												localDb.updateDistributionId(rowId, rowId);
 											} else{
 												float fAmount;
@@ -510,7 +510,7 @@ public class SyncIntentService extends IntentService{
 								if(pos!=-1){
 									strAmount=lstAmounts.get(pos);
 									if(distBean==null){
-										long rowId=localDb.insertDistribution(lngUserId, expenseTemp.getUserId(), strAmount, expenseTemp.getTripId(), Constants.STR_NO);
+										long rowId=localDb.insertDistribution(lngUserId, expenseTemp.getUserId(), strAmount, expenseTemp.getTripId(), Constants.STR_NO, "");
 										localDb.updateDistributionId(rowId, rowId);
 									} else{
 										if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
@@ -605,14 +605,16 @@ public class SyncIntentService extends IntentService{
 						long fromId=distTemp.getFromId();
 						long toId=distTemp.getToId();
 						long tripId=distTemp.getTripId();
+						long rowId;
 						String strAmount=distTemp.getAmount();
 						String strNewAmount;
 						if(strAmount.startsWith("-")){
 							strAmount=strAmount.substring(1);
 						}
+						distBean=localDb.retrieveUnsettledDistributionByUsers(fromId, toId, tripId);
+						long changerId=distTemp.getChangerId();
+						String date = sdf.format(new Date(distTemp.getCreationDate().getValue()));
 						if(fromId==lngUserId){
-							distBean=localDb.retrieveUnsettledDistributionByUsers(fromId, toId, tripId);
-							long changerId=distTemp.getChangerId();
 							long otherUserId;
 							if(distBean!=null){
 								if(distBean.getFromId()==lngUserId){
@@ -631,7 +633,8 @@ public class SyncIntentService extends IntentService{
 									}
 								}
 								localDb.updateDistAmount(distBean.getDistributionId(), strNewAmount);
-								localDb.insertDistribution(lngUserId, toId, strAmount, distBean.getTripId(), Constants.STR_YES);
+								rowId=localDb.insertDistribution(lngUserId, toId, strAmount, distBean.getTripId(), Constants.STR_YES, date);
+								localDb.updateDistributionId(rowId, distTemp.getId());
 								Intent intentToCall=new Intent(this, UpdatesActivity.class);
 								String user=localDb.retrievePrefferedName(otherUserId);
 								TripBean tripBean=localDb.retrieveTripDetails(distBean.getTripId());
@@ -642,9 +645,20 @@ public class SyncIntentService extends IntentService{
 										sendNotification(toSyncTemp.getSyncType(), "Debt Settled", "Your debt in the expense-group "+tripBean.getName()+" is marked as paid!!", intentToCall , Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
 									}
 								}
-								sendResult();
+							}
+						} else if(toId==lngUserId){
+							if(distBean!=null && changerId!=devId){
+								if(distBean.getFromId()==lngUserId){
+									strNewAmount=Global.add(distBean.getAmount(), strAmount);
+								} else{
+									strNewAmount=Global.subtract(distBean.getAmount(), strAmount);
+								}
+								localDb.updateDistAmount(distBean.getDistributionId(), strNewAmount);
+								rowId=localDb.insertDistribution(fromId, lngUserId, strAmount, distBean.getTripId(), Constants.STR_YES, date);
+								localDb.updateDistributionId(rowId, distTemp.getId());
 							}
 						}
+						sendResult();
 					}
 				}
 				try {

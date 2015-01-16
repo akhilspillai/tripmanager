@@ -487,7 +487,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 				distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, lngTripId);
 				strAmount=lstAmounts.get(i);
 				if(distBean==null){
-					rowId=localDb.insertDistribution(userId, lngUserId, strAmount, lngTripId, Constants.STR_NO);
+					rowId=localDb.insertDistribution(userId, lngUserId, strAmount, lngTripId, Constants.STR_NO, "");
 					localDb.updateDistributionId(rowId, rowId);
 				} else{
 					if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
@@ -545,7 +545,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 					distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, lngTripId);
 					strAmount=lstAmounts.get(i);
 					if(distBean==null){
-						rowId=localDb.insertDistribution(userId, lngUserId, strAmount, lngTripId, Constants.STR_NO);
+						rowId=localDb.insertDistribution(userId, lngUserId, strAmount, lngTripId, Constants.STR_NO, "");
 						localDb.updateDistributionId(rowId, rowId);
 					} else{
 						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){

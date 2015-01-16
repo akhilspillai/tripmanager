@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -131,47 +133,125 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 			txtSelectAll.setOnClickListener(this);
 			txtSelectNone.setOnClickListener(this);
 
-			eTxtExpenseAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			/*eTxtExpenseAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
 				@Override
 				public void onFocusChange(View v, boolean hasFocus) {
 					if(!hasFocus){
-						if(!isAutoChanged){
-							String amount=((EditText)v).getText().toString();
-							int size=strLstAmounts.size();
-							if(amount.equals("")){
-								for(int i=0;i<size;i++){
-									strLstAmounts.set(i, "0");
+						final String amount=((EditText)v).getText().toString();
+						
+						new Thread(new Runnable() {
+							
+							@Override
+							public void run() {
+								if(!isAutoChanged){
+									int size=strLstAmounts.size();
+									if(amount.equals("")){
+										for(int i=0;i<size;i++){
+											strLstAmounts.set(i, "0");
+										}
+									} else{
+										float fAmount=Float.parseFloat(amount);
+										int checked=0;
+										boolean[] isChecked=new boolean[size];
+										for(int i=0;i<size;i++){
+											if(bLstChecked.get(i)){
+												checked++;
+												isChecked[i]=true;
+											} else{
+												isChecked[i]=false;
+											}
+										}
+										float fDistAmount=0f;
+										if(checked!=0){
+											fDistAmount=Global.divide(fAmount, checked);
+										}
+										for(int i=0;i<size;i++){
+											if(isChecked[i]){
+												strLstAmounts.set(i, String.valueOf(fDistAmount));
+											} else{
+												strLstAmounts.set(i, String.valueOf(0f));
+											}
+										}
+										getActivity().runOnUiThread(new Runnable() {
+											
+											@Override
+											public void run() {
+												listAdapter.notifyDataSetChanged();
+											}
+										});
+									}
+								} else{
+									isAutoChanged=false;
+								}
+							}
+						}).start();
+					}
+				}
+			});*/
+			
+			eTxtExpenseAmount.addTextChangedListener(new TextWatcher() {
+				
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					
+				}
+				
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					
+				}
+				
+				@Override
+				public void afterTextChanged(Editable s) {
+					final String amount=s.toString();
+					
+					new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							if(!isAutoChanged){
+								int size=strLstAmounts.size();
+								if(amount.equals("")){
+									for(int i=0;i<size;i++){
+										strLstAmounts.set(i, "0");
+									}
+								} else{
+									float fAmount=Float.parseFloat(amount);
+									int checked=0;
+									boolean[] isChecked=new boolean[size];
+									for(int i=0;i<size;i++){
+										if(bLstChecked.get(i)){
+											checked++;
+											isChecked[i]=true;
+										} else{
+											isChecked[i]=false;
+										}
+									}
+									float fDistAmount=0f;
+									if(checked!=0){
+										fDistAmount=Global.divide(fAmount, checked);
+									}
+									for(int i=0;i<size;i++){
+										if(isChecked[i]){
+											strLstAmounts.set(i, String.valueOf(fDistAmount));
+										} else{
+											strLstAmounts.set(i, String.valueOf(0f));
+										}
+									}
+									getActivity().runOnUiThread(new Runnable() {
+										
+										@Override
+										public void run() {
+											listAdapter.notifyDataSetChanged();
+										}
+									});
 								}
 							} else{
-								float fAmount=Float.parseFloat(amount);
-								int checked=0;
-								boolean[] isChecked=new boolean[size];
-								for(int i=0;i<size;i++){
-									if(bLstChecked.get(i)){
-										checked++;
-										isChecked[i]=true;
-									} else{
-										isChecked[i]=false;
-									}
-								}
-								float fDistAmount=0f;
-								if(checked!=0){
-									fDistAmount=Global.divide(fAmount, checked);
-								}
-								for(int i=0;i<size;i++){
-									if(isChecked[i]){
-										strLstAmounts.set(i, String.valueOf(fDistAmount));
-									} else{
-										strLstAmounts.set(i, String.valueOf(0f));
-									}
-								}
-								listAdapter.notifyDataSetChanged();
+								isAutoChanged=false;
 							}
-						} else{
-							isAutoChanged=false;
 						}
-					}
+					}).start();
 				}
 			});
 			eTxtExpenseAdmin = (EditText)rootView.findViewById(R.id.etxt_expense_admin);
@@ -413,48 +493,61 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 		}
 	}
 
-	public void changeData(boolean isRefreshRequired) {
-		String strAmount=eTxtExpenseAmount.getText().toString();
-		float fAmount=0f;
-		int size=strLstAmounts.size();
-		if(!"".equals(strAmount)){
-			try {
-				fAmount = Float.parseFloat(strAmount);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
-
-			float fDistAmount=0f;
-			if(fAmount!=0f){
-				int checked=0;
-				boolean[] isItemChecked=new boolean[size];
-				for(int i=0;i<size;i++){
-					if(bLstChecked.get(i)){
-						checked++;
-						isItemChecked[i]=true;
-					} else{
-						isItemChecked[i]=false;
+	public void changeData(final boolean isRefreshRequired) {
+		final String strAmount=eTxtExpenseAmount.getText().toString();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				float fAmount=0f;
+				int size=strLstAmounts.size();
+				if(!"".equals(strAmount)){
+					try {
+						fAmount = Float.parseFloat(strAmount);
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
 					}
-				}
-				if(checked!=0){
-					fDistAmount=Global.divide(fAmount, checked);
-				}
-				for(int i=0;i<size;i++){
-					if(isItemChecked[i]){
-						strLstAmounts.set(i, String.valueOf(fDistAmount));
-					} else{
+
+					float fDistAmount=0f;
+					if(fAmount!=0f){
+						int checked=0;
+						boolean[] isItemChecked=new boolean[size];
+						for(int i=0;i<size;i++){
+							if(bLstChecked.get(i)){
+								checked++;
+								isItemChecked[i]=true;
+							} else{
+								isItemChecked[i]=false;
+							}
+						}
+						if(checked!=0){
+							fDistAmount=Global.divide(fAmount, checked);
+						}
+						for(int i=0;i<size;i++){
+							if(isItemChecked[i]){
+								strLstAmounts.set(i, String.valueOf(fDistAmount));
+							} else{
+								strLstAmounts.set(i, String.valueOf(0f));
+							}
+						}
+					} 
+				} else{
+					for(int i=0;i<size;i++){
 						strLstAmounts.set(i, String.valueOf(0f));
 					}
 				}
-			} 
-		} else{
-			for(int i=0;i<size;i++){
-				strLstAmounts.set(i, String.valueOf(0f));
+//				if(isRefreshRequired){
+					getActivity().runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							listAdapter.notifyDataSetChanged();
+						}
+					});
+//				}
 			}
-		}
-		if(isRefreshRequired){
-			listAdapter.notifyDataSetChanged();
-		}
+		}).start();
+		
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.trip.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -16,7 +17,7 @@ public class LocalDB{
 	private final String[] COLUMNS_TRIP = {SQLiteHelper.COLUMN_TRIP_ID, SQLiteHelper.COLUMN_TRIP_NAME, SQLiteHelper.COLUMN_ADMIN, SQLiteHelper.COLUMN_USERS, SQLiteHelper.COLUMN_CREATION_TIME, SQLiteHelper.COLUMN_TRIP_STATUS, SQLiteHelper.COLUMN_IS_SYNCHED, SQLiteHelper.ROW_ID};
 	private final String[] COLUMNS_EXPENSE = {SQLiteHelper.COLUMN_EXPENSE_ID, SQLiteHelper.COLUMN_EXPENSE_NAME, SQLiteHelper.COLUMN_EXPENSE_DESC, SQLiteHelper.COLUMN_EXPENSE_AMOUNT, SQLiteHelper.COLUMN_EXPENSE_CURRENCY, SQLiteHelper.COLUMN_TRIP_ID, SQLiteHelper.COLUMN_USER_ID, SQLiteHelper.COLUMN_USERS, SQLiteHelper.COLUMN_AMOUNTS, SQLiteHelper.COLUMN_EXPENSE_CREATION_TIME, SQLiteHelper.COLUMN_IS_SYNCHED, SQLiteHelper.ROW_ID};
 	private final String[] COLUMNS_TO_SYNC = {SQLiteHelper.ROW_ID, SQLiteHelper.COLUMN_ACTION, SQLiteHelper.COLUMN_UPDATE, SQLiteHelper.COLUMN_ITEM_ID};
-	private final String[] COLUMNS_DISTRIBUTION = {SQLiteHelper.COLUMN_DISTRIBUTION_ID, SQLiteHelper.COLUMN_FROM_ID, SQLiteHelper.COLUMN_TO_ID, SQLiteHelper.COLUMN_EXPENSE_AMOUNT, SQLiteHelper.COLUMN_TRIP_ID, SQLiteHelper.COLUMN_PAID};
+	private final String[] COLUMNS_DISTRIBUTION = {SQLiteHelper.COLUMN_DISTRIBUTION_ID, SQLiteHelper.COLUMN_FROM_ID, SQLiteHelper.COLUMN_TO_ID, SQLiteHelper.COLUMN_EXPENSE_AMOUNT, SQLiteHelper.COLUMN_TRIP_ID, SQLiteHelper.COLUMN_PAID, SQLiteHelper.COLUMN_CREATION_TIME};
 
 	public LocalDB(Context context) {
 		try {
@@ -71,7 +72,7 @@ public class LocalDB{
 		return done;
 	}
 
-	public long insertDistribution(long lngFromId, long lngToId, String strAmount, long lngTripId, String strPaidStatus) {
+	public long insertDistribution(long lngFromId, long lngToId, String strAmount, long lngTripId, String strPaidStatus, String strDate) {
 		long id=0L;
 		try{
 			SQLiteDatabase database=open();
@@ -81,13 +82,13 @@ public class LocalDB{
 			values.put(SQLiteHelper.COLUMN_EXPENSE_AMOUNT, strAmount);
 			values.put(SQLiteHelper.COLUMN_TRIP_ID, lngTripId);
 			values.put(SQLiteHelper.COLUMN_PAID, strPaidStatus);
+			values.put(SQLiteHelper.COLUMN_CREATION_TIME, strDate);
 			id=database.insert(SQLiteHelper.TABLE_DISTRIBUTION, null,values);
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 		finally{
-			cursor.close();
 			close();
 		}
 		return id;
@@ -155,6 +156,7 @@ public class LocalDB{
 					distributionBean.setAmount(cursor.getString(3));
 					distributionBean.setTripId(cursor.getLong(4));
 					distributionBean.setPaid(cursor.getString(5));
+					distributionBean.setCreationDate(cursor.getString(6));
 					strArrDistribution.add(distributionBean);
 				} while (cursor.moveToNext());
 			}
@@ -184,6 +186,7 @@ public class LocalDB{
 					distributionBean.setAmount(cursor.getString(3));
 					distributionBean.setTripId(cursor.getLong(4));
 					distributionBean.setPaid(cursor.getString(5));
+					distributionBean.setCreationDate(cursor.getString(6));
 					strArrDistribution.add(distributionBean);
 				} while (cursor.moveToNext());
 			}
@@ -214,7 +217,7 @@ public class LocalDB{
 				distributionBean.setAmount(cursor.getString(3));
 				distributionBean.setTripId(cursor.getLong(4));
 				distributionBean.setPaid(cursor.getString(5));
-				distributionBean.setSynced(cursor.getString(6));
+				distributionBean.setCreationDate(cursor.getString(6));
 			}
 		} catch (Exception e) {
 
@@ -243,7 +246,6 @@ public class LocalDB{
 				distributionBean.setAmount(cursor.getString(3));
 				distributionBean.setTripId(cursor.getLong(4));
 				distributionBean.setPaid(cursor.getString(5));
-				distributionBean.setSynced(cursor.getString(6));
 			}
 		} catch (Exception e) {
 

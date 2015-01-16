@@ -10,6 +10,7 @@ public class DistributionBean1 {
 	private String amount;
 	private String paid;
 	private String synced;
+	private String creationDate;
 	
 	public long getFromId() {
 		return fromId;
@@ -52,6 +53,12 @@ public class DistributionBean1 {
 	}
 	public void setSynced(String synced) {
 		this.synced = synced;
+	}
+	public String getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
 	}
 	
 	

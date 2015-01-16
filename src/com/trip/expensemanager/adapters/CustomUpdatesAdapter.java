@@ -73,7 +73,7 @@ public class CustomUpdatesAdapter extends ArrayAdapter<String> {
 			viewHolder.ivIcon.setImageResource(R.drawable.ic_debt_paid);
 		}
 		
-		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.no_anim);
 		rowView.startAnimation(animation);
 		lastPosition = position;
 	    animation = null;

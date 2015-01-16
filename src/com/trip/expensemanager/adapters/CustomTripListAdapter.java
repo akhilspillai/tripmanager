@@ -108,7 +108,7 @@ public class CustomTripListAdapter extends ArrayAdapter<String> {
 			viewHolder.pbAddTrip.setVisibility(View.GONE);
 			viewHolder.ivStatus.setVisibility(View.VISIBLE);
 			
-			Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+			Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.no_anim);
 			rowView.startAnimation(animation);
 			lastPosition = position;
 		    animation = null;

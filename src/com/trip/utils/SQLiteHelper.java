@@ -103,6 +103,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			+ COLUMN_TO_ID+ " number,"
 			+ COLUMN_TRIP_ID+ " number,"
 			+ COLUMN_EXPENSE_AMOUNT+ " text,"
+			+ COLUMN_CREATION_TIME+ " date,"
 			+ COLUMN_PAID+ " text);";
 
 

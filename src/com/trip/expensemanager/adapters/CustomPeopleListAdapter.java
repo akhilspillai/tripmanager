@@ -94,7 +94,7 @@ public class CustomPeopleListAdapter extends ArrayAdapter<String> {
 		} else{
 			viewHolder.ivStatus.setImageResource(R.drawable.ic_not_synched);
 		}
-		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.no_anim);
 		rowView.startAnimation(animation);
 		lastPosition = position;
 	    animation = null;
