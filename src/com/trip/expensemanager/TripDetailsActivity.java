@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -81,8 +82,10 @@ public class TripDetailsActivity extends ActionBarActivity implements TabListene
 				mViewPager.setCurrentItem(tabToSelect-1);
 			}
 			AdView adView = (AdView)findViewById(R.id.adView);
-			AdRequest adRequest = new AdRequest.Builder().addTestDevice("73F2A5CA55F628C98441DA7DAFECE33C").addTestDevice("D343E752F78628B89D77D8DC1FB8F12F").addTestDevice("E0AD16F9A6CB88345E2E96D2323E9BB7").build();
-			adView.loadAd(adRequest);
+			AdRequest adRequest = new AdRequest.Builder().addTestDevice("07479579BCD31CAC59F426C69FC347F0").addTestDevice("CA38245079883989F4F525CCE75019B4").addTestDevice("73F2A5CA55F628C98441DA7DAFECE33C").build();
+			if(adView.getVisibility()==View.VISIBLE){
+				adView.loadAd(adRequest);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

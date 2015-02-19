@@ -1,6 +1,7 @@
 package com.trip.expensemanager;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,7 +94,7 @@ public class SyncIntentService extends IntentService{
 	}
 
 
-	private void syncAllSettledDistributions() {
+	private void syncAllSettledDistributions() throws ParseException {
 		LocalDB localDb=new LocalDB(getApplicationContext());
 		lngUserId=localDb.retrieve();
 		Distributionendpoint.Builder builder = new Distributionendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
@@ -102,6 +103,7 @@ public class SyncIntentService extends IntentService{
 		Distribution retDist, dist=new Distribution();
 		ArrayList<DistributionBean1> arrDistributionsNotSynched = localDb.retrieveNotSynchedDistributions();
 		String amount;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		long deviceId=localDb.retrieveDeviceId();
 		for(DistributionBean1 distTemp:arrDistributionsNotSynched){
 			amount=distTemp.getAmount();
@@ -116,6 +118,7 @@ public class SyncIntentService extends IntentService{
 			dist.setChangerId(deviceId);
 			dist.setPaid(Constants.STR_YES);
 			dist.setTripId(distTemp.getTripId());
+			dist.setCreationDate(new DateTime(sdf.parse(distTemp.getCreationDate())));
 			try {
 				retDist=endpoint.insertDistribution(dist).execute();
 			} catch (IOException e) {
@@ -812,65 +815,69 @@ public class SyncIntentService extends IntentService{
 						if(listUsersTemp==null){
 							listUsersTemp=new ArrayList<Long>();
 						}
-						for(long userId:listUsersTemp){
-							strUserTemp=localDb.retrieveUsername(userId);
-							if(strUserTemp==null){
-								try {
-									login=loginEndpoint.getLogIn(userId).execute();
-								} catch (Exception e) {
-									e.printStackTrace();
-									continue;
+						if(!listUsersTemp.contains(lngUserId)){
+							for(long userId:listUsersTemp){
+								strUserTemp=localDb.retrieveUsername(userId);
+								if(strUserTemp==null){
+									try {
+										login=loginEndpoint.getLogIn(userId).execute();
+									} catch (Exception e) {
+										e.printStackTrace();
+										continue;
+									}
+									strUserTemp=login.getUsername();
+									localDb.insertPerson(userId, strUserTemp, login.getPrefferedName());
+
 								}
-								strUserTemp=login.getUsername();
-								localDb.insertPerson(userId, strUserTemp, login.getPrefferedName());
-
+								sbUsers.append(',');
+								sbUsers.append(userId);
 							}
-							sbUsers.append(',');
-							sbUsers.append(userId);
-						}
-						CollectionResponseExpense response = expenseEndpoint.listExpense().setTripId(retTrip.getId()).execute();
-						if(response!=null){
-							ArrayList<Expense> arrExpense = (ArrayList<Expense>) response.getItems();
-							String date=null;
-							List<Long> userIds;
-							List<String> amounts;
-							String strUserIds, strAmounts;
-							if(arrExpense!=null && arrExpense.size()!=0){
-								for(Expense tempExpense:arrExpense){
-									date = sdf.format(new Date(tempExpense.getCreationDate().getValue()));
-									userIds=tempExpense.getExpenseUserIds();
-									if(userIds.contains(lngUserId)){
-										strUserIds=Global.listToString(userIds);
+							CollectionResponseExpense response = expenseEndpoint.listExpense().setTripId(retTrip.getId()).execute();
+							if(response!=null){
+								ArrayList<Expense> arrExpense = (ArrayList<Expense>) response.getItems();
+								String date=null;
+								List<Long> userIds;
+								List<String> amounts;
+								String strUserIds, strAmounts;
+								if(arrExpense!=null && arrExpense.size()!=0){
+									for(Expense tempExpense:arrExpense){
+										date = sdf.format(new Date(tempExpense.getCreationDate().getValue()));
+										userIds=tempExpense.getExpenseUserIds();
+										if(userIds.contains(lngUserId)){
+											strUserIds=Global.listToString(userIds);
 
-										amounts=tempExpense.getExpenseAmounts();
-										strAmounts=Global.listToString(amounts);
-										localDb.insertExpense(tempExpense.getName(), tempExpense.getId(), date, "INR", tempExpense.getAmount(), tempExpense.getDescription(), tempExpense.getTripId(), tempExpense.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);
+											amounts=tempExpense.getExpenseAmounts();
+											strAmounts=Global.listToString(amounts);
+											localDb.insertExpense(tempExpense.getName(), tempExpense.getId(), date, "INR", tempExpense.getAmount(), tempExpense.getDescription(), tempExpense.getTripId(), tempExpense.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);
+										}
 									}
 								}
 							}
-						}
 
 
-						login=loginEndpoint.getLogIn(lngUserId).execute();
-						listTripsTemp=login.getTripIDs();
-						if(listTripsTemp==null){
-							listTripsTemp=new ArrayList<Long>();
+							login=loginEndpoint.getLogIn(lngUserId).execute();
+							listTripsTemp=login.getTripIDs();
+							if(listTripsTemp==null){
+								listTripsTemp=new ArrayList<Long>();
+							}
+							if(!listTripsTemp.contains(lngTripId)){
+								listTripsTemp.add(lngTripId);
+								login.setTripIDs(listTripsTemp);
+								loginEndpoint.updateLogIn(login).execute();
+							}
+							if(!listUsersTemp.contains(lngUserId)){
+								listUsersTemp.add(lngUserId);
+								retTrip.setUserIDs(listUsersTemp);
+								retTrip.setChangerId(localDb.retrieveDeviceId());
+								endpoint.updateTrip(retTrip).execute();
+							}
+							localDb.updateTripUsers(lngTripId, sbUsers.toString());
+							localDb.updateTripSyncStatus(lngTripId, retTrip.getId());
+						} else{
+							localDb.deleteTrip(lngTripId);
 						}
-						if(!listTripsTemp.contains(lngTripId)){
-							listTripsTemp.add(lngTripId);
-							login.setTripIDs(listTripsTemp);
-							loginEndpoint.updateLogIn(login).execute();
-						}
-						if(!listUsersTemp.contains(lngUserId)){
-							listUsersTemp.add(lngUserId);
-							retTrip.setUserIDs(listUsersTemp);
-							retTrip.setChangerId(localDb.retrieveDeviceId());
-							endpoint.updateTrip(retTrip).execute();
-						}
-						localDb.updateTripUsers(lngTripId, sbUsers.toString());
-						localDb.updateTripSyncStatus(lngTripId, retTrip.getId());
+						sendResult();
 					}
-					sendResult();
 				} catch (Exception e) {
 					e.printStackTrace();
 					continue;

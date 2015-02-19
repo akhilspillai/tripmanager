@@ -64,7 +64,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			+ COLUMN_EXPENSE_ID+ " integer,"
 			+ COLUMN_EXPENSE_NAME+ " text,"
 			+ COLUMN_EXPENSE_DESC+ " text,"
-			+ COLUMN_EXPENSE_AMOUNT+ " number,"
+			+ COLUMN_EXPENSE_AMOUNT+ " integer,"
 			+ COLUMN_TRIP_ID+ " integer,"
 			+ COLUMN_USER_ID+ " integer,"
 			+ COLUMN_USERS+ " text,"
@@ -88,7 +88,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			+ TABLE_TO_SYNC + "( " +ROW_ID+" integer primary key,"
 			+ COLUMN_ACTION+ " text,"
 			+ COLUMN_STATUS+ " text,"
-			+ COLUMN_ITEM_ID+ " number,"
+			+ COLUMN_ITEM_ID+ " integer,"
 			+ COLUMN_UPDATE+ " text);";
 
 	public static final String COLUMN_DISTRIBUTION_ID = "distribution_id";
@@ -98,10 +98,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 	private static final String DISTRIBUTION_TABLE_CREATE = "create table "
 			+ TABLE_DISTRIBUTION + "( " +ROW_ID+" integer primary key,"
-			+ COLUMN_DISTRIBUTION_ID+ " number,"
-			+ COLUMN_FROM_ID+ " number,"
-			+ COLUMN_TO_ID+ " number,"
-			+ COLUMN_TRIP_ID+ " number,"
+			+ COLUMN_DISTRIBUTION_ID+ " integer,"
+			+ COLUMN_FROM_ID+ " integer,"
+			+ COLUMN_TO_ID+ " integer,"
+			+ COLUMN_TRIP_ID+ " integer,"
 			+ COLUMN_EXPENSE_AMOUNT+ " text,"
 			+ COLUMN_CREATION_TIME+ " date,"
 			+ COLUMN_PAID+ " text);";

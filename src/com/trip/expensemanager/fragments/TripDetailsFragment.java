@@ -237,6 +237,8 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		float fAmount;
 		if(arrDistfromDB.size()==0){
 			arrDistribution.add("No settled debts!!");
+			arrPossibletoSettle.add(false);
+			arrDistUsrIds.add(0L);
 		} else{
 			for(DistributionBean1 dist:arrDistfromDB){
 				fromId=dist.getFromId();
@@ -583,7 +585,11 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			builder.setCancelable(true);
 			TextView textView = (TextView)view.findViewById(R.id.tv_message);
 			EditText etAmount=(EditText) view.findViewById(R.id.et_amount);
-			etAmount.setText(distBean.getAmount());
+			strAmount=distBean.getAmount();
+			if(strAmount.startsWith("-")){
+				strAmount=strAmount.substring(1);
+			}
+			etAmount.setText(strAmount);
 			btnYes = (Button) view.findViewById(R.id.btn_yes);
 			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
 			etAmount.addTextChangedListener(new TextWatcher() {
@@ -605,9 +611,6 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 						btnYes.setEnabled(false);
 					} else{
 						strAmount=s.toString();
-						if(strAmount.startsWith("-")){
-							strAmount=strAmount.substring(1);
-						}
 						float fAmount;
 						try {
 							fAmount=Float.parseFloat(strAmount);
