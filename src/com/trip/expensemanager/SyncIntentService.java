@@ -159,7 +159,6 @@ public class SyncIntentService extends IntentService{
 			expenseBuilder = CloudEndpointUtils.updateBuilder(expenseBuilder);
 			Distributionendpoint distEndpoint = distBuilder.build();
 			Distribution distTemp=null;
-			DistributionBean1 distBean=null;
 			Loginendpoint.Builder loginBuilder = new Loginendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
 			loginBuilder = CloudEndpointUtils.updateBuilder(loginBuilder);
 			Loginendpoint loginEndpoint = loginBuilder.build();
@@ -407,24 +406,6 @@ public class SyncIntentService extends IntentService{
 								String strAmounts = Global.listToString(amounts);
 								localDb.insertExpense(expenseTemp.getName(), expenseTemp.getId(), date, "INR", expenseTemp.getAmount(), expenseTemp.getDescription(), expenseTemp.getTripId(), expenseTemp.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);
 
-								String strAmount;
-								long rowId;
-								distBean=localDb.retrieveUnsettledDistributionByUsers(expenseTemp.getUserId(), lngUserId, expenseTemp.getTripId());
-								int pos=userIds.indexOf(lngUserId);
-								if(pos!=-1){
-									strAmount=amounts.get(pos);
-									if(distBean==null){
-										rowId=localDb.insertDistribution(lngUserId, expenseTemp.getUserId(), strAmount, expenseTemp.getTripId(), Constants.STR_NO, "");
-										localDb.updateDistributionId(rowId, rowId);
-									} else{
-										if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-											strAmount=String.valueOf(Global.add(Float.parseFloat(distBean.getAmount()), strAmount));
-										} else{
-											strAmount=String.valueOf(Global.subtract(Float.parseFloat(distBean.getAmount()), strAmount));
-										}
-										localDb.updateDistAmount(distBean.getDistributionId(), strAmount);
-									}
-								}
 								String username=localDb.retrievePrefferedName(expenseTemp.getUserId());
 								LogIn login=null;
 								if(username==null){
@@ -466,69 +447,14 @@ public class SyncIntentService extends IntentService{
 								List<Long> userIds = expenseTemp.getExpenseUserIds();
 								if(userIds.contains(lngUserId)){
 									localDb.updateExpense(expenseTemp.getName(), expenseTemp.getAmount(), expenseTemp.getDescription(), Global.listToString(userIds), Global.listToString(expenseTemp.getExpenseAmounts()), Constants.STR_SYNCHED, expenseTemp.getId());
-									List<Long> lstUsers=expenseTemp.getExpenseUserIds();
-									List<String> lstAmounts=expenseTemp.getExpenseAmounts();
-									List<Long> lstUsersPrev=Global.longToList(expenseBean.getUserIds());
-									List<String> lstAmountsPrev=Global.stringToList(expenseBean.getAmounts());
-									if(!(lstUsers.equals(lstUsersPrev) && lstAmounts.equals(lstAmountsPrev))){
-										String strAmountPrev="0", strAmount="0";
-										distBean=localDb.retrieveUnsettledDistributionByUsers(expenseBean.getUserId(), lngUserId, expenseBean.getTripId());
-										int posPrev=lstUsersPrev.indexOf(lngUserId);
-										int pos=lstUsers.indexOf(lngUserId);
-										if(posPrev!=-1 || pos!=-1){
-											if(posPrev!=-1){
-												strAmountPrev=lstAmountsPrev.get(posPrev);
-											}
-											if(pos!=-1){
-												strAmount=lstAmounts.get(pos);
-											}
-											if(distBean==null){
-												long rowId=localDb.insertDistribution(lngUserId, expenseBean.getUserId(), strAmount, expenseBean.getTripId(), Constants.STR_NO, "");
-												localDb.updateDistributionId(rowId, rowId);
-											} else{
-												float fAmount;
-												if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-													fAmount=Global.subtract(Float.parseFloat(distBean.getAmount()), strAmountPrev);
-													strAmount=String.valueOf(Global.add(fAmount, strAmount));
-												} else{
-													fAmount=Global.add(Float.parseFloat(distBean.getAmount()), strAmountPrev);
-													strAmount=String.valueOf(Global.add(fAmount, strAmount));
-												}
-												localDb.updateDistAmount(distBean.getDistributionId(), strAmount);
-											}
-										}
-									}
 								} else{
 									localDb.deleteExpense(expenseTemp.getId());
 								}
 							} else{
 								String date = sdf.format(new Date(expenseTemp.getCreationDate().getValue()));
 								localDb.insertExpense(expenseTemp.getName(), expenseTemp.getId(), date, "INR", expenseTemp.getAmount(), expenseTemp.getDescription(), expenseTemp.getTripId(), expenseTemp.getUserId(), Global.listToString(expenseTemp.getExpenseUserIds()), Global.listToString(expenseTemp.getExpenseAmounts()), Constants.STR_SYNCHED);
-								List<Long> lstUsers=expenseTemp.getExpenseUserIds();
-								List<String> lstAmounts=expenseTemp.getExpenseAmounts();
-								String strAmount;
-								distBean=localDb.retrieveUnsettledDistributionByUsers(expenseTemp.getUserId(), lngUserId, expenseTemp.getTripId());
-								int pos=lstUsers.indexOf(lngUserId);
-								float fAmount;
-								if(pos!=-1){
-									strAmount=lstAmounts.get(pos);
-									if(distBean==null){
-										long rowId=localDb.insertDistribution(lngUserId, expenseTemp.getUserId(), strAmount, expenseTemp.getTripId(), Constants.STR_NO, "");
-										localDb.updateDistributionId(rowId, rowId);
-									} else{
-										if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-											fAmount=Global.subtract(Float.parseFloat(distBean.getAmount()), strAmount);
-											strAmount=String.valueOf(Global.add(fAmount, strAmount));
-										} else{
-											fAmount=Global.add(Float.parseFloat(distBean.getAmount()), strAmount);
-											strAmount=String.valueOf(Global.add(fAmount, strAmount));
-										}
-										localDb.updateDistAmount(distBean.getDistributionId(), strAmount);
-									}
-								}
 							}
 							expenseBean=localDb.retrieveExpense(expenseTemp.getId());
-
 
 							String username=localDb.retrievePrefferedName(expenseTemp.getUserId());
 							LogIn login=null;
@@ -557,23 +483,6 @@ public class SyncIntentService extends IntentService{
 					TripBean tripBean=localDb.retrieveTripDetails(expenseBean.getTripId());
 					if(expenseBean!=null && !expenseBean.getSyncStatus().equals(Constants.STR_DELETED)){
 						localDb.deleteExpense(expenseBean.getId());
-						List<Long> lstUsersPrev=Global.longToList(expenseBean.getUserIds());
-						List<String> lstAmountsPrev=Global.stringToList(expenseBean.getAmounts());
-
-						String strAmountPrev;
-						distBean=localDb.retrieveUnsettledDistributionByUsers(expenseBean.getUserId(), lngUserId, expenseBean.getTripId());
-						int pos=lstUsersPrev.indexOf(lngUserId);
-						if(pos!=-1){
-							strAmountPrev=lstAmountsPrev.get(pos);
-							if(distBean!=null){
-								if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-									strAmountPrev=String.valueOf(Global.subtract(Float.parseFloat(distBean.getAmount()), strAmountPrev));
-								} else{
-									strAmountPrev=String.valueOf(Global.add(Float.parseFloat(distBean.getAmount()), strAmountPrev));
-								}
-								localDb.updateDistAmount(distBean.getDistributionId(), strAmountPrev);
-							}
-						}
 						String username=localDb.retrievePrefferedName(expenseBean.getUserId());
 						LogIn login=null;
 						if(username==null){
@@ -610,58 +519,32 @@ public class SyncIntentService extends IntentService{
 						long tripId=distTemp.getTripId();
 						long rowId;
 						String strAmount=distTemp.getAmount();
-						String strNewAmount;
-						if(strAmount.startsWith("-")){
-							strAmount=strAmount.substring(1);
-						}
-						distBean=localDb.retrieveUnsettledDistributionByUsers(fromId, toId, tripId);
 						long changerId=distTemp.getChangerId();
-						String date = sdf.format(new Date(distTemp.getCreationDate().getValue()));
-						if(fromId==lngUserId){
-							long otherUserId;
-							if(distBean!=null){
-								if(distBean.getFromId()==lngUserId){
-									otherUserId=distBean.getToId();
-									if(changerId==devId){
-										strNewAmount=Global.add(distBean.getAmount(), strAmount);
-									} else{
-										strNewAmount=Global.subtract(distBean.getAmount(), strAmount);
-									}
+						if(changerId!=devId){
+							if(strAmount.startsWith("-")){
+								strAmount=strAmount.substring(1);
+							}
+							String date = sdf.format(new Date(distTemp.getCreationDate().getValue()));
+							rowId=localDb.insertDistribution(lngUserId, toId, strAmount, tripId, Constants.STR_YES, date);
+							localDb.updateDistributionId(rowId, distTemp.getId());
+							Intent intentToCall=new Intent(this, UpdatesActivity.class);
+							String toUser=localDb.retrievePrefferedName(toId);
+							String fromUser=localDb.retrievePrefferedName(fromId);
+							if(Constants.STR_YOU.equalsIgnoreCase(fromUser)){
+								fromUser="your";
+							} else{
+								fromUser=fromUser+"'s";
+							}
+							TripBean tripBean=localDb.retrieveTripDetails(distTemp.getTripId());
+							if(toId!=lngUserId){
+								if(toUser!=null && fromUser!=null){
+									sendNotification(toSyncTemp.getSyncType(), "Debt Settled", toUser+" marked your debt in the expense-group "+tripBean.getName()+" as paid!!", intentToCall , Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
 								} else{
-									otherUserId=distBean.getToId();
-									if(changerId==devId){
-										strNewAmount=Global.subtract(distBean.getAmount(), strAmount);
-									} else{
-										strNewAmount=Global.add(distBean.getAmount(), strAmount);
-									}
-								}
-								localDb.updateDistAmount(distBean.getDistributionId(), strNewAmount);
-								rowId=localDb.insertDistribution(lngUserId, toId, strAmount, distBean.getTripId(), Constants.STR_YES, date);
-								localDb.updateDistributionId(rowId, distTemp.getId());
-								Intent intentToCall=new Intent(this, UpdatesActivity.class);
-								String user=localDb.retrievePrefferedName(otherUserId);
-								TripBean tripBean=localDb.retrieveTripDetails(distBean.getTripId());
-								if(changerId!=devId){
-									if(user!=null){
-										sendNotification(toSyncTemp.getSyncType(), "Debt Settled", user+" marked your debt in the expense-group "+tripBean.getName()+" as paid!!", intentToCall , Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
-									} else{
-										sendNotification(toSyncTemp.getSyncType(), "Debt Settled", "Your debt in the expense-group "+tripBean.getName()+" is marked as paid!!", intentToCall , Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
-									}
+									sendNotification(toSyncTemp.getSyncType(), "Debt Settled", "Your debt in the expense-group "+tripBean.getName()+" is marked as paid!!", intentToCall , Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
 								}
 							}
-						} else if(toId==lngUserId){
-							if(distBean!=null && changerId!=devId){
-								if(distBean.getFromId()==lngUserId){
-									strNewAmount=Global.add(distBean.getAmount(), strAmount);
-								} else{
-									strNewAmount=Global.subtract(distBean.getAmount(), strAmount);
-								}
-								localDb.updateDistAmount(distBean.getDistributionId(), strNewAmount);
-								rowId=localDb.insertDistribution(fromId, lngUserId, strAmount, distBean.getTripId(), Constants.STR_YES, date);
-								localDb.updateDistributionId(rowId, distTemp.getId());
-							}
+							sendResult();
 						}
-						sendResult();
 					}
 				}
 				try {
@@ -843,13 +726,11 @@ public class SyncIntentService extends IntentService{
 									for(Expense tempExpense:arrExpense){
 										date = sdf.format(new Date(tempExpense.getCreationDate().getValue()));
 										userIds=tempExpense.getExpenseUserIds();
-										if(userIds.contains(lngUserId)){
-											strUserIds=Global.listToString(userIds);
+										strUserIds=Global.listToString(userIds);
 
-											amounts=tempExpense.getExpenseAmounts();
-											strAmounts=Global.listToString(amounts);
-											localDb.insertExpense(tempExpense.getName(), tempExpense.getId(), date, "INR", tempExpense.getAmount(), tempExpense.getDescription(), tempExpense.getTripId(), tempExpense.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);
-										}
+										amounts=tempExpense.getExpenseAmounts();
+										strAmounts=Global.listToString(amounts);
+										localDb.insertExpense(tempExpense.getName(), tempExpense.getId(), date, "INR", tempExpense.getAmount(), tempExpense.getDescription(), tempExpense.getTripId(), tempExpense.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);
 									}
 								}
 							}
@@ -876,8 +757,8 @@ public class SyncIntentService extends IntentService{
 						} else{
 							localDb.deleteTrip(lngTripId);
 						}
-						sendResult();
 					}
+					sendResult();
 				} catch (Exception e) {
 					e.printStackTrace();
 					continue;

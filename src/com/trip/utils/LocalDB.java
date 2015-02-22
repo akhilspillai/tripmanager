@@ -229,35 +229,6 @@ public class LocalDB{
 		}
 		return distributionBean;
 	}
-	
-	public DistributionBean1 retrieveUnsettledDistributionByUsers(long frmUserId, long toUserId, long lngTripId) {
-		DistributionBean1 distributionBean=null;
-		try {
-			SQLiteDatabase database=open(); 
-			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"=?", new String[]{String.valueOf(frmUserId), String.valueOf(toUserId), String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
-			if (!cursor.moveToFirst()) {
-				cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"=?", new String[]{String.valueOf(toUserId), String.valueOf(frmUserId), String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
-			}
-			if (cursor.moveToFirst()) {
-				distributionBean=new DistributionBean1();
-				distributionBean.setDistributionId(cursor.getLong(0));
-				distributionBean.setFromId(cursor.getLong(1));
-				distributionBean.setToId(cursor.getLong(2));
-				distributionBean.setAmount(cursor.getString(3));
-				distributionBean.setTripId(cursor.getLong(4));
-				distributionBean.setPaid(cursor.getString(5));
-			}
-		} catch (Exception e) {
-
-		}finally{
-			if(cursor!=null){
-				cursor.close();
-			}
-			close();
-		}
-		return distributionBean;
-	}
-
 
 	public boolean updateDistAmount(long distributionId, String strAmount) {
 		try {

@@ -421,45 +421,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			ExpenseBean expense=localDb.retrieveExpense(expenseId);
 			if(Constants.STR_NOT_SYNCHED.equals(expense.getSyncStatus())){
 				localDb.deleteExpense(expenseId);
-				List<Long> lstUsersPrev=Global.longToList(expense.getUserIds());
-				List<String> lstAmountsPrev=Global.stringToList(expense.getAmounts());
-				
-				DistributionBean1 distBean;
-				int i=0;
-				String strAmountPrev;
-				for(long userIdPrev:lstUsersPrev){
-					distBean=localDb.retrieveUnsettledDistributionByUsers(userIdPrev, lngUserId, expense.getTripId());
-					strAmountPrev=lstAmountsPrev.get(i);
-					if(distBean!=null){
-						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-							strAmountPrev=String.valueOf(Global.add(Float.parseFloat(distBean.getAmount()), strAmountPrev));
-						} else{
-							strAmountPrev=String.valueOf(Global.subtract(Float.parseFloat(distBean.getAmount()), strAmountPrev));
-						}
-						localDb.updateDistAmount(distBean.getDistributionId(), strAmountPrev);
-					}
-					i++;
-				}
 			} else{
-				List<Long> lstUsersPrev=Global.longToList(expense.getUserIds());
-				List<String> lstAmountsPrev=Global.stringToList(expense.getAmounts());
-				
-				DistributionBean1 distBean;
-				int i=0;
-				String strAmountPrev;
-				for(long userIdPrev:lstUsersPrev){
-					distBean=localDb.retrieveUnsettledDistributionByUsers(userIdPrev, lngUserId, expense.getTripId());
-					strAmountPrev=lstAmountsPrev.get(i);
-					if(distBean!=null){
-						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-							strAmountPrev=String.valueOf(Global.add(Float.parseFloat(distBean.getAmount()), strAmountPrev));
-						} else{
-							strAmountPrev=String.valueOf(Global.subtract(Float.parseFloat(distBean.getAmount()), strAmountPrev));
-						}
-						localDb.updateDistAmount(distBean.getDistributionId(), strAmountPrev);
-					}
-					i++;
-				}
 				localDb.updateExpenseStatusToDeleted(expenseId);
 				((TripDetailsActivity)context).updateViews();
 				context.startService(new Intent(context, SyncIntentService.class));
@@ -477,28 +439,6 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			long lngExpenseId=0L;
 			lngExpenseId=localDb.insertExpense(expenseName, lngExpenseId, strDate, "INR", expenseAmount, expenseDetail, lngTripId, lngUserId, strUserIds, strAmounts, Constants.STR_NOT_SYNCHED);
 			localDb.updateExpenseId(lngExpenseId, lngExpenseId);
-			List<Long> lstUsers=Global.longToList(strUserIds);
-			List<String> lstAmounts=Global.stringToList(strAmounts);
-			DistributionBean1 distBean;
-			int i=0;
-			String strAmount;
-			long rowId;
-			for(long userId:lstUsers){
-				distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, lngTripId);
-				strAmount=lstAmounts.get(i);
-				if(distBean==null){
-					rowId=localDb.insertDistribution(userId, lngUserId, strAmount, lngTripId, Constants.STR_NO, "");
-					localDb.updateDistributionId(rowId, rowId);
-				} else{
-					if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-						strAmount=String.valueOf(Global.subtract(Float.parseFloat(distBean.getAmount()), strAmount));
-					} else{
-						strAmount=String.valueOf(Global.add(Float.parseFloat(distBean.getAmount()), strAmount));
-					}
-					localDb.updateDistAmount(distBean.getDistributionId(), strAmount);
-				}
-				i++;
-			}
 			((TripDetailsActivity)context).updateViews();
 			context.startService(new Intent(context, SyncIntentService.class));
 		} catch(Exception e){
@@ -516,50 +456,8 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			} else{
 				localDb.updateExpense(expenseName, expenseAmount, expenseDetail, strUserIds, strAmounts, Constants.STR_UPDATED, expenseId);
 			}
-			if(!(expense.getUserIds().equals(strUserIds) && expense.getAmounts().equals(strAmounts))){
-				List<Long> lstUsers=Global.longToList(strUserIds);
-				List<String> lstAmounts=Global.stringToList(strAmounts);
-				List<Long> lstUsersPrev=Global.longToList(expense.getUserIds());
-				List<String> lstAmountsPrev=Global.stringToList(expense.getAmounts());
-				
-				DistributionBean1 distBean;
-				int i=0;
-				String strAmountPrev;
-				for(long userIdPrev:lstUsersPrev){
-					distBean=localDb.retrieveUnsettledDistributionByUsers(userIdPrev, lngUserId, lngTripId);
-					strAmountPrev=lstAmountsPrev.get(i);
-					if(distBean!=null){
-						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-							strAmountPrev=String.valueOf(Global.add(Float.parseFloat(distBean.getAmount()), strAmountPrev));
-						} else{
-							strAmountPrev=String.valueOf(Global.subtract(Float.parseFloat(distBean.getAmount()), strAmountPrev));
-						}
-						localDb.updateDistAmount(distBean.getDistributionId(), strAmountPrev);
-					}
-					i++;
-				}
-				i=0;
-				String strAmount;
-				long rowId;
-				for(long userId:lstUsers){
-					distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, lngTripId);
-					strAmount=lstAmounts.get(i);
-					if(distBean==null){
-						rowId=localDb.insertDistribution(userId, lngUserId, strAmount, lngTripId, Constants.STR_NO, "");
-						localDb.updateDistributionId(rowId, rowId);
-					} else{
-						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-							strAmount=String.valueOf(Global.subtract(Float.parseFloat(distBean.getAmount()), strAmount));
-						} else{
-							strAmount=String.valueOf(Global.add(Float.parseFloat(distBean.getAmount()), strAmount));
-						}
-						localDb.updateDistAmount(distBean.getDistributionId(), strAmount);
-					}
-					i++;
-				}
-				((TripDetailsActivity)context).updateViews();
-				context.startService(new Intent(context, SyncIntentService.class));				
-			}
+			((TripDetailsActivity)context).updateViews();
+			context.startService(new Intent(context, SyncIntentService.class));				
 		}catch(Exception e){
 			e.printStackTrace();
 		}

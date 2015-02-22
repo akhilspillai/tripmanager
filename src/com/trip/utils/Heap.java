@@ -43,10 +43,10 @@ public class Heap {
 		int largest=i;
 		int leftChild=getLeftChild(i+1)-1;
 		int rightChild=getRightChild(i+1)-1;
-		if(leftChild<A.length && A[leftChild].getAmount()>A[largest].getAmount()){
+		if(leftChild<A.length && 0<A[leftChild].getAmount().compareTo(A[largest].getAmount())){
 			largest=leftChild;
 		}
-		if(rightChild<A.length && A[rightChild].getAmount()>A[largest].getAmount()){
+		if(rightChild<A.length && 0>A[rightChild].getAmount().compareTo(A[largest].getAmount())){
 			largest=rightChild;
 		}
 		if(largest!=i){
@@ -67,7 +67,7 @@ public class Heap {
 	private void shiftUp(int i) {
 		int iElement=i;
 		int iParent=getParent(iElement+1)-1;
-		while(iParent>=0 && A[iParent].getAmount()<A[iElement].getAmount()){
+		while(iParent>=0 && 0>A[iParent].getAmount().compareTo(A[iElement].getAmount())){
 			swap(iParent, iElement);
 			iElement=iParent;
 			iParent=getParent(iElement+1)-1;

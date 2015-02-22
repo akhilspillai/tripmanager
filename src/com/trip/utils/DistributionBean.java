@@ -3,19 +3,19 @@ package com.trip.utils;
 
 public class DistributionBean {
 
-	private String username;
-	private float amount;
+	private long userId;
+	private String amount;
 	
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public float getAmount() {
+	public String getAmount() {
 		return amount;
 	}
-	public void setAmount(float amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
+	}
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 }

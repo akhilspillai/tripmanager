@@ -335,7 +335,7 @@ public class ProcessingActivity extends Activity{
 						login.setDeviceIDs(listDevs);
 						retLogin=endpoint.insertLogIn(login).execute();
 						lngUserId=retLogin.getId();
-						localDb.insert(lngUserId, retLogin.getUsername(), retLogin.getPassword(), retLogin.getPrefferedName(), retDevInfo.getId());
+						localDb.insert(lngUserId, retLogin.getUsername(), retLogin.getPassword(), Constants.STR_YOU, retDevInfo.getId());
 						localDb.insertPerson(lngUserId, retLogin.getUsername(), Constants.STR_YOU);
 					}
 				} else{
@@ -462,22 +462,20 @@ public class ProcessingActivity extends Activity{
 										List<String> amounts;
 										String strUserIds, strAmounts;
 										for(Expense tempExpense:arrExpense){
-											if(tempExpense.getExpenseUserIds().contains(lngUserId) || lngUserId==tempExpense.getUserId()){
-												date = sdf.format(new Date(tempExpense.getCreationDate().getValue()));
-												userIds=tempExpense.getExpenseUserIds();
-												strUserIds=Global.listToString(userIds);
-												
-												amounts=tempExpense.getExpenseAmounts();
-												strAmounts=Global.listToString(amounts);
-												localDb.insertExpense(tempExpense.getName(), tempExpense.getId(), date, "INR", tempExpense.getAmount(), tempExpense.getDescription(), tempExpense.getTripId(), tempExpense.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);
-												
-												distributeExpense(tempExpense);
-											}
+											date = sdf.format(new Date(tempExpense.getCreationDate().getValue()));
+											userIds=tempExpense.getExpenseUserIds();
+											strUserIds=Global.listToString(userIds);
+											
+											amounts=tempExpense.getExpenseAmounts();
+											strAmounts=Global.listToString(amounts);
+											localDb.insertExpense(tempExpense.getName(), tempExpense.getId(), date, "INR", tempExpense.getAmount(), tempExpense.getDescription(), tempExpense.getTripId(), tempExpense.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);
+											
+//											distributeExpense(tempExpense);
 										}
 									}
 								}
 								
-								distResponse=distEndpoint.listDistribution().setTripId(retTrip.getId()).setUserId(lngUserId).execute();
+								distResponse=distEndpoint.listDistribution().setTripId(retTrip.getId()).execute();
 								if(distResponse!=null){
 									arrDist=(ArrayList<Distribution>) distResponse.getItems();
 									if(arrDist!=null && arrDist.size()!=0){
@@ -500,56 +498,8 @@ public class ProcessingActivity extends Activity{
 			}
 			return result;
 		}
-
-		private void distributeExpense(Expense expenseTemp) {
-			LocalDB localDb=new LocalDB(getApplicationContext());
-			List<Long> lstUserIds = expenseTemp.getExpenseUserIds();
-			
-			List<String> lstAmounts = expenseTemp.getExpenseAmounts();
-			long userIdTemp=expenseTemp.getUserId();
-			DistributionBean1 distBean;
-			String strAmount;
-			long rowId;
-			if(userIdTemp==lngUserId){
-				int i=0;
-				for(long userId:lstUserIds){
-					distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, expenseTemp.getTripId());
-					strAmount=lstAmounts.get(i);
-					if(distBean==null){
-						rowId=localDb.insertDistribution(userId, lngUserId, strAmount, expenseTemp.getTripId(), Constants.STR_NO, "");
-						localDb.updateDistributionId(rowId, rowId);
-					} else{
-						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-							strAmount=String.valueOf(Global.subtract(Float.parseFloat(distBean.getAmount()), strAmount));
-						} else{
-							strAmount=String.valueOf(Global.add(Float.parseFloat(distBean.getAmount()), strAmount));
-						}
-						localDb.updateDistAmount(distBean.getDistributionId(), strAmount);
-					}
-					i++;
-				}
-			} else{
-				distBean=localDb.retrieveUnsettledDistributionByUsers(userIdTemp, lngUserId, expenseTemp.getTripId());
-				int pos=lstUserIds.indexOf(lngUserId);
-				if(pos!=-1){
-					strAmount=lstAmounts.get(pos);
-					if(distBean==null){
-						rowId=localDb.insertDistribution(lngUserId, userIdTemp, strAmount, expenseTemp.getTripId(), Constants.STR_NO, "");
-						localDb.updateDistributionId(rowId, rowId);
-					} else{
-						if(distBean.getToId()!=distBean.getFromId() && distBean.getToId()!=lngUserId){
-							strAmount=String.valueOf(Global.add(Float.parseFloat(distBean.getAmount()), strAmount));
-						} else{
-							strAmount=String.valueOf(Global.subtract(Float.parseFloat(distBean.getAmount()), strAmount));
-						}
-						localDb.updateDistAmount(distBean.getDistributionId(), strAmount);
-					}
-				}
-			}
-		}
-
 	}
-
+	
 	public String getDeviceName() {
 		String manufacturer = Build.MANUFACTURER;
 		String model = Build.MODEL;

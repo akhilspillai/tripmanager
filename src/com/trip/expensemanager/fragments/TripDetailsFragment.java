@@ -31,8 +31,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,10 +53,11 @@ import com.trip.utils.DistributionBean;
 import com.trip.utils.DistributionBean1;
 import com.trip.utils.ExpenseBean;
 import com.trip.utils.Global;
+import com.trip.utils.Heap;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
 
-public class TripDetailsFragment extends CustomFragment implements OnClickListener, OnCheckedChangeListener, OnItemClickListener {
+public class TripDetailsFragment extends CustomFragment implements OnClickListener, OnCheckedChangeListener {
 
 	public static TripDetailsFragment newInstance(String strTrip, long lngUserId, long lngTripId) {
 		TripDetailsFragment fragment=null;
@@ -86,9 +85,12 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	private GraphicalView mChart;
 	private TextView txtNoExpenses;
 	private LongSparseArray<DistributionBean> expenseSparseArr=new LongSparseArray<DistributionBean>();
+	private LongSparseArray<String> toGetSparseArr=new LongSparseArray<String>();
 	private String strTotalSpent="0";
-	private ArrayList<String> arrDistribution=new ArrayList<String>();
-	private ArrayList<Long> arrDistUsrIds=new ArrayList<Long>();
+	private List<String> arrDistribution=new ArrayList<String>();
+	private List<Boolean> arrPossibletoSettle=new ArrayList<Boolean>();
+	private ArrayList<Long> arrFromUsrIds=new ArrayList<Long>();
+	private ArrayList<String> arrAmountToPay=new ArrayList<String>();
 	private ListView lvDistributionList;
 	private ArrayAdapter<String> listAdapter;
 	private EditText eTxtTripName;
@@ -97,15 +99,14 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	private TextView txtDistribution;
 	private long lngAdminId;
 	private TextView txtTripAmount;
-	private ArrayList<DistributionBean1> arrDistfromDB;
-	private RadioGroup floatingBarHeader;
 	private RadioButton btnUnsettled;
 	private RadioButton btnSettled;
 	private RadioGroup rgDist;
-	private List<Boolean> arrPossibletoSettle=new ArrayList<Boolean>();
 	private Button btnYes;
-	protected String strAmount;
-	@SuppressLint({ "InflateParams", "InlinedApi" })
+	private String strAmount;
+
+
+	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		View rootView=null;
@@ -127,24 +128,20 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			lvDistributionList.addHeaderView(header);
 			listAdapter = new CustomDistributionAdapter(getActivity(), arrDistribution, arrPossibletoSettle, this);
 			lvDistributionList.setAdapter(listAdapter);
-
-
 			txtTripName=(TextView)rootView.findViewById(R.id.txt_trip_name);
 			ivEdit=(ImageView)rootView.findViewById(R.id.iv_edit_trip);
 			txtNoExpenses=(TextView)rootView.findViewById(R.id.tv_no_expenses);
 			txtDistribution=(TextView)rootView.findViewById(R.id.txt_distribution);
 
-			llChartContainer=(LinearLayout)rootView.findViewById(R.id.ll_chart_container);
-			txtTripAmount=(TextView)rootView.findViewById(R.id.txt_trip_amount);
 			rgDist=(RadioGroup)rootView.findViewById(R.id.rg);
-
 
 			btnUnsettled=(RadioButton)rootView.findViewById(R.id.btn_unsettled);
 			btnSettled=(RadioButton)rootView.findViewById(R.id.btn_settled);
+			llChartContainer=(LinearLayout)rootView.findViewById(R.id.ll_chart_container);
+			txtTripAmount=(TextView)rootView.findViewById(R.id.txt_trip_amount);
 
 			txtTripName.setText(strTripName);
 			ivEdit.setOnClickListener(this);
-			lvDistributionList.setOnItemClickListener(this);
 			lvDistributionList.setDivider(null);
 			loadData(trip);
 			setHasOptionsMenu(true);
@@ -155,30 +152,31 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	}
 
 	private void loadData(TripBean trip) {
+		LocalDB localDb=new LocalDB(getActivity());
 		arrDistribution.removeAll(arrDistribution);
+		arrPossibletoSettle.removeAll(arrPossibletoSettle);
+		arrFromUsrIds.removeAll(arrFromUsrIds);
 		try{
-			LocalDB localDb=new LocalDB(getActivity());
 			lngAdminId=trip.getAdminId();
+			arrExpenses = localDb.retrieveExpenses(lngTripId);
 
 			if(trip.getSyncStatus().equals(Constants.STR_QR_ADDED)){
 				ivEdit.setVisibility(View.INVISIBLE);
 			}
-			arrExpenses = localDb.retrieveExpenses(lngTripId);
+
 			if(arrExpenses.size()==0){
 				txtNoExpenses.setVisibility(View.VISIBLE);
 				txtTripAmount.setText("Total amount spent:0");
-				arrDistribution.add("Nobody owes anybody anything!!");
-				arrPossibletoSettle.add(false);
-				listAdapter.notifyDataSetChanged();
 			} else{
 				txtNoExpenses.setVisibility(View.INVISIBLE);
 				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) txtDistribution.getLayoutParams();
 				params.addRule(RelativeLayout.BELOW, R.id.ll_chart_container);
+
 				long userId=0L;
-				String strUser=null;
 				DistributionBean dbTemp=null;
 				int indexOfExpense;
-				float spentAmount=0f;
+				String spentAmount="0";
+				
 				for(ExpenseBean expense:arrExpenses){
 					strTotalSpent=Global.add(strTotalSpent, expense.getAmount());
 					userId=expense.getUserId();
@@ -187,166 +185,207 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 						dbTemp=expenseSparseArr.get(userId);
 						spentAmount=dbTemp.getAmount();
 					} else{
-						strUser=localDb.retrievePrefferedName(userId);
 						dbTemp=new DistributionBean();
-						dbTemp.setUsername(strUser);
+						dbTemp.setUserId(userId);
 					}
 					spentAmount=Global.add(spentAmount, expense.getAmount());
 					dbTemp.setAmount(spentAmount);
 					expenseSparseArr.put(userId, dbTemp);
 				}
-
 				txtTripAmount.setText("Total amount spent:"+strTotalSpent);
 				
-				rgDist.setOnCheckedChangeListener(this);
-				if(btnUnsettled.isChecked()){
-					showUnsettledDistribution();
-				} else{
-					showSettledDistribution();
-				}
 				openChart();
-
+			}
+			rgDist.setOnCheckedChangeListener(this);
+			if(btnUnsettled.isChecked()){
+				showUnsettledDistribution();
+			} else{
+				showSettledDistribution();
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
-	@Override
-	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		reBuildDistribution();
-	}
-
-	private void reBuildDistribution() {
-		if(btnUnsettled.isChecked()){
-			showUnsettledDistribution();
-		} else{
-			showSettledDistribution();
-		}
-	}
-
-	private void showSettledDistribution() {
+	
+	private void buildDistribution() {
 		LocalDB localDb=new LocalDB(getActivity());
-		arrDistribution.removeAll(arrDistribution);
-		arrDistUsrIds.removeAll(arrDistUsrIds);
-		arrPossibletoSettle.removeAll(arrPossibletoSettle);
-		arrDistfromDB=localDb.retrieveSettledDistributionForTrip(lngTripId);
-		long fromId, toId;
-		String toUser, fromUser, strAmount, tempUser;
-		float fAmount;
-		if(arrDistfromDB.size()==0){
-			arrDistribution.add("No settled debts!!");
-			arrPossibletoSettle.add(false);
-			arrDistUsrIds.add(0L);
-		} else{
-			for(DistributionBean1 dist:arrDistfromDB){
-				fromId=dist.getFromId();
-				toId=dist.getToId();
-				fromUser=localDb.retrievePrefferedName(fromId);
-
-				toUser=localDb.retrievePrefferedName(toId);
-				strAmount=dist.getAmount();
-				fAmount=Float.parseFloat(strAmount);
-				long tempId;
-				if(fAmount<0){
-					tempUser=fromUser;
-					fromUser=toUser;
-					toUser=tempUser;
-					strAmount=strAmount.substring(1);
-					tempId=fromId;
-					fromId=toId;
-					toId=tempId;
-				}
-				if(toUser.equalsIgnoreCase(Constants.STR_YOU)){
-					toUser="you";
-				}
-				if(fromId!=toId && fAmount!=0){
-					arrDistUsrIds.add(fromId);
-					arrDistribution.add(fromUser+" paid "+toUser+" back an amount of "+strAmount);
-				}
-				arrPossibletoSettle.add(false);
+		TripBean trip=localDb.retrieveTripDetails(lngTripId);
+		List<Long> expUserIds;
+		List<String> expAmounts;
+		long userId=0L;
+		int indexOfExpense;
+		String strOwnExpense="0";
+		long[] tripUserIds=trip.getUserIds();
+		for(long tripUserId:tripUserIds){
+			toGetSparseArr.put(tripUserId, "0");
+		}
+		String strAmtToGet;
+		int i;
+		float fOwed=0f;
+		for(ExpenseBean expense:arrExpenses){
+			userId=expense.getUserId();
+			expUserIds=Global.longToList(expense.getUserIds());
+			expAmounts=Global.stringToList(expense.getAmounts());
+			i=0;
+			indexOfExpense= toGetSparseArr.indexOfKey(userId);
+			if(indexOfExpense>=0){
+				strAmtToGet=toGetSparseArr.get(userId);
+				strAmtToGet=Global.add(strAmtToGet, expense.getAmount());
+				toGetSparseArr.put(userId, strAmtToGet);
 			}
-		}
-
-		tempUser=null;
-		if(arrDistribution.size()==0){
-			arrDistribution.add("Nobody owes anybody anything!!");
-		}
-		listAdapter.notifyDataSetChanged();
-	}
-
-	private void showUnsettledDistribution() {
-		LocalDB localDb=new LocalDB(getActivity());
-		arrDistribution.removeAll(arrDistribution);
-		arrPossibletoSettle.removeAll(arrPossibletoSettle);
-		arrDistUsrIds.removeAll(arrDistUsrIds);
-		arrDistfromDB=localDb.retrieveUnsettledDistributionForTrip(lngTripId);
-		DistributionBean1 distBean=localDb.retrieveUnsettledDistributionByUsers(lngUserId, lngUserId, lngTripId);
-		if(distBean!=null){
-			arrDistribution.add("Own expense: "+distBean.getAmount());
-			arrPossibletoSettle.add(false);
-			arrDistUsrIds.add(0L);
-		}
-		long fromId, toId;
-		String toUser, fromUser, strAmount, tempUser;
-		float fAmount;
-
-		if(arrDistfromDB.size()==0){
-			arrDistribution.add("No unsettled debts!!");
-			arrPossibletoSettle.add(false);
-		} else{
-			for(DistributionBean1 dist:arrDistfromDB){
-				fromId=dist.getFromId();
-				toId=dist.getToId();
-				fromUser=localDb.retrievePrefferedName(fromId);
-
-				toUser=localDb.retrievePrefferedName(toId);
-				strAmount=dist.getAmount();
-				fAmount=Float.parseFloat(strAmount);
-				
-				long tempId;
-				if(fAmount<0){
-					tempUser=fromUser;
-					fromUser=toUser;
-					toUser=tempUser;
-					strAmount=strAmount.substring(1);
-					tempId=fromId;
-					fromId=toId;
-					toId=tempId;
-				} 
-				if(toUser.equalsIgnoreCase(Constants.STR_YOU)){
-					toUser="you";
+			for(long expUserId:expUserIds){
+				indexOfExpense= toGetSparseArr.indexOfKey(expUserId);
+				if(indexOfExpense>=0){
+					strAmtToGet=toGetSparseArr.get(expUserId);
+					strAmtToGet=Global.subtract(strAmtToGet,expAmounts.get(i));
+					toGetSparseArr.put(expUserId, strAmtToGet);
 				}
-				if(fromId!=toId && fAmount!=0){
-					arrDistUsrIds.add(fromId);
-					if(fromUser.equalsIgnoreCase(Constants.STR_YOU)){
-						arrDistribution.add(fromUser+" owe "+toUser+" an amount of "+strAmount);
-						arrPossibletoSettle.add(false);
-					} else{
-						arrDistribution.add(fromUser+" owes "+toUser+" an amount of "+strAmount);
-						arrPossibletoSettle.add(true);
+				if(expUserId==userId){
+					if(lngUserId==userId){
+						strOwnExpense=Global.add(strOwnExpense, expAmounts.get(i));
 					}
 				}
+				i++;
 			}
 		}
 
-		tempUser=null;
-		if(arrDistribution.size()==0){
-			arrDistribution.add("Nobody owes anybody anything!!");
-			arrPossibletoSettle.add(false);
+		List<DistributionBean1> lstPaidDist=localDb.retrieveSettledDistributionForTrip(lngTripId);
+		String strPaidAmount;
+		for(DistributionBean1 distPaid:lstPaidDist){
+			strPaidAmount=distPaid.getAmount();
+			userId=distPaid.getFromId();
+			indexOfExpense= toGetSparseArr.indexOfKey(userId);
+			if(indexOfExpense>=0){
+				strAmtToGet=toGetSparseArr.get(userId);
+				strAmtToGet=Global.add(strAmtToGet, strPaidAmount);
+				toGetSparseArr.put(userId, strAmtToGet);
+			}
+			userId=distPaid.getToId();
+			indexOfExpense= toGetSparseArr.indexOfKey(userId);
+			if(indexOfExpense>=0){
+				strAmtToGet=toGetSparseArr.get(userId);
+				strAmtToGet=Global.subtract(strAmtToGet, strPaidAmount);
+				toGetSparseArr.put(userId, strAmtToGet);
+			}
 		}
-		listAdapter.notifyDataSetChanged();
+
+		List<DistributionBean> lstToPay=new ArrayList<DistributionBean>();
+		List<DistributionBean> lstToGet=new ArrayList<DistributionBean>();
+		List<DistributionBean> lstNotOwed=new ArrayList<DistributionBean>();
+
+		DistributionBean distributionBeanTemp;
+		String strOwed="0";
+		for(long tripUserId:tripUserIds){
+			distributionBeanTemp=new DistributionBean();
+			distributionBeanTemp.setUserId(tripUserId);
+			strOwed=toGetSparseArr.get(tripUserId);
+			fOwed=Float.parseFloat(strOwed);
+			if(fOwed<0){
+				distributionBeanTemp.setAmount(strOwed.substring(1));
+				lstToPay.add(distributionBeanTemp);
+			} else if(fOwed==0) {
+				distributionBeanTemp.setAmount(strOwed);
+				lstNotOwed.add(distributionBeanTemp);
+			} else{
+				distributionBeanTemp.setAmount(strOwed);
+				lstToGet.add(distributionBeanTemp);
+			}
+		}
+
+
+		int size=toGetSparseArr.size();
+		for(i=0 ;i < size;i++){
+			userId=toGetSparseArr.keyAt(i);
+			strAmtToGet=toGetSparseArr.get(lngUserId);
+			DistributionBean distBean=new DistributionBean();
+			if(strAmtToGet.startsWith("-")){
+				distBean.setAmount(strAmtToGet.substring(1));
+			}
+		}
+		
+		arrDistribution.add("Own expense: "+strOwnExpense);
+		arrPossibletoSettle.add(false);
+		arrFromUsrIds.add(lngUserId);
+		arrAmountToPay.add(strOwnExpense);
+
+		DistributionBean[] adArrToGet=new DistributionBean[lstToGet.size()];
+		DistributionBean[] adArrToPay=new DistributionBean[lstToPay.size()];
+		DistributionBean[] adArrNotOwed=new DistributionBean[lstNotOwed.size()];
+
+		adArrToGet=lstToGet.toArray(adArrToGet);
+		adArrToPay=lstToPay.toArray(adArrToPay);
+		adArrNotOwed=lstNotOwed.toArray(adArrNotOwed);
+
+		splitExpense(adArrToGet, adArrToPay, adArrNotOwed);
 	}
+
+	private void splitExpense(DistributionBean[] adArrToGet, DistributionBean[] adArrToPay, DistributionBean[] adArrNotOwed) {
+		DistributionBean dbTempToGet=null;
+		DistributionBean dbTempToPay=null;
+		Heap heapToGet=new Heap(adArrToGet);
+		Heap heapToPay=new Heap(adArrToPay);
+		LocalDB localDb=new LocalDB(getActivity());
+		try {
+
+//			for(DistributionBean tempBean:adArrNotOwed){
+//				user=localDb.retrieveUsername(tempBean.getUserId());
+//				if(!user.equalsIgnoreCase(Constants.STR_YOU)){
+//					arrDistribution.add(user+" doesn't owe anybody anything!");
+//					arrFromUsrIds.add(tempBean.getUserId());
+//					arrPossibletoSettle.add(false);
+//					arrAmountToPay.add(tempBean.getAmount());
+//				}
+//			}
+			heapToGet.buildMaxHeap();
+			heapToPay.buildMaxHeap();
+			String userTo, userFrom;
+			while(heapToGet.getArray().length!=0 && heapToPay.getArray().length!=0){
+				dbTempToGet=heapToGet.removeMax();
+				dbTempToPay=heapToPay.removeMax();
+				arrFromUsrIds.add(dbTempToPay.getUserId());
+				userFrom=localDb.retrievePrefferedName(dbTempToPay.getUserId());
+				userTo=localDb.retrievePrefferedName(dbTempToGet.getUserId());
+				String strBalance=Global.subtract(dbTempToPay.getAmount(), dbTempToGet.getAmount());
+				float fBalance=Float.parseFloat(strBalance);
+				if(fBalance==0){
+
+				} else if(fBalance<0){
+					dbTempToGet.setAmount(strBalance.substring(1));
+					heapToGet.putValue(dbTempToGet);
+				} else{
+					dbTempToPay.setAmount(strBalance);
+					heapToPay.putValue(dbTempToPay);
+				}
+				if(userFrom.equalsIgnoreCase(Constants.STR_YOU)){
+					arrDistribution.add(userFrom+" owe "+userTo+" an amount of "+dbTempToPay.getAmount()+"!");
+				} else{
+					arrDistribution.add(userFrom+" owes "+userTo+" an amount of "+dbTempToPay.getAmount()+"!");
+				}
+				arrAmountToPay.add(dbTempToPay.getAmount());
+				if(userTo.equalsIgnoreCase(Constants.STR_YOU)){
+					arrPossibletoSettle.add(true);
+				} else{
+					arrPossibletoSettle.add(false);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	private void openChart(){
 		int size=expenseSparseArr.size();
 		long lngUserId=0L;
+		String strExpUser;
+		LocalDB localDb=new LocalDB(getActivity());
 		try {
 			CategorySeries distributionSeries = new CategorySeries("Expense distribution of "+strTripName.toLowerCase()+" by users");
 			for(int i=0 ;i < size;i++){
 				lngUserId=expenseSparseArr.keyAt(i);
-				distributionSeries.add(expenseSparseArr.get(lngUserId).getUsername(), expenseSparseArr.get(lngUserId).getAmount());
+				strExpUser=localDb.retrievePrefferedName(expenseSparseArr.get(lngUserId).getUserId());
+				distributionSeries.add(strExpUser, Float.parseFloat(expenseSparseArr.get(lngUserId).getAmount()));
 			}
 
 			// Instantiating a renderer for the Pie Chart
@@ -384,26 +423,21 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			/*mChart.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-
 					SeriesSelection seriesSelection = mChart.getCurrentSeriesAndPoint();
 					if (seriesSelection != null) {
-
 						// Getting the name of the clicked slice
 						int seriesIndex = seriesSelection.getPointIndex();
 						String selectedSeries="";
 						selectedSeries = arrUsers.get(seriesIndex);
-
 						// Getting the value of the clicked slice
 						double value = seriesSelection.getXValue();
 						DecimalFormat dFormat = new DecimalFormat("#.#");
-
 						// Displaying the message
 						Toast.makeText(getActivity(), selectedSeries + " : "  + Double.valueOf(dFormat.format(value)) + " % ", Toast.LENGTH_SHORT).show();
 					}
 				}
 			});*/
 
-			// Adding the pie chart to the custom layout
 			int sizeOfChart=Integer.parseInt(getActivity().getResources().getString(R.string.chart_size));
 			llChartContainer.addView(mChart, new LayoutParams(sizeOfChart, sizeOfChart));
 		} catch (Exception e) {
@@ -489,8 +523,114 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			showUpdateTripNameDialog(strTripName);
 		} else{
 			int position = (int) v.getTag();
-			showSettleDeptDialog(arrDistUsrIds.get(position));
+			showSettleDeptDialog(position);
 		}
+	}
+
+	@SuppressLint("InflateParams")
+	private void showSettleDeptDialog(final int position) {
+		try{
+			Context context=getActivity();
+			LocalDB localDb=new LocalDB(context);
+			String user=localDb.retrievePrefferedName(arrFromUsrIds.get(position));
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			View view = getActivity().getLayoutInflater().inflate(R.layout.settle_debt_dialog, null);
+			builder.setCancelable(true);
+			TextView textView = (TextView)view.findViewById(R.id.tv_message);
+			EditText etAmount=(EditText) view.findViewById(R.id.et_amount);
+			strAmount=arrAmountToPay.get(position);
+			if(strAmount.startsWith("-")){
+				strAmount=strAmount.substring(1);
+			}
+			etAmount.setText(strAmount);
+			btnYes = (Button) view.findViewById(R.id.btn_yes);
+			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+			etAmount.addTextChangedListener(new TextWatcher() {
+
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					btnYes.setEnabled(false);
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count,
+						int after) {
+
+				}
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					if(s.length()==0){
+						btnYes.setEnabled(false);
+					} else{
+						strAmount=s.toString();
+						float fAmount;
+						try {
+							fAmount=Float.parseFloat(strAmount);
+						} catch (NumberFormatException e) {
+							fAmount=0;
+						}
+						if(fAmount!=0){
+							btnYes.setEnabled(true);
+						}
+					}
+				}
+			});
+			btnYes.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					markDistributionAsSettled(position);
+					alert.cancel();
+				}
+			});
+			btnCancel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					alert.cancel();
+				}
+			});
+
+			textView.setText("Do you want to mark "+user+"'s debt as settled?");
+
+			alert = builder.create();
+			alert.setView(view, 0, 0, 0, 0);
+			alert.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	protected void markDistributionAsSettled(int position) {
+		long userId=arrFromUsrIds.get(position);
+		String strSettledAmount=strAmount;
+		String strAmountToPay=arrAmountToPay.get(position);
+		/*if(strAmountToPay.equals(strSettledAmount)){
+			arrDistribution.remove(position);
+			arrPossibletoSettle.remove(position);
+			arrDistribution.remove(position);
+			arrPossibletoSettle.remove(position);
+			arrFromUsrIds.remove(position);
+		} else{
+			strAmountToPay=Global.subtract(strAmountToPay, strSettledAmount);
+			if(strAmountToPay.startsWith("-")){
+				arrDistribution
+			} else{
+				
+			}
+			arrAmountToPay.remove(position);
+		}*/
+		Context context=getActivity();
+		LocalDB localDb=new LocalDB(context);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String date = sdf.format(new Date());
+		long rowId=localDb.insertDistribution(userId, lngUserId, strSettledAmount, lngTripId, Constants.STR_UNSYNCED, date);
+		localDb.updateDistributionId(rowId, rowId);
+		TripBean trip = localDb.retrieveTripDetails(lngTripId);
+		loadData(trip);
+		context.startService(new Intent(context, SyncIntentService.class));
 	}
 
 	@SuppressLint("InflateParams")
@@ -569,114 +709,74 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		reBuildDistribution();
 	}
 
-	@SuppressLint("InflateParams")
-	private void showSettleDeptDialog(final long userId) {
-		try{
-			Context context=getActivity();
-			LocalDB localDb=new LocalDB(context);
-			DistributionBean1 distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, lngTripId);
-			String user=localDb.retrievePrefferedName(userId);
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.settle_debt_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			EditText etAmount=(EditText) view.findViewById(R.id.et_amount);
-			strAmount=distBean.getAmount();
-			if(strAmount.startsWith("-")){
-				strAmount=strAmount.substring(1);
-			}
-			etAmount.setText(strAmount);
-			btnYes = (Button) view.findViewById(R.id.btn_yes);
-			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			etAmount.addTextChangedListener(new TextWatcher() {
-
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					btnYes.setEnabled(false);
-				}
-				
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count,
-						int after) {
-					
-				}
-				
-				@Override
-				public void afterTextChanged(Editable s) {
-					if(s.length()==0){
-						btnYes.setEnabled(false);
-					} else{
-						strAmount=s.toString();
-						float fAmount;
-						try {
-							fAmount=Float.parseFloat(strAmount);
-						} catch (NumberFormatException e) {
-							fAmount=0;
-						}
-						if(fAmount!=0){
-							btnYes.setEnabled(true);
-						}
-					}
-				}
-			});
-			btnYes.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					markDistributionAsSettled(userId, strAmount);
-					alert.cancel();
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText("Do you want to mark "+user+"'s debt as settled?");
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	
-	}
-
-	protected void markDistributionAsSettled(long userId, String strSettledAmount) {
-		Context context=getActivity();
-		LocalDB localDb=new LocalDB(context);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		DistributionBean1 distBean=localDb.retrieveUnsettledDistributionByUsers(userId, lngUserId, lngTripId);
-		if(distBean!=null){
-			String strAmount=distBean.getAmount();
-			String strNewAmount;
-			if(strAmount.startsWith("-")){
-				strAmount=strAmount.substring(1);
-			}
-			if(distBean.getFromId()==lngUserId){
-				strNewAmount=Global.add(distBean.getAmount(), strSettledAmount);
-			} else{
-				strNewAmount=Global.subtract(distBean.getAmount(), strSettledAmount);
-			}
-			localDb.updateDistAmount(distBean.getDistributionId(), strNewAmount);
-			String date = sdf.format(new Date());
-			long rowId=localDb.insertDistribution(userId, lngUserId, strSettledAmount, lngTripId, Constants.STR_UNSYNCED, date);
-			localDb.updateDistributionId(rowId, rowId);
-			reBuildDistribution();
-			context.startService(new Intent(context, SyncIntentService.class));
+	private void reBuildDistribution() {
+		if(btnUnsettled.isChecked()){
+			showUnsettledDistribution();
+		} else{
+			showSettledDistribution();
 		}
 	}
-	
-	public void settlePaymentClickHandler(View v) {
-		
+
+	private void showSettledDistribution() {
+		LocalDB localDb=new LocalDB(getActivity());
+		arrDistribution.removeAll(arrDistribution);
+		arrPossibletoSettle.removeAll(arrPossibletoSettle);
+		List<DistributionBean1> arrDistfromDB = localDb.retrieveSettledDistributionForTrip(lngTripId);
+		long fromId, toId;
+		String toUser, fromUser, strAmount, tempUser;
+		float fAmount;
+		if(arrDistfromDB.size()==0){
+			arrDistribution.add("No settled debts!!");
+			arrPossibletoSettle.add(false);
+		} else{
+			for(DistributionBean1 dist:arrDistfromDB){
+				fromId=dist.getFromId();
+				toId=dist.getToId();
+				fromUser=localDb.retrievePrefferedName(fromId);
+
+				toUser=localDb.retrievePrefferedName(toId);
+				strAmount=dist.getAmount();
+				fAmount=Float.parseFloat(strAmount);
+				long tempId;
+				if(fAmount<0){
+					tempUser=fromUser;
+					fromUser=toUser;
+					toUser=tempUser;
+					strAmount=strAmount.substring(1);
+					tempId=fromId;
+					fromId=toId;
+					toId=tempId;
+				}
+				if(toUser.equalsIgnoreCase(Constants.STR_YOU)){
+					toUser="you";
+				}
+				if(fromId!=toId && fAmount!=0){
+					arrDistribution.add(fromUser+" paid "+toUser+" back an amount of "+strAmount);
+				}
+				arrPossibletoSettle.add(false);
+			}
+		}
+
+		tempUser=null;
+		if(arrDistribution.size()==0){
+			arrDistribution.add("Nobody owes anybody anything!!");
+		}
+		listAdapter.notifyDataSetChanged();
 	}
 
+	private void showUnsettledDistribution() {
+		arrDistribution.removeAll(arrDistribution);
+		arrPossibletoSettle.removeAll(arrPossibletoSettle);
+		arrFromUsrIds.removeAll(arrFromUsrIds);
+		buildDistribution();
+		if(arrDistribution.size()==0){
+			arrDistribution.add("Nobody owes anybody anything!!");
+			arrPossibletoSettle.add(false);
+		}
+		listAdapter.notifyDataSetChanged();
+	}
 }
