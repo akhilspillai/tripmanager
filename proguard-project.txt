@@ -23,6 +23,8 @@
     protected Object[][] getContents();
 }
 
+-keep class net.sourceforge.** { *; }
+
 -keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
     public static final *** NULL;
 }

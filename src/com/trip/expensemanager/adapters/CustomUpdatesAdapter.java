@@ -71,9 +71,17 @@ public class CustomUpdatesAdapter extends ArrayAdapter<String> {
 			viewHolder.ivIcon.setImageResource(R.drawable.ic_expense_updated);
 		}  else if(action.equals(Constants.STR_DISTRIBUTION_ADDED)){
 			viewHolder.ivIcon.setImageResource(R.drawable.ic_debt_paid);
+		} else if(action.equals(Constants.STR_NOT_EXITED)){
+			viewHolder.ivIcon.setImageResource(R.drawable.ic_not_exited);
+		} else if(action.equals(Constants.STR_NOT_UPDATED)){
+			viewHolder.ivIcon.setImageResource(R.drawable.ic_not_updated);
+		} else if(action.equals(Constants.STR_NOT_DELETED)){
+			viewHolder.ivIcon.setImageResource(R.drawable.ic_not_deleted);
+		} else if(action.equals(Constants.STR_NOT_SYNCED)){
+			viewHolder.ivIcon.setImageResource(R.drawable.ic_not_synced);
 		}
 		
-		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.no_anim);
+		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
 		rowView.startAnimation(animation);
 		lastPosition = position;
 	    animation = null;

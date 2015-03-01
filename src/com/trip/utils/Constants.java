@@ -40,6 +40,7 @@ public class Constants {
 	public static final String STR_ADD_PEOPLE_TAG = "add_people";
 	public static final String STR_DETAIL_TO_DISPLAY = "detail to display";
 	public static final int I_NOTIFICATION_ID = 1001;
+	public static final int I_NOTIFICATION_ID_NE = 1002;
 	public static final String STR_TRIP_POSITION = "STR_TRIP_POSITION";
 	public static final String STR_SYNCHED = "S";
 	public static final String STR_NOT_SYNCHED = "N";
@@ -79,4 +80,13 @@ public class Constants {
 	public static final String STR_YOU = "You";
 	public static final String STR_ERROR_AMT = "Amount and total doesn't match!!";
 	public static final Object STR_DISTRIBUTION_ADDED = "DA";
+	public static final String STR_NO_EDIT = "This expense cannot be edited as a user in this expense exited this expense group!!";
+	public static final String STR_NO_DELETE = "This expense cannot be deleted as a user in this expense exited this expense group!!";
+	public static final String STR_SETTLE_FIRST = "There are debts that you have to settle or debts others "
+			+ "have to pay you. Settle them before exiting this EG!!";
+	public static final String STR_NOT_EXITED = "NE";
+	public static final String STR_NOT_UPDATED = "NU";
+	public static final String STR_NOT_DELETED = "ND";
+	public static final String STR_ERROR_STATUS = "E";
+	public static final String STR_NOT_SYNCED = "NS";
 }

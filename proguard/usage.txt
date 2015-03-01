@@ -326,13 +326,11 @@ android.support.v4.app.NotificationCompat$Builder:
     706:707:public android.support.v4.app.NotificationCompat$Builder setUsesChronometer(boolean)
     733:735:public android.support.v4.app.NotificationCompat$Builder setSmallIcon(int,int)
     764:765:public android.support.v4.app.NotificationCompat$Builder setSubText(java.lang.CharSequence)
-    774:775:public android.support.v4.app.NotificationCompat$Builder setNumber(int)
     782:783:public android.support.v4.app.NotificationCompat$Builder setContentInfo(java.lang.CharSequence)
     791:794:public android.support.v4.app.NotificationCompat$Builder setProgress(int,int,boolean)
     801:802:public android.support.v4.app.NotificationCompat$Builder setContent(android.widget.RemoteViews)
     826:827:public android.support.v4.app.NotificationCompat$Builder setDeleteIntent(android.app.PendingIntent)
     844:846:public android.support.v4.app.NotificationCompat$Builder setFullScreenIntent(android.app.PendingIntent,boolean)
-    854:855:public android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence)
     864:866:public android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence,android.widget.RemoteViews)
     873:874:public android.support.v4.app.NotificationCompat$Builder setLargeIcon(android.graphics.Bitmap)
     893:895:public android.support.v4.app.NotificationCompat$Builder setSound(android.net.Uri,int)
@@ -641,10 +639,11 @@ android.support.v4.content.Loader:
 android.support.v4.content.Loader$ForceLoadContentObserver
 android.support.v4.content.Loader$OnLoadCompleteListener:
     public abstract void onLoadComplete(android.support.v4.content.Loader,java.lang.Object)
-android.support.v4.content.LocalBroadcastManager
-android.support.v4.content.LocalBroadcastManager$1
-android.support.v4.content.LocalBroadcastManager$BroadcastRecord
-android.support.v4.content.LocalBroadcastManager$ReceiverRecord
+android.support.v4.content.LocalBroadcastManager:
+    private static final java.lang.String TAG
+    private static final boolean DEBUG
+    static final int MSG_EXEC_PENDING_BROADCASTS
+    277:280:public void sendBroadcastSync(android.content.Intent)
 android.support.v4.content.ModernAsyncTask
 android.support.v4.content.ModernAsyncTask$1
 android.support.v4.content.ModernAsyncTask$2
@@ -766,7 +765,6 @@ android.support.v4.util.LongSparseArray:
     139:143:public void removeAt(int)
     270:275:public void setValueAt(int,java.lang.Object)
     299:307:public int indexOfValue(java.lang.Object)
-    314:323:public void clear()
     330:357:public void append(long,java.lang.Object)
 android.support.v4.util.LruCache
 android.support.v4.util.Pools
@@ -8354,20 +8352,205 @@ com.trip.expensemanager.R$menu
 com.trip.expensemanager.R$string
 com.trip.expensemanager.R$style
 com.trip.expensemanager.R$styleable
-com.trip.expensemanager.adapters.CustomDistributionAdapter$ViewHolder:
-    public android.widget.ImageView ivIcon
-com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint
-com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder
+com.trip.expensemanager.SyncIntentService:
+    public static final java.lang.String RESULT
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint:
+    public static final java.lang.String DEFAULT_ROOT_URL
+    public static final java.lang.String DEFAULT_SERVICE_PATH
+    public static final java.lang.String DEFAULT_BASE_URL
+    104:105:public Deviceinfoendpoint(com.google.api.client.http.HttpTransport,com.google.api.client.json.JsonFactory,com.google.api.client.http.HttpRequestInitializer)
+    130:132:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo getDeviceInfo(java.lang.Long)
+    440:442:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo removeDeviceInfo(java.lang.Long)
+    533:535:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo updateDeviceInfo(com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo)
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder:
+    661:661:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
+    666:666:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setApplicationName(java.lang.String)
+    671:671:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setSuppressPatternChecks(boolean)
+    676:676:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setSuppressRequiredParameterChecks(boolean)
+    681:681:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setSuppressAllChecks(boolean)
+    691:691:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setDeviceinfoendpointRequestInitializer(com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequestInitializer)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setApplicationName(java.lang.String)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient build()
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressAllChecks(boolean)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressRequiredParameterChecks(boolean)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressPatternChecks(boolean)
 com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo
-com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo
-com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo:
+    private static final java.lang.String REST_PATH
+    260:260:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setAlt(java.lang.String)
+    265:265:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setFields(java.lang.String)
+    270:270:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setKey(java.lang.String)
+    275:275:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setOauthToken(java.lang.String)
+    280:280:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setPrettyPrint(java.lang.Boolean)
+    285:285:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setQuotaUser(java.lang.String)
+    290:290:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo:
+    private static final java.lang.String REST_PATH
+    335:335:public com.google.api.client.http.HttpResponse executeUsingHead()
+    340:340:public com.google.api.client.http.HttpRequest buildHttpRequestUsingHead()
+    345:345:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setAlt(java.lang.String)
+    350:350:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setFields(java.lang.String)
+    355:355:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setKey(java.lang.String)
+    360:360:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setOauthToken(java.lang.String)
+    365:365:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setPrettyPrint(java.lang.Boolean)
+    370:370:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setQuotaUser(java.lang.String)
+    375:375:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setUserIp(java.lang.String)
+    385:385:public java.lang.String getCursor()
+    389:390:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setCursor(java.lang.String)
+    400:400:public java.lang.String getGcmRegId()
+    415:415:public java.lang.Integer getLimit()
+    419:420:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setLimit(java.lang.Integer)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
 com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo
 com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo
-com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest
+com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest:
+    57:57:public java.lang.String getAlt()
+    62:63:public com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
+    74:74:public java.lang.String getFields()
+    79:80:public com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setFields(java.lang.String)
+    95:95:public java.lang.String getKey()
+    103:104:public com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setKey(java.lang.String)
+    115:115:public java.lang.String getOauthToken()
+    120:121:public com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
+    132:132:public java.lang.Boolean getPrettyPrint()
+    137:138:public com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setPrettyPrint(java.lang.Boolean)
+    153:153:public java.lang.String getQuotaUser()
+    161:162:public com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
+    177:177:public java.lang.String getUserIp()
+    185:186:public com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setUserIp(java.lang.String)
+    201:201:public com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
 com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequestInitializer
 com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointScopes
-com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo
-com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo
+com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo:
+    63:64:public com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo setItems(java.util.List)
+    71:71:public java.lang.String getNextPageToken()
+    78:79:public com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo setNextPageToken(java.lang.String)
+com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo:
+    56:56:public java.lang.String getGcmRegId()
+    78:79:public com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo setId(java.lang.Long)
+    86:86:public java.lang.String getMake()
+com.trip.expensemanager.distributionendpoint.Distributionendpoint:
+    public static final java.lang.String DEFAULT_ROOT_URL
+    public static final java.lang.String DEFAULT_SERVICE_PATH
+    public static final java.lang.String DEFAULT_BASE_URL
+    104:105:public Distributionendpoint(com.google.api.client.http.HttpTransport,com.google.api.client.json.JsonFactory,com.google.api.client.http.HttpRequestInitializer)
+    440:442:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$RemoveDistribution removeDistribution(java.lang.Long)
+    533:535:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$UpdateDistribution updateDistribution(com.trip.expensemanager.distributionendpoint.model.Distribution)
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder:
+    661:661:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
+    666:666:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder setApplicationName(java.lang.String)
+    671:671:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder setSuppressPatternChecks(boolean)
+    676:676:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder setSuppressRequiredParameterChecks(boolean)
+    681:681:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder setSuppressAllChecks(boolean)
+    691:691:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder setDistributionendpointRequestInitializer(com.trip.expensemanager.distributionendpoint.DistributionendpointRequestInitializer)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setApplicationName(java.lang.String)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient build()
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressAllChecks(boolean)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressRequiredParameterChecks(boolean)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressPatternChecks(boolean)
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution:
+    private static final java.lang.String REST_PATH
+    158:158:public com.google.api.client.http.HttpResponse executeUsingHead()
+    163:163:public com.google.api.client.http.HttpRequest buildHttpRequestUsingHead()
+    168:168:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution setAlt(java.lang.String)
+    173:173:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution setFields(java.lang.String)
+    178:178:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution setKey(java.lang.String)
+    183:183:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution setOauthToken(java.lang.String)
+    188:188:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution setPrettyPrint(java.lang.Boolean)
+    193:193:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution setQuotaUser(java.lang.String)
+    198:198:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution setUserIp(java.lang.String)
+    208:208:public java.lang.Long getId()
+    212:213:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution setId(java.lang.Long)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setOauthToken(java.lang.String)
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution:
+    private static final java.lang.String REST_PATH
+    260:260:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution setAlt(java.lang.String)
+    265:265:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution setFields(java.lang.String)
+    270:270:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution setKey(java.lang.String)
+    275:275:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution setOauthToken(java.lang.String)
+    280:280:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution setPrettyPrint(java.lang.Boolean)
+    285:285:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution setQuotaUser(java.lang.String)
+    290:290:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setOauthToken(java.lang.String)
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution:
+    private static final java.lang.String REST_PATH
+    335:335:public com.google.api.client.http.HttpResponse executeUsingHead()
+    340:340:public com.google.api.client.http.HttpRequest buildHttpRequestUsingHead()
+    345:345:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setAlt(java.lang.String)
+    350:350:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setFields(java.lang.String)
+    355:355:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setKey(java.lang.String)
+    360:360:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setOauthToken(java.lang.String)
+    365:365:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setPrettyPrint(java.lang.Boolean)
+    370:370:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setQuotaUser(java.lang.String)
+    375:375:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setUserIp(java.lang.String)
+    385:385:public java.lang.String getCursor()
+    389:390:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setCursor(java.lang.String)
+    400:400:public java.lang.Long getTripId()
+    415:415:public java.lang.Integer getLimit()
+    419:420:public com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setLimit(java.lang.Integer)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setOauthToken(java.lang.String)
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$RemoveDistribution
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$UpdateDistribution
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequest:
+    57:57:public java.lang.String getAlt()
+    62:63:public com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setAlt(java.lang.String)
+    74:74:public java.lang.String getFields()
+    79:80:public com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setFields(java.lang.String)
+    95:95:public java.lang.String getKey()
+    103:104:public com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setKey(java.lang.String)
+    115:115:public java.lang.String getOauthToken()
+    120:121:public com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setOauthToken(java.lang.String)
+    132:132:public java.lang.Boolean getPrettyPrint()
+    137:138:public com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setPrettyPrint(java.lang.Boolean)
+    153:153:public java.lang.String getQuotaUser()
+    161:162:public com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setQuotaUser(java.lang.String)
+    177:177:public java.lang.String getUserIp()
+    185:186:public com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setUserIp(java.lang.String)
+    201:201:public com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
+    1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setRequestHeaders(com.google.api.client.http.HttpHeaders)
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequestInitializer
+com.trip.expensemanager.distributionendpoint.DistributionendpointScopes
+com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution:
+    63:64:public com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution setItems(java.util.List)
+    71:71:public java.lang.String getNextPageToken()
+    78:79:public com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution setNextPageToken(java.lang.String)
+com.trip.expensemanager.distributionendpoint.model.Distribution:
+    153:154:public com.trip.expensemanager.distributionendpoint.model.Distribution setId(java.lang.Long)
+    161:161:public java.lang.String getPaid()
 com.trip.expensemanager.expenseendpoint.Expenseendpoint:
     public static final java.lang.String DEFAULT_ROOT_URL
     public static final java.lang.String DEFAULT_SERVICE_PATH
@@ -8510,33 +8693,15 @@ com.trip.expensemanager.expenseendpoint.model.CollectionResponseExpense:
     65:65:public java.lang.String getNextPageToken()
     72:73:public com.trip.expensemanager.expenseendpoint.model.CollectionResponseExpense setNextPageToken(java.lang.String)
 com.trip.expensemanager.expenseendpoint.model.Expense:
-    107:107:public java.lang.Long getChangerId()
-    174:175:public com.trip.expensemanager.expenseendpoint.model.Expense setId(java.lang.Long)
+    119:119:public java.lang.Long getChangerId()
+    149:149:public java.lang.String getCurrency()
+    216:217:public com.trip.expensemanager.expenseendpoint.model.Expense setId(java.lang.Long)
 com.trip.expensemanager.fragments.AddTripFragment:
     private static final int ZBAR_SCANNER_REQUEST
     public android.widget.Button btnOk
-    646:648:private int getDisplayHeight()
 com.trip.expensemanager.fragments.LoginFragment:
     private static final int REQUEST_CODE_LOGIN
     private static final int REQUEST_CODE_REGISTER
-com.trip.expensemanager.fragments.RegisterFragment
-com.trip.expensemanager.fragments.RegisterFragment$1
-com.trip.expensemanager.fragments.RegisterFragment$1$1
-com.trip.expensemanager.fragments.RegisterFragment$1$1$1
-com.trip.expensemanager.fragments.RegisterFragment$1$1$2
-com.trip.expensemanager.fragments.RegisterFragment$1$1$3
-com.trip.expensemanager.fragments.RegisterFragment$1$2
-com.trip.expensemanager.fragments.RegisterFragment$1$3
-com.trip.expensemanager.fragments.RegisterFragment$2
-com.trip.expensemanager.fragments.RegisterFragment$2$1
-com.trip.expensemanager.fragments.RegisterFragment$2$1$1
-com.trip.expensemanager.fragments.RegisterFragment$2$1$2
-com.trip.expensemanager.fragments.RegisterFragment$3
-com.trip.expensemanager.fragments.RegisterFragment$3$1
-com.trip.expensemanager.fragments.RegisterFragment$3$1$1
-com.trip.expensemanager.fragments.RegisterFragment$3$1$2
-com.trip.expensemanager.fragments.TripDetailsFragment:
-    private android.widget.TextView txtNoDistribution
 com.trip.expensemanager.fragments.TripExpenseFragment:
     private static final int REQUEST_CODE_ADD
     private static final int REQUEST_CODE_UPDATE
@@ -8664,7 +8829,7 @@ com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn:
     71:71:public java.lang.String getNextPageToken()
     78:79:public com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn setNextPageToken(java.lang.String)
 com.trip.expensemanager.loginendpoint.model.LogIn:
-    75:76:public com.trip.expensemanager.loginendpoint.model.LogIn setId(java.lang.Long)
+    96:97:public com.trip.expensemanager.loginendpoint.model.LogIn setId(java.lang.Long)
 com.trip.expensemanager.messageEndpoint.MessageEndpoint
 com.trip.expensemanager.messageEndpoint.MessageEndpoint$Builder
 com.trip.expensemanager.messageEndpoint.MessageEndpoint$ListMessages
@@ -8888,27 +9053,120 @@ com.trip.expensemanager.tripendpoint.TripendpointRequestInitializer
 com.trip.expensemanager.tripendpoint.TripendpointScopes
 com.trip.expensemanager.tripendpoint.model.CollectionResponseTrip
 com.trip.expensemanager.tripendpoint.model.Trip:
+    89:89:public java.lang.Long getChangerId()
     126:127:public com.trip.expensemanager.tripendpoint.model.Trip setId(java.lang.Long)
-com.trip.utils.Constants
+com.trip.utils.Constants:
+    public static final java.lang.String STR_OPCODE
+    public static final int I_OPCODE_REGISTER
+    public static final int I_OPCODE_CHECK_USER
+    public static final int I_OPCODE_LOGIN
+    public static final int I_OPCODE_ADD_TRIP
+    public static final int I_OPCODE_ADD_EXPENSE
+    public static final int I_OPCODE_ADD_TRIP_QR
+    public static final int I_OPCODE_UPDATE_EXPENSE
+    public static final int I_OPCODE_SHOW_USER_EXPENSES
+    public static final java.lang.String STR_USER
+    public static final java.lang.String STR_STATUS_EXISTS_OPCODE
+    public static final java.lang.String STR_STATUS_DO_NOT_EXIST_OPCODE
+    public static final java.lang.String STR_STATUS
+    public static final java.lang.String STR_STATUS_OK
+    public static final java.lang.String STR_STATUS_ERROR
+    public static final java.lang.String STR_PASSWORD
+    public static final java.lang.String STR_USER_ID
+    public static final java.lang.String STR_REQUEST
+    public static final java.lang.String STR_DATA
+    public static final java.lang.String STR_RESULT
+    public static final java.lang.String STR_ERROR
+    public static final java.lang.String DATABASE
+    public static final java.lang.String STR_SUCCESS
+    public static final java.lang.String USER_ID
+    public static final java.lang.String STR_TRIP_NAME
+    public static final java.lang.String STR_DATE
+    public static final java.lang.String STR_TRIP_ID
+    public static final java.lang.String STR_ADMIN_ID
+    public static final java.lang.String STR_USERS
+    public static final java.lang.String STR_EXPENSE_NAME
+    public static final java.lang.String STR_EXPENSE_DETAIL
+    public static final java.lang.String STR_EXPENSE_AMOUNT
+    public static final java.lang.String STR_EXPENSE_ID
+    public static final java.lang.String STR_ADD_PEOPLE_TAG
+    public static final java.lang.String STR_DETAIL_TO_DISPLAY
+    public static final int I_NOTIFICATION_ID
+    public static final int I_NOTIFICATION_ID_NE
+    public static final java.lang.String STR_TRIP_POSITION
+    public static final java.lang.String STR_SYNCHED
+    public static final java.lang.String STR_NOT_SYNCHED
+    public static final java.lang.String STR_UPDATED
+    public static final java.lang.String STR_OPEN
+    public static final java.lang.String STR_CLOSED
+    public static final java.lang.String STR_QR_ADDED
+    public static final java.lang.String STR_DELETED
+    public static final java.lang.String STR_EXITED
+    public static final java.lang.String STR_EXPENSE_DETAIL_ARR
+    public static final java.lang.String STR_POSITION
+    public static final java.lang.String STR_DELETE_EXPENSE
+    public static final java.lang.String STR_EXP_USR_ID
+    public static final java.lang.String STR_TRIP
+    public static final java.lang.String STR_TRIP_UPDATED
+    public static final java.lang.String STR_USER_ADDED
+    public static final java.lang.String STR_TRIP_DELETED
+    public static final java.lang.String STR_SHOW_TAB
+    public static final java.lang.String STR_EXPENSE_ADDED
+    public static final java.lang.String STR_EXPENSE_UPDATED
+    public static final java.lang.String STR_EXPENSE_DELETED
+    public static final java.lang.String STR_USER_DELETED
+    public static final int NOTIFICATION_ID_TRIP
+    public static final java.lang.String STR_IS_FROM_GCM
+    public static final java.lang.String STR_GROUP
+    public static final java.lang.String STR_STATUS_READ
+    public static final java.lang.String STR_STATUS_UNREAD
+    public static final java.lang.String STR_PREFERENCE
+    public static final java.lang.String STR_COUNT
+    public static final java.lang.String STR_NEW_UPDATES
+    public static final java.lang.String STR_CLICK
+    public static final java.lang.String STR_APP_NOTIFICATION
+    public static final java.lang.String STR_TRIP_ADDED
+    public static final java.lang.String STR_NO
+    public static final java.lang.String STR_YES
+    public static final java.lang.String STR_UNSYNCED
+    public static final java.lang.String STR_YOU
+    public static final java.lang.String STR_ERROR_AMT
+    public static final java.lang.String STR_NO_EDIT
+    public static final java.lang.String STR_NO_DELETE
+    public static final java.lang.String STR_SETTLE_FIRST
+    public static final java.lang.String STR_NOT_EXITED
+    public static final java.lang.String STR_NOT_UPDATED
+    public static final java.lang.String STR_NOT_DELETED
+    public static final java.lang.String STR_ERROR_STATUS
+    public static final java.lang.String STR_NOT_SYNCED
+    3:3:public Constants()
+com.trip.utils.DistributionBean1:
+    private java.lang.String synced
+    46:46:public java.lang.String getPaid()
+    52:52:public java.lang.String getSynced()
+    55:56:public void setSynced(java.lang.String)
 com.trip.utils.ExpenseBean:
-    70:70:public long getRowId()
+    72:72:public long getRowId()
 com.trip.utils.Global:
-    23:23:public Global()
-    87:95:public static java.util.Date stringToDate(java.lang.String)
-    99:112:public static java.lang.String arrToString(java.lang.String[])
-    117:129:public static android.view.View getViewByPosition(int,android.widget.ListView)
+    27:27:public Global()
+    91:99:public static java.util.Date stringToDate(java.lang.String)
+    103:116:public static java.lang.String arrToString(java.lang.Long[])
+    195:207:public static float subtract(float,java.lang.String)
+    244:256:public static android.view.View getViewByPosition(int,android.widget.ListView)
 com.trip.utils.LocalDB:
-    71:82:public varargs boolean delete(java.lang.String[])
-    88:104:public java.lang.String[] retrieveUsernamePasswordnIDs()
-    150:161:public boolean update(java.lang.String,java.lang.String,java.lang.String)
-    166:174:public boolean checkDataBase()
-    529:540:public boolean updateTripSyncStatus(long,java.lang.String)
-    578:589:public boolean updateExpenseSyncStatus(java.lang.Long,java.lang.String)
-    594:606:public boolean updateExpenseSyncStatus(java.lang.Long)
-    611:624:public boolean insertToSync(long,long,java.lang.String)
-    630:638:public boolean deleteToSync(int)
-    644:652:public boolean deleteTrips(int)
-    732:743:public boolean updateTripIdinExpenses(long,long)
+    117:142:public java.util.ArrayList retrieveUnsettledDistributionForTrip(long)
+    238:249:public boolean updateDistAmount(long,java.lang.String)
+    282:293:public varargs boolean delete(java.lang.String[])
+    299:314:public java.lang.String retrievePrefferedName()
+    395:406:public boolean update(java.lang.String,java.lang.String,java.lang.String)
+    411:419:public boolean checkDataBase()
+    423:435:public java.lang.String retrieveUsername()
+    815:826:public boolean updateTripSyncStatus(long,java.lang.String)
+    917:928:public boolean updateToSyncToRead(long)
+    1016:1024:public boolean deleteTrips(int)
+    1106:1117:public boolean updateTripIdinExpenses(long,long)
+    1157:1172:public long retrieveUserId(java.lang.String)
+    1340:1348:public boolean deleteExpenseOfTripnUser(long,long)
 com.trip.utils.Logger
 com.trip.utils.SQLiteHelper:
     public static final java.lang.String TABLE_LOGIN
@@ -8916,13 +9174,15 @@ com.trip.utils.SQLiteHelper:
     public static final java.lang.String TABLE_EXPENSE
     public static final java.lang.String TABLE_USERS
     public static final java.lang.String TABLE_TO_SYNC
+    public static final java.lang.String TABLE_DISTRIBUTION
     private static final int DATABASE_VERSION
     public static final java.lang.String ROW_ID
     public static final java.lang.String COLUMN_USERNAME
     public static final java.lang.String COLUMN_PASSWORD
-    public static final java.lang.String COLUMN_REG_ID
     public static final java.lang.String COLUMN_USER_ID
     public static final java.lang.String COLUMN_IS_SYNCHED
+    public static final java.lang.String COLUMN_DEVICE_ID
+    public static final java.lang.String COLUMN_PREFFERED_NAME
     private static final java.lang.String LOGIN_TABLE_CREATE
     public static final java.lang.String COLUMN_TRIP_ID
     public static final java.lang.String COLUMN_TRIP_NAME
@@ -8935,13 +9195,21 @@ com.trip.utils.SQLiteHelper:
     public static final java.lang.String COLUMN_EXPENSE_NAME
     public static final java.lang.String COLUMN_EXPENSE_DESC
     public static final java.lang.String COLUMN_EXPENSE_AMOUNT
+    public static final java.lang.String COLUMN_AMOUNTS
     public static final java.lang.String COLUMN_EXPENSE_CURRENCY
     public static final java.lang.String COLUMN_EXPENSE_CREATION_TIME
     private static final java.lang.String EXPENSE_TABLE_CREATE
     private static final java.lang.String USERS_TABLE_CREATE
     public static final java.lang.String COLUMN_ITEM_ID
     public static final java.lang.String COLUMN_ACTION
+    public static final java.lang.String COLUMN_UPDATE
+    public static final java.lang.String COLUMN_STATUS
     private static final java.lang.String TO_SYNC_TABLE_CREATE
+    public static final java.lang.String COLUMN_DISTRIBUTION_ID
+    public static final java.lang.String COLUMN_FROM_ID
+    public static final java.lang.String COLUMN_TO_ID
+    public static final java.lang.String COLUMN_PAID
+    private static final java.lang.String DISTRIBUTION_TABLE_CREATE
 com.trip.utils.TripBean:
     56:56:public long getRowId()
 javax.annotation.CheckForNull
@@ -8979,64 +9247,6 @@ javax.annotation.meta.TypeQualifierDefault
 javax.annotation.meta.TypeQualifierNickname
 javax.annotation.meta.TypeQualifierValidator
 javax.annotation.meta.When
-net.sourceforge.zbar.Config
-net.sourceforge.zbar.Image:
-    private java.lang.Object data
-    public Image(int,int)
-    public Image(java.lang.String)
-    Image(long)
-    public net.sourceforge.zbar.Image convert(java.lang.String)
-    private native long convert(long,java.lang.String)
-    public native java.lang.String getFormat()
-    public native int getSequence()
-    public native void setSequence(int)
-    public native int getWidth()
-    public native int getHeight()
-    public native int[] getSize()
-    public native void setSize(int[])
-    public native int[] getCrop()
-    public native void setCrop(int,int,int,int)
-    public native void setCrop(int[])
-    public native byte[] getData()
-    public native void setData(int[])
-    public net.sourceforge.zbar.SymbolSet getSymbols()
-    private native long getSymbols(long)
-net.sourceforge.zbar.ImageScanner:
-    public native void parseConfig(java.lang.String)
-    public native void enableCache(boolean)
-net.sourceforge.zbar.Modifier
-net.sourceforge.zbar.Orientation
-net.sourceforge.zbar.Symbol:
-    public static final int NONE
-    public static final int PARTIAL
-    public static final int EAN8
-    public static final int UPCE
-    public static final int ISBN10
-    public static final int UPCA
-    public static final int EAN13
-    public static final int ISBN13
-    public static final int I25
-    public static final int DATABAR
-    public static final int DATABAR_EXP
-    public static final int CODABAR
-    public static final int CODE39
-    public static final int PDF417
-    public static final int QRCODE
-    public static final int CODE93
-    public static final int CODE128
-    public native int getConfigMask()
-    public native int getModifierMask()
-    public native byte[] getDataBytes()
-    public native int getQuality()
-    public native int getCount()
-    public int[] getBounds()
-    private native int getLocationSize(long)
-    private native int getLocationX(long,int)
-    private native int getLocationY(long,int)
-    public int[] getLocationPoint(int)
-    public native int getOrientation()
-    public net.sourceforge.zbar.SymbolSet getComponents()
-    private native long getComponents(long)
 org.achartengine.ChartFactory:
     public static final java.lang.String CHART
     public static final java.lang.String TITLE

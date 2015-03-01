@@ -2,6 +2,7 @@ package com.trip.expensemanager.fragments;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -153,9 +154,6 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 
 	private void loadData(TripBean trip) {
 		LocalDB localDb=new LocalDB(getActivity());
-		arrDistribution.removeAll(arrDistribution);
-		arrPossibletoSettle.removeAll(arrPossibletoSettle);
-		arrFromUsrIds.removeAll(arrFromUsrIds);
 		try{
 			lngAdminId=trip.getAdminId();
 			arrExpenses = localDb.retrieveExpenses(lngTripId);
@@ -176,24 +174,34 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 				DistributionBean dbTemp=null;
 				int indexOfExpense;
 				String spentAmount="0";
-				
 				for(ExpenseBean expense:arrExpenses){
-					strTotalSpent=Global.add(strTotalSpent, expense.getAmount());
-					userId=expense.getUserId();
-					indexOfExpense= expenseSparseArr.indexOfKey(userId);
-					if(indexOfExpense>=0){
-						dbTemp=expenseSparseArr.get(userId);
-						spentAmount=dbTemp.getAmount();
-					} else{
-						dbTemp=new DistributionBean();
-						dbTemp.setUserId(userId);
+					if(!Constants.STR_DELETED.equals(expense.getSyncStatus()) && !Constants.STR_ERROR_STATUS.equals(expense.getSyncStatus())){
+						strTotalSpent=Global.add(strTotalSpent, expense.getAmount());
+						userId=expense.getUserId();
+						long[] tripUserIds=trip.getUserIds();
+						Long[] arrTripUserIds=new Long[tripUserIds.length];
+						for(int i=0;i<tripUserIds.length;i++){
+							arrTripUserIds[i]=tripUserIds[i];
+						}
+						List<Long> lstTripUsers=Arrays.asList(arrTripUserIds);
+						if(lstTripUsers.contains(userId)){
+							indexOfExpense= expenseSparseArr.indexOfKey(userId);
+							if(indexOfExpense>=0){
+								dbTemp=expenseSparseArr.get(userId);
+								spentAmount=dbTemp.getAmount();
+							} else{
+								spentAmount="0";
+								dbTemp=new DistributionBean();
+								dbTemp.setUserId(userId);
+							}
+							spentAmount=Global.add(spentAmount, expense.getAmount());
+							dbTemp.setAmount(spentAmount);
+							expenseSparseArr.put(userId, dbTemp);
+						}
 					}
-					spentAmount=Global.add(spentAmount, expense.getAmount());
-					dbTemp.setAmount(spentAmount);
-					expenseSparseArr.put(userId, dbTemp);
 				}
 				txtTripAmount.setText("Total amount spent:"+strTotalSpent);
-				
+
 				openChart();
 			}
 			rgDist.setOnCheckedChangeListener(this);
@@ -207,46 +215,57 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		}
 
 	}
-	
+
 	private void buildDistribution() {
 		LocalDB localDb=new LocalDB(getActivity());
-		TripBean trip=localDb.retrieveTripDetails(lngTripId);
+		arrDistribution.removeAll(arrDistribution);
+		arrPossibletoSettle.removeAll(arrPossibletoSettle);
+		arrFromUsrIds.removeAll(arrFromUsrIds);
+		toGetSparseArr.clear();
+		//		TripBean trip=localDb.retrieveTripDetails(lngTripId);
 		List<Long> expUserIds;
 		List<String> expAmounts;
 		long userId=0L;
 		int indexOfExpense;
 		String strOwnExpense="0";
-		long[] tripUserIds=trip.getUserIds();
-		for(long tripUserId:tripUserIds){
-			toGetSparseArr.put(tripUserId, "0");
-		}
+		//		long[] tripUserIds=trip.getUserIds();
+		//		for(long tripUserId:tripUserIds){
+		//			toGetSparseArr.put(tripUserId, "0");
+		//		}
 		String strAmtToGet;
 		int i;
 		float fOwed=0f;
 		for(ExpenseBean expense:arrExpenses){
-			userId=expense.getUserId();
-			expUserIds=Global.longToList(expense.getUserIds());
-			expAmounts=Global.stringToList(expense.getAmounts());
-			i=0;
-			indexOfExpense= toGetSparseArr.indexOfKey(userId);
-			if(indexOfExpense>=0){
-				strAmtToGet=toGetSparseArr.get(userId);
+			if(!Constants.STR_DELETED.equals(expense.getSyncStatus()) && !Constants.STR_ERROR_STATUS.equals(expense.getSyncStatus())){
+				userId=expense.getUserId();
+				expUserIds=Global.longToList(expense.getUserIds());
+				expAmounts=Global.stringToList(expense.getAmounts());
+				i=0;
+				indexOfExpense= toGetSparseArr.indexOfKey(userId);
+				if(indexOfExpense>=0){
+					strAmtToGet=toGetSparseArr.get(userId);
+				} else{
+					strAmtToGet="0";
+				}
 				strAmtToGet=Global.add(strAmtToGet, expense.getAmount());
 				toGetSparseArr.put(userId, strAmtToGet);
-			}
-			for(long expUserId:expUserIds){
-				indexOfExpense= toGetSparseArr.indexOfKey(expUserId);
-				if(indexOfExpense>=0){
-					strAmtToGet=toGetSparseArr.get(expUserId);
+
+				for(long expUserId:expUserIds){
+					indexOfExpense= toGetSparseArr.indexOfKey(expUserId);
+					if(indexOfExpense>=0){
+						strAmtToGet=toGetSparseArr.get(expUserId);
+					} else{
+						strAmtToGet="0";
+					}
 					strAmtToGet=Global.subtract(strAmtToGet,expAmounts.get(i));
 					toGetSparseArr.put(expUserId, strAmtToGet);
-				}
-				if(expUserId==userId){
-					if(lngUserId==userId){
-						strOwnExpense=Global.add(strOwnExpense, expAmounts.get(i));
+					if(expUserId==userId){
+						if(lngUserId==userId){
+							strOwnExpense=Global.add(strOwnExpense, expAmounts.get(i));
+						}
 					}
+					i++;
 				}
-				i++;
 			}
 		}
 
@@ -276,10 +295,14 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 
 		DistributionBean distributionBeanTemp;
 		String strOwed="0";
-		for(long tripUserId:tripUserIds){
+
+		int size=toGetSparseArr.size();
+
+		for(i=0;i<size;i++){
 			distributionBeanTemp=new DistributionBean();
-			distributionBeanTemp.setUserId(tripUserId);
-			strOwed=toGetSparseArr.get(tripUserId);
+			userId=toGetSparseArr.keyAt(i);
+			distributionBeanTemp.setUserId(userId);
+			strOwed=toGetSparseArr.get(userId);
 			fOwed=Float.parseFloat(strOwed);
 			if(fOwed<0){
 				distributionBeanTemp.setAmount(strOwed.substring(1));
@@ -293,17 +316,6 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			}
 		}
 
-
-		int size=toGetSparseArr.size();
-		for(i=0 ;i < size;i++){
-			userId=toGetSparseArr.keyAt(i);
-			strAmtToGet=toGetSparseArr.get(lngUserId);
-			DistributionBean distBean=new DistributionBean();
-			if(strAmtToGet.startsWith("-")){
-				distBean.setAmount(strAmtToGet.substring(1));
-			}
-		}
-		
 		arrDistribution.add("Own expense: "+strOwnExpense);
 		arrPossibletoSettle.add(false);
 		arrFromUsrIds.add(lngUserId);
@@ -328,15 +340,15 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		LocalDB localDb=new LocalDB(getActivity());
 		try {
 
-//			for(DistributionBean tempBean:adArrNotOwed){
-//				user=localDb.retrieveUsername(tempBean.getUserId());
-//				if(!user.equalsIgnoreCase(Constants.STR_YOU)){
-//					arrDistribution.add(user+" doesn't owe anybody anything!");
-//					arrFromUsrIds.add(tempBean.getUserId());
-//					arrPossibletoSettle.add(false);
-//					arrAmountToPay.add(tempBean.getAmount());
-//				}
-//			}
+			//			for(DistributionBean tempBean:adArrNotOwed){
+			//				user=localDb.retrieveUsername(tempBean.getUserId());
+			//				if(!user.equalsIgnoreCase(Constants.STR_YOU)){
+			//					arrDistribution.add(user+" doesn't owe anybody anything!");
+			//					arrFromUsrIds.add(tempBean.getUserId());
+			//					arrPossibletoSettle.add(false);
+			//					arrAmountToPay.add(tempBean.getAmount());
+			//				}
+			//			}
 			heapToGet.buildMaxHeap();
 			heapToPay.buildMaxHeap();
 			String userTo, userFrom;
@@ -349,18 +361,27 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 				String strBalance=Global.subtract(dbTempToPay.getAmount(), dbTempToGet.getAmount());
 				float fBalance=Float.parseFloat(strBalance);
 				if(fBalance==0){
-
+					if(userFrom.equalsIgnoreCase(Constants.STR_YOU)){
+						arrDistribution.add(userFrom+" owe "+userTo+" an amount of "+dbTempToPay.getAmount()+"!");
+					} else{
+						arrDistribution.add(userFrom+" owes "+userTo+" an amount of "+dbTempToPay.getAmount()+"!");
+					}
 				} else if(fBalance<0){
 					dbTempToGet.setAmount(strBalance.substring(1));
 					heapToGet.putValue(dbTempToGet);
+					if(userFrom.equalsIgnoreCase(Constants.STR_YOU)){
+						arrDistribution.add(userFrom+" owe "+userTo+" an amount of "+dbTempToPay.getAmount()+"!");
+					} else{
+						arrDistribution.add(userFrom+" owes "+userTo+" an amount of "+dbTempToPay.getAmount()+"!");
+					}
 				} else{
 					dbTempToPay.setAmount(strBalance);
 					heapToPay.putValue(dbTempToPay);
-				}
-				if(userFrom.equalsIgnoreCase(Constants.STR_YOU)){
-					arrDistribution.add(userFrom+" owe "+userTo+" an amount of "+dbTempToPay.getAmount()+"!");
-				} else{
-					arrDistribution.add(userFrom+" owes "+userTo+" an amount of "+dbTempToPay.getAmount()+"!");
+					if(userFrom.equalsIgnoreCase(Constants.STR_YOU)){
+						arrDistribution.add(userFrom+" owe "+userTo+" an amount of "+dbTempToGet.getAmount()+"!");
+					} else{
+						arrDistribution.add(userFrom+" owes "+userTo+" an amount of "+dbTempToGet.getAmount()+"!");
+					}
 				}
 				arrAmountToPay.add(dbTempToPay.getAmount());
 				if(userTo.equalsIgnoreCase(Constants.STR_YOU)){
@@ -618,7 +639,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			if(strAmountToPay.startsWith("-")){
 				arrDistribution
 			} else{
-				
+
 			}
 			arrAmountToPay.remove(position);
 		}*/
@@ -628,8 +649,9 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		String date = sdf.format(new Date());
 		long rowId=localDb.insertDistribution(userId, lngUserId, strSettledAmount, lngTripId, Constants.STR_UNSYNCED, date);
 		localDb.updateDistributionId(rowId, rowId);
-		TripBean trip = localDb.retrieveTripDetails(lngTripId);
-		loadData(trip);
+		//		buildDistribution();
+		//		listAdapter.notifyDataSetChanged();
+		((TripDetailsActivity)context).updateViews();
 		context.startService(new Intent(context, SyncIntentService.class));
 	}
 
@@ -725,6 +747,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		LocalDB localDb=new LocalDB(getActivity());
 		arrDistribution.removeAll(arrDistribution);
 		arrPossibletoSettle.removeAll(arrPossibletoSettle);
+		arrFromUsrIds.removeAll(arrFromUsrIds);
 		List<DistributionBean1> arrDistfromDB = localDb.retrieveSettledDistributionForTrip(lngTripId);
 		long fromId, toId;
 		String toUser, fromUser, strAmount, tempUser;
@@ -769,9 +792,6 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	}
 
 	private void showUnsettledDistribution() {
-		arrDistribution.removeAll(arrDistribution);
-		arrPossibletoSettle.removeAll(arrPossibletoSettle);
-		arrFromUsrIds.removeAll(arrFromUsrIds);
 		buildDistribution();
 		if(arrDistribution.size()==0){
 			arrDistribution.add("Nobody owes anybody anything!!");

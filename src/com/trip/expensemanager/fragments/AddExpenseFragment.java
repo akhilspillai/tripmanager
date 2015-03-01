@@ -2,6 +2,7 @@ package com.trip.expensemanager.fragments;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -139,9 +140,9 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 				public void onFocusChange(View v, boolean hasFocus) {
 					if(!hasFocus){
 						final String amount=((EditText)v).getText().toString();
-						
+
 						new Thread(new Runnable() {
-							
+
 							@Override
 							public void run() {
 								if(!isAutoChanged){
@@ -174,7 +175,7 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 											}
 										}
 										getActivity().runOnUiThread(new Runnable() {
-											
+
 											@Override
 											public void run() {
 												listAdapter.notifyDataSetChanged();
@@ -189,25 +190,25 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 					}
 				}
 			});*/
-			
+
 			eTxtExpenseAmount.addTextChangedListener(new TextWatcher() {
-				
+
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					
+
 				}
-				
+
 				@Override
 				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-					
+
 				}
-				
+
 				@Override
 				public void afterTextChanged(Editable s) {
 					final String amount=s.toString();
-					
+
 					new Thread(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							if(!isAutoChanged){
@@ -228,19 +229,19 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 											isChecked[i]=false;
 										}
 									}
-									float fDistAmount=0f;
+									String strDistAmount="0";
 									if(checked!=0){
-										fDistAmount=Global.divide(fAmount, checked);
+										strDistAmount=Global.divide(String.valueOf(fAmount), String.valueOf(checked));
 									}
 									for(int i=0;i<size;i++){
 										if(isChecked[i]){
-											strLstAmounts.set(i, String.valueOf(fDistAmount));
+											strLstAmounts.set(i, strDistAmount);
 										} else{
-											strLstAmounts.set(i, String.valueOf(0f));
+											strLstAmounts.set(i, "0");
 										}
 									}
 									getActivity().runOnUiThread(new Runnable() {
-										
+
 										@Override
 										public void run() {
 											listAdapter.notifyDataSetChanged();
@@ -327,6 +328,23 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 			strLstUserIds.add(userId);
 			strLstUsers.add(localDb.retrievePrefferedName(userId));
 		}
+		i=0;
+		if(!Constants.STR_ERROR_STATUS.equals(expense.getSyncStatus())){
+			for(long userId:lstUsers){
+				if(!strLstUserIds.contains(userId)){
+					strLstAmounts.add(lstAmounts.get(i));
+					bLstChecked.add(true);
+					if(lngAdminId!=lngUserId){
+						bLstEnabled.add(false);
+					} else{
+						bLstEnabled.add(true);
+					}
+					strLstUserIds.add(userId);
+					strLstUsers.add(localDb.retrievePrefferedName(userId));
+				}
+				i++;
+			}
+		}
 		strLstPrevAmounts=new ArrayList<String>();
 		strLstPrevAmounts.addAll(strLstAmounts);
 		listAdapter.notifyDataSetChanged();
@@ -362,12 +380,29 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		String[] retArr;
+		LocalDB localDb=new LocalDB(getActivity());
 		switch (item.getItemId()) {
 		case R.id.action_save_expense:
 			eTxtExpenseName.requestFocus();
 			InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
 					Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(eTxtExpenseName.getWindowToken(), 0);
+			if(opcode==Constants.I_OPCODE_UPDATE_EXPENSE){
+				TripBean trip=localDb.retrieveTripDetails(lngTripId);
+				ExpenseBean expense = localDb.retrieveExpense(lngExpenseId);
+				long[] tripUserIds=trip.getUserIds();
+				Long[] arrTripUserIds=new Long[tripUserIds.length];
+				for(int i=0;i<arrTripUserIds.length;i++){
+					arrTripUserIds[i]=tripUserIds[i];
+				}
+				List<Long> lstTripUserIds=Arrays.asList(arrTripUserIds);
+				List<Long> lstExpenseUserIds=Global.longToList(expense.getUserIds());
+				if(!lstTripUserIds.containsAll(lstExpenseUserIds)){
+					showInfoMessage(Constants.STR_NO_EDIT);
+					return true;
+				}
+
+			}
 			if(Global.validate(eTxtExpenseName, eTxtExpenseDetail, eTxtExpenseAmount)){
 				String strExpenseName=eTxtExpenseName.getText().toString();
 				String strExpenseDetail=eTxtExpenseDetail.getText().toString();
@@ -496,7 +531,7 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 	public void changeData(final boolean isRefreshRequired) {
 		final String strAmount=eTxtExpenseAmount.getText().toString();
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				float fAmount=0f;
@@ -508,7 +543,6 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 						e.printStackTrace();
 					}
 
-					float fDistAmount=0f;
 					if(fAmount!=0f){
 						int checked=0;
 						boolean[] isItemChecked=new boolean[size];
@@ -520,14 +554,15 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 								isItemChecked[i]=false;
 							}
 						}
+						String strDistAmount="0";
 						if(checked!=0){
-							fDistAmount=Global.divide(fAmount, checked);
+							strDistAmount=Global.divide(String.valueOf(fAmount), String.valueOf(checked));
 						}
 						for(int i=0;i<size;i++){
 							if(isItemChecked[i]){
-								strLstAmounts.set(i, String.valueOf(fDistAmount));
+								strLstAmounts.set(i, strDistAmount);
 							} else{
-								strLstAmounts.set(i, String.valueOf(0f));
+								strLstAmounts.set(i, "0");
 							}
 						}
 					} 
@@ -536,18 +571,18 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 						strLstAmounts.set(i, String.valueOf(0f));
 					}
 				}
-//				if(isRefreshRequired){
-					getActivity().runOnUiThread(new Runnable() {
-						
-						@Override
-						public void run() {
-							listAdapter.notifyDataSetChanged();
-						}
-					});
-//				}
+				//				if(isRefreshRequired){
+				getActivity().runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						listAdapter.notifyDataSetChanged();
+					}
+				});
+				//				}
 			}
 		}).start();
-		
+
 	}
 
 	@Override

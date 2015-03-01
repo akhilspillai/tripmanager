@@ -1943,6 +1943,11 @@ com.trip.expensemanager.R$color: int button_cancel_pressed_color
 com.trip.expensemanager.R$color: int button_disabled_color
 com.trip.expensemanager.R$color: int button_focused_color
 com.trip.expensemanager.R$color: int button_pressed_color
+com.trip.expensemanager.R$color: int button_settle_color
+com.trip.expensemanager.R$color: int button_settle_dsbld_color
+com.trip.expensemanager.R$color: int button_settle_fcsd_color
+com.trip.expensemanager.R$color: int button_settle_prsd_color
+com.trip.expensemanager.R$color: int button_transparent_color
 com.trip.expensemanager.R$color: int common_action_bar_splitter
 com.trip.expensemanager.R$color: int common_signin_btn_dark_text_default
 com.trip.expensemanager.R$color: int common_signin_btn_dark_text_disabled
@@ -1955,9 +1960,11 @@ com.trip.expensemanager.R$color: int common_signin_btn_light_text_focused
 com.trip.expensemanager.R$color: int common_signin_btn_light_text_pressed
 com.trip.expensemanager.R$color: int common_signin_btn_text_dark
 com.trip.expensemanager.R$color: int common_signin_btn_text_light
+com.trip.expensemanager.R$color: int selected_color
 com.trip.expensemanager.R$color: int splash
 com.trip.expensemanager.R$color: int text_blue
 com.trip.expensemanager.R$color: int text_qr
+com.trip.expensemanager.R$color: int unselected_color
 com.trip.expensemanager.R$color: int wallet_bright_foreground_disabled_holo_light
 com.trip.expensemanager.R$color: int wallet_bright_foreground_holo_dark
 com.trip.expensemanager.R$color: int wallet_bright_foreground_holo_light
@@ -2113,6 +2120,9 @@ com.trip.expensemanager.R$drawable: int common_signin_btn_text_pressed_light
 com.trip.expensemanager.R$drawable: int custom_bg_transparant
 com.trip.expensemanager.R$drawable: int custom_button
 com.trip.expensemanager.R$drawable: int custom_button_cancel
+com.trip.expensemanager.R$drawable: int custom_button_settled
+com.trip.expensemanager.R$drawable: int custom_button_tab
+com.trip.expensemanager.R$drawable: int custom_text_settled
 com.trip.expensemanager.R$drawable: int error
 com.trip.expensemanager.R$drawable: int expense
 com.trip.expensemanager.R$drawable: int ic_action_add
@@ -2120,14 +2130,27 @@ com.trip.expensemanager.R$drawable: int ic_action_add_people
 com.trip.expensemanager.R$drawable: int ic_action_delete
 com.trip.expensemanager.R$drawable: int ic_action_save
 com.trip.expensemanager.R$drawable: int ic_action_scan_qr
+com.trip.expensemanager.R$drawable: int ic_debt_paid
 com.trip.expensemanager.R$drawable: int ic_edit
+com.trip.expensemanager.R$drawable: int ic_eg_deleted
+com.trip.expensemanager.R$drawable: int ic_eg_updated
+com.trip.expensemanager.R$drawable: int ic_error
 com.trip.expensemanager.R$drawable: int ic_exit_group
+com.trip.expensemanager.R$drawable: int ic_expense_added
+com.trip.expensemanager.R$drawable: int ic_expense_deleted
 com.trip.expensemanager.R$drawable: int ic_expense_owed
 com.trip.expensemanager.R$drawable: int ic_expense_synched
+com.trip.expensemanager.R$drawable: int ic_expense_updated
 com.trip.expensemanager.R$drawable: int ic_icon
 com.trip.expensemanager.R$drawable: int ic_launcher
+com.trip.expensemanager.R$drawable: int ic_not_deleted
+com.trip.expensemanager.R$drawable: int ic_not_exited
+com.trip.expensemanager.R$drawable: int ic_not_synced
 com.trip.expensemanager.R$drawable: int ic_not_synched
+com.trip.expensemanager.R$drawable: int ic_not_updated
 com.trip.expensemanager.R$drawable: int ic_notification_icon
+com.trip.expensemanager.R$drawable: int ic_person_added
+com.trip.expensemanager.R$drawable: int ic_person_exited
 com.trip.expensemanager.R$drawable: int ic_plusone_medium_off_client
 com.trip.expensemanager.R$drawable: int ic_plusone_small_off_client
 com.trip.expensemanager.R$drawable: int ic_plusone_standard_off_client
@@ -2175,12 +2198,16 @@ com.trip.expensemanager.R$id: int btn_cancel
 com.trip.expensemanager.R$id: int btn_login
 com.trip.expensemanager.R$id: int btn_ok
 com.trip.expensemanager.R$id: int btn_register
+com.trip.expensemanager.R$id: int btn_settle
+com.trip.expensemanager.R$id: int btn_settled
+com.trip.expensemanager.R$id: int btn_unsettled
 com.trip.expensemanager.R$id: int btn_yes
 com.trip.expensemanager.R$id: int button_capture
 com.trip.expensemanager.R$id: int buyButton
 com.trip.expensemanager.R$id: int buy_now
 com.trip.expensemanager.R$id: int buy_with_google
 com.trip.expensemanager.R$id: int camera_preview
+com.trip.expensemanager.R$id: int cb_user
 com.trip.expensemanager.R$id: int checkbox
 com.trip.expensemanager.R$id: int classic
 com.trip.expensemanager.R$id: int collapseActionView
@@ -2192,6 +2219,7 @@ com.trip.expensemanager.R$id: int dropdown
 com.trip.expensemanager.R$id: int edit_query
 com.trip.expensemanager.R$id: int end
 com.trip.expensemanager.R$id: int error
+com.trip.expensemanager.R$id: int et_amount
 com.trip.expensemanager.R$id: int etxt_conf_password
 com.trip.expensemanager.R$id: int etxt_expense_admin
 com.trip.expensemanager.R$id: int etxt_expense_amount
@@ -2201,6 +2229,7 @@ com.trip.expensemanager.R$id: int etxt_expense_name
 com.trip.expensemanager.R$id: int etxt_login_password
 com.trip.expensemanager.R$id: int etxt_login_username
 com.trip.expensemanager.R$id: int etxt_password
+com.trip.expensemanager.R$id: int etxt_preffered_name
 com.trip.expensemanager.R$id: int etxt_register_password
 com.trip.expensemanager.R$id: int etxt_register_username
 com.trip.expensemanager.R$id: int etxt_trip_name
@@ -2223,11 +2252,13 @@ com.trip.expensemanager.R$id: int iv_expense_status
 com.trip.expensemanager.R$id: int iv_icon
 com.trip.expensemanager.R$id: int iv_qrcode
 com.trip.expensemanager.R$id: int iv_trip_status
+com.trip.expensemanager.R$id: int iv_update
 com.trip.expensemanager.R$id: int iv_wc_login
 com.trip.expensemanager.R$id: int iv_wc_register
 com.trip.expensemanager.R$id: int li_expense
 com.trip.expensemanager.R$id: int li_people
 com.trip.expensemanager.R$id: int li_trips
+com.trip.expensemanager.R$id: int li_updates
 com.trip.expensemanager.R$id: int listMode
 com.trip.expensemanager.R$id: int list_item
 com.trip.expensemanager.R$id: int ll_chart_container
@@ -2251,10 +2282,12 @@ com.trip.expensemanager.R$id: int progress_circular
 com.trip.expensemanager.R$id: int progress_horizontal
 com.trip.expensemanager.R$id: int radio
 com.trip.expensemanager.R$id: int regButton
+com.trip.expensemanager.R$id: int rg
 com.trip.expensemanager.R$id: int rl
 com.trip.expensemanager.R$id: int rl1
 com.trip.expensemanager.R$id: int rl2
 com.trip.expensemanager.R$id: int rl_conf_password
+com.trip.expensemanager.R$id: int rl_text
 com.trip.expensemanager.R$id: int rl_trip_name
 com.trip.expensemanager.R$id: int rl_username
 com.trip.expensemanager.R$id: int sandbox
@@ -2292,6 +2325,8 @@ com.trip.expensemanager.R$id: int tv_message
 com.trip.expensemanager.R$id: int tv_no_expenses
 com.trip.expensemanager.R$id: int tv_scan
 com.trip.expensemanager.R$id: int tv_trip_name
+com.trip.expensemanager.R$id: int tv_update
+com.trip.expensemanager.R$id: int txt_all
 com.trip.expensemanager.R$id: int txt_back
 com.trip.expensemanager.R$id: int txt_conf_password
 com.trip.expensemanager.R$id: int txt_distribution
@@ -2307,9 +2342,13 @@ com.trip.expensemanager.R$id: int txt_new_user
 com.trip.expensemanager.R$id: int txt_no_expense
 com.trip.expensemanager.R$id: int txt_no_people
 com.trip.expensemanager.R$id: int txt_no_trips
+com.trip.expensemanager.R$id: int txt_no_updates
+com.trip.expensemanager.R$id: int txt_none
 com.trip.expensemanager.R$id: int txt_password
+com.trip.expensemanager.R$id: int txt_preffered_name
 com.trip.expensemanager.R$id: int txt_register_password
 com.trip.expensemanager.R$id: int txt_register_username
+com.trip.expensemanager.R$id: int txt_select
 com.trip.expensemanager.R$id: int txt_trip_amount
 com.trip.expensemanager.R$id: int txt_trip_name
 com.trip.expensemanager.R$id: int txt_username
@@ -2352,12 +2391,14 @@ com.trip.expensemanager.R$layout: int activity_progress
 com.trip.expensemanager.R$layout: int activity_register
 com.trip.expensemanager.R$layout: int activity_splash
 com.trip.expensemanager.R$layout: int activity_trip_details
-com.trip.expensemanager.R$layout: int add_expense_dialog
 com.trip.expensemanager.R$layout: int add_trip_dialog
 com.trip.expensemanager.R$layout: int delete_expensegroup_dialog
 com.trip.expensemanager.R$layout: int delete_trip_dialog
 com.trip.expensemanager.R$layout: int distribution_row_layout
+com.trip.expensemanager.R$layout: int distribution_tab_buttons
 com.trip.expensemanager.R$layout: int expenses_row_layout
+com.trip.expensemanager.R$layout: int fragment_add_expense
+com.trip.expensemanager.R$layout: int fragment_add_expense_list
 com.trip.expensemanager.R$layout: int fragment_add_people
 com.trip.expensemanager.R$layout: int fragment_distribution_list
 com.trip.expensemanager.R$layout: int fragment_expense_login
@@ -2367,11 +2408,14 @@ com.trip.expensemanager.R$layout: int fragment_trip_details
 com.trip.expensemanager.R$layout: int fragment_trip_expense
 com.trip.expensemanager.R$layout: int fragment_trip_people
 com.trip.expensemanager.R$layout: int fragment_trips
+com.trip.expensemanager.R$layout: int fragment_updates
 com.trip.expensemanager.R$layout: int people_row_layout
 com.trip.expensemanager.R$layout: int registration_error_dialog
-com.trip.expensemanager.R$layout: int simple_list_item
+com.trip.expensemanager.R$layout: int settle_debt_dialog
 com.trip.expensemanager.R$layout: int support_simple_spinner_dropdown_item
 com.trip.expensemanager.R$layout: int trips_row_layout
+com.trip.expensemanager.R$layout: int update_row_layout
+com.trip.expensemanager.R$layout: int userids_row_layout
 com.trip.expensemanager.R$menu: int add_expense_fragment_action
 com.trip.expensemanager.R$menu: int add_people_fragment_action
 com.trip.expensemanager.R$menu: int add_trip_context
@@ -2412,6 +2456,9 @@ com.trip.expensemanager.R$string: int add_expense_detail
 com.trip.expensemanager.R$string: int add_expense_name
 com.trip.expensemanager.R$string: int add_people
 com.trip.expensemanager.R$string: int add_trip_name
+com.trip.expensemanager.R$string: int all
+com.trip.expensemanager.R$string: int amount
+com.trip.expensemanager.R$string: int amount_to_settle
 com.trip.expensemanager.R$string: int app_name
 com.trip.expensemanager.R$string: int back_to_login
 com.trip.expensemanager.R$string: int cancel
@@ -2457,18 +2504,26 @@ com.trip.expensemanager.R$string: int no_expense
 com.trip.expensemanager.R$string: int no_expenses
 com.trip.expensemanager.R$string: int no_people
 com.trip.expensemanager.R$string: int no_trips
+com.trip.expensemanager.R$string: int no_updates
+com.trip.expensemanager.R$string: int none
 com.trip.expensemanager.R$string: int ok
 com.trip.expensemanager.R$string: int password
 com.trip.expensemanager.R$string: int people
+com.trip.expensemanager.R$string: int preffered_name
 com.trip.expensemanager.R$string: int qr_code_size
 com.trip.expensemanager.R$string: int register
 com.trip.expensemanager.R$string: int scan_qr
+com.trip.expensemanager.R$string: int select
+com.trip.expensemanager.R$string: int settle_expenses
+com.trip.expensemanager.R$string: int settled
 com.trip.expensemanager.R$string: int spent_amount
 com.trip.expensemanager.R$string: int title_activity_expense
 com.trip.expensemanager.R$string: int title_activity_tab
 com.trip.expensemanager.R$string: int trip_name
 com.trip.expensemanager.R$string: int trips
 com.trip.expensemanager.R$string: int unit_id
+com.trip.expensemanager.R$string: int unsettled
+com.trip.expensemanager.R$string: int updates
 com.trip.expensemanager.R$string: int url
 com.trip.expensemanager.R$string: int username
 com.trip.expensemanager.R$string: int wallet_buy_button_place_holder
@@ -2772,10 +2827,13 @@ com.trip.expensemanager.SyncIntentService
 com.trip.expensemanager.SyncIntentService: SyncIntentService()
 com.trip.expensemanager.TripDetailsActivity
 com.trip.expensemanager.TripDetailsActivity: TripDetailsActivity()
-com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo: java.lang.String id
+com.trip.expensemanager.UpdatesActivity
+com.trip.expensemanager.UpdatesActivity: UpdatesActivity()
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo: java.lang.Long id
 com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo: java.lang.String cursor
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo: java.lang.String gcmRegId
 com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo: java.lang.Integer limit
-com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo: java.lang.String id
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo: java.lang.Long id
 com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest: java.lang.String alt
 com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest: java.lang.String fields
 com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest: java.lang.String key
@@ -2785,9 +2843,31 @@ com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest: java.lang.
 com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest: java.lang.String userIp
 com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo: java.util.List items
 com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo: java.lang.String nextPageToken
-com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo: java.lang.String deviceInformation
-com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo: java.lang.String deviceRegistrationID
-com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo: java.lang.Long timestamp
+com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo: java.lang.String gcmRegId
+com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo: java.lang.Long id
+com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo: java.lang.String make
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution: java.lang.Long id
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution: java.lang.String cursor
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution: java.lang.Long tripId
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution: java.lang.Integer limit
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$RemoveDistribution: java.lang.Long id
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequest: java.lang.String alt
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequest: java.lang.String fields
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequest: java.lang.String key
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequest: java.lang.String oauthToken
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequest: java.lang.Boolean prettyPrint
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequest: java.lang.String quotaUser
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequest: java.lang.String userIp
+com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution: java.util.List items
+com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution: java.lang.String nextPageToken
+com.trip.expensemanager.distributionendpoint.model.Distribution: java.lang.String amount
+com.trip.expensemanager.distributionendpoint.model.Distribution: java.lang.Long changerId
+com.trip.expensemanager.distributionendpoint.model.Distribution: com.google.api.client.util.DateTime creationDate
+com.trip.expensemanager.distributionendpoint.model.Distribution: java.lang.Long fromId
+com.trip.expensemanager.distributionendpoint.model.Distribution: java.lang.Long id
+com.trip.expensemanager.distributionendpoint.model.Distribution: java.lang.String paid
+com.trip.expensemanager.distributionendpoint.model.Distribution: java.lang.Long toId
+com.trip.expensemanager.distributionendpoint.model.Distribution: java.lang.Long tripId
 com.trip.expensemanager.expenseendpoint.Expenseendpoint$ExpenseEndpoint$RemoveTripExpense: java.lang.Long id
 com.trip.expensemanager.expenseendpoint.Expenseendpoint$GetExpense: java.lang.Long id
 com.trip.expensemanager.expenseendpoint.Expenseendpoint$ListExpense: java.lang.String cursor
@@ -2810,6 +2890,8 @@ com.trip.expensemanager.expenseendpoint.model.Expense: java.lang.Long changerId
 com.trip.expensemanager.expenseendpoint.model.Expense: com.google.api.client.util.DateTime creationDate
 com.trip.expensemanager.expenseendpoint.model.Expense: java.lang.String currency
 com.trip.expensemanager.expenseendpoint.model.Expense: java.lang.String description
+com.trip.expensemanager.expenseendpoint.model.Expense: java.util.List expenseAmounts
+com.trip.expensemanager.expenseendpoint.model.Expense: java.util.List expenseUserIds
 com.trip.expensemanager.expenseendpoint.model.Expense: java.lang.Long id
 com.trip.expensemanager.expenseendpoint.model.Expense: java.lang.String name
 com.trip.expensemanager.expenseendpoint.model.Expense: java.lang.Long tripId
@@ -2828,9 +2910,10 @@ com.trip.expensemanager.loginendpoint.LoginendpointRequest: java.lang.String quo
 com.trip.expensemanager.loginendpoint.LoginendpointRequest: java.lang.String userIp
 com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn: java.util.List items
 com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn: java.lang.String nextPageToken
+com.trip.expensemanager.loginendpoint.model.LogIn: java.util.List deviceIDs
 com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.Long id
 com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.String password
-com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.String regId
+com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.String prefferedName
 com.trip.expensemanager.loginendpoint.model.LogIn: java.util.List tripIDs
 com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.String username
 com.trip.expensemanager.messageEndpoint.MessageEndpoint$ListMessages: java.lang.String cursor
@@ -2899,10 +2982,32 @@ com.trip.expensemanager.tripendpoint.model.Trip: java.lang.String name
 com.trip.expensemanager.tripendpoint.model.Trip: java.util.List userIDs
 javax.annotation.meta.When: javax.annotation.meta.When[] values()
 javax.annotation.meta.When: javax.annotation.meta.When valueOf(java.lang.String)
+net.sourceforge.zbar.Config
+net.sourceforge.zbar.Config: int ENABLE
+net.sourceforge.zbar.Config: int ADD_CHECK
+net.sourceforge.zbar.Config: int EMIT_CHECK
+net.sourceforge.zbar.Config: int ASCII
+net.sourceforge.zbar.Config: int MIN_LEN
+net.sourceforge.zbar.Config: int MAX_LEN
+net.sourceforge.zbar.Config: int UNCERTAINTY
+net.sourceforge.zbar.Config: int POSITION
+net.sourceforge.zbar.Config: int X_DENSITY
+net.sourceforge.zbar.Config: int Y_DENSITY
+net.sourceforge.zbar.Config: Config()
 net.sourceforge.zbar.Image
+net.sourceforge.zbar.Image: long peer
+net.sourceforge.zbar.Image: java.lang.Object data
 net.sourceforge.zbar.Image: void init()
+net.sourceforge.zbar.Image: Image()
+net.sourceforge.zbar.Image: Image(int,int)
+net.sourceforge.zbar.Image: Image(int,int,java.lang.String)
+net.sourceforge.zbar.Image: Image(java.lang.String)
+net.sourceforge.zbar.Image: Image(long)
 net.sourceforge.zbar.Image: long create()
+net.sourceforge.zbar.Image: void finalize()
+net.sourceforge.zbar.Image: void destroy()
 net.sourceforge.zbar.Image: void destroy(long)
+net.sourceforge.zbar.Image: net.sourceforge.zbar.Image convert(java.lang.String)
 net.sourceforge.zbar.Image: long convert(long,java.lang.String)
 net.sourceforge.zbar.Image: java.lang.String getFormat()
 net.sourceforge.zbar.Image: void setFormat(java.lang.String)
@@ -2919,19 +3024,61 @@ net.sourceforge.zbar.Image: void setCrop(int[])
 net.sourceforge.zbar.Image: byte[] getData()
 net.sourceforge.zbar.Image: void setData(byte[])
 net.sourceforge.zbar.Image: void setData(int[])
+net.sourceforge.zbar.Image: net.sourceforge.zbar.SymbolSet getSymbols()
 net.sourceforge.zbar.Image: long getSymbols(long)
+net.sourceforge.zbar.Image: void <clinit>()
 net.sourceforge.zbar.ImageScanner
+net.sourceforge.zbar.ImageScanner: long peer
 net.sourceforge.zbar.ImageScanner: void init()
+net.sourceforge.zbar.ImageScanner: ImageScanner()
 net.sourceforge.zbar.ImageScanner: long create()
+net.sourceforge.zbar.ImageScanner: void finalize()
+net.sourceforge.zbar.ImageScanner: void destroy()
 net.sourceforge.zbar.ImageScanner: void destroy(long)
 net.sourceforge.zbar.ImageScanner: void setConfig(int,int,int)
 net.sourceforge.zbar.ImageScanner: void parseConfig(java.lang.String)
 net.sourceforge.zbar.ImageScanner: void enableCache(boolean)
+net.sourceforge.zbar.ImageScanner: net.sourceforge.zbar.SymbolSet getResults()
 net.sourceforge.zbar.ImageScanner: long getResults(long)
 net.sourceforge.zbar.ImageScanner: int scanImage(net.sourceforge.zbar.Image)
+net.sourceforge.zbar.ImageScanner: void <clinit>()
+net.sourceforge.zbar.Modifier
+net.sourceforge.zbar.Modifier: int GS1
+net.sourceforge.zbar.Modifier: int AIM
+net.sourceforge.zbar.Modifier: Modifier()
+net.sourceforge.zbar.Orientation
+net.sourceforge.zbar.Orientation: int UNKNOWN
+net.sourceforge.zbar.Orientation: int UP
+net.sourceforge.zbar.Orientation: int RIGHT
+net.sourceforge.zbar.Orientation: int DOWN
+net.sourceforge.zbar.Orientation: int LEFT
+net.sourceforge.zbar.Orientation: Orientation()
 net.sourceforge.zbar.Symbol
+net.sourceforge.zbar.Symbol: int NONE
+net.sourceforge.zbar.Symbol: int PARTIAL
+net.sourceforge.zbar.Symbol: int EAN8
+net.sourceforge.zbar.Symbol: int UPCE
+net.sourceforge.zbar.Symbol: int ISBN10
+net.sourceforge.zbar.Symbol: int UPCA
+net.sourceforge.zbar.Symbol: int EAN13
+net.sourceforge.zbar.Symbol: int ISBN13
+net.sourceforge.zbar.Symbol: int I25
+net.sourceforge.zbar.Symbol: int DATABAR
+net.sourceforge.zbar.Symbol: int DATABAR_EXP
+net.sourceforge.zbar.Symbol: int CODABAR
+net.sourceforge.zbar.Symbol: int CODE39
+net.sourceforge.zbar.Symbol: int PDF417
+net.sourceforge.zbar.Symbol: int QRCODE
+net.sourceforge.zbar.Symbol: int CODE93
+net.sourceforge.zbar.Symbol: int CODE128
+net.sourceforge.zbar.Symbol: long peer
+net.sourceforge.zbar.Symbol: int type
 net.sourceforge.zbar.Symbol: void init()
+net.sourceforge.zbar.Symbol: Symbol(long)
+net.sourceforge.zbar.Symbol: void finalize()
+net.sourceforge.zbar.Symbol: void destroy()
 net.sourceforge.zbar.Symbol: void destroy(long)
+net.sourceforge.zbar.Symbol: int getType()
 net.sourceforge.zbar.Symbol: int getType(long)
 net.sourceforge.zbar.Symbol: int getConfigMask()
 net.sourceforge.zbar.Symbol: int getModifierMask()
@@ -2939,17 +3086,34 @@ net.sourceforge.zbar.Symbol: java.lang.String getData()
 net.sourceforge.zbar.Symbol: byte[] getDataBytes()
 net.sourceforge.zbar.Symbol: int getQuality()
 net.sourceforge.zbar.Symbol: int getCount()
+net.sourceforge.zbar.Symbol: int[] getBounds()
 net.sourceforge.zbar.Symbol: int getLocationSize(long)
 net.sourceforge.zbar.Symbol: int getLocationX(long,int)
 net.sourceforge.zbar.Symbol: int getLocationY(long,int)
+net.sourceforge.zbar.Symbol: int[] getLocationPoint(int)
 net.sourceforge.zbar.Symbol: int getOrientation()
+net.sourceforge.zbar.Symbol: net.sourceforge.zbar.SymbolSet getComponents()
 net.sourceforge.zbar.Symbol: long getComponents(long)
 net.sourceforge.zbar.Symbol: long next()
+net.sourceforge.zbar.Symbol: void <clinit>()
+net.sourceforge.zbar.SymbolIterator
+net.sourceforge.zbar.SymbolIterator: net.sourceforge.zbar.Symbol current
+net.sourceforge.zbar.SymbolIterator: SymbolIterator(net.sourceforge.zbar.Symbol)
+net.sourceforge.zbar.SymbolIterator: boolean hasNext()
+net.sourceforge.zbar.SymbolIterator: net.sourceforge.zbar.Symbol next()
+net.sourceforge.zbar.SymbolIterator: void remove()
+net.sourceforge.zbar.SymbolIterator: java.lang.Object next()
 net.sourceforge.zbar.SymbolSet
+net.sourceforge.zbar.SymbolSet: long peer
 net.sourceforge.zbar.SymbolSet: void init()
+net.sourceforge.zbar.SymbolSet: SymbolSet(long)
+net.sourceforge.zbar.SymbolSet: void finalize()
+net.sourceforge.zbar.SymbolSet: void destroy()
 net.sourceforge.zbar.SymbolSet: void destroy(long)
+net.sourceforge.zbar.SymbolSet: java.util.Iterator iterator()
 net.sourceforge.zbar.SymbolSet: int size()
 net.sourceforge.zbar.SymbolSet: long firstSymbol(long)
+net.sourceforge.zbar.SymbolSet: void <clinit>()
 org.achartengine.GraphicalView: org.achartengine.model.SeriesSelection getCurrentSeriesAndPoint()
 org.achartengine.GraphicalView: void setZoomRate(float)
 org.achartengine.GraphicalView: android.graphics.RectF getZoomRectangle()

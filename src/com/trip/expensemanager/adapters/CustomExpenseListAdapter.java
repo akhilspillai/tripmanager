@@ -95,14 +95,15 @@ public class CustomExpenseListAdapter extends ArrayAdapter<String> {
 			viewHolder.pbAddExpense.setVisibility(View.GONE);
 			viewHolder.ivStatus.setVisibility(View.VISIBLE);
 		} else if(synced.get(position)==1){
-			viewHolder.ivStatus.setVisibility(View.INVISIBLE);
-			viewHolder.pbAddExpense.setVisibility(View.VISIBLE);
+			viewHolder.ivStatus.setImageResource(R.drawable.ic_error);
+			viewHolder.pbAddExpense.setVisibility(View.GONE);
+			viewHolder.ivStatus.setVisibility(View.VISIBLE);
 		}else{
 			viewHolder.ivStatus.setImageResource(R.drawable.ic_expense_synched);
 			viewHolder.pbAddExpense.setVisibility(View.GONE);
 			viewHolder.ivStatus.setVisibility(View.VISIBLE);
 		}
-		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.no_anim);
+		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
 		rowView.startAnimation(animation);
 		lastPosition = position;
 		animation = null;

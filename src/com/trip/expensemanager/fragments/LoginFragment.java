@@ -205,6 +205,8 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
 					eTxtRegisterUsername.setError(null);
+					pbUsername.setVisibility(View.INVISIBLE);
+					btnRegister.setEnabled(false);
 				}
 
 				@Override
@@ -279,19 +281,12 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 								}
 							}).start();
 						} else{
-							context.runOnUiThread(new Runnable() {
-								public void run() {
-									eTxtRegisterUsername.setError(null);
-									pbUsername.setVisibility(View.INVISIBLE);
-								}
-							});
+							eTxtRegisterUsername.setError(null);
+							pbUsername.setVisibility(View.INVISIBLE);
+							btnRegister.setEnabled(false);
 						}
 					} else{
-						context.runOnUiThread(new Runnable() {
-							public void run() {
-								showMessage("Unable to contact the server. Please try again later!!");
-							}
-						});
+						showMessage("Unable to contact the server. Please try again later!!");
 					}
 				}
 			});
@@ -318,6 +313,9 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 						if(prefferedNameChecked && pwdChecked && usernameChecked){
 							btnRegister.setEnabled(true);
 						}
+					} else{
+						btnRegister.setEnabled(false);
+						eTxtPrefferedName.setError(null);
 					}
 				}
 			});
@@ -328,6 +326,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
 					eTxtConfPassword.setError(null);
+					btnRegister.setEnabled(false);
 					pbConfPwd.setVisibility(View.INVISIBLE);
 				}
 
@@ -385,6 +384,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 						}).start();
 					} else{
 						eTxtConfPassword.setError(null);
+						btnRegister.setEnabled(false);
 						pbConfPwd.setVisibility(View.INVISIBLE);
 					}
 
@@ -396,6 +396,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 				@Override
 				public void onTextChanged(CharSequence s, int start, int before, int count) {
 					eTxtConfPassword.setError(null);
+					btnRegister.setEnabled(false);
 					pbConfPwd.setVisibility(View.INVISIBLE);
 				}
 
@@ -408,7 +409,6 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 				public void afterTextChanged(Editable s) {
 					strPassword=eTxtRegisterPassword.getText().toString();
 					strConfPassword=eTxtConfPassword.getText().toString();
-					btnRegister.setEnabled(false);
 					pbConfPwd.setVisibility(View.VISIBLE);
 					if(strConfPassword!=null && !strConfPassword.equals("")){
 						pwdChecked=false;
@@ -453,6 +453,8 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 						}).start();
 					} else{
 						eTxtConfPassword.setError(null);
+						btnRegister.setEnabled(false);
+						pbConfPwd.setVisibility(View.INVISIBLE);
 					}
 
 				}

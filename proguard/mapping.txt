@@ -627,7 +627,9 @@ android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.at:
     android.support.v4.app.NotificationCompat$Builder setSmallIcon(int) -> a
     android.support.v4.app.NotificationCompat$Builder setContentTitle(java.lang.CharSequence) -> a
     android.support.v4.app.NotificationCompat$Builder setContentText(java.lang.CharSequence) -> b
+    android.support.v4.app.NotificationCompat$Builder setNumber(int) -> b
     android.support.v4.app.NotificationCompat$Builder setContentIntent(android.app.PendingIntent) -> a
+    android.support.v4.app.NotificationCompat$Builder setTicker(java.lang.CharSequence) -> c
     android.support.v4.app.NotificationCompat$Builder setSound(android.net.Uri) -> a
     android.support.v4.app.NotificationCompat$Builder setAutoCancel(boolean) -> a
     void setFlag(int,boolean) -> a
@@ -790,7 +792,32 @@ android.support.v4.content.Loader -> android.support.v4.a.j:
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
 android.support.v4.content.Loader$OnLoadCompleteListener -> android.support.v4.a.k:
-android.support.v4.content.WakefulBroadcastReceiver -> android.support.v4.a.l:
+android.support.v4.content.LocalBroadcastManager -> android.support.v4.a.l:
+    android.content.Context mAppContext -> a
+    java.util.HashMap mReceivers -> b
+    java.util.HashMap mActions -> c
+    java.util.ArrayList mPendingBroadcasts -> d
+    android.os.Handler mHandler -> e
+    java.lang.Object mLock -> f
+    android.support.v4.content.LocalBroadcastManager mInstance -> g
+    android.support.v4.content.LocalBroadcastManager getInstance(android.content.Context) -> a
+    void registerReceiver(android.content.BroadcastReceiver,android.content.IntentFilter) -> a
+    void unregisterReceiver(android.content.BroadcastReceiver) -> a
+    boolean sendBroadcast(android.content.Intent) -> a
+    void executePendingBroadcasts() -> a
+    void access$000(android.support.v4.content.LocalBroadcastManager) -> a
+android.support.v4.content.LocalBroadcastManager$1 -> android.support.v4.a.m:
+    android.support.v4.content.LocalBroadcastManager this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+android.support.v4.content.LocalBroadcastManager$BroadcastRecord -> android.support.v4.a.n:
+    android.content.Intent intent -> a
+    java.util.ArrayList receivers -> b
+android.support.v4.content.LocalBroadcastManager$ReceiverRecord -> android.support.v4.a.o:
+    android.content.IntentFilter filter -> a
+    android.content.BroadcastReceiver receiver -> b
+    boolean broadcasting -> c
+    java.lang.String toString() -> toString
+android.support.v4.content.WakefulBroadcastReceiver -> android.support.v4.a.p:
     android.util.SparseArray mActiveWakeLocks -> a
     int mNextId -> b
     android.content.ComponentName startWakefulService(android.content.Context,android.content.Intent) -> a
@@ -867,12 +894,13 @@ android.support.v4.util.LongSparseArray -> android.support.v4.d.f:
     android.support.v4.util.LongSparseArray clone() -> a
     java.lang.Object get(long) -> a
     java.lang.Object get(long,java.lang.Object) -> a
-    void gc() -> c
+    void gc() -> d
     void put(long,java.lang.Object) -> b
     int size() -> b
     long keyAt(int) -> a
     java.lang.Object valueAt(int) -> b
     int indexOfKey(long) -> b
+    void clear() -> c
     java.lang.String toString() -> toString
     java.lang.Object clone() -> clone
 android.support.v4.util.MapCollections -> android.support.v4.d.g:
@@ -15729,17 +15757,22 @@ com.trip.expensemanager.ProcessingActivity -> com.trip.expensemanager.Processing
     java.lang.String strRegID -> g
     java.lang.Long lngUserId -> c
     com.google.android.gms.gcm.GoogleCloudMessaging gcm -> h
+    char[] hexArray -> i
     void onCreate(android.os.Bundle) -> onCreate
     void onWindowFocusChanged(boolean) -> onWindowFocusChanged
     void onStart() -> onStart
-    boolean registerForGCM() -> a
-    boolean checkPlayServices() -> b
+    boolean registerForGCM() -> b
+    boolean checkPlayServices() -> c
     void onBackPressed() -> onBackPressed
     void onDestroy() -> onDestroy
-    boolean isConnected() -> c
+    java.lang.String getDeviceName() -> a
+    java.lang.String sha1Hash(java.lang.String) -> a
+    java.lang.String bytesToHex(byte[]) -> a
+    boolean isConnected() -> d
     int access$0(com.trip.expensemanager.ProcessingActivity) -> a
     boolean access$1(com.trip.expensemanager.ProcessingActivity) -> b
-    java.lang.String access$2(com.trip.expensemanager.ProcessingActivity) -> c
+    java.lang.String access$2(com.trip.expensemanager.ProcessingActivity,java.lang.String) -> a
+    java.lang.String access$3(com.trip.expensemanager.ProcessingActivity) -> c
 com.trip.expensemanager.ProcessingActivity$ProcessTask -> com.trip.expensemanager.c:
     com.trip.expensemanager.ProcessingActivity this$0 -> a
     void onPreExecute() -> onPreExecute
@@ -15752,12 +15785,16 @@ com.trip.expensemanager.ProcessingActivity$ProcessTask -> com.trip.expensemanage
 com.trip.expensemanager.SyncIntentService -> com.trip.expensemanager.SyncIntentService:
     long lngUserId -> a
     android.app.NotificationManager mNotificationManager -> b
+    android.support.v4.content.LocalBroadcastManager broadcaster -> c
+    void onCreate() -> onCreate
     void onHandleIntent(android.content.Intent) -> onHandleIntent
+    void sendResult() -> a
     void onDestroy() -> onDestroy
-    void syncOthers() -> a
-    void sendNotification(java.lang.String,java.lang.String,android.content.Intent,int,java.lang.String) -> a
-    void syncAllTrips() -> b
-    void syncAllExpenses() -> c
+    void syncAllSettledDistributions() -> b
+    void syncOthers() -> c
+    void sendNotification(java.lang.String,java.lang.String,java.lang.String,android.content.Intent,int,java.lang.String,long) -> a
+    void syncAllTrips() -> d
+    void syncAllExpenses() -> e
 com.trip.expensemanager.TripDetailsActivity -> com.trip.expensemanager.TripDetailsActivity:
     long lngUserId -> o
     java.lang.String strTripName -> p
@@ -15765,30 +15802,67 @@ com.trip.expensemanager.TripDetailsActivity -> com.trip.expensemanager.TripDetai
     android.support.v4.view.ViewPager mViewPager -> r
     java.lang.String[] tabs -> s
     long lngTripId -> t
+    android.content.BroadcastReceiver receiver -> u
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
+    void onPause() -> onPause
     void onTabReselected(android.support.v7.app.ActionBar$Tab,android.support.v4.app.FragmentTransaction) -> c
     void onTabSelected(android.support.v7.app.ActionBar$Tab,android.support.v4.app.FragmentTransaction) -> a
     void onTabUnselected(android.support.v7.app.ActionBar$Tab,android.support.v4.app.FragmentTransaction) -> b
     void updateViews() -> i
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
     void onBackPressed() -> onBackPressed
-    java.lang.String access$0(com.trip.expensemanager.TripDetailsActivity) -> a
+    com.trip.expensemanager.adapters.CustomPagerAdapter access$0(com.trip.expensemanager.TripDetailsActivity) -> a
 com.trip.expensemanager.TripDetailsActivity$1 -> com.trip.expensemanager.d:
+    com.trip.expensemanager.TripDetailsActivity this$0 -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.trip.expensemanager.TripDetailsActivity$2 -> com.trip.expensemanager.e:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     android.support.v7.app.ActionBar val$actionBar -> b
     void onPageSelected(int) -> a
-com.trip.expensemanager.adapters.CustomDistributionAdapter -> com.trip.expensemanager.a.a:
+com.trip.expensemanager.UpdatesActivity -> com.trip.expensemanager.UpdatesActivity:
+    void onCreate(android.os.Bundle) -> onCreate
+    void onActivityResult(int,int,android.content.Intent) -> onActivityResult
+    void onBackPressed() -> onBackPressed
+com.trip.expensemanager.adapters.CustomAddExpenseAdapter -> com.trip.expensemanager.a.a:
     android.content.Context context -> a
-    java.util.List items -> b
-    int lastPosition -> c
+    java.util.List users -> b
+    java.util.List amounts -> c
+    java.util.List isCheckedLst -> d
+    java.util.List isEnabledLst -> e
+    com.trip.expensemanager.fragments.AddExpenseFragment fragment -> f
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.String getItem(int) -> a
     boolean hasStableIds() -> hasStableIds
     java.lang.Object getItem(int) -> getItem
-com.trip.expensemanager.adapters.CustomDistributionAdapter$ViewHolder -> com.trip.expensemanager.a.b:
+    java.util.List access$1(com.trip.expensemanager.adapters.CustomAddExpenseAdapter) -> a
+    com.trip.expensemanager.fragments.AddExpenseFragment access$2(com.trip.expensemanager.adapters.CustomAddExpenseAdapter) -> b
+    java.util.List access$3(com.trip.expensemanager.adapters.CustomAddExpenseAdapter) -> c
+com.trip.expensemanager.adapters.CustomAddExpenseAdapter$1 -> com.trip.expensemanager.a.b:
+    com.trip.expensemanager.adapters.CustomAddExpenseAdapter this$0 -> a
+    int val$pos -> b
+    void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
+com.trip.expensemanager.adapters.CustomAddExpenseAdapter$2 -> com.trip.expensemanager.a.c:
+    com.trip.expensemanager.adapters.CustomAddExpenseAdapter this$0 -> a
+    int val$pos -> b
+    void onFocusChange(android.view.View,boolean) -> onFocusChange
+com.trip.expensemanager.adapters.CustomAddExpenseAdapter$ViewHolder -> com.trip.expensemanager.a.d:
+    android.widget.EditText etAmount -> a
+    android.widget.CheckBox cbUser -> b
+com.trip.expensemanager.adapters.CustomDistributionAdapter -> com.trip.expensemanager.a.e:
+    android.content.Context context -> a
+    java.util.List items -> b
+    int lastPosition -> c
+    java.util.List isSettlementPossible -> d
+    com.trip.expensemanager.fragments.TripDetailsFragment fragment -> e
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    java.lang.String getItem(int) -> a
+    boolean hasStableIds() -> hasStableIds
+    java.lang.Object getItem(int) -> getItem
+com.trip.expensemanager.adapters.CustomDistributionAdapter$ViewHolder -> com.trip.expensemanager.a.f:
     android.widget.TextView tvLabel -> a
-com.trip.expensemanager.adapters.CustomExpenseListAdapter -> com.trip.expensemanager.a.c:
+    android.widget.Button btnSettle -> b
+com.trip.expensemanager.adapters.CustomExpenseListAdapter -> com.trip.expensemanager.a.g:
     android.content.Context context -> a
     java.util.List items -> b
     java.util.List synced -> c
@@ -15798,21 +15872,21 @@ com.trip.expensemanager.adapters.CustomExpenseListAdapter -> com.trip.expenseman
     java.lang.String getItem(int) -> a
     boolean hasStableIds() -> hasStableIds
     java.lang.Object getItem(int) -> getItem
-com.trip.expensemanager.adapters.CustomExpenseListAdapter$ViewHolder -> com.trip.expensemanager.a.d:
+com.trip.expensemanager.adapters.CustomExpenseListAdapter$ViewHolder -> com.trip.expensemanager.a.h:
     android.widget.TextView tvLabel -> a
     android.widget.TextView tvAmt -> b
     android.widget.ImageView ivStatus -> c
     android.widget.TextView tvIcon -> d
     android.widget.ProgressBar pbAddExpense -> e
     android.widget.RelativeLayout rlIcon -> f
-com.trip.expensemanager.adapters.CustomPagerAdapter -> com.trip.expensemanager.a.e:
+com.trip.expensemanager.adapters.CustomPagerAdapter -> com.trip.expensemanager.a.i:
     java.lang.String strTrip -> a
     long lngUserId -> b
     long lngTripId -> c
     android.support.v4.app.Fragment getItem(int) -> a
     int getCount() -> b
     int getItemPosition(java.lang.Object) -> a
-com.trip.expensemanager.adapters.CustomPeopleListAdapter -> com.trip.expensemanager.a.f:
+com.trip.expensemanager.adapters.CustomPeopleListAdapter -> com.trip.expensemanager.a.j:
     android.content.Context context -> a
     java.util.List items -> b
     java.util.List synced -> c
@@ -15822,13 +15896,13 @@ com.trip.expensemanager.adapters.CustomPeopleListAdapter -> com.trip.expensemana
     java.lang.String getItem(int) -> a
     boolean hasStableIds() -> hasStableIds
     java.lang.Object getItem(int) -> getItem
-com.trip.expensemanager.adapters.CustomPeopleListAdapter$ViewHolder -> com.trip.expensemanager.a.g:
+com.trip.expensemanager.adapters.CustomPeopleListAdapter$ViewHolder -> com.trip.expensemanager.a.k:
     android.widget.TextView tvLabel -> a
     android.widget.TextView tvAmt -> b
     android.widget.ImageView ivStatus -> c
     android.widget.TextView tvIcon -> d
     android.widget.RelativeLayout rlIcon -> e
-com.trip.expensemanager.adapters.CustomTripListAdapter -> com.trip.expensemanager.a.h:
+com.trip.expensemanager.adapters.CustomTripListAdapter -> com.trip.expensemanager.a.l:
     android.content.Context context -> a
     java.util.List items -> b
     java.util.List creationDates -> c
@@ -15839,21 +15913,169 @@ com.trip.expensemanager.adapters.CustomTripListAdapter -> com.trip.expensemanage
     java.lang.String getItem(int) -> a
     boolean hasStableIds() -> hasStableIds
     java.lang.Object getItem(int) -> getItem
-com.trip.expensemanager.adapters.CustomTripListAdapter$ViewHolder -> com.trip.expensemanager.a.i:
+com.trip.expensemanager.adapters.CustomTripListAdapter$ViewHolder -> com.trip.expensemanager.a.m:
     android.widget.TextView tvLabel -> a
     android.widget.TextView tvCreationTime -> b
     android.widget.ImageView ivStatus -> c
     android.widget.TextView tvIcon -> d
     android.widget.ProgressBar pbAddTrip -> e
     android.widget.RelativeLayout rlIcon -> f
-com.trip.expensemanager.expenseendpoint.Expenseendpoint -> com.trip.expensemanager.b.a:
+com.trip.expensemanager.adapters.CustomUpdatesAdapter -> com.trip.expensemanager.a.n:
+    android.content.Context context -> a
+    int lastPosition -> b
+    java.util.List labels -> c
+    java.util.List actions -> d
+    android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
+    java.lang.String getItem(int) -> a
+    boolean hasStableIds() -> hasStableIds
+    java.lang.Object getItem(int) -> getItem
+com.trip.expensemanager.adapters.CustomUpdatesAdapter$ViewHolder -> com.trip.expensemanager.a.o:
+    android.widget.TextView tvLabel -> a
+    android.widget.ImageView ivIcon -> b
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint -> com.trip.expensemanager.b.a:
+    void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo insertDeviceInfo(com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo) -> a
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo listDeviceInfo() -> h
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder -> com.trip.expensemanager.b.b:
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint build() -> b
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setRootUrl(java.lang.String) -> e
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setServicePath(java.lang.String) -> f
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> c
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> b
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo -> com.trip.expensemanager.b.c:
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint this$0 -> c
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo set(java.lang.String,java.lang.Object) -> e
+    com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest set(java.lang.String,java.lang.Object) -> f
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo -> com.trip.expensemanager.b.d:
+    java.lang.String cursor -> cursor
+    java.lang.String gcmRegId -> gcmRegId
+    java.lang.Integer limit -> limit
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint this$0 -> c
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo setGcmRegId(java.lang.String) -> a
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo set(java.lang.String,java.lang.Object) -> e
+    com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest set(java.lang.String,java.lang.Object) -> f
+com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest -> com.trip.expensemanager.b.e:
+    java.lang.String alt -> alt
+    java.lang.String fields -> fields
+    java.lang.String key -> key
+    java.lang.String oauthToken -> oauthToken
+    java.lang.Boolean prettyPrint -> prettyPrint
+    java.lang.String quotaUser -> quotaUser
+    java.lang.String userIp -> userIp
+    com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint getAbstractGoogleClient() -> h
+    com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setDisableGZipContent(boolean) -> c
+    com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest set(java.lang.String,java.lang.Object) -> f
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setDisableGZipContent(boolean) -> b
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient getAbstractGoogleClient() -> f
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest set(java.lang.String,java.lang.Object) -> b
+com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo -> com.trip.expensemanager.b.a.a:
+    java.util.List items -> items
+    java.lang.String nextPageToken -> nextPageToken
+    java.util.List getItems() -> a
+    com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo set(java.lang.String,java.lang.Object) -> a
+    com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo clone() -> e
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo -> com.trip.expensemanager.b.a.b:
+    java.lang.String gcmRegId -> gcmRegId
+    java.lang.Long id -> id
+    java.lang.String make -> make
+    com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo setGcmRegId(java.lang.String) -> a
+    java.lang.Long getId() -> a
+    com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo setMake(java.lang.String) -> b
+    com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo set(java.lang.String,java.lang.Object) -> a
+    com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo clone() -> e
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+com.trip.expensemanager.distributionendpoint.Distributionendpoint -> com.trip.expensemanager.c.a:
+    void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution getDistribution(java.lang.Long) -> a
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution insertDistribution(com.trip.expensemanager.distributionendpoint.model.Distribution) -> a
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution listDistribution() -> h
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder -> com.trip.expensemanager.c.b:
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint build() -> b
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder setRootUrl(java.lang.String) -> e
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder setServicePath(java.lang.String) -> f
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> c
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> b
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution -> com.trip.expensemanager.c.c:
+    java.lang.Long id -> id
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint this$0 -> c
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$GetDistribution set(java.lang.String,java.lang.Object) -> e
+    com.trip.expensemanager.distributionendpoint.DistributionendpointRequest set(java.lang.String,java.lang.Object) -> f
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution -> com.trip.expensemanager.c.d:
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint this$0 -> c
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$InsertDistribution set(java.lang.String,java.lang.Object) -> e
+    com.trip.expensemanager.distributionendpoint.DistributionendpointRequest set(java.lang.String,java.lang.Object) -> f
+com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution -> com.trip.expensemanager.c.e:
+    java.lang.String cursor -> cursor
+    java.lang.Long tripId -> tripId
+    java.lang.Integer limit -> limit
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint this$0 -> c
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution setTripId(java.lang.Long) -> a
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint$ListDistribution set(java.lang.String,java.lang.Object) -> e
+    com.trip.expensemanager.distributionendpoint.DistributionendpointRequest set(java.lang.String,java.lang.Object) -> f
+com.trip.expensemanager.distributionendpoint.DistributionendpointRequest -> com.trip.expensemanager.c.f:
+    java.lang.String alt -> alt
+    java.lang.String fields -> fields
+    java.lang.String key -> key
+    java.lang.String oauthToken -> oauthToken
+    java.lang.Boolean prettyPrint -> prettyPrint
+    java.lang.String quotaUser -> quotaUser
+    java.lang.String userIp -> userIp
+    com.trip.expensemanager.distributionendpoint.Distributionendpoint getAbstractGoogleClient() -> h
+    com.trip.expensemanager.distributionendpoint.DistributionendpointRequest setDisableGZipContent(boolean) -> c
+    com.trip.expensemanager.distributionendpoint.DistributionendpointRequest set(java.lang.String,java.lang.Object) -> f
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setDisableGZipContent(boolean) -> b
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient getAbstractGoogleClient() -> f
+    com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest set(java.lang.String,java.lang.Object) -> b
+com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution -> com.trip.expensemanager.c.a.a:
+    java.util.List items -> items
+    java.lang.String nextPageToken -> nextPageToken
+    java.util.List getItems() -> a
+    com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution set(java.lang.String,java.lang.Object) -> a
+    com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution clone() -> e
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+com.trip.expensemanager.distributionendpoint.model.Distribution -> com.trip.expensemanager.c.a.b:
+    java.lang.String amount -> amount
+    java.lang.Long changerId -> changerId
+    com.google.api.client.util.DateTime creationDate -> creationDate
+    java.lang.Long fromId -> fromId
+    java.lang.Long id -> id
+    java.lang.String paid -> paid
+    java.lang.Long toId -> toId
+    java.lang.Long tripId -> tripId
+    java.lang.String getAmount() -> a
+    com.trip.expensemanager.distributionendpoint.model.Distribution setAmount(java.lang.String) -> a
+    java.lang.Long getChangerId() -> e
+    com.trip.expensemanager.distributionendpoint.model.Distribution setChangerId(java.lang.Long) -> a
+    com.google.api.client.util.DateTime getCreationDate() -> f
+    com.trip.expensemanager.distributionendpoint.model.Distribution setCreationDate(com.google.api.client.util.DateTime) -> a
+    java.lang.Long getFromId() -> h
+    com.trip.expensemanager.distributionendpoint.model.Distribution setFromId(java.lang.Long) -> b
+    java.lang.Long getId() -> i
+    com.trip.expensemanager.distributionendpoint.model.Distribution setPaid(java.lang.String) -> b
+    java.lang.Long getToId() -> j
+    com.trip.expensemanager.distributionendpoint.model.Distribution setToId(java.lang.Long) -> c
+    java.lang.Long getTripId() -> k
+    com.trip.expensemanager.distributionendpoint.model.Distribution setTripId(java.lang.Long) -> d
+    com.trip.expensemanager.distributionendpoint.model.Distribution set(java.lang.String,java.lang.Object) -> a
+    com.trip.expensemanager.distributionendpoint.model.Distribution clone() -> l
+    com.google.api.client.json.GenericJson clone() -> b
+    com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
+com.trip.expensemanager.expenseendpoint.Expenseendpoint -> com.trip.expensemanager.d.a:
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$GetExpense getExpense(java.lang.Long) -> a
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$InsertExpense insertExpense(com.trip.expensemanager.expenseendpoint.model.Expense) -> a
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$ListExpense listExpense() -> h
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$RemoveExpense removeExpense(java.lang.Long) -> b
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$UpdateExpense updateExpense(com.trip.expensemanager.expenseendpoint.model.Expense) -> b
-com.trip.expensemanager.expenseendpoint.Expenseendpoint$Builder -> com.trip.expensemanager.b.b:
+com.trip.expensemanager.expenseendpoint.Expenseendpoint$Builder -> com.trip.expensemanager.d.b:
     com.trip.expensemanager.expenseendpoint.Expenseendpoint build() -> b
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$Builder setRootUrl(java.lang.String) -> e
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$Builder setServicePath(java.lang.String) -> f
@@ -15861,16 +16083,16 @@ com.trip.expensemanager.expenseendpoint.Expenseendpoint$Builder -> com.trip.expe
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
-com.trip.expensemanager.expenseendpoint.Expenseendpoint$GetExpense -> com.trip.expensemanager.b.c:
+com.trip.expensemanager.expenseendpoint.Expenseendpoint$GetExpense -> com.trip.expensemanager.d.c:
     java.lang.Long id -> id
     com.trip.expensemanager.expenseendpoint.Expenseendpoint this$0 -> c
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$GetExpense set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.expenseendpoint.ExpenseendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.expenseendpoint.Expenseendpoint$InsertExpense -> com.trip.expensemanager.b.d:
+com.trip.expensemanager.expenseendpoint.Expenseendpoint$InsertExpense -> com.trip.expensemanager.d.d:
     com.trip.expensemanager.expenseendpoint.Expenseendpoint this$0 -> c
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$InsertExpense set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.expenseendpoint.ExpenseendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.expenseendpoint.Expenseendpoint$ListExpense -> com.trip.expensemanager.b.e:
+com.trip.expensemanager.expenseendpoint.Expenseendpoint$ListExpense -> com.trip.expensemanager.d.e:
     java.lang.String cursor -> cursor
     com.google.api.client.util.DateTime date -> date
     java.lang.Integer limit -> limit
@@ -15880,16 +16102,16 @@ com.trip.expensemanager.expenseendpoint.Expenseendpoint$ListExpense -> com.trip.
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$ListExpense setTripId(java.lang.Long) -> a
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$ListExpense set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.expenseendpoint.ExpenseendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.expenseendpoint.Expenseendpoint$RemoveExpense -> com.trip.expensemanager.b.f:
+com.trip.expensemanager.expenseendpoint.Expenseendpoint$RemoveExpense -> com.trip.expensemanager.d.f:
     java.lang.Long id -> id
     com.trip.expensemanager.expenseendpoint.Expenseendpoint this$0 -> c
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$RemoveExpense set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.expenseendpoint.ExpenseendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.expenseendpoint.Expenseendpoint$UpdateExpense -> com.trip.expensemanager.b.g:
+com.trip.expensemanager.expenseendpoint.Expenseendpoint$UpdateExpense -> com.trip.expensemanager.d.g:
     com.trip.expensemanager.expenseendpoint.Expenseendpoint this$0 -> c
     com.trip.expensemanager.expenseendpoint.Expenseendpoint$UpdateExpense set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.expenseendpoint.ExpenseendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.expenseendpoint.ExpenseendpointRequest -> com.trip.expensemanager.b.h:
+com.trip.expensemanager.expenseendpoint.ExpenseendpointRequest -> com.trip.expensemanager.d.h:
     java.lang.String alt -> alt
     java.lang.String fields -> fields
     java.lang.String key -> key
@@ -15903,7 +16125,7 @@ com.trip.expensemanager.expenseendpoint.ExpenseendpointRequest -> com.trip.expen
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setDisableGZipContent(boolean) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient getAbstractGoogleClient() -> f
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest set(java.lang.String,java.lang.Object) -> b
-com.trip.expensemanager.expenseendpoint.model.CollectionResponseExpense -> com.trip.expensemanager.b.a.a:
+com.trip.expensemanager.expenseendpoint.model.CollectionResponseExpense -> com.trip.expensemanager.d.a.a:
     java.util.List items -> items
     java.lang.String nextPageToken -> nextPageToken
     java.util.List getItems() -> a
@@ -15911,12 +16133,14 @@ com.trip.expensemanager.expenseendpoint.model.CollectionResponseExpense -> com.t
     com.trip.expensemanager.expenseendpoint.model.CollectionResponseExpense clone() -> e
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-com.trip.expensemanager.expenseendpoint.model.Expense -> com.trip.expensemanager.b.a.b:
+com.trip.expensemanager.expenseendpoint.model.Expense -> com.trip.expensemanager.d.a.b:
     java.lang.String amount -> amount
     java.lang.Long changerId -> changerId
     com.google.api.client.util.DateTime creationDate -> creationDate
     java.lang.String currency -> currency
     java.lang.String description -> description
+    java.util.List expenseAmounts -> expenseAmounts
+    java.util.List expenseUserIds -> expenseUserIds
     java.lang.Long id -> id
     java.lang.String name -> name
     java.lang.Long tripId -> tripId
@@ -15926,22 +16150,25 @@ com.trip.expensemanager.expenseendpoint.model.Expense -> com.trip.expensemanager
     com.trip.expensemanager.expenseendpoint.model.Expense setChangerId(java.lang.Long) -> a
     com.google.api.client.util.DateTime getCreationDate() -> e
     com.trip.expensemanager.expenseendpoint.model.Expense setCreationDate(com.google.api.client.util.DateTime) -> a
-    java.lang.String getCurrency() -> f
     com.trip.expensemanager.expenseendpoint.model.Expense setCurrency(java.lang.String) -> b
-    java.lang.String getDescription() -> h
+    java.lang.String getDescription() -> f
     com.trip.expensemanager.expenseendpoint.model.Expense setDescription(java.lang.String) -> c
-    java.lang.Long getId() -> i
-    java.lang.String getName() -> j
+    java.util.List getExpenseAmounts() -> h
+    com.trip.expensemanager.expenseendpoint.model.Expense setExpenseAmounts(java.util.List) -> a
+    java.util.List getExpenseUserIds() -> i
+    com.trip.expensemanager.expenseendpoint.model.Expense setExpenseUserIds(java.util.List) -> b
+    java.lang.Long getId() -> j
+    java.lang.String getName() -> k
     com.trip.expensemanager.expenseendpoint.model.Expense setName(java.lang.String) -> d
-    java.lang.Long getTripId() -> k
+    java.lang.Long getTripId() -> l
     com.trip.expensemanager.expenseendpoint.model.Expense setTripId(java.lang.Long) -> b
-    java.lang.Long getUserId() -> l
+    java.lang.Long getUserId() -> m
     com.trip.expensemanager.expenseendpoint.model.Expense setUserId(java.lang.Long) -> c
     com.trip.expensemanager.expenseendpoint.model.Expense set(java.lang.String,java.lang.Object) -> a
-    com.trip.expensemanager.expenseendpoint.model.Expense clone() -> m
+    com.trip.expensemanager.expenseendpoint.model.Expense clone() -> n
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-com.trip.expensemanager.fragments.AddExpenseFragment -> com.trip.expensemanager.c.a:
+com.trip.expensemanager.fragments.AddExpenseFragment -> com.trip.expensemanager.e.a:
     long lngTripId -> P
     long lngUserId -> Q
     android.widget.EditText eTxtExpenseName -> S
@@ -15957,27 +16184,73 @@ com.trip.expensemanager.fragments.AddExpenseFragment -> com.trip.expensemanager.
     java.lang.String strName -> ac
     java.lang.String strDetail -> ad
     java.lang.String strAmount -> ae
+    android.widget.ListView lvUsersList -> af
+    com.trip.expensemanager.adapters.CustomAddExpenseAdapter listAdapter -> ag
+    java.util.List strLstUsers -> ah
+    java.util.List strLstUserIds -> ai
+    java.util.List strLstAmounts -> aj
+    java.util.List bLstChecked -> ak
+    java.util.List bLstEnabled -> al
+    java.util.List strLstPrevAmounts -> am
+    boolean isAutoChanged -> an
+    android.widget.TextView txtSelectAll -> ao
+    android.widget.TextView txtSelectNone -> ap
     android.support.v4.app.Fragment newInstance(long,long,int) -> a
-    android.support.v4.app.Fragment newInstance(long,long,int,int) -> a
+    android.support.v4.app.Fragment newInstance(long,long,long,int,int) -> a
     void onCreate(android.os.Bundle) -> d
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    void loadUsersnAmounts(com.trip.utils.TripBean,com.trip.utils.ExpenseBean) -> a
+    void loadUsers(com.trip.utils.TripBean) -> a
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
     void showDeleteExpenseDialog(java.lang.String,long,int) -> a
-com.trip.expensemanager.fragments.AddExpenseFragment$1 -> com.trip.expensemanager.c.b:
+    void changeData(boolean) -> e
+    void onClick(android.view.View) -> onClick
+    boolean access$0(com.trip.expensemanager.fragments.AddExpenseFragment) -> a
+    java.util.List access$1(com.trip.expensemanager.fragments.AddExpenseFragment) -> b
+    java.util.List access$2(com.trip.expensemanager.fragments.AddExpenseFragment) -> c
+    com.trip.expensemanager.adapters.CustomAddExpenseAdapter access$3(com.trip.expensemanager.fragments.AddExpenseFragment) -> d
+    void access$4(com.trip.expensemanager.fragments.AddExpenseFragment,boolean) -> a
+    android.widget.ListView access$5(com.trip.expensemanager.fragments.AddExpenseFragment) -> e
+com.trip.expensemanager.fragments.AddExpenseFragment$1 -> com.trip.expensemanager.e.b:
+    com.trip.expensemanager.fragments.AddExpenseFragment this$0 -> a
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+    com.trip.expensemanager.fragments.AddExpenseFragment access$0(com.trip.expensemanager.fragments.AddExpenseFragment$1) -> a
+com.trip.expensemanager.fragments.AddExpenseFragment$1$1 -> com.trip.expensemanager.e.c:
+    com.trip.expensemanager.fragments.AddExpenseFragment$1 this$1 -> a
+    java.lang.String val$amount -> b
+    void run() -> run
+    com.trip.expensemanager.fragments.AddExpenseFragment$1 access$0(com.trip.expensemanager.fragments.AddExpenseFragment$1$1) -> a
+com.trip.expensemanager.fragments.AddExpenseFragment$1$1$1 -> com.trip.expensemanager.e.d:
+    com.trip.expensemanager.fragments.AddExpenseFragment$1$1 this$2 -> a
+    void run() -> run
+com.trip.expensemanager.fragments.AddExpenseFragment$2 -> com.trip.expensemanager.e.e:
+    com.trip.expensemanager.fragments.AddExpenseFragment this$0 -> a
+    void run() -> run
+com.trip.expensemanager.fragments.AddExpenseFragment$3 -> com.trip.expensemanager.e.f:
     com.trip.expensemanager.fragments.AddExpenseFragment this$0 -> a
     long val$expenseId -> b
     int val$position -> c
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddExpenseFragment$2 -> com.trip.expensemanager.c.c:
+com.trip.expensemanager.fragments.AddExpenseFragment$4 -> com.trip.expensemanager.e.g:
     com.trip.expensemanager.fragments.AddExpenseFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddPeopleFragment -> com.trip.expensemanager.c.d:
+com.trip.expensemanager.fragments.AddExpenseFragment$5 -> com.trip.expensemanager.e.h:
+    com.trip.expensemanager.fragments.AddExpenseFragment this$0 -> a
+    java.lang.String val$strAmount -> b
+    void run() -> run
+    com.trip.expensemanager.fragments.AddExpenseFragment access$0(com.trip.expensemanager.fragments.AddExpenseFragment$5) -> a
+com.trip.expensemanager.fragments.AddExpenseFragment$5$1 -> com.trip.expensemanager.e.i:
+    com.trip.expensemanager.fragments.AddExpenseFragment$5 this$1 -> a
+    void run() -> run
+com.trip.expensemanager.fragments.AddPeopleFragment -> com.trip.expensemanager.e.j:
     android.widget.ImageView ivQrImage -> P
     android.support.v4.app.Fragment newInstance(long,java.lang.String,long,java.lang.String) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     android.graphics.Bitmap encodeAsBitmap(java.lang.String,com.google.zxing.BarcodeFormat,int,int) -> a
-com.trip.expensemanager.fragments.AddTripFragment -> com.trip.expensemanager.c.e:
+com.trip.expensemanager.fragments.AddTripFragment -> com.trip.expensemanager.e.k:
     android.app.AlertDialog alert -> P
     android.widget.EditText eTxtTripName -> S
     android.widget.ListView listTrip -> T
@@ -15995,9 +16268,12 @@ com.trip.expensemanager.fragments.AddTripFragment -> com.trip.expensemanager.c.e
     java.util.List arrCreationDates -> ae
     java.util.List arrClosed -> af
     java.util.List arrSynched -> ag
+    android.content.BroadcastReceiver receiver -> ah
     com.trip.expensemanager.fragments.AddTripFragment newInstance(long) -> a
+    void onCreate(android.os.Bundle) -> d
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void onResume() -> j
+    void onPause() -> k
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
@@ -16012,111 +16288,96 @@ com.trip.expensemanager.fragments.AddTripFragment -> com.trip.expensemanager.c.e
     void addTrip(java.lang.String) -> a
     void onActivityResult(int,int,android.content.Intent) -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-    long access$0(com.trip.expensemanager.fragments.AddTripFragment) -> a
-    java.util.List access$1(com.trip.expensemanager.fragments.AddTripFragment) -> b
+    void access$0(com.trip.expensemanager.fragments.AddTripFragment) -> a
+    java.util.ArrayList access$1(com.trip.expensemanager.fragments.AddTripFragment) -> b
     java.util.List access$2(com.trip.expensemanager.fragments.AddTripFragment) -> c
-    java.util.ArrayList access$3(com.trip.expensemanager.fragments.AddTripFragment) -> d
-    com.trip.expensemanager.adapters.CustomTripListAdapter access$4(com.trip.expensemanager.fragments.AddTripFragment) -> e
+    java.util.List access$3(com.trip.expensemanager.fragments.AddTripFragment) -> d
+    java.util.List access$4(com.trip.expensemanager.fragments.AddTripFragment) -> e
     java.util.List access$5(com.trip.expensemanager.fragments.AddTripFragment) -> f
     java.util.List access$6(com.trip.expensemanager.fragments.AddTripFragment) -> g
-    java.util.List access$7(com.trip.expensemanager.fragments.AddTripFragment) -> h
-    android.widget.ListView access$8(com.trip.expensemanager.fragments.AddTripFragment) -> i
-    android.widget.TextView access$9(com.trip.expensemanager.fragments.AddTripFragment) -> j
+    android.widget.ListView access$7(com.trip.expensemanager.fragments.AddTripFragment) -> h
+    android.widget.TextView access$8(com.trip.expensemanager.fragments.AddTripFragment) -> i
+    com.trip.expensemanager.adapters.CustomTripListAdapter access$9(com.trip.expensemanager.fragments.AddTripFragment) -> j
     android.widget.Button access$10(com.trip.expensemanager.fragments.AddTripFragment) -> k
     android.widget.EditText access$11(com.trip.expensemanager.fragments.AddTripFragment) -> l
-com.trip.expensemanager.fragments.AddTripFragment$1 -> com.trip.expensemanager.c.f:
+com.trip.expensemanager.fragments.AddTripFragment$1 -> com.trip.expensemanager.e.l:
+    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.trip.expensemanager.fragments.AddTripFragment$2 -> com.trip.expensemanager.e.m:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     int val$position -> b
     long val$tripId -> c
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$2 -> com.trip.expensemanager.c.g:
+com.trip.expensemanager.fragments.AddTripFragment$3 -> com.trip.expensemanager.e.n:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$3 -> com.trip.expensemanager.c.h:
+com.trip.expensemanager.fragments.AddTripFragment$4 -> com.trip.expensemanager.e.o:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.AddTripFragment$4 -> com.trip.expensemanager.c.i:
+com.trip.expensemanager.fragments.AddTripFragment$5 -> com.trip.expensemanager.e.p:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$5 -> com.trip.expensemanager.c.j:
+com.trip.expensemanager.fragments.AddTripFragment$6 -> com.trip.expensemanager.e.q:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$6 -> com.trip.expensemanager.c.k:
+com.trip.expensemanager.fragments.AddTripFragment$7 -> com.trip.expensemanager.e.r:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.AddTripFragment$7 -> com.trip.expensemanager.c.l:
+com.trip.expensemanager.fragments.AddTripFragment$8 -> com.trip.expensemanager.e.s:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     long val$tripId -> b
-    int val$position -> c
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$8 -> com.trip.expensemanager.c.m:
+com.trip.expensemanager.fragments.AddTripFragment$9 -> com.trip.expensemanager.e.t:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$AddTripTask -> com.trip.expensemanager.c.n:
-    java.lang.String strTripName -> b
-    int iPos -> c
-    long lngTripId -> d
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    java.lang.Long doInBackground(java.lang.String[]) -> a
-    void onPostExecute(java.lang.Long) -> a
-    long addNewTrip(java.lang.String,java.lang.String) -> a
-    long addNewTripQR(java.lang.String,java.lang.String,long) -> a
-    void onPostExecute(java.lang.Object) -> onPostExecute
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.trip.expensemanager.fragments.AddTripFragment$DeleteTripTask -> com.trip.expensemanager.c.o:
-    long lngTripId -> b
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    java.lang.Boolean doInBackground(java.lang.String[]) -> a
-    boolean deleteTrip(long) -> a
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.trip.expensemanager.fragments.AddTripFragment$UpdateTripTask -> com.trip.expensemanager.c.p:
-    java.lang.String strTripName -> b
-    long lngTripId -> c
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    java.lang.Boolean doInBackground(java.lang.String[]) -> a
-    boolean updateTrip(long,java.lang.String) -> a
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.trip.expensemanager.fragments.CustomFragment -> com.trip.expensemanager.c.q:
+com.trip.expensemanager.fragments.CustomFragment -> com.trip.expensemanager.e.u:
     android.app.AlertDialog alert -> R
     void showMessage(java.lang.String) -> b
+    void showInfoMessage(java.lang.String) -> c
     void showError(android.widget.EditText,java.lang.String) -> a
-com.trip.expensemanager.fragments.CustomFragment$1 -> com.trip.expensemanager.c.r:
+com.trip.expensemanager.fragments.CustomFragment$1 -> com.trip.expensemanager.e.v:
     com.trip.expensemanager.fragments.CustomFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.c.s:
-    android.widget.TextView txtNewUser -> W
-    android.widget.EditText eTxtLoginUsername -> X
-    android.widget.EditText eTxtLoginPassword -> Y
-    android.widget.EditText eTxtRegisterUsername -> Z
-    android.widget.EditText eTxtRegisterPassword -> aa
-    android.widget.EditText eTxtConfPassword -> ab
-    android.widget.Button btnLogin -> ac
-    android.widget.Button btnRegister -> ad
-    java.lang.String strUsername -> ae
-    java.lang.String strPassword -> af
-    java.lang.String strConfPassword -> ag
+com.trip.expensemanager.fragments.CustomFragment$2 -> com.trip.expensemanager.e.w:
+    com.trip.expensemanager.fragments.CustomFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.e.x:
+    android.widget.TextView txtNewUser -> Y
+    android.widget.EditText eTxtLoginUsername -> Z
+    android.widget.EditText eTxtLoginPassword -> aa
+    android.widget.EditText eTxtRegisterUsername -> ab
+    android.widget.EditText eTxtRegisterPassword -> ac
+    android.widget.EditText eTxtConfPassword -> ad
+    android.widget.Button btnLogin -> ae
+    android.widget.Button btnRegister -> af
+    java.lang.String strUsername -> ag
+    java.lang.String strPassword -> ah
+    java.lang.String strConfPassword -> ai
     android.app.AlertDialog alert -> P
-    android.widget.ImageView ivIcon -> ah
-    android.widget.ScrollView svLogin -> ai
-    android.widget.ScrollView svRegister -> aj
+    android.widget.ImageView ivIcon -> aj
+    android.widget.ScrollView svLogin -> ak
+    android.widget.ScrollView svRegister -> al
     android.view.animation.Animation bounceImage -> Q
     android.view.animation.Animation exitAnim -> S
     android.view.animation.Animation enterAnim -> T
-    android.widget.ProgressBar pbUsername -> ak
-    android.widget.ProgressBar pbConfPwd -> al
+    android.widget.ProgressBar pbUsername -> am
+    android.widget.ProgressBar pbConfPwd -> an
     boolean pwdChecked -> U
     boolean usernameChecked -> V
-    android.view.animation.Animation registerAnim -> am
-    android.view.animation.Animation regEnterAnim -> an
-    android.widget.TextView txtBack -> ao
-    android.view.animation.Animation loginAnim -> ap
-    int position -> aq
-    android.support.v4.app.FragmentActivity context -> ar
-    boolean isVersionICSorGreater -> as
+    android.view.animation.Animation registerAnim -> ao
+    android.view.animation.Animation regEnterAnim -> ap
+    android.widget.TextView txtBack -> aq
+    android.view.animation.Animation loginAnim -> ar
+    int position -> as
+    android.support.v4.app.FragmentActivity context -> at
+    boolean isVersionICSorGreater -> au
+    android.widget.EditText eTxtPrefferedName -> av
+    boolean prefferedNameChecked -> W
+    java.lang.String strPrefferedName -> X
     com.trip.expensemanager.fragments.LoginFragment newInstance() -> A
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void onSaveInstanceState(android.os.Bundle) -> g
@@ -16139,94 +16400,93 @@ com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.c.s:
     java.lang.String access$8(com.trip.expensemanager.fragments.LoginFragment) -> g
     android.widget.Button access$9(com.trip.expensemanager.fragments.LoginFragment) -> h
     android.widget.EditText access$10(com.trip.expensemanager.fragments.LoginFragment) -> i
-    android.widget.Button access$11(com.trip.expensemanager.fragments.LoginFragment) -> j
-    android.widget.ProgressBar access$12(com.trip.expensemanager.fragments.LoginFragment) -> k
-    java.lang.String access$13(com.trip.expensemanager.fragments.LoginFragment) -> l
+    android.widget.ProgressBar access$11(com.trip.expensemanager.fragments.LoginFragment) -> j
+    android.widget.Button access$12(com.trip.expensemanager.fragments.LoginFragment) -> k
+    android.widget.EditText access$13(com.trip.expensemanager.fragments.LoginFragment) -> l
     android.widget.EditText access$14(com.trip.expensemanager.fragments.LoginFragment) -> m
-    android.widget.EditText access$15(com.trip.expensemanager.fragments.LoginFragment) -> n
-    void access$16(com.trip.expensemanager.fragments.LoginFragment,java.lang.String) -> c
-    android.widget.ProgressBar access$17(com.trip.expensemanager.fragments.LoginFragment) -> o
-com.trip.expensemanager.fragments.LoginFragment$1 -> com.trip.expensemanager.c.t:
+    android.widget.ProgressBar access$15(com.trip.expensemanager.fragments.LoginFragment) -> n
+    android.widget.EditText access$16(com.trip.expensemanager.fragments.LoginFragment) -> o
+    void access$17(com.trip.expensemanager.fragments.LoginFragment,java.lang.String) -> c
+    java.lang.String access$18(com.trip.expensemanager.fragments.LoginFragment) -> p
+com.trip.expensemanager.fragments.LoginFragment$1 -> com.trip.expensemanager.e.y:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$2 -> com.trip.expensemanager.c.u:
+com.trip.expensemanager.fragments.LoginFragment$2 -> com.trip.expensemanager.e.z:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.LoginFragment$3 -> com.trip.expensemanager.c.v:
+com.trip.expensemanager.fragments.LoginFragment$3 -> com.trip.expensemanager.e.aa:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.LoginFragment$4 -> com.trip.expensemanager.c.w:
+com.trip.expensemanager.fragments.LoginFragment$4 -> com.trip.expensemanager.e.ab:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$4) -> a
-com.trip.expensemanager.fragments.LoginFragment$4$1 -> com.trip.expensemanager.c.x:
-    boolean pwdChecked -> b
+com.trip.expensemanager.fragments.LoginFragment$4$1 -> com.trip.expensemanager.e.ac:
     com.trip.expensemanager.fragments.LoginFragment$4 this$1 -> a
     void run() -> run
     com.trip.expensemanager.fragments.LoginFragment$4 access$0(com.trip.expensemanager.fragments.LoginFragment$4$1) -> a
-com.trip.expensemanager.fragments.LoginFragment$4$1$1 -> com.trip.expensemanager.c.y:
+com.trip.expensemanager.fragments.LoginFragment$4$1$1 -> com.trip.expensemanager.e.ad:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$1$2 -> com.trip.expensemanager.c.z:
+com.trip.expensemanager.fragments.LoginFragment$4$1$2 -> com.trip.expensemanager.e.ae:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$1$3 -> com.trip.expensemanager.c.aa:
+com.trip.expensemanager.fragments.LoginFragment$4$1$3 -> com.trip.expensemanager.e.af:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$1$4 -> com.trip.expensemanager.c.ab:
+com.trip.expensemanager.fragments.LoginFragment$4$1$4 -> com.trip.expensemanager.e.ag:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$2 -> com.trip.expensemanager.c.ac:
-    com.trip.expensemanager.fragments.LoginFragment$4 this$1 -> a
-    void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$3 -> com.trip.expensemanager.c.ad:
-    com.trip.expensemanager.fragments.LoginFragment$4 this$1 -> a
-    void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$5 -> com.trip.expensemanager.c.ae:
+com.trip.expensemanager.fragments.LoginFragment$5 -> com.trip.expensemanager.e.ah:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-    com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$5) -> a
-com.trip.expensemanager.fragments.LoginFragment$5$1 -> com.trip.expensemanager.c.af:
-    com.trip.expensemanager.fragments.LoginFragment$5 this$1 -> a
-    void run() -> run
-    com.trip.expensemanager.fragments.LoginFragment$5 access$0(com.trip.expensemanager.fragments.LoginFragment$5$1) -> a
-com.trip.expensemanager.fragments.LoginFragment$5$1$1 -> com.trip.expensemanager.c.ag:
-    com.trip.expensemanager.fragments.LoginFragment$5$1 this$2 -> a
-    void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$5$1$2 -> com.trip.expensemanager.c.ah:
-    com.trip.expensemanager.fragments.LoginFragment$5$1 this$2 -> a
-    void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$6 -> com.trip.expensemanager.c.ai:
+com.trip.expensemanager.fragments.LoginFragment$6 -> com.trip.expensemanager.e.ai:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$6) -> a
-com.trip.expensemanager.fragments.LoginFragment$6$1 -> com.trip.expensemanager.c.aj:
+com.trip.expensemanager.fragments.LoginFragment$6$1 -> com.trip.expensemanager.e.aj:
     com.trip.expensemanager.fragments.LoginFragment$6 this$1 -> a
     void run() -> run
     com.trip.expensemanager.fragments.LoginFragment$6 access$0(com.trip.expensemanager.fragments.LoginFragment$6$1) -> a
-com.trip.expensemanager.fragments.LoginFragment$6$1$1 -> com.trip.expensemanager.c.ak:
+com.trip.expensemanager.fragments.LoginFragment$6$1$1 -> com.trip.expensemanager.e.ak:
     com.trip.expensemanager.fragments.LoginFragment$6$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$6$1$2 -> com.trip.expensemanager.c.al:
+com.trip.expensemanager.fragments.LoginFragment$6$1$2 -> com.trip.expensemanager.e.al:
     com.trip.expensemanager.fragments.LoginFragment$6$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$7 -> com.trip.expensemanager.c.am:
+com.trip.expensemanager.fragments.LoginFragment$7 -> com.trip.expensemanager.e.am:
+    com.trip.expensemanager.fragments.LoginFragment this$0 -> a
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+    com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$7) -> a
+com.trip.expensemanager.fragments.LoginFragment$7$1 -> com.trip.expensemanager.e.an:
+    com.trip.expensemanager.fragments.LoginFragment$7 this$1 -> a
+    void run() -> run
+    com.trip.expensemanager.fragments.LoginFragment$7 access$0(com.trip.expensemanager.fragments.LoginFragment$7$1) -> a
+com.trip.expensemanager.fragments.LoginFragment$7$1$1 -> com.trip.expensemanager.e.ao:
+    com.trip.expensemanager.fragments.LoginFragment$7$1 this$2 -> a
+    void run() -> run
+com.trip.expensemanager.fragments.LoginFragment$7$1$2 -> com.trip.expensemanager.e.ap:
+    com.trip.expensemanager.fragments.LoginFragment$7$1 this$2 -> a
+    void run() -> run
+com.trip.expensemanager.fragments.LoginFragment$8 -> com.trip.expensemanager.e.aq:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.LoginFragment$8 -> com.trip.expensemanager.c.an:
+com.trip.expensemanager.fragments.LoginFragment$9 -> com.trip.expensemanager.e.ar:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void run() -> run
-com.trip.expensemanager.fragments.TripDetailsFragment -> com.trip.expensemanager.c.ao:
+com.trip.expensemanager.fragments.TripDetailsFragment -> com.trip.expensemanager.e.as:
     android.app.AlertDialog alert -> P
     long lngUserId -> Q
     java.util.ArrayList arrExpenses -> S
@@ -16238,70 +16498,84 @@ com.trip.expensemanager.fragments.TripDetailsFragment -> com.trip.expensemanager
     org.achartengine.GraphicalView mChart -> Y
     android.widget.TextView txtNoExpenses -> Z
     android.support.v4.util.LongSparseArray expenseSparseArr -> aa
-    float fTotalSpent -> ab
-    java.util.ArrayList arrDistribution -> ac
-    android.widget.ListView lvDistributionList -> ad
-    android.widget.ArrayAdapter listAdapter -> ae
-    android.widget.ProgressBar pbTripName -> af
-    android.widget.EditText eTxtTripName -> ag
-    android.widget.Button btnModify -> ah
-    android.widget.Button btnCancel -> ai
-    android.widget.TextView txtDistribution -> aj
-    long lngAdminId -> ak
-    android.widget.TextView txtTripAmount -> al
+    android.support.v4.util.LongSparseArray toGetSparseArr -> ab
+    java.lang.String strTotalSpent -> ac
+    java.util.List arrDistribution -> ad
+    java.util.List arrPossibletoSettle -> ae
+    java.util.ArrayList arrFromUsrIds -> af
+    java.util.ArrayList arrAmountToPay -> ag
+    android.widget.ListView lvDistributionList -> ah
+    android.widget.ArrayAdapter listAdapter -> ai
+    android.widget.EditText eTxtTripName -> aj
+    android.widget.Button btnModify -> ak
+    android.widget.Button btnCancel -> al
+    android.widget.TextView txtDistribution -> am
+    long lngAdminId -> an
+    android.widget.TextView txtTripAmount -> ao
+    android.widget.RadioButton btnUnsettled -> ap
+    android.widget.RadioButton btnSettled -> aq
+    android.widget.RadioGroup rgDist -> ar
+    android.widget.Button btnYes -> as
+    java.lang.String strAmount -> at
     com.trip.expensemanager.fragments.TripDetailsFragment newInstance(java.lang.String,long,long) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void loadData() -> A
+    void loadData(com.trip.utils.TripBean) -> a
+    void buildDistribution() -> A
     void splitExpense(com.trip.utils.DistributionBean[],com.trip.utils.DistributionBean[],com.trip.utils.DistributionBean[]) -> a
     void openChart() -> B
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
     void showDeleteTripDialog(java.lang.String,long) -> a
     void deleteTrip(long) -> a
-    float subtract(float,float) -> a
-    float add(float,java.lang.String) -> a
     void onClick(android.view.View) -> onClick
+    void showSettleDeptDialog(int) -> b
+    void markDistributionAsSettled(int) -> a
     void showUpdateTripNameDialog(java.lang.String) -> a
     void updateTrip(long,java.lang.String) -> a
-    long access$0(com.trip.expensemanager.fragments.TripDetailsFragment) -> a
-    android.widget.Button access$1(com.trip.expensemanager.fragments.TripDetailsFragment) -> b
-    android.widget.EditText access$2(com.trip.expensemanager.fragments.TripDetailsFragment) -> c
-    void access$3(com.trip.expensemanager.fragments.TripDetailsFragment,java.lang.String) -> a
-    long access$4(com.trip.expensemanager.fragments.TripDetailsFragment) -> d
-    java.lang.String access$5(com.trip.expensemanager.fragments.TripDetailsFragment) -> e
-    android.widget.TextView access$6(com.trip.expensemanager.fragments.TripDetailsFragment) -> f
-com.trip.expensemanager.fragments.TripDetailsFragment$1 -> com.trip.expensemanager.c.ap:
+    void onCheckedChanged(android.widget.RadioGroup,int) -> onCheckedChanged
+    void reBuildDistribution() -> C
+    void showSettledDistribution() -> D
+    void showUnsettledDistribution() -> E
+    android.widget.Button access$0(com.trip.expensemanager.fragments.TripDetailsFragment) -> a
+    void access$1(com.trip.expensemanager.fragments.TripDetailsFragment,java.lang.String) -> a
+    java.lang.String access$2(com.trip.expensemanager.fragments.TripDetailsFragment) -> b
+    android.widget.Button access$3(com.trip.expensemanager.fragments.TripDetailsFragment) -> c
+    android.widget.EditText access$4(com.trip.expensemanager.fragments.TripDetailsFragment) -> d
+    void access$5(com.trip.expensemanager.fragments.TripDetailsFragment,java.lang.String) -> b
+    long access$6(com.trip.expensemanager.fragments.TripDetailsFragment) -> e
+    java.lang.String access$7(com.trip.expensemanager.fragments.TripDetailsFragment) -> f
+    android.widget.TextView access$8(com.trip.expensemanager.fragments.TripDetailsFragment) -> g
+com.trip.expensemanager.fragments.TripDetailsFragment$1 -> com.trip.expensemanager.e.at:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     long val$tripId -> b
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$2 -> com.trip.expensemanager.c.aq:
+com.trip.expensemanager.fragments.TripDetailsFragment$2 -> com.trip.expensemanager.e.au:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$3 -> com.trip.expensemanager.c.ar:
+com.trip.expensemanager.fragments.TripDetailsFragment$3 -> com.trip.expensemanager.e.av:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.TripDetailsFragment$4 -> com.trip.expensemanager.c.as:
+com.trip.expensemanager.fragments.TripDetailsFragment$4 -> com.trip.expensemanager.e.aw:
+    com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
+    int val$position -> b
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.TripDetailsFragment$5 -> com.trip.expensemanager.e.ax:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$5 -> com.trip.expensemanager.c.at:
+com.trip.expensemanager.fragments.TripDetailsFragment$6 -> com.trip.expensemanager.e.ay:
+    com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+com.trip.expensemanager.fragments.TripDetailsFragment$7 -> com.trip.expensemanager.e.az:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$DeleteTripTask -> com.trip.expensemanager.c.au:
-    long lngTripId -> b
+com.trip.expensemanager.fragments.TripDetailsFragment$8 -> com.trip.expensemanager.e.ba:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
-    java.lang.Boolean doInBackground(java.lang.String[]) -> a
-    boolean deleteTrip(long) -> a
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.trip.expensemanager.fragments.TripDetailsFragment$UpdateTripTask -> com.trip.expensemanager.c.av:
-    java.lang.String strTripName -> b
-    long lngTripId -> c
-    com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
-    java.lang.Boolean doInBackground(java.lang.String[]) -> a
-    boolean updateTrip(long,java.lang.String) -> a
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager.c.aw:
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager.e.bb:
     android.app.AlertDialog alert -> P
     android.widget.ListView listExpense -> Q
     long lngUserId -> S
@@ -16315,17 +16589,20 @@ com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager
     java.util.List arrExpenseAmount -> aa
     java.util.List arrSynced -> ab
     java.util.List arrExpenseNotSynched -> ac
-    java.lang.String strTripName -> ad
-    long lngExpUserId -> ae
-    int iPosition -> af
-    long lngAdminId -> ag
-    java.util.concurrent.atomic.AtomicInteger newExpenseCalled -> ah
+    long lngExpUserId -> ad
+    long lngAdminId -> ae
+    android.content.BroadcastReceiver receiver -> af
+    java.util.concurrent.atomic.AtomicInteger newExpenseCalled -> ag
     com.trip.expensemanager.fragments.TripExpenseFragment newInstance(java.lang.String,long,long) -> a
     android.support.v4.app.Fragment newInstance(long,long,int,long,long) -> a
+    void onCreate(android.os.Bundle) -> d
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void loadData() -> C
+    void loadData() -> B
+    void onResume() -> j
+    void onPause() -> k
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
+    void tryExitingTrip() -> C
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> b
     void showExitEG() -> A
@@ -16334,76 +16611,33 @@ com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager
     void showAddExpense() -> D
     void onActivityResult(int,int,android.content.Intent) -> a
     void deleteExpense(long,int) -> a
-    void addExpense(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
-    void updateExpense(java.lang.String,java.lang.String,java.lang.String,long,int) -> a
+    boolean areAllUsersPresent(com.trip.utils.TripBean,com.trip.utils.ExpenseBean) -> a
+    void addExpense(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
+    void updateExpense(java.lang.String,java.lang.String,java.lang.String,long,int,java.lang.String,java.lang.String) -> a
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
     void showUpdateExpense(long,int) -> b
     void access$0(com.trip.expensemanager.fragments.TripExpenseFragment) -> a
     long access$1(com.trip.expensemanager.fragments.TripExpenseFragment) -> b
     long access$2(com.trip.expensemanager.fragments.TripExpenseFragment) -> c
-    java.util.concurrent.atomic.AtomicInteger access$3() -> B
-    long access$4(com.trip.expensemanager.fragments.TripExpenseFragment) -> d
-    void access$5(com.trip.expensemanager.fragments.TripExpenseFragment,long,int) -> a
-com.trip.expensemanager.fragments.TripExpenseFragment$1 -> com.trip.expensemanager.c.ax:
+    void access$3(com.trip.expensemanager.fragments.TripExpenseFragment,long,int) -> a
+com.trip.expensemanager.fragments.TripExpenseFragment$1 -> com.trip.expensemanager.e.bc:
+    com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.trip.expensemanager.fragments.TripExpenseFragment$2 -> com.trip.expensemanager.e.bd:
     com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripExpenseFragment$2 -> com.trip.expensemanager.c.ay:
+com.trip.expensemanager.fragments.TripExpenseFragment$3 -> com.trip.expensemanager.e.be:
     com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripExpenseFragment$3 -> com.trip.expensemanager.c.az:
+com.trip.expensemanager.fragments.TripExpenseFragment$4 -> com.trip.expensemanager.e.bf:
     com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
     long val$expenseId -> b
     int val$position -> c
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripExpenseFragment$4 -> com.trip.expensemanager.c.ba:
+com.trip.expensemanager.fragments.TripExpenseFragment$5 -> com.trip.expensemanager.e.bg:
     com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripExpenseFragment$AddExpenseTask -> com.trip.expensemanager.c.bb:
-    java.lang.String strExpenseName -> b
-    java.lang.String strExpenseDesc -> c
-    java.lang.String strExpenseAmount -> d
-    long lngExpenseId -> e
-    java.lang.String strDate -> f
-    android.content.Context context -> g
-    com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
-    void onPreExecute() -> onPreExecute
-    java.lang.Long doInBackground(java.lang.Void[]) -> a
-    void onPostExecute(java.lang.Long) -> a
-    long addNewExpense() -> a
-    void onPostExecute(java.lang.Object) -> onPostExecute
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.trip.expensemanager.fragments.TripExpenseFragment$DeleteExpenseTask -> com.trip.expensemanager.c.bc:
-    long lngExpenseId -> b
-    android.content.Context context -> c
-    com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
-    void onPreExecute() -> onPreExecute
-    java.lang.Boolean doInBackground(java.lang.Void[]) -> a
-    void onPostExecute(java.lang.Boolean) -> a
-    boolean deleteExpense(long) -> a
-    void onPostExecute(java.lang.Object) -> onPostExecute
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.trip.expensemanager.fragments.TripExpenseFragment$ExitEGTask -> com.trip.expensemanager.c.bd:
-    long lngTripId -> b
-    android.content.Context context -> c
-    long lngUserId -> d
-    com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
-    java.lang.Boolean doInBackground(java.lang.Void[]) -> a
-    void onPostExecute(java.lang.Boolean) -> a
-    java.lang.Boolean deletePerson(long,long) -> a
-    void onPostExecute(java.lang.Object) -> onPostExecute
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.trip.expensemanager.fragments.TripExpenseFragment$UpdateExpenseTask -> com.trip.expensemanager.c.be:
-    java.lang.String strExpenseName -> b
-    java.lang.String strExpenseDesc -> c
-    java.lang.String strExpenseAmount -> d
-    long lngExpenseId -> e
-    android.content.Context context -> f
-    com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
-    void onPreExecute() -> onPreExecute
-    java.lang.Long doInBackground(java.lang.Void[]) -> a
-    java.lang.Long updateExpense() -> a
-    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
-com.trip.expensemanager.fragments.TripPeopleFragment -> com.trip.expensemanager.c.bf:
+com.trip.expensemanager.fragments.TripPeopleFragment -> com.trip.expensemanager.e.bh:
     android.app.AlertDialog alert -> P
     android.widget.ListView listPeople -> Q
     long lngUserId -> S
@@ -16431,21 +16665,33 @@ com.trip.expensemanager.fragments.TripPeopleFragment -> com.trip.expensemanager.
     void showDeletePersonDialog(java.lang.String,long,int,java.lang.String) -> a
     void deleteUser(long,int) -> a
     java.lang.String add(java.lang.String,java.lang.String) -> a
-com.trip.expensemanager.fragments.TripPeopleFragment$1 -> com.trip.expensemanager.c.bg:
+com.trip.expensemanager.fragments.TripPeopleFragment$1 -> com.trip.expensemanager.e.bi:
     com.trip.expensemanager.fragments.TripPeopleFragment this$0 -> a
     long val$userId -> b
     int val$position -> c
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripPeopleFragment$2 -> com.trip.expensemanager.c.bh:
+com.trip.expensemanager.fragments.TripPeopleFragment$2 -> com.trip.expensemanager.e.bj:
     com.trip.expensemanager.fragments.TripPeopleFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.loginendpoint.Loginendpoint -> com.trip.expensemanager.d.a:
+com.trip.expensemanager.fragments.UpdatesFragment -> com.trip.expensemanager.e.bk:
+    com.trip.expensemanager.adapters.CustomUpdatesAdapter listAdapter -> P
+    android.widget.ListView lvUpdatesList -> Q
+    java.util.List listUpdates -> S
+    java.util.List listLabels -> T
+    java.util.List listActions -> U
+    android.widget.TextView tvNoUpdates -> V
+    com.trip.expensemanager.fragments.UpdatesFragment newInstance() -> A
+    android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
+    void loadData() -> B
+    void onResume() -> j
+    void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+com.trip.expensemanager.loginendpoint.Loginendpoint -> com.trip.expensemanager.f.a:
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
     com.trip.expensemanager.loginendpoint.Loginendpoint$GetLogIn getLogIn(java.lang.Long) -> a
     com.trip.expensemanager.loginendpoint.Loginendpoint$InsertLogIn insertLogIn(com.trip.expensemanager.loginendpoint.model.LogIn) -> a
     com.trip.expensemanager.loginendpoint.Loginendpoint$ListLogIn listLogIn() -> h
     com.trip.expensemanager.loginendpoint.Loginendpoint$UpdateLogIn updateLogIn(com.trip.expensemanager.loginendpoint.model.LogIn) -> b
-com.trip.expensemanager.loginendpoint.Loginendpoint$Builder -> com.trip.expensemanager.d.b:
+com.trip.expensemanager.loginendpoint.Loginendpoint$Builder -> com.trip.expensemanager.f.b:
     com.trip.expensemanager.loginendpoint.Loginendpoint build() -> b
     com.trip.expensemanager.loginendpoint.Loginendpoint$Builder setRootUrl(java.lang.String) -> e
     com.trip.expensemanager.loginendpoint.Loginendpoint$Builder setServicePath(java.lang.String) -> f
@@ -16453,16 +16699,16 @@ com.trip.expensemanager.loginendpoint.Loginendpoint$Builder -> com.trip.expensem
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
-com.trip.expensemanager.loginendpoint.Loginendpoint$GetLogIn -> com.trip.expensemanager.d.c:
+com.trip.expensemanager.loginendpoint.Loginendpoint$GetLogIn -> com.trip.expensemanager.f.c:
     java.lang.Long id -> id
     com.trip.expensemanager.loginendpoint.Loginendpoint this$0 -> c
     com.trip.expensemanager.loginendpoint.Loginendpoint$GetLogIn set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.loginendpoint.LoginendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.loginendpoint.Loginendpoint$InsertLogIn -> com.trip.expensemanager.d.d:
+com.trip.expensemanager.loginendpoint.Loginendpoint$InsertLogIn -> com.trip.expensemanager.f.d:
     com.trip.expensemanager.loginendpoint.Loginendpoint this$0 -> c
     com.trip.expensemanager.loginendpoint.Loginendpoint$InsertLogIn set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.loginendpoint.LoginendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.loginendpoint.Loginendpoint$ListLogIn -> com.trip.expensemanager.d.e:
+com.trip.expensemanager.loginendpoint.Loginendpoint$ListLogIn -> com.trip.expensemanager.f.e:
     java.lang.String cursor -> cursor
     java.lang.String username -> username
     java.lang.Integer limit -> limit
@@ -16470,11 +16716,11 @@ com.trip.expensemanager.loginendpoint.Loginendpoint$ListLogIn -> com.trip.expens
     com.trip.expensemanager.loginendpoint.Loginendpoint$ListLogIn setUsername(java.lang.String) -> a
     com.trip.expensemanager.loginendpoint.Loginendpoint$ListLogIn set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.loginendpoint.LoginendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.loginendpoint.Loginendpoint$UpdateLogIn -> com.trip.expensemanager.d.f:
+com.trip.expensemanager.loginendpoint.Loginendpoint$UpdateLogIn -> com.trip.expensemanager.f.f:
     com.trip.expensemanager.loginendpoint.Loginendpoint this$0 -> c
     com.trip.expensemanager.loginendpoint.Loginendpoint$UpdateLogIn set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.loginendpoint.LoginendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.loginendpoint.LoginendpointRequest -> com.trip.expensemanager.d.g:
+com.trip.expensemanager.loginendpoint.LoginendpointRequest -> com.trip.expensemanager.f.g:
     java.lang.String alt -> alt
     java.lang.String fields -> fields
     java.lang.String key -> key
@@ -16488,7 +16734,7 @@ com.trip.expensemanager.loginendpoint.LoginendpointRequest -> com.trip.expensema
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setDisableGZipContent(boolean) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient getAbstractGoogleClient() -> f
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest set(java.lang.String,java.lang.Object) -> b
-com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn -> com.trip.expensemanager.d.a.a:
+com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn -> com.trip.expensemanager.f.a.a:
     java.util.List items -> items
     java.lang.String nextPageToken -> nextPageToken
     java.util.List getItems() -> a
@@ -16496,23 +16742,26 @@ com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn -> com.trip.
     com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn clone() -> e
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-com.trip.expensemanager.loginendpoint.model.LogIn -> com.trip.expensemanager.d.a.b:
+com.trip.expensemanager.loginendpoint.model.LogIn -> com.trip.expensemanager.f.a.b:
+    java.util.List deviceIDs -> deviceIDs
     java.lang.Long id -> id
     java.lang.String password -> password
-    java.lang.String regId -> regId
+    java.lang.String prefferedName -> prefferedName
     java.util.List tripIDs -> tripIDs
     java.lang.String username -> username
-    java.lang.Long getId() -> a
-    java.lang.String getPassword() -> e
+    java.util.List getDeviceIDs() -> a
+    com.trip.expensemanager.loginendpoint.model.LogIn setDeviceIDs(java.util.List) -> a
+    java.lang.Long getId() -> e
+    java.lang.String getPassword() -> f
     com.trip.expensemanager.loginendpoint.model.LogIn setPassword(java.lang.String) -> a
-    java.lang.String getRegId() -> f
-    com.trip.expensemanager.loginendpoint.model.LogIn setRegId(java.lang.String) -> b
-    java.util.List getTripIDs() -> h
-    com.trip.expensemanager.loginendpoint.model.LogIn setTripIDs(java.util.List) -> a
-    java.lang.String getUsername() -> i
+    java.lang.String getPrefferedName() -> h
+    com.trip.expensemanager.loginendpoint.model.LogIn setPrefferedName(java.lang.String) -> b
+    java.util.List getTripIDs() -> i
+    com.trip.expensemanager.loginendpoint.model.LogIn setTripIDs(java.util.List) -> b
+    java.lang.String getUsername() -> j
     com.trip.expensemanager.loginendpoint.model.LogIn setUsername(java.lang.String) -> c
     com.trip.expensemanager.loginendpoint.model.LogIn set(java.lang.String,java.lang.Object) -> a
-    com.trip.expensemanager.loginendpoint.model.LogIn clone() -> j
+    com.trip.expensemanager.loginendpoint.model.LogIn clone() -> k
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
 com.trip.expensemanager.scanner.CameraPreview -> com.trip.expensemanager.scanner.a:
@@ -16559,11 +16808,11 @@ com.trip.expensemanager.scanner.ZBarScannerActivity$1 -> com.trip.expensemanager
 com.trip.expensemanager.scanner.ZBarScannerActivity$2 -> com.trip.expensemanager.scanner.c:
     com.trip.expensemanager.scanner.ZBarScannerActivity this$0 -> a
     void onAutoFocus(boolean,android.hardware.Camera) -> onAutoFocus
-com.trip.expensemanager.tosyncendpoint.Tosyncendpoint -> com.trip.expensemanager.e.a:
+com.trip.expensemanager.tosyncendpoint.Tosyncendpoint -> com.trip.expensemanager.g.a:
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
     com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$ListToSync listToSync() -> h
     com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$RemoveToSync removeToSync(java.lang.Long) -> a
-com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$Builder -> com.trip.expensemanager.e.b:
+com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$Builder -> com.trip.expensemanager.g.b:
     com.trip.expensemanager.tosyncendpoint.Tosyncendpoint build() -> b
     com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$Builder setRootUrl(java.lang.String) -> e
     com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$Builder setServicePath(java.lang.String) -> f
@@ -16571,7 +16820,7 @@ com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$Builder -> com.trip.expens
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
-com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$ListToSync -> com.trip.expensemanager.e.c:
+com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$ListToSync -> com.trip.expensemanager.g.c:
     java.lang.String cursor -> cursor
     java.lang.String syncType -> syncType
     java.lang.Integer limit -> limit
@@ -16580,12 +16829,12 @@ com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$ListToSync -> com.trip.exp
     com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$ListToSync setUserId(java.lang.Long) -> a
     com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$ListToSync set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.tosyncendpoint.TosyncendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$RemoveToSync -> com.trip.expensemanager.e.d:
+com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$RemoveToSync -> com.trip.expensemanager.g.d:
     java.lang.Long id -> id
     com.trip.expensemanager.tosyncendpoint.Tosyncendpoint this$0 -> c
     com.trip.expensemanager.tosyncendpoint.Tosyncendpoint$RemoveToSync set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.tosyncendpoint.TosyncendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.tosyncendpoint.TosyncendpointRequest -> com.trip.expensemanager.e.e:
+com.trip.expensemanager.tosyncendpoint.TosyncendpointRequest -> com.trip.expensemanager.g.e:
     java.lang.String alt -> alt
     java.lang.String fields -> fields
     java.lang.String key -> key
@@ -16599,7 +16848,7 @@ com.trip.expensemanager.tosyncendpoint.TosyncendpointRequest -> com.trip.expense
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setDisableGZipContent(boolean) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient getAbstractGoogleClient() -> f
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest set(java.lang.String,java.lang.Object) -> b
-com.trip.expensemanager.tosyncendpoint.model.CollectionResponseToSync -> com.trip.expensemanager.e.a.a:
+com.trip.expensemanager.tosyncendpoint.model.CollectionResponseToSync -> com.trip.expensemanager.g.a.a:
     java.util.List items -> items
     java.lang.String nextPageToken -> nextPageToken
     java.util.List getItems() -> a
@@ -16607,7 +16856,7 @@ com.trip.expensemanager.tosyncendpoint.model.CollectionResponseToSync -> com.tri
     com.trip.expensemanager.tosyncendpoint.model.CollectionResponseToSync clone() -> e
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-com.trip.expensemanager.tosyncendpoint.model.ToSync -> com.trip.expensemanager.e.a.b:
+com.trip.expensemanager.tosyncendpoint.model.ToSync -> com.trip.expensemanager.g.a.b:
     java.lang.Long changerId -> changerId
     java.lang.Long id -> id
     java.lang.Long syncItem -> syncItem
@@ -16622,13 +16871,13 @@ com.trip.expensemanager.tosyncendpoint.model.ToSync -> com.trip.expensemanager.e
     com.trip.expensemanager.tosyncendpoint.model.ToSync clone() -> i
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-com.trip.expensemanager.tripendpoint.Tripendpoint -> com.trip.expensemanager.f.a:
+com.trip.expensemanager.tripendpoint.Tripendpoint -> com.trip.expensemanager.h.a:
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
     com.trip.expensemanager.tripendpoint.Tripendpoint$GetTrip getTrip(java.lang.Long) -> a
     com.trip.expensemanager.tripendpoint.Tripendpoint$InsertTrip insertTrip(com.trip.expensemanager.tripendpoint.model.Trip) -> a
     com.trip.expensemanager.tripendpoint.Tripendpoint$RemoveTrip removeTrip(java.lang.Long) -> b
     com.trip.expensemanager.tripendpoint.Tripendpoint$UpdateTrip updateTrip(com.trip.expensemanager.tripendpoint.model.Trip) -> b
-com.trip.expensemanager.tripendpoint.Tripendpoint$Builder -> com.trip.expensemanager.f.b:
+com.trip.expensemanager.tripendpoint.Tripendpoint$Builder -> com.trip.expensemanager.h.b:
     com.trip.expensemanager.tripendpoint.Tripendpoint build() -> b
     com.trip.expensemanager.tripendpoint.Tripendpoint$Builder setRootUrl(java.lang.String) -> e
     com.trip.expensemanager.tripendpoint.Tripendpoint$Builder setServicePath(java.lang.String) -> f
@@ -16636,25 +16885,25 @@ com.trip.expensemanager.tripendpoint.Tripendpoint$Builder -> com.trip.expenseman
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setRootUrl(java.lang.String) -> c
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setGoogleClientRequestInitializer(com.google.api.client.googleapis.services.GoogleClientRequestInitializer) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setServicePath(java.lang.String) -> d
-com.trip.expensemanager.tripendpoint.Tripendpoint$GetTrip -> com.trip.expensemanager.f.c:
+com.trip.expensemanager.tripendpoint.Tripendpoint$GetTrip -> com.trip.expensemanager.h.c:
     java.lang.Long id -> id
     com.trip.expensemanager.tripendpoint.Tripendpoint this$0 -> c
     com.trip.expensemanager.tripendpoint.Tripendpoint$GetTrip set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.tripendpoint.TripendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.tripendpoint.Tripendpoint$InsertTrip -> com.trip.expensemanager.f.d:
+com.trip.expensemanager.tripendpoint.Tripendpoint$InsertTrip -> com.trip.expensemanager.h.d:
     com.trip.expensemanager.tripendpoint.Tripendpoint this$0 -> c
     com.trip.expensemanager.tripendpoint.Tripendpoint$InsertTrip set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.tripendpoint.TripendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.tripendpoint.Tripendpoint$RemoveTrip -> com.trip.expensemanager.f.e:
+com.trip.expensemanager.tripendpoint.Tripendpoint$RemoveTrip -> com.trip.expensemanager.h.e:
     java.lang.Long id -> id
     com.trip.expensemanager.tripendpoint.Tripendpoint this$0 -> c
     com.trip.expensemanager.tripendpoint.Tripendpoint$RemoveTrip set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.tripendpoint.TripendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.tripendpoint.Tripendpoint$UpdateTrip -> com.trip.expensemanager.f.f:
+com.trip.expensemanager.tripendpoint.Tripendpoint$UpdateTrip -> com.trip.expensemanager.h.f:
     com.trip.expensemanager.tripendpoint.Tripendpoint this$0 -> c
     com.trip.expensemanager.tripendpoint.Tripendpoint$UpdateTrip set(java.lang.String,java.lang.Object) -> e
     com.trip.expensemanager.tripendpoint.TripendpointRequest set(java.lang.String,java.lang.Object) -> f
-com.trip.expensemanager.tripendpoint.TripendpointRequest -> com.trip.expensemanager.f.g:
+com.trip.expensemanager.tripendpoint.TripendpointRequest -> com.trip.expensemanager.h.g:
     java.lang.String alt -> alt
     java.lang.String fields -> fields
     java.lang.String key -> key
@@ -16668,7 +16917,7 @@ com.trip.expensemanager.tripendpoint.TripendpointRequest -> com.trip.expensemana
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest setDisableGZipContent(boolean) -> b
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient getAbstractGoogleClient() -> f
     com.google.api.client.googleapis.services.json.AbstractGoogleJsonClientRequest set(java.lang.String,java.lang.Object) -> b
-com.trip.expensemanager.tripendpoint.model.Trip -> com.trip.expensemanager.f.a.a:
+com.trip.expensemanager.tripendpoint.model.Trip -> com.trip.expensemanager.h.a.a:
     java.lang.Long admin -> admin
     java.lang.Long changerId -> changerId
     com.google.api.client.util.DateTime creationDate -> creationDate
@@ -16677,37 +16926,61 @@ com.trip.expensemanager.tripendpoint.model.Trip -> com.trip.expensemanager.f.a.a
     java.util.List userIDs -> userIDs
     java.lang.Long getAdmin() -> a
     com.trip.expensemanager.tripendpoint.model.Trip setAdmin(java.lang.Long) -> a
-    java.lang.Long getChangerId() -> e
     com.trip.expensemanager.tripendpoint.model.Trip setChangerId(java.lang.Long) -> b
-    com.google.api.client.util.DateTime getCreationDate() -> f
+    com.google.api.client.util.DateTime getCreationDate() -> e
     com.trip.expensemanager.tripendpoint.model.Trip setCreationDate(com.google.api.client.util.DateTime) -> a
-    java.lang.Long getId() -> h
-    java.lang.String getName() -> i
+    java.lang.Long getId() -> f
+    java.lang.String getName() -> h
     com.trip.expensemanager.tripendpoint.model.Trip setName(java.lang.String) -> a
-    java.util.List getUserIDs() -> j
+    java.util.List getUserIDs() -> i
     com.trip.expensemanager.tripendpoint.model.Trip setUserIDs(java.util.List) -> a
     com.trip.expensemanager.tripendpoint.model.Trip set(java.lang.String,java.lang.Object) -> a
-    com.trip.expensemanager.tripendpoint.model.Trip clone() -> k
+    com.trip.expensemanager.tripendpoint.model.Trip clone() -> j
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
-com.trip.utils.DistributionBean -> com.trip.a.a:
-    java.lang.String username -> a
-    float amount -> b
-    java.lang.String getUsername() -> a
-    void setUsername(java.lang.String) -> a
-    float getAmount() -> b
-    void setAmount(float) -> a
-com.trip.utils.ExpenseBean -> com.trip.a.b:
+com.trip.utils.Constants -> com.trip.a.a:
+    java.lang.Object STR_DISTRIBUTION_ADDED -> a
+com.trip.utils.DistributionBean -> com.trip.a.b:
+    long userId -> a
+    java.lang.String amount -> b
+    java.lang.String getAmount() -> a
+    void setAmount(java.lang.String) -> a
+    long getUserId() -> b
+    void setUserId(long) -> a
+com.trip.utils.DistributionBean1 -> com.trip.a.c:
+    long distributionId -> a
+    long fromId -> b
+    long toId -> c
+    long tripId -> d
+    java.lang.String amount -> e
+    java.lang.String paid -> f
+    java.lang.String creationDate -> g
+    long getFromId() -> a
+    void setFromId(long) -> a
+    long getDistributionId() -> b
+    void setDistributionId(long) -> b
+    long getToId() -> c
+    void setToId(long) -> c
+    long getTripId() -> d
+    void setTripId(long) -> d
+    java.lang.String getAmount() -> e
+    void setAmount(java.lang.String) -> a
+    void setPaid(java.lang.String) -> b
+    java.lang.String getCreationDate() -> f
+    void setCreationDate(java.lang.String) -> c
+com.trip.utils.ExpenseBean -> com.trip.a.d:
     long id -> a
     java.lang.String name -> b
     java.lang.String desc -> c
     java.lang.String amount -> d
     long tripId -> e
     long userId -> f
-    java.lang.String creationDate -> g
-    java.lang.String syncStatus -> h
-    java.lang.String currency -> i
-    long rowId -> j
+    java.lang.String userIds -> g
+    java.lang.String amounts -> h
+    java.lang.String creationDate -> i
+    java.lang.String syncStatus -> j
+    java.lang.String currency -> k
+    long rowId -> l
     long getId() -> a
     void setId(long) -> a
     java.lang.String getName() -> b
@@ -16727,12 +17000,23 @@ com.trip.utils.ExpenseBean -> com.trip.a.b:
     java.lang.String getCurrency() -> i
     void setCurrency(java.lang.String) -> f
     void setRowId(long) -> d
-com.trip.utils.Global -> com.trip.a.c:
+    java.lang.String getUserIds() -> j
+    void setUserIds(java.lang.String) -> g
+    java.lang.String getAmounts() -> k
+    void setAmounts(java.lang.String) -> h
+com.trip.utils.Global -> com.trip.a.e:
     boolean validate(android.view.View[]) -> a
     void showError(android.widget.EditText,java.lang.String) -> a
+    java.lang.String listToString(java.util.List) -> a
+    java.util.List stringToList(java.lang.String) -> a
+    java.util.List longToList(java.lang.String) -> b
+    float add(float,java.lang.String) -> a
+    java.lang.String add(java.lang.String,java.lang.String) -> a
+    java.lang.String subtract(java.lang.String,java.lang.String) -> b
+    java.lang.String divide(java.lang.String,java.lang.String) -> c
     boolean isConnected(android.content.Context) -> a
     java.util.ArrayList generateColor(int) -> a
-com.trip.utils.Heap -> com.trip.a.d:
+com.trip.utils.Heap -> com.trip.a.f:
     com.trip.utils.DistributionBean[] A -> a
     com.trip.utils.DistributionBean[] getArray() -> a
     int getParent(int) -> a
@@ -16744,57 +17028,72 @@ com.trip.utils.Heap -> com.trip.a.d:
     void shiftUp(int) -> e
     void buildMaxHeap() -> c
     void swap(int,int) -> a
-com.trip.utils.LocalDB -> com.trip.a.e:
+com.trip.utils.LocalDB -> com.trip.a.g:
     android.content.Context context -> b
     android.database.Cursor cursor -> a
     com.trip.utils.SQLiteHelper dbHelper -> c
-    java.lang.String[] COLUMNS_LOGIN -> d
-    java.lang.String[] COLUMNS_TRIP -> e
-    java.lang.String[] COLUMNS_EXPENSE -> f
+    java.lang.String[] COLUMNS_TRIP -> d
+    java.lang.String[] COLUMNS_EXPENSE -> e
+    java.lang.String[] COLUMNS_TO_SYNC -> f
+    java.lang.String[] COLUMNS_DISTRIBUTION -> g
     android.database.sqlite.SQLiteDatabase open() -> a
     void close() -> b
-    boolean insert(java.lang.String,java.lang.Long,java.lang.String,java.lang.String) -> a
-    java.lang.String retrieveUsername(long) -> a
-    long retrieve() -> c
-    java.lang.String retrieveUsername() -> d
+    boolean insert(long,java.lang.String,java.lang.String,java.lang.String,long) -> a
+    long insertDistribution(long,long,java.lang.String,long,java.lang.String,java.lang.String) -> a
+    boolean updateDistributionId(long,long) -> a
+    java.util.ArrayList retrieveSettledDistributionForTrip(long) -> a
+    java.util.ArrayList retrieveNotSynchedDistributions() -> c
+    java.util.List retrieveSettledDistributionByUser(long,long) -> b
+    boolean updateDistributionPaidStatus(long,java.lang.String) -> a
+    boolean deleteDistributionofTrip(long) -> b
+    java.lang.String retrieveUsername(long) -> c
+    java.lang.String retrievePrefferedName(long) -> d
+    long retrieve() -> d
+    long retrieveDeviceId() -> e
     long insertTrip(java.lang.String,long,java.lang.String,java.lang.String,long,java.lang.String) -> a
-    java.util.ArrayList retrieveTrips() -> e
-    java.util.ArrayList retrieveNotSynchedTrips() -> f
-    boolean isTripPresent(long) -> b
-    com.trip.utils.TripBean retrieveTripDetails(long) -> c
-    java.util.ArrayList retrieveExpenses(long) -> d
-    com.trip.utils.ExpenseBean retrieveExpense(long) -> e
-    long insertExpense(java.lang.String,long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,long,long,java.lang.String) -> a
-    boolean updateTripUsers(long,java.lang.String) -> a
-    boolean insertPerson(java.lang.Long,java.lang.String) -> a
-    boolean updateTripSyncStatus(long,long) -> a
+    java.util.ArrayList retrieveTrips() -> f
+    java.util.ArrayList retrieveNotSynchedTrips() -> g
+    boolean isTripPresent(long) -> e
+    com.trip.utils.TripBean retrieveTripDetails(long) -> f
+    java.util.ArrayList retrieveExpenses(long) -> g
+    com.trip.utils.ExpenseBean retrieveExpense(long) -> h
+    long insertExpense(java.lang.String,long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,long,long,java.lang.String,java.lang.String,java.lang.String) -> a
+    boolean updateTripUsers(long,java.lang.String) -> b
+    boolean insertPerson(java.lang.Long,java.lang.String,java.lang.String) -> a
+    boolean updateTripSyncStatus(long,long) -> c
     boolean updateTripSyncStatus(java.lang.Long) -> a
     boolean updateExpenseSyncStatus(java.lang.Long,java.lang.Long) -> a
+    boolean updateExpenseSyncStatus(java.lang.Long,java.lang.String) -> a
+    boolean updateExpenseSyncStatus(java.lang.Long) -> b
+    long insertToSync(java.lang.String,java.lang.String,long) -> a
+    java.util.ArrayList retrieveUpdates() -> h
+    java.util.ArrayList retrieveUnreadUpdates() -> i
+    boolean deleteToSync(long) -> i
+    boolean deleteAllToSync() -> j
     boolean updateTrip(long,java.lang.String,java.lang.String) -> a
-    boolean updateExpense(java.lang.String,java.lang.String,java.lang.String,java.lang.String,long) -> a
-    boolean updateTripId(long,long) -> b
-    boolean updateExpenseId(long,long) -> c
-    java.util.ArrayList retrieveNotSynchedExpenses() -> g
-    long retrieveUserId(java.lang.String) -> a
-    boolean isTripSynced(long) -> f
-    boolean updateTripStatusToDeleted(long) -> g
-    boolean updateTripStatusToExited(long) -> h
-    boolean deleteTrip(long) -> i
-    boolean deleteExpense(long) -> j
-    boolean updateExpenseStatusToDeleted(long) -> k
-    boolean updateExpenseTripId(long,long) -> d
-    java.util.ArrayList retrieveExpenses(long,long) -> e
-    boolean deleteExpenseofTrip(long) -> l
-    boolean deleteExpenseOfTripnUser(long,long) -> f
-com.trip.utils.SQLiteHelper -> com.trip.a.f:
+    boolean updateExpense(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,long) -> a
+    boolean updateTripId(long,long) -> d
+    boolean updateExpenseId(long,long) -> e
+    java.util.ArrayList retrieveNotSynchedExpenses() -> k
+    boolean isTripSynced(long) -> j
+    boolean updateTripStatusToDeleted(long) -> k
+    boolean updateTripStatusToExited(long) -> l
+    boolean deleteTrip(long) -> m
+    boolean deleteExpense(long) -> n
+    boolean updateExpenseStatusToDeleted(long) -> o
+    boolean updateExpenseTripId(long,long) -> f
+    java.util.ArrayList retrieveExpenses(long,long) -> g
+    boolean deleteExpenseofTrip(long) -> p
+    void clearAllTables() -> l
+com.trip.utils.SQLiteHelper -> com.trip.a.h:
     void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
-com.trip.utils.TripBean -> com.trip.a.g:
+com.trip.utils.TripBean -> com.trip.a.i:
     long id -> a
     long rowId -> b
     java.lang.String name -> c
     long adminId -> d
-    java.lang.String[] usernames -> e
+    long[] userIds -> e
     java.lang.String creationDate -> f
     java.lang.String syncStatus -> g
     boolean closed -> h
@@ -16802,8 +17101,8 @@ com.trip.utils.TripBean -> com.trip.a.g:
     void setId(long) -> a
     java.lang.String getName() -> b
     void setName(java.lang.String) -> a
-    java.lang.String[] getUsernames() -> c
-    void setUsernames(java.lang.String[]) -> a
+    long[] getUserIds() -> c
+    void setUserIds(long[]) -> a
     java.lang.String getCreationDate() -> d
     void setCreationDate(java.lang.String) -> b
     boolean isClosed() -> e
@@ -16813,49 +17112,131 @@ com.trip.utils.TripBean -> com.trip.a.g:
     java.lang.String getSyncStatus() -> g
     void setSyncStatus(java.lang.String) -> c
     void setRowId(long) -> c
+com.trip.utils.UpdateBean -> com.trip.a.j:
+    java.lang.String action -> a
+    java.lang.String update -> b
+    long id -> c
+    long itemId -> d
+    java.lang.String getAction() -> a
+    void setAction(java.lang.String) -> a
+    java.lang.String getUpdate() -> b
+    void setUpdate(java.lang.String) -> b
+    long getId() -> c
+    void setId(long) -> a
+    long getItemId() -> d
+    void setItemId(long) -> b
+net.sourceforge.zbar.Config -> net.sourceforge.zbar.Config:
+    int ENABLE -> ENABLE
+    int ADD_CHECK -> ADD_CHECK
+    int EMIT_CHECK -> EMIT_CHECK
+    int ASCII -> ASCII
+    int MIN_LEN -> MIN_LEN
+    int MAX_LEN -> MAX_LEN
+    int UNCERTAINTY -> UNCERTAINTY
+    int POSITION -> POSITION
+    int X_DENSITY -> X_DENSITY
+    int Y_DENSITY -> Y_DENSITY
 net.sourceforge.zbar.Image -> net.sourceforge.zbar.Image:
-    long peer -> a
+    long peer -> peer
+    java.lang.Object data -> data
     void init() -> init
     long create() -> create
     void finalize() -> finalize
-    void destroy() -> a
+    void destroy() -> destroy
     void destroy(long) -> destroy
+    net.sourceforge.zbar.Image convert(java.lang.String) -> convert
+    long convert(long,java.lang.String) -> convert
+    java.lang.String getFormat() -> getFormat
     void setFormat(java.lang.String) -> setFormat
+    int getSequence() -> getSequence
+    void setSequence(int) -> setSequence
+    int getWidth() -> getWidth
+    int getHeight() -> getHeight
+    int[] getSize() -> getSize
     void setSize(int,int) -> setSize
+    void setSize(int[]) -> setSize
+    int[] getCrop() -> getCrop
+    void setCrop(int,int,int,int) -> setCrop
+    void setCrop(int[]) -> setCrop
+    byte[] getData() -> getData
     void setData(byte[]) -> setData
+    void setData(int[]) -> setData
+    net.sourceforge.zbar.SymbolSet getSymbols() -> getSymbols
+    long getSymbols(long) -> getSymbols
 net.sourceforge.zbar.ImageScanner -> net.sourceforge.zbar.ImageScanner:
-    long peer -> a
+    long peer -> peer
     void init() -> init
     long create() -> create
     void finalize() -> finalize
-    void destroy() -> a
+    void destroy() -> destroy
     void destroy(long) -> destroy
     void setConfig(int,int,int) -> setConfig
-    net.sourceforge.zbar.SymbolSet getResults() -> b
+    void parseConfig(java.lang.String) -> parseConfig
+    void enableCache(boolean) -> enableCache
+    net.sourceforge.zbar.SymbolSet getResults() -> getResults
     long getResults(long) -> getResults
     int scanImage(net.sourceforge.zbar.Image) -> scanImage
+net.sourceforge.zbar.Modifier -> net.sourceforge.zbar.Modifier:
+    int GS1 -> GS1
+    int AIM -> AIM
+net.sourceforge.zbar.Orientation -> net.sourceforge.zbar.Orientation:
+    int UNKNOWN -> UNKNOWN
+    int UP -> UP
+    int RIGHT -> RIGHT
+    int DOWN -> DOWN
+    int LEFT -> LEFT
 net.sourceforge.zbar.Symbol -> net.sourceforge.zbar.Symbol:
-    long peer -> a
-    int type -> b
+    int NONE -> NONE
+    int PARTIAL -> PARTIAL
+    int EAN8 -> EAN8
+    int UPCE -> UPCE
+    int ISBN10 -> ISBN10
+    int UPCA -> UPCA
+    int EAN13 -> EAN13
+    int ISBN13 -> ISBN13
+    int I25 -> I25
+    int DATABAR -> DATABAR
+    int DATABAR_EXP -> DATABAR_EXP
+    int CODABAR -> CODABAR
+    int CODE39 -> CODE39
+    int PDF417 -> PDF417
+    int QRCODE -> QRCODE
+    int CODE93 -> CODE93
+    int CODE128 -> CODE128
+    long peer -> peer
+    int type -> type
     void init() -> init
     void finalize() -> finalize
-    void destroy() -> a
+    void destroy() -> destroy
     void destroy(long) -> destroy
-    int getType() -> b
+    int getType() -> getType
     int getType(long) -> getType
+    int getConfigMask() -> getConfigMask
+    int getModifierMask() -> getModifierMask
     java.lang.String getData() -> getData
+    byte[] getDataBytes() -> getDataBytes
+    int getQuality() -> getQuality
+    int getCount() -> getCount
+    int[] getBounds() -> getBounds
+    int getLocationSize(long) -> getLocationSize
+    int getLocationX(long,int) -> getLocationX
+    int getLocationY(long,int) -> getLocationY
+    int[] getLocationPoint(int) -> getLocationPoint
+    int getOrientation() -> getOrientation
+    net.sourceforge.zbar.SymbolSet getComponents() -> getComponents
+    long getComponents(long) -> getComponents
     long next() -> next
-net.sourceforge.zbar.SymbolIterator -> net.sourceforge.zbar.a:
-    net.sourceforge.zbar.Symbol current -> a
+net.sourceforge.zbar.SymbolIterator -> net.sourceforge.zbar.SymbolIterator:
+    net.sourceforge.zbar.Symbol current -> current
     boolean hasNext() -> hasNext
-    net.sourceforge.zbar.Symbol next() -> a
+    net.sourceforge.zbar.Symbol next() -> next
     void remove() -> remove
     java.lang.Object next() -> next
 net.sourceforge.zbar.SymbolSet -> net.sourceforge.zbar.SymbolSet:
-    long peer -> a
+    long peer -> peer
     void init() -> init
     void finalize() -> finalize
-    void destroy() -> a
+    void destroy() -> destroy
     void destroy(long) -> destroy
     java.util.Iterator iterator() -> iterator
     int size() -> size

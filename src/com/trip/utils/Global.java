@@ -1,6 +1,7 @@
 package com.trip.utils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -222,20 +223,20 @@ public class Global {
 		return bg3.toPlainString();
 	}
 	
-	public static float divide(float f1, int i2) {
+	public static String divide(String s1, String s2) {
 		BigDecimal bg1, bg2, bg3=new BigDecimal(0f);
 		try {
 
-			bg1 = new BigDecimal(f1);
-			bg2 = new BigDecimal(i2);
+			bg1 = new BigDecimal(s1);
+			bg2 = new BigDecimal(s2);
 
 			// subtract bg1 with bg2 using mc and assign result to bg3
-			bg3 = bg1.divide(bg2);
+			bg3 = bg1.divide(bg2, 2, RoundingMode.HALF_UP);
 			bg3.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return bg3.floatValue();
+		return bg3.toPlainString();
 	};
 
 	public static View getViewByPosition(int pos, ListView listView) {

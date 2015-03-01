@@ -2,6 +2,7 @@ package com.trip.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -201,23 +202,25 @@ public class LocalDB{
 		return strArrDistribution;
 	}
 
-	public DistributionBean1 retrieveSettledDistributionByUsers(long frmUserId, long toUserId, long lngTripId) {
+	public List<DistributionBean1> retrieveSettledDistributionByUser(long lngUserId, long lngTripId) {
+		List<DistributionBean1> retLstDist=new ArrayList<DistributionBean1>();
 		DistributionBean1 distributionBean=null;
 		try {
 			SQLiteDatabase database=open(); 
-			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"!=?", new String[]{String.valueOf(frmUserId), String.valueOf(toUserId), String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
-			if (!cursor.moveToFirst()) {
-				cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, SQLiteHelper.COLUMN_FROM_ID+"=? AND "+SQLiteHelper.COLUMN_TO_ID+"=? AND "+SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"!=?", new String[]{String.valueOf(toUserId), String.valueOf(frmUserId), String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
-			}
+			cursor = database.query(SQLiteHelper.TABLE_DISTRIBUTION, COLUMNS_DISTRIBUTION, "("+SQLiteHelper.COLUMN_FROM_ID+"=? OR "+SQLiteHelper.COLUMN_TO_ID+"=?) AND "+SQLiteHelper.COLUMN_TRIP_ID+"=? AND "+ SQLiteHelper.COLUMN_PAID+"!=?", new String[]{String.valueOf(lngUserId), String.valueOf(lngUserId), String.valueOf(lngTripId), Constants.STR_NO},null, null, null);
+			
 			if (cursor.moveToFirst()) {
-				distributionBean=new DistributionBean1();
-				distributionBean.setDistributionId(cursor.getLong(0));
-				distributionBean.setFromId(cursor.getLong(1));
-				distributionBean.setToId(cursor.getLong(2));
-				distributionBean.setAmount(cursor.getString(3));
-				distributionBean.setTripId(cursor.getLong(4));
-				distributionBean.setPaid(cursor.getString(5));
-				distributionBean.setCreationDate(cursor.getString(6));
+				do{
+					distributionBean=new DistributionBean1();
+					distributionBean.setDistributionId(cursor.getLong(0));
+					distributionBean.setFromId(cursor.getLong(1));
+					distributionBean.setToId(cursor.getLong(2));
+					distributionBean.setAmount(cursor.getString(3));
+					distributionBean.setTripId(cursor.getLong(4));
+					distributionBean.setPaid(cursor.getString(5));
+					distributionBean.setCreationDate(cursor.getString(6));
+					retLstDist.add(distributionBean);
+				} while (cursor.moveToNext());
 			}
 		} catch (Exception e) {
 
@@ -227,7 +230,7 @@ public class LocalDB{
 			}
 			close();
 		}
-		return distributionBean;
+		return retLstDist;
 	}
 
 	public boolean updateDistAmount(long distributionId, String strAmount) {
@@ -262,6 +265,19 @@ public class LocalDB{
 		return false;
 	}
 
+	public boolean deleteDistributionofTrip(long lngTripId) {
+		try {
+			SQLiteDatabase database=open();
+			database.delete(SQLiteHelper.TABLE_DISTRIBUTION, SQLiteHelper.COLUMN_TRIP_ID+"=?",new String[]{String.valueOf(lngTripId)});
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			close();
+		}
+		return false;
+	}
+	
 	public boolean delete(String... strUsername) {
 		boolean done = false;
 		try{
@@ -1306,10 +1322,10 @@ public class LocalDB{
 		return strArrExpenses;
 	}
 
-	public boolean deleteExpenseofTrip(long lngTripIdTemp) {
+	public boolean deleteExpenseofTrip(long lngTripId) {
 		try {
 			SQLiteDatabase database=open();
-			database.delete(SQLiteHelper.TABLE_EXPENSE, SQLiteHelper.COLUMN_TRIP_ID+"=?",new String[]{String.valueOf(lngTripIdTemp)});
+			database.delete(SQLiteHelper.TABLE_EXPENSE, SQLiteHelper.COLUMN_TRIP_ID+"=?",new String[]{String.valueOf(lngTripId)});
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

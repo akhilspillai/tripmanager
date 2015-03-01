@@ -59,7 +59,7 @@ public class CustomDistributionAdapter extends ArrayAdapter<String> {
 			viewHolder.btnSettle.setVisibility(View.GONE);
 		}
 
-		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.no_anim);
+		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
 		rowView.startAnimation(animation);
 		lastPosition = position;
 	    animation = null;

@@ -32,7 +32,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme" >
-        <activity android:name=".ExpenseActivity" >
+        <activity android:name=".ExpenseActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,12 +77,12 @@
 
         <activity
             android:name="AllDetailsActivity"
-            android:parentActivityName=".ExpenseActivity" >
+            android:parentActivityName=".TripDetailsActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ExpenseActivity" />
+                android:value=".TripDetailsActivity" />
         </activity>
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

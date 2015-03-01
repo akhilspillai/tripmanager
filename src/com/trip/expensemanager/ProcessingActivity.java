@@ -407,7 +407,7 @@ public class ProcessingActivity extends Activity{
 						}
 						login.setDeviceIDs(listDevs);
 						lngUserId=login.getId();
-						localDb.insert(lngUserId, login.getUsername(), login.getPassword(), login.getPrefferedName(), retDevInfo.getId());
+						localDb.insert(lngUserId, login.getUsername(), login.getPassword(), Constants.STR_YOU, retDevInfo.getId());
 						localDb.insertPerson(lngUserId, strArrData[0], Constants.STR_YOU);
 						listTripIds=login.getTripIDs();
 						int i=0;
@@ -465,7 +465,17 @@ public class ProcessingActivity extends Activity{
 											date = sdf.format(new Date(tempExpense.getCreationDate().getValue()));
 											userIds=tempExpense.getExpenseUserIds();
 											strUserIds=Global.listToString(userIds);
-											
+											if(!userIds.contains(tempExpense.getUserId())){
+												userIds.add(tempExpense.getUserId());
+											}
+											for(long userId:userIds){
+												username=localDb.retrieveUsername(userId);
+												if(username==null){
+													retLogin=loginEndpoint.getLogIn(userId).execute();
+													username=retLogin.getUsername();
+													localDb.insertPerson(userId, username, retLogin.getPrefferedName());
+												}
+											}
 											amounts=tempExpense.getExpenseAmounts();
 											strAmounts=Global.listToString(amounts);
 											localDb.insertExpense(tempExpense.getName(), tempExpense.getId(), date, "INR", tempExpense.getAmount(), tempExpense.getDescription(), tempExpense.getTripId(), tempExpense.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);

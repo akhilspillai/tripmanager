@@ -14,6 +14,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.LongSparseArray;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -32,6 +33,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.trip.expensemanager.AllDetailsActivity;
+import com.trip.expensemanager.ExpenseActivity;
 import com.trip.expensemanager.R;
 import com.trip.expensemanager.SyncIntentService;
 import com.trip.expensemanager.TripDetailsActivity;
@@ -102,13 +104,13 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		receiver = new BroadcastReceiver() {
-	        @Override
-	        public void onReceive(Context context, Intent intent) {
-	            loadData();
-	        }
-	    };
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				loadData();
+			}
+		};
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		View rootView=null;
@@ -175,9 +177,11 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 					strDate=expense.getCreationDate();
 					strDate=strDate.substring(0,strDate.indexOf(' '));
 					arrExpenseAmount.add(expense.getAmount());
-					if(!expense.getSyncStatus().equals(Constants.STR_NOT_SYNCHED)){
+					if(expense.getSyncStatus().equals(Constants.STR_ERROR_STATUS)){
 						arrSynced.add(2);
-					} else{
+					} else if(!expense.getSyncStatus().equals(Constants.STR_NOT_SYNCHED)){
+						arrSynced.add(2);
+					}else{
 						arrSynced.add(0);
 					}
 					arrIds.add(expense.getId());
@@ -209,7 +213,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			LocalBroadcastManager.getInstance(getActivity()).registerReceiver((receiver), new IntentFilter(SyncIntentService.RESULT));
 		}
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -217,7 +221,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver((receiver));
 		}
 	}
-	
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
@@ -235,15 +239,51 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		case R.id.action_add_expense:
 			showAddExpense();
 			return true;
-			
+
 		case R.id.action_exit_eg:
-			showExitEG();
+			tryExitingTrip();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
+
+	private void tryExitingTrip() {
+		LocalDB localDb=new LocalDB(getActivity());
+		List<ExpenseBean> lstExpenses = localDb.retrieveExpenses(lngTripId);
+		List<Long> expUserIds;
+		List<String> expAmounts;
+		long userId=0L;
+		int indexOfExpense;
+		String strAmtToGet="0";
+		for(ExpenseBean expense:lstExpenses){
+			userId=expense.getUserId();
+			expUserIds=Global.longToList(expense.getUserIds());
+			expAmounts=Global.stringToList(expense.getAmounts());
+			if(userId==lngUserId){
+				strAmtToGet=Global.add(strAmtToGet, expense.getAmount());
+			}
+			indexOfExpense=expUserIds.indexOf(lngUserId);
+			if(indexOfExpense>=0){
+				strAmtToGet=Global.subtract(strAmtToGet, expAmounts.get(indexOfExpense));
+			}
+		}
+		List<DistributionBean1> lstDist=localDb.retrieveSettledDistributionByUser(lngUserId, lngTripId);
+		for(DistributionBean1 distTemp:lstDist){
+			if(distTemp.getFromId()==lngUserId){
+				strAmtToGet=Global.add(strAmtToGet, distTemp.getAmount());
+			} else{
+				strAmtToGet=Global.subtract(strAmtToGet, distTemp.getAmount());
+			}
+		}
+		float fAmtToGet=Float.parseFloat(strAmtToGet);
+		if(fAmtToGet==0){
+			showExitEG();
+		} else{
+			showInfoMessage(Constants.STR_SETTLE_FIRST);
+		}
+	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -318,20 +358,25 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void exitEG(long lngExpUserIdTemp, long lngTripIdTemp) {
 		Context context=getActivity();
 		LocalDB localDb=new LocalDB(context);
 		TripBean tripTemp=localDb.retrieveTripDetails(lngTripIdTemp);
-		localDb.deleteExpenseofTrip(lngTripIdTemp);
 		if(!Constants.STR_QR_ADDED.equals(tripTemp.getSyncStatus())){
 			localDb.updateTripStatusToExited(lngTripIdTemp);
-			((TripDetailsActivity)context).updateViews();
+			if(context instanceof TripDetailsActivity){
+				((TripDetailsActivity)context).updateViews();
+			} else{
+				Intent intent=new Intent(context, ExpenseActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				((ActionBarActivity)context).startActivity(intent);
+			}
 			context.startService(new Intent(context, SyncIntentService.class));
 		} else{
 			localDb.deleteTrip(lngTripIdTemp);
 		}
-		
+
 	}
 
 	@SuppressLint("InflateParams")
@@ -418,19 +463,36 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		try{
 			Context context=getActivity();
 			LocalDB localDb=new LocalDB(context);
+			TripBean trip=localDb.retrieveTripDetails(lngTripId);
 			ExpenseBean expense=localDb.retrieveExpense(expenseId);
-			if(Constants.STR_NOT_SYNCHED.equals(expense.getSyncStatus())){
-				localDb.deleteExpense(expenseId);
+			boolean areAllUsersPresent =	areAllUsersPresent(trip, expense);
+
+			if(areAllUsersPresent){
+				if(Constants.STR_NOT_SYNCHED.equals(expense.getSyncStatus()) || Constants.STR_ERROR_STATUS.equals(expense.getSyncStatus())){
+					localDb.deleteExpense(expenseId);
+				} else{
+					localDb.updateExpenseStatusToDeleted(expenseId);
+					((TripDetailsActivity)context).updateViews();
+					context.startService(new Intent(context, SyncIntentService.class));
+				}
 			} else{
-				localDb.updateExpenseStatusToDeleted(expenseId);
-				((TripDetailsActivity)context).updateViews();
-				context.startService(new Intent(context, SyncIntentService.class));
+				showInfoMessage(Constants.STR_NO_DELETE);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 
+
+	private boolean areAllUsersPresent(TripBean trip, ExpenseBean expense) {
+		List<Long> lstExpUsrIds=Global.longToList(expense.getUserIds());
+		long[] arrTripUsers=trip.getUserIds();
+		List<Long> lstTripUsrIds=new ArrayList<Long>(arrTripUsers.length);
+		for(int i=0;i<arrTripUsers.length;i++){
+			lstTripUsrIds.add(arrTripUsers[i]);
+		}
+		return lstTripUsrIds.containsAll(lstExpUsrIds);
+	}
 
 	protected void addExpense(String expenseName, String expenseDetail, String expenseAmount, String strDate, String strUserIds, String strAmounts) {
 		try{
@@ -450,14 +512,23 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		try{
 			Context context=getActivity();
 			LocalDB localDb=new LocalDB(context);
+			TripBean trip=localDb.retrieveTripDetails(lngTripId);
 			ExpenseBean expense=localDb.retrieveExpense(expenseId);
-			if(Constants.STR_NOT_SYNCHED.equals(expense.getSyncStatus())){
-				localDb.updateExpense(expenseName, expenseAmount, expenseDetail, strUserIds, strAmounts, expense.getSyncStatus(), expenseId);
+			expense.setUserIds(strUserIds);
+			boolean areAllUsersPresent = areAllUsersPresent(trip, expense);
+			if(areAllUsersPresent){
+				if(Constants.STR_NOT_SYNCHED.equals(expense.getSyncStatus())){
+					localDb.updateExpense(expenseName, expenseAmount, expenseDetail, strUserIds, strAmounts, expense.getSyncStatus(), expenseId);
+				} else if(Constants.STR_ERROR_STATUS.equals(expense.getSyncStatus())){
+					localDb.updateExpense(expenseName, expenseAmount, expenseDetail, strUserIds, strAmounts, Constants.STR_NOT_SYNCHED, expenseId);
+				}else{
+					localDb.updateExpense(expenseName, expenseAmount, expenseDetail, strUserIds, strAmounts, Constants.STR_UPDATED, expenseId);
+				}
+				((TripDetailsActivity)context).updateViews();
+				context.startService(new Intent(context, SyncIntentService.class));
 			} else{
-				localDb.updateExpense(expenseName, expenseAmount, expenseDetail, strUserIds, strAmounts, Constants.STR_UPDATED, expenseId);
+				showInfoMessage(Constants.STR_NO_EDIT);
 			}
-			((TripDetailsActivity)context).updateViews();
-			context.startService(new Intent(context, SyncIntentService.class));				
 		}catch(Exception e){
 			e.printStackTrace();
 		}
