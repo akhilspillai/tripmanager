@@ -17,7 +17,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -34,10 +33,8 @@ import com.trip.expensemanager.tosyncendpoint.Tosyncendpoint;
 import com.trip.expensemanager.tosyncendpoint.model.CollectionResponseToSync;
 import com.trip.expensemanager.tosyncendpoint.model.ToSync;
 import com.trip.expensemanager.tripendpoint.Tripendpoint;
-import com.trip.expensemanager.tripendpoint.Tripendpoint.GetTrip;
 import com.trip.expensemanager.tripendpoint.model.Trip;
 import com.trip.utils.Constants;
-import com.trip.utils.DistributionBean;
 import com.trip.utils.DistributionBean1;
 import com.trip.utils.ExpenseBean;
 import com.trip.utils.Global;

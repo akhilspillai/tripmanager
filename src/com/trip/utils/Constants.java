@@ -80,8 +80,8 @@ public class Constants {
 	public static final String STR_YOU = "You";
 	public static final String STR_ERROR_AMT = "Amount and total doesn't match!!";
 	public static final Object STR_DISTRIBUTION_ADDED = "DA";
-	public static final String STR_NO_EDIT = "This expense cannot be edited as a user in this expense exited this expense group!!";
-	public static final String STR_NO_DELETE = "This expense cannot be deleted as a user in this expense exited this expense group!!";
+	public static final String STR_NO_EDIT = "This expense cannot be edited as a user in this expense has exited this expense group!!";
+	public static final String STR_NO_DELETE = "This expense cannot be deleted as a user in this expense has exited this expense group!!";
 	public static final String STR_SETTLE_FIRST = "There are debts that you have to settle or debts others "
 			+ "have to pay you. Settle them before exiting this EG!!";
 	public static final String STR_NOT_EXITED = "NE";

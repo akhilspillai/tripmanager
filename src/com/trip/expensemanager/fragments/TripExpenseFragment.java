@@ -1,6 +1,7 @@
 package com.trip.expensemanager.fragments;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -14,7 +15,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.util.LongSparseArray;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -304,7 +304,21 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		int menuItemIndex = item.getItemId();
 		getResources().getStringArray(R.array.menu_expense_list);
 		long lngExpenseId = arrIds.get(info.position);
+		LocalDB localDb=new LocalDB(getActivity());
 		if(menuItemIndex==0){
+			TripBean trip = localDb.retrieveTripDetails(lngTripId);
+			ExpenseBean expense = localDb.retrieveExpense(lngExpenseId);
+			long[] tripUserIds=trip.getUserIds();
+			Long[] arrTripUserIds=new Long[tripUserIds.length];
+			for(int i=0;i<arrTripUserIds.length;i++){
+				arrTripUserIds[i]=tripUserIds[i];
+			}
+			List<Long> lstTripUserIds=Arrays.asList(arrTripUserIds);
+			List<Long> lstExpenseUserIds=Global.longToList(expense.getUserIds());
+			if(!lstTripUserIds.containsAll(lstExpenseUserIds)){
+				showInfoMessage(Constants.STR_NO_DELETE);
+				return true;
+			}
 			showDeleteExpenseDialog(arrExpenseNames.get(info.position), lngExpenseId, info.position);
 		} 
 		return true;

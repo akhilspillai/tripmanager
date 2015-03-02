@@ -381,6 +381,7 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 	public boolean onOptionsItemSelected(MenuItem item) {
 		String[] retArr;
 		LocalDB localDb=new LocalDB(getActivity());
+		TripBean trip=localDb.retrieveTripDetails(lngTripId);
 		switch (item.getItemId()) {
 		case R.id.action_save_expense:
 			eTxtExpenseName.requestFocus();
@@ -388,7 +389,6 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 					Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(eTxtExpenseName.getWindowToken(), 0);
 			if(opcode==Constants.I_OPCODE_UPDATE_EXPENSE){
-				TripBean trip=localDb.retrieveTripDetails(lngTripId);
 				ExpenseBean expense = localDb.retrieveExpense(lngExpenseId);
 				long[] tripUserIds=trip.getUserIds();
 				Long[] arrTripUserIds=new Long[tripUserIds.length];
@@ -480,6 +480,18 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 			}
 			return true;
 		case R.id.action_delete_expense:
+			ExpenseBean expense = localDb.retrieveExpense(lngExpenseId);
+			long[] tripUserIds=trip.getUserIds();
+			Long[] arrTripUserIds=new Long[tripUserIds.length];
+			for(int i=0;i<arrTripUserIds.length;i++){
+				arrTripUserIds[i]=tripUserIds[i];
+			}
+			List<Long> lstTripUserIds=Arrays.asList(arrTripUserIds);
+			List<Long> lstExpenseUserIds=Global.longToList(expense.getUserIds());
+			if(!lstTripUserIds.containsAll(lstExpenseUserIds)){
+				showInfoMessage(Constants.STR_NO_DELETE);
+				return true;
+			}
 			showDeleteExpenseDialog(strName, lngExpenseId, iPosition);
 			return true;
 		default:
