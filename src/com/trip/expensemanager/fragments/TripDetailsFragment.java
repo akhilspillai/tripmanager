@@ -339,16 +339,6 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		Heap heapToPay=new Heap(adArrToPay);
 		LocalDB localDb=new LocalDB(getActivity());
 		try {
-
-			//			for(DistributionBean tempBean:adArrNotOwed){
-			//				user=localDb.retrieveUsername(tempBean.getUserId());
-			//				if(!user.equalsIgnoreCase(Constants.STR_YOU)){
-			//					arrDistribution.add(user+" doesn't owe anybody anything!");
-			//					arrFromUsrIds.add(tempBean.getUserId());
-			//					arrPossibletoSettle.add(false);
-			//					arrAmountToPay.add(tempBean.getAmount());
-			//				}
-			//			}
 			heapToGet.buildMaxHeap();
 			heapToPay.buildMaxHeap();
 			String userTo, userFrom;
@@ -389,6 +379,13 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 				} else{
 					arrPossibletoSettle.add(false);
 				}
+			}
+			for(DistributionBean tempBean:adArrNotOwed){
+				user=localDb.retrievePrefferedName(tempBean.getUserId());
+				arrDistribution.add(user+" doesn't owe anybody anything!");
+				arrFromUsrIds.add(tempBean.getUserId());
+				arrPossibletoSettle.add(false);
+				arrAmountToPay.add(tempBean.getAmount());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
