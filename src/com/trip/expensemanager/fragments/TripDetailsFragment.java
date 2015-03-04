@@ -381,8 +381,8 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 				}
 			}
 			for(DistributionBean tempBean:adArrNotOwed){
-				user=localDb.retrievePrefferedName(tempBean.getUserId());
-				arrDistribution.add(user+" doesn't owe anybody anything!");
+				userFrom=localDb.retrievePrefferedName(tempBean.getUserId());
+				arrDistribution.add(userFrom+" doesn't owe anybody anything!");
 				arrFromUsrIds.add(tempBean.getUserId());
 				arrPossibletoSettle.add(false);
 				arrAmountToPay.add(tempBean.getAmount());

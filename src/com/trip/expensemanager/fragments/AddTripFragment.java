@@ -1,6 +1,5 @@
 package com.trip.expensemanager.fragments;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,14 +13,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -40,26 +36,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.DateTime;
-import com.trip.expensemanager.CloudEndpointUtils;
 import com.trip.expensemanager.R;
 import com.trip.expensemanager.SyncIntentService;
 import com.trip.expensemanager.TripDetailsActivity;
 import com.trip.expensemanager.adapters.CustomTripListAdapter;
-import com.trip.expensemanager.expenseendpoint.Expenseendpoint;
-import com.trip.expensemanager.expenseendpoint.model.CollectionResponseExpense;
-import com.trip.expensemanager.expenseendpoint.model.Expense;
-import com.trip.expensemanager.loginendpoint.Loginendpoint;
-import com.trip.expensemanager.loginendpoint.model.LogIn;
 import com.trip.expensemanager.scanner.ZBarConstants;
 import com.trip.expensemanager.scanner.ZBarScannerActivity;
-import com.trip.expensemanager.tripendpoint.Tripendpoint;
-import com.trip.expensemanager.tripendpoint.model.Trip;
 import com.trip.utils.Constants;
-import com.trip.utils.ExpenseBean;
-import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
 
@@ -91,7 +74,6 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	private ArrayList<TripBean> arrTrips=new ArrayList<TripBean>();
 	private TextView txtNoTrip;
 	protected String strTripName;
-	private ProgressBar pbTripName;
 	private List<String> arrTripNames=new ArrayList<String>();
 	private List<Long> arrIds=new ArrayList<Long>();
 	private List<Long> arrAdminIds=new ArrayList<Long>();
@@ -250,8 +232,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 		int menuItemIndex = item.getItemId();
-		String[] menuItems = getResources().getStringArray(R.array.menu_trip_list_admin);
-		String menuItemName = menuItems[menuItemIndex];
+//		String[] menuItems = getResources().getStringArray(R.array.menu_trip_list_admin);
 		long lngTripId = arrIds.get(info.position);
 		if(menuItemIndex==0){
 			showUpdateTripDialog(arrTripNames.get(info.position), lngTripId, info.position);
@@ -338,7 +319,6 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			View view = getActivity().getLayoutInflater().inflate(R.layout.add_trip_dialog, null);
 			builder.setCancelable(true);
-			pbTripName=(ProgressBar)view.findViewById(R.id.pb_trip_name);
 			eTxtTripName = (EditText)view.findViewById(R.id.etxt_trip_name);
 			btnAdd = (Button) view.findViewById(R.id.btn_add);
 			btnCancel = (Button) view.findViewById(R.id.btn_cancel);
@@ -392,7 +372,6 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			View view = getActivity().getLayoutInflater().inflate(R.layout.add_trip_dialog, null);
 			builder.setCancelable(true);
-			pbTripName=(ProgressBar)view.findViewById(R.id.pb_trip_name);
 			eTxtTripName = (EditText)view.findViewById(R.id.etxt_trip_name);
 			btnAdd = (Button) view.findViewById(R.id.btn_add);
 			btnCancel = (Button) view.findViewById(R.id.btn_cancel);

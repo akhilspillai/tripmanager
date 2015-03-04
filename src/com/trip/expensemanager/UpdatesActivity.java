@@ -3,6 +3,7 @@ package com.trip.expensemanager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
@@ -18,6 +19,10 @@ public class UpdatesActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_expense);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
 		getSupportActionBar().setTitle(R.string.updates);
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction().add(R.id.container, UpdatesFragment.newInstance()).commit();

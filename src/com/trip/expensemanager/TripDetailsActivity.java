@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -37,6 +38,10 @@ public class TripDetailsActivity extends ActionBarActivity implements TabListene
 		super.onCreate(savedInstanceState);
 		try {
 			setContentView(R.layout.activity_trip_details);
+			Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+	        if (toolbar != null) {
+	            setSupportActionBar(toolbar);
+	        }
 			receiver = new BroadcastReceiver() {
 		        @Override
 		        public void onReceive(Context context, Intent intent) {

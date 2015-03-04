@@ -9,13 +9,16 @@
     tools:context="com.trip.expensemanager.AllDetailsActivity"
     tools:ignore="MergeRootFrame" >
 
-    <include layout="@layout/toolbar"/>
+    <include 
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/adView" />
+        android:layout_above="@+id/adView"
+        android:layout_below="@+id/toolbar" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
