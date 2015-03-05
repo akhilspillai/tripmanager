@@ -46,6 +46,7 @@
     <string name="distribution">Expense Distribution</string>
     <string name="expense_name">Expense Name</string>
     <string name="expense_detail">Expense Detail</string>
+    <string name="group_detail">Group Detail</string>
     <string name="spent_amount">Spent Amount</string>
     <string name="expense_admin">Admin</string>
     <string name="expense_creation_date">Created On</string>

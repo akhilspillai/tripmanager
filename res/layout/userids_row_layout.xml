@@ -23,6 +23,7 @@
         android:layout_toRightOf="@+id/cb_user"
         android:layout_toEndOf="@+id/cb_user"
         android:hint="@string/amount"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal"
+        android:textColor="@drawable/disable_color"/>
 
 </RelativeLayout>

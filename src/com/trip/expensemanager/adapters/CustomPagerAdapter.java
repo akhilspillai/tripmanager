@@ -1,9 +1,10 @@
 package com.trip.expensemanager.adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
+import android.support.v7.app.ActionBarActivity;
 
 import com.trip.expensemanager.fragments.TripDetailsFragment;
 import com.trip.expensemanager.fragments.TripExpenseFragment;
@@ -14,12 +15,16 @@ public class CustomPagerAdapter extends FragmentStatePagerAdapter{
 	private String strTrip;
 	private long lngUserId;
 	private long lngTripId;
+	private String[] tabs;
+	private ActionBarActivity context;
 
-	public CustomPagerAdapter(FragmentManager fm, String strTrip, long lngUserId, long lngTripId) {
+	public CustomPagerAdapter(FragmentManager fm, String[] tabs, String strTrip, long lngUserId, long lngTripId, ActionBarActivity context) {
 		super(fm);
+		this.tabs=tabs;
 		this.strTrip=strTrip;
 		this.lngUserId=lngUserId;
 		this.lngTripId=lngTripId;
+		this.context=context;
 	}
 
 	@Override
@@ -43,6 +48,11 @@ public class CustomPagerAdapter extends FragmentStatePagerAdapter{
 	@Override
 	public int getItemPosition(Object object){
 		return POSITION_NONE;
+	}
+	
+	@Override
+	public CharSequence getPageTitle(int position) {
+		return tabs[position];
 	}
 
 }

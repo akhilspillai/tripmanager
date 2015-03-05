@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <dimen name="qr_size">550dp</dimen>
+    <dimen name="qr_size">500dp</dimen>
     <string name="chart_size">600</string>
-    <string name="qr_code_size">550</string>
+    <string name="qr_code_size">500</string>
     
 </resources>

@@ -31,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ import com.trip.utils.Constants;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
 
-public class AddTripFragment extends CustomFragment implements OnItemClickListener {
+public class AddTripFragment extends CustomFragment implements OnItemClickListener, OnClickListener {
 
 	private static final int ZBAR_SCANNER_REQUEST = 1;
 
@@ -82,6 +83,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	private List<Integer> arrSynched=new ArrayList<Integer>();
 	public Button btnOk;
 	private BroadcastReceiver receiver;
+	private ImageButton btnAddTrip;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -102,11 +104,14 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 			rootView=inflater.inflate(R.layout.fragment_trips, container, false);
 			listTrip=(ListView) rootView.findViewById(R.id.li_trips);
 			txtNoTrip=(TextView) rootView.findViewById(R.id.txt_no_trips);
+			btnAddTrip=(ImageButton) rootView.findViewById(R.id.btn_add_trip);
+			
 			lngUserId=getArguments().getLong(Constants.STR_USER_ID);
-
 			listAdapter = new CustomTripListAdapter(getActivity(), arrTripNames, arrCreationDates, arrClosed, arrSynched);
 			listTrip.setAdapter(listAdapter);
+			listTrip.setDivider(null);
 			listTrip.setOnItemClickListener(this);
+			btnAddTrip.setOnClickListener(this);
 			setHasOptionsMenu(true);
 			registerForContextMenu(listTrip);
 		} catch (Exception e) {
@@ -138,9 +143,9 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.action_new_trip:
+		/*case R.id.action_new_trip:
 			showAddTripDialog();
-			return true;
+			return true;*/
 		case R.id.action_scan_qr:
 			scanQRCode();
 			return true;
@@ -504,6 +509,11 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 		intent.putExtra(Constants.STR_ADMIN_ID, arrTrips.get(position).getAdminId());
 		startActivity(intent);
 		getActivity().overridePendingTransition(R.anim.up_n_show, R.anim.no_anim);
+	}
+
+	@Override
+	public void onClick(View v) {
+		showAddTripDialog();
 	}
 	
 }

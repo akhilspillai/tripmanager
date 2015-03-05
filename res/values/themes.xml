@@ -3,13 +3,15 @@
 
     <style name="AppTheme" parent="AppTheme.Base" />
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat">
-        <item name="colorPrimary">@color/selected_color</item>
-        <item name="colorPrimaryDark">@color/unselected_color</item>
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/app_color_dark</item>
+        <item name="colorPrimaryDark">@color/app_color</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!--  <item name="android:editTextStyle">@android:style/Widget.HO</item>-->
     </style>
 
 </resources>

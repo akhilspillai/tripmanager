@@ -463,16 +463,16 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		}
 	}
 
-	@Override
+	/*@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
 		super.onCreateOptionsMenu(menu, inflater);
 		if(lngUserId==lngAdminId){
 			inflater.inflate(R.menu.trip_detail_action, menu);
 		}
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_delete_trip:
@@ -481,10 +481,10 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
+	}*/
 
 
-	@SuppressLint("InflateParams")
+	/*@SuppressLint("InflateParams")
 	protected void showDeleteTripDialog(final String tripName, final long tripId) {
 		try{
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -517,9 +517,9 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
-	protected void deleteTrip(long tripId) {
+	/*protected void deleteTrip(long tripId) {
 		LocalDB localDb=new LocalDB(getActivity());
 		try{
 			if(localDb.isTripSynced(tripId)){
@@ -533,7 +533,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	@Override
 	public void onClick(View v) {

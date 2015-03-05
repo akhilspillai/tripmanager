@@ -34,7 +34,8 @@
             android:layout_marginStart="5dp"
             android:hint="@string/add_expense_name"
             android:inputType="textCapWords"
-            android:maxLength="10" />
+            android:maxLength="50" 
+            android:textColor="@drawable/disable_color"/>
 
         <TextView
             android:id="@+id/txt_expense_detail"
@@ -63,7 +64,8 @@
             android:hint="@string/add_expense_detail"
             android:inputType="textCapSentences"
             android:lines="3"
-            android:maxLength="50" />
+            android:maxLength="100" 
+            android:textColor="@drawable/disable_color"/>
 
         <TextView
             android:id="@+id/txt_expense_amount"
@@ -91,7 +93,8 @@
             android:layout_marginStart="5dp"
             android:hint="@string/add_expense_amount"
             android:inputType="number"
-            android:maxLength="12" />
+            android:maxLength="12" 
+            android:textColor="@drawable/disable_color"/>
 
         <TextView
             android:id="@+id/txt_expense_admin"
@@ -118,7 +121,8 @@
             android:layout_marginRight="5dp"
             android:layout_marginStart="5dp"
             android:enabled="false"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords" 
+            android:textColor="@drawable/disable_color"/>
 
         <TextView
             android:id="@+id/txt_expense_creation_date"
@@ -145,7 +149,8 @@
             android:layout_marginRight="5dp"
             android:layout_marginStart="5dp"
             android:enabled="false"
-            android:inputType="datetime" />
+            android:inputType="datetime" 
+            android:textColor="@drawable/disable_color"/>
         
          <TextView
             android:id="@+id/txt_select"

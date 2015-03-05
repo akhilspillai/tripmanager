@@ -38,21 +38,21 @@
                 android:layout_centerInParent="true"
                 android:background="@color/bg_login"
                 android:padding="20dp" >
-                
-                <ImageView 
+
+                <ImageView
                     android:id="@+id/iv_wc_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_welcome"
                     android:layout_centerHorizontal="true"
-                    android:contentDescription="@string/app_name"/>
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_welcome" />
 
                 <TextView
                     android:id="@+id/txt_login_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:layout_below="@+id/iv_wc_login"
+                    android:layout_margin="5dp"
                     android:text="@string/username"
                     android:textSize="17sp" />
 
@@ -63,7 +63,8 @@
                     android:layout_below="@+id/txt_login_username"
                     android:layout_margin="5dp"
                     android:hint="@string/username"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@drawable/disable_color" />
 
                 <TextView
                     android:id="@+id/txt_login_password"
@@ -81,7 +82,8 @@
                     android:layout_below="@+id/txt_login_password"
                     android:layout_margin="5dp"
                     android:hint="@string/password"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textColor="@drawable/disable_color" />
 
                 <Button
                     android:id="@+id/btn_login"
@@ -104,7 +106,6 @@
                     android:text="@string/new_user"
                     android:textColor="@color/app_color"
                     android:textSize="18sp" />
-                
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
@@ -127,22 +128,22 @@
                 android:layout_centerInParent="true"
                 android:background="@color/bg_login"
                 android:padding="20dp" >
-                
-                <ImageView 
+
+                <ImageView
                     android:id="@+id/iv_wc_register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_welcome"
                     android:layout_centerHorizontal="true"
-                    android:contentDescription="@string/app_name"/>
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_welcome" />
 
                 <TextView
                     android:id="@+id/txt_register_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_wc_register"
                     android:layout_margin="5dp"
                     android:text="@string/username"
-                    android:layout_below="@+id/iv_wc_register"
                     android:textSize="17sp" />
 
                 <RelativeLayout
@@ -157,7 +158,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:hint="@string/username"
-                        android:inputType="text" />
+                        android:inputType="text"
+                        android:textColor="@drawable/disable_color" />
 
                     <ProgressBar
                         android:id="@+id/pb_username"
@@ -171,12 +173,12 @@
                         android:visibility="invisible" />
                 </RelativeLayout>
 
-                 <TextView
+                <TextView
                     android:id="@+id/txt_preffered_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
                     android:layout_below="@+id/rl_username"
+                    android:layout_margin="5dp"
                     android:text="@string/preffered_name"
                     android:textSize="17sp" />
 
@@ -187,8 +189,9 @@
                     android:layout_below="@+id/txt_preffered_name"
                     android:layout_margin="5dp"
                     android:hint="@string/preffered_name"
-                    android:inputType="textCapWords" />
-                
+                    android:inputType="textCapWords"
+                    android:textColor="@drawable/disable_color" />
+
                 <TextView
                     android:id="@+id/txt_register_password"
                     android:layout_width="wrap_content"
@@ -205,7 +208,8 @@
                     android:layout_below="@+id/txt_register_password"
                     android:layout_margin="5dp"
                     android:hint="@string/password"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textColor="@drawable/disable_color" />
 
                 <TextView
                     android:id="@+id/txt_conf_password"
@@ -228,7 +232,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:hint="@string/conf_password"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textColor="@drawable/disable_color" />
 
                     <ProgressBar
                         android:id="@+id/pb_conf_password"
@@ -262,7 +267,6 @@
                     android:text="@string/back_to_login"
                     android:textColor="@color/app_color"
                     android:textSize="18sp" />
-                
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

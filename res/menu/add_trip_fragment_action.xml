@@ -2,18 +2,10 @@
     xmlns:expense="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/action_add_trip"
-        android:icon="@drawable/ic_action_add"
-        android:title="@string/action_add_trip"
+        android:id="@+id/action_scan_qr"
+        android:icon="@drawable/ic_scan"
+        android:title="@string/action_scan_qr"
         expense:showAsAction="ifRoom">
-        <menu>
-            <item
-                android:id="@+id/action_new_trip"
-                android:title="@string/action_add_new"/>
-            <item
-                android:id="@+id/action_scan_qr"
-                android:title="@string/action_scan_qr"/>
-        </menu>
     </item>
 
 </menu>

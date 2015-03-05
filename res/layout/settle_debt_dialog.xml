@@ -8,38 +8,39 @@
         android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" 
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
-    
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/tv_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_message"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/tv_message"
-        android:textStyle="bold"
+        android:text="@string/amount_to_settle"
         android:textSize="18sp"
-        android:text="@string/amount_to_settle"/>
-    
-    <EditText 
+        android:textStyle="bold" />
+
+    <EditText
         android:id="@+id/et_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_amount"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/tv_amount"
+        android:hint="@string/amount"
         android:inputType="numberDecimal"
-        android:hint="@string/amount"/>
-    
-      <LinearLayout
+        android:textColor="@drawable/disable_color" />
+
+    <LinearLayout
         android:id="@+id/Footer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -62,7 +63,6 @@
             android:layout_weight="1.0"
             android:background="@drawable/custom_button_cancel"
             android:text="@string/cancel" />
-        
     </LinearLayout>
 
 </RelativeLayout>

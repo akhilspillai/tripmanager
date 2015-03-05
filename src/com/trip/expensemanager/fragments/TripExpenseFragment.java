@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,7 +46,7 @@ import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
 
-public class TripExpenseFragment extends CustomFragment implements OnItemClickListener {
+public class TripExpenseFragment extends CustomFragment implements OnItemClickListener, OnClickListener {
 
 
 	private static final int REQUEST_CODE_ADD = 1;
@@ -98,6 +99,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 	private long lngExpUserId=0L;
 	private long lngAdminId=0L;
 	private BroadcastReceiver receiver;
+	private ImageButton btnAddExpense;
 	private static AtomicInteger newExpenseCalled=new AtomicInteger();
 
 	@Override
@@ -118,6 +120,8 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			rootView=inflater.inflate(R.layout.fragment_trip_expense, container, false);
 			listExpense=(ListView) rootView.findViewById(R.id.li_expense);
 			txtNoExpense=(TextView) rootView.findViewById(R.id.txt_no_expense);
+			btnAddExpense=(ImageButton) rootView.findViewById(R.id.btn_add_expense);
+			
 			Bundle bundle=getArguments(); 
 			lngUserId=bundle.getLong(Constants.STR_USER_ID);
 			lngExpUserId=bundle.getLong(Constants.STR_EXP_USR_ID);
@@ -126,8 +130,10 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 
 			listAdapter = new CustomExpenseListAdapter(getActivity(), arrExpenseNames, arrExpenseAmount, arrSynced);
 			listExpense.setAdapter(listAdapter);
+			listExpense.setDivider(null);
 
 			listExpense.setOnItemClickListener(this);
+			btnAddExpense.setOnClickListener(this);
 			loadData();
 			setHasOptionsMenu(true);
 			registerForContextMenu(listExpense);
@@ -150,6 +156,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			}
 			lngTripId=trip.getId();
 			if(lngExpUserId!=0L){
+				btnAddExpense.setVisibility(View.GONE);
 				arrExpenses = localDb.retrieveExpenses(lngTripId, lngExpUserId);
 			} else{
 				arrExpenses = localDb.retrieveExpenses(lngTripId);
@@ -222,7 +229,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		}
 	}
 
-	@Override
+	/*@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
 		super.onCreateOptionsMenu(menu, inflater);
@@ -231,9 +238,9 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		} else if(lngAdminId!=lngUserId && lngUserId==lngExpUserId){
 			inflater.inflate(R.menu.expense_exit_action, menu);
 		}
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_add_expense:
@@ -246,10 +253,10 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
+	}*/
 
 
-	private void tryExitingTrip() {
+	/*private void tryExitingTrip() {
 		LocalDB localDb=new LocalDB(getActivity());
 		List<ExpenseBean> lstExpenses = localDb.retrieveExpenses(lngTripId);
 		List<Long> expUserIds;
@@ -283,7 +290,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		} else{
 			showInfoMessage(Constants.STR_SETTLE_FIRST);
 		}
-	}
+	}*/
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -338,7 +345,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		}
 	}*/
 
-	@SuppressLint("InflateParams")
+	/*@SuppressLint("InflateParams")
 	protected void showExitEG() {
 		try{
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -391,7 +398,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			localDb.deleteTrip(lngTripIdTemp);
 		}
 
-	}
+	}*/
 
 	@SuppressLint("InflateParams")
 	protected void showDeleteExpenseDialog(final String expenseName, final long expenseId, final int position) {
@@ -436,7 +443,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		intent.putExtra(Constants.STR_OPCODE, Constants.I_OPCODE_ADD_EXPENSE);
 		startActivityForResult(intent, REQUEST_CODE_ADD);
 		newExpenseCalled.getAndIncrement();
-		getActivity().overridePendingTransition(0, 0);
+		getActivity().overridePendingTransition(R.anim.up_n_show, R.anim.no_anim);
 	}
 
 
@@ -562,7 +569,12 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		intent.putExtra(Constants.STR_OPCODE, Constants.I_OPCODE_UPDATE_EXPENSE);
 		startActivityForResult(intent, REQUEST_CODE_UPDATE);
 		newExpenseCalled.getAndIncrement();
-		getActivity().overridePendingTransition(0, 0);
+		getActivity().overridePendingTransition(R.anim.up_n_show, R.anim.no_anim);
+	}
+
+	@Override
+	public void onClick(View v) {
+		showAddExpense();
 	}
 
 }

@@ -6,16 +6,24 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp" >
 
-<include 
-    android:id="@+id/toolbar"
-    layout="@layout/toolbar"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <com.trip.expensemanager.views.SlidingTabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:background="@color/app_color"
+        android:elevation="2dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:layout_above="@+id/adView" 
-        android:layout_below="@+id/toolbar">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/adView"
+        android:layout_below="@+id/tabs" >
     </android.support.v4.view.ViewPager>
 
     <com.google.android.gms.ads.AdView

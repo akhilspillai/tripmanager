@@ -51,6 +51,7 @@ public class ExpenseActivity extends ActionBarActivity {
 			finish();
 		} else{
 			super.onBackPressed();
+			overridePendingTransition(R.anim.no_anim, R.anim.down_n_go);
 		}
 	}
 

@@ -29,10 +29,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class TripPeopleFragment extends CustomFragment implements OnItemClickListener {
+public class TripPeopleFragment extends CustomFragment implements OnItemClickListener, OnClickListener {
 
 	private static final int REQUEST_CODE_SHOW_EXP = 1;
 
@@ -64,6 +65,7 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 	private List<Boolean> arrSynced=new ArrayList<Boolean>();
 	private long lngAdminId;
 	private String strDate;
+	private ImageButton btnAddPeople;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -72,13 +74,17 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 			rootView=inflater.inflate(R.layout.fragment_trip_people, container, false);
 			listPeople=(ListView) rootView.findViewById(R.id.li_people);
 			txtNoPeople=(TextView) rootView.findViewById(R.id.txt_no_people);
+			btnAddPeople=(ImageButton) rootView.findViewById(R.id.btn_add_people);
+			
 			Bundle bundle=getArguments(); 
 			lngUserId=bundle.getLong(Constants.STR_USER_ID);
 			strTripName=bundle.getString(Constants.STR_TRIP_NAME);
 			lngTripId=bundle.getLong(Constants.STR_TRIP_ID);
 			listAdapter = new CustomPeopleListAdapter(getActivity(), arrPeople, arrAmount, arrSynced);
 			listPeople.setAdapter(listAdapter);
+			listPeople.setDivider(null);
 			listPeople.setOnItemClickListener(this);
+			btnAddPeople.setOnClickListener(this);
 			loadData();
 			setHasOptionsMenu(true);
 			//			registerForContextMenu(listPeople);
@@ -136,7 +142,7 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 		}
 	}
 
-	@Override
+	/*@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
 		super.onCreateOptionsMenu(menu, inflater);
@@ -157,7 +163,7 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
+	}*/
 
 
 	private void showAddPeopleFragment() {
@@ -170,7 +176,7 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 
 		intent.putExtra(Constants.STR_OPCODE, Constants.I_OPCODE_ADD_TRIP_QR);
 		startActivity(intent);
-		getActivity().overridePendingTransition(0, 0);
+		getActivity().overridePendingTransition(R.anim.up_n_show, R.anim.no_anim);
 	}
 
 
@@ -189,7 +195,7 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 
 		intent.putExtra(Constants.STR_OPCODE, Constants.I_OPCODE_SHOW_USER_EXPENSES);
 		startActivityForResult(intent, REQUEST_CODE_SHOW_EXP);
-		getActivity().overridePendingTransition(0, 0);
+		getActivity().overridePendingTransition(R.anim.up_n_show, R.anim.no_anim);
 	}
 
 	@Override
@@ -273,4 +279,9 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 		return bg3.toString();
 	}
 
+	@Override
+	public void onClick(View v) {
+		showAddPeopleFragment();;
+	}
+	
 }

@@ -82,7 +82,7 @@ public class AllDetailsActivity extends ActionBarActivity {
 	public void onBackPressed() {
 		if(getSupportFragmentManager().getBackStackEntryCount()==0){
 			finish();
-			overridePendingTransition(0, 0);
+			overridePendingTransition(R.anim.no_anim, R.anim.down_n_go);
 		} else{
 			super.onBackPressed();
 		}

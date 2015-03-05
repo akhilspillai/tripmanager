@@ -15,9 +15,11 @@
         android:id="@+id/li_trips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:dividerHeight="0dp"/>
         
     <ImageButton
+        android:id="@+id/btn_add_trip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -30,7 +32,7 @@
         android:elevation="10dp"
         android:contentDescription="@string/app_name"
         android:padding="13dp"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_action_add" />
     
 
 </RelativeLayout>

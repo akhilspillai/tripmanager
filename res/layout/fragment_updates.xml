@@ -16,6 +16,7 @@
         android:id="@+id/li_updates"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:dividerHeight="0dp"/>
 
 </RelativeLayout>

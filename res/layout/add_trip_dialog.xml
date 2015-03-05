@@ -33,7 +33,8 @@
             android:layout_marginTop="5dp"
             android:hint="@string/add_trip_name"
             android:layout_below="@+id/tv_trip_name"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:textColor="@drawable/disable_color" />
 
         <ProgressBar
             android:id="@+id/pb_trip_name"

@@ -2,47 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:padding="5dp" >
+    android:background="@android:color/background_light"
+    android:gravity="center" >
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true" >
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:padding="5dp" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/iv_qrcode"
+            android:layout_width="@dimen/qr_size"
+            android:layout_height="@dimen/qr_size"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bg_qr"
+            android:contentDescription="@string/app_name"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/tv_scan"
+            android:layout_width="@dimen/qr_size"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
-
-            <ImageView
-                android:id="@+id/iv_qrcode"
-                android:layout_width="@dimen/qr_size"
-                android:layout_height="@dimen/qr_size"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/app_name"
-                android:padding="10dp" />
-
-            <RelativeLayout
-                android:id="@+id/rl_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_qrcode"
-                android:layout_margin="10dp"
-                android:background="@color/text_qr"
-                android:padding="10dp" >
-
-                <TextView
-                    android:id="@+id/tv_scan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/scan_qr"
-                    android:textColor="@color/app_color" />
-            </RelativeLayout>
-        </RelativeLayout>
-    </ScrollView>
+            android:layout_below="@+id/iv_qrcode"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_qr_text"
+            android:text="@string/scan_qr"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black" />
+    </RelativeLayout>
 
 </RelativeLayout>

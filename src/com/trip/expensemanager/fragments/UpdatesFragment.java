@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.trip.expensemanager.ExpenseActivity;
 import com.trip.expensemanager.R;
@@ -42,7 +43,7 @@ public class UpdatesFragment extends CustomFragment implements OnItemClickListen
 	private List<String> listLabels=new ArrayList<String>();
 	private List<String> listActions=new ArrayList<String>();
 	private TextView tvNoUpdates;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		View rootView=null;
@@ -52,6 +53,7 @@ public class UpdatesFragment extends CustomFragment implements OnItemClickListen
 			tvNoUpdates=(TextView) rootView.findViewById(R.id.txt_no_updates);
 			listAdapter = new CustomUpdatesAdapter(getActivity(), listLabels, listActions);
 			lvUpdatesList.setAdapter(listAdapter);
+			lvUpdatesList.setDivider(null);
 			lvUpdatesList.setOnItemClickListener(this);
 			SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
 			prefs.edit().putInt(Constants.STR_COUNT, 0);
@@ -86,85 +88,89 @@ public class UpdatesFragment extends CustomFragment implements OnItemClickListen
 		super.onResume();
 		loadData();
 	}
-	
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Intent intentToCall=null;
 		LocalDB localDb=new LocalDB(getActivity());
 		TripBean tripBean=localDb.retrieveTripDetails(listUpdates.get(position).getItemId());
 		long userId=localDb.retrieve();
-		if(listActions.get(position).equals(Constants.STR_USER_ADDED)){
-			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
-			intentToCall.putExtra(Constants.STR_SHOW_TAB, 3);
-			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
-			intentToCall.putExtra(Constants.STR_USER_ID, userId);
-			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
-			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
-		} else if(listActions.get(position).equals(Constants.STR_USER_DELETED)){
-			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
-			intentToCall.putExtra(Constants.STR_SHOW_TAB, 3);
-			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
-			intentToCall.putExtra(Constants.STR_USER_ID, userId);
-			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
-			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
-		} else if(listActions.get(position).equals(Constants.STR_TRIP_DELETED)){
-			intentToCall=new Intent(getActivity(), ExpenseActivity.class);
-		} else if(listActions.get(position).equals(Constants.STR_TRIP_UPDATED)){
-			intentToCall=new Intent(getActivity(), ExpenseActivity.class);
-		} else if(listActions.get(position).equals(Constants.STR_EXPENSE_ADDED)){
-			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
-			intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
-			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
-			intentToCall.putExtra(Constants.STR_USER_ID, userId);
-			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
-			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
-		} else if(listActions.get(position).equals(Constants.STR_EXPENSE_DELETED)){
-			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
-			intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
-			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
-			intentToCall.putExtra(Constants.STR_USER_ID, userId);
-			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
-			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
-		} else if(listActions.get(position).equals(Constants.STR_EXPENSE_UPDATED)){
-			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
-			intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
-			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
-			intentToCall.putExtra(Constants.STR_USER_ID, userId);
-			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
-			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
-		} else if(listActions.get(position).equals(Constants.STR_DISTRIBUTION_ADDED)){
-			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
-			intentToCall.putExtra(Constants.STR_SHOW_TAB, 1);
-			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
-			intentToCall.putExtra(Constants.STR_USER_ID, userId);
-			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
-			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
-		} else if(listActions.get(position).equals(Constants.STR_NOT_EXITED)){
-			intentToCall=new Intent(getActivity(), ExpenseActivity.class);
-		} else if(listActions.get(position).equals(Constants.STR_NOT_UPDATED)){
-			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
-			intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
-			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
-			intentToCall.putExtra(Constants.STR_USER_ID, userId);
-			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
-			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
-		} else if(listActions.get(position).equals(Constants.STR_NOT_DELETED)){
-			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
-			intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
-			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
-			intentToCall.putExtra(Constants.STR_USER_ID, userId);
-			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
-			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
-		} else if(listActions.get(position).equals(Constants.STR_NOT_SYNCED)){
-			intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
-			intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
-			intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
-			intentToCall.putExtra(Constants.STR_USER_ID, userId);
-			intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
-			intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+		if(tripBean!=null){
+			if(listActions.get(position).equals(Constants.STR_USER_ADDED)){
+				intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+				intentToCall.putExtra(Constants.STR_SHOW_TAB, 3);
+				intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+				intentToCall.putExtra(Constants.STR_USER_ID, userId);
+				intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+				intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+			} else if(listActions.get(position).equals(Constants.STR_USER_DELETED)){
+				intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+				intentToCall.putExtra(Constants.STR_SHOW_TAB, 3);
+				intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+				intentToCall.putExtra(Constants.STR_USER_ID, userId);
+				intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+				intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+			} else if(listActions.get(position).equals(Constants.STR_TRIP_DELETED)){
+				intentToCall=new Intent(getActivity(), ExpenseActivity.class);
+			} else if(listActions.get(position).equals(Constants.STR_TRIP_UPDATED)){
+				intentToCall=new Intent(getActivity(), ExpenseActivity.class);
+			} else if(listActions.get(position).equals(Constants.STR_EXPENSE_ADDED)){
+				intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+				intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
+				intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+				intentToCall.putExtra(Constants.STR_USER_ID, userId);
+				intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+				intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+			} else if(listActions.get(position).equals(Constants.STR_EXPENSE_DELETED)){
+				intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+				intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
+				intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+				intentToCall.putExtra(Constants.STR_USER_ID, userId);
+				intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+				intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+			} else if(listActions.get(position).equals(Constants.STR_EXPENSE_UPDATED)){
+				intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+				intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
+				intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+				intentToCall.putExtra(Constants.STR_USER_ID, userId);
+				intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+				intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+			} else if(listActions.get(position).equals(Constants.STR_DISTRIBUTION_ADDED)){
+				intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+				intentToCall.putExtra(Constants.STR_SHOW_TAB, 1);
+				intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+				intentToCall.putExtra(Constants.STR_USER_ID, userId);
+				intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+				intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+			} else if(listActions.get(position).equals(Constants.STR_NOT_EXITED)){
+				intentToCall=new Intent(getActivity(), ExpenseActivity.class);
+			} else if(listActions.get(position).equals(Constants.STR_NOT_UPDATED)){
+				intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+				intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
+				intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+				intentToCall.putExtra(Constants.STR_USER_ID, userId);
+				intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+				intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+			} else if(listActions.get(position).equals(Constants.STR_NOT_DELETED)){
+				intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+				intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
+				intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+				intentToCall.putExtra(Constants.STR_USER_ID, userId);
+				intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+				intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+			} else if(listActions.get(position).equals(Constants.STR_NOT_SYNCED)){
+				intentToCall=new Intent(getActivity(), TripDetailsActivity.class);
+				intentToCall.putExtra(Constants.STR_SHOW_TAB, 2);
+				intentToCall.putExtra(Constants.STR_TRIP_NAME, tripBean.getName());
+				intentToCall.putExtra(Constants.STR_USER_ID, userId);
+				intentToCall.putExtra(Constants.STR_TRIP_ID, tripBean.getId());
+				intentToCall.putExtra(Constants.STR_ADMIN_ID, tripBean.getAdminId());
+			}
+			startActivity(intentToCall);
+		} else{
+			showInfoMessage("This expense-group was deleted or exited!!");
 		}
 		localDb.deleteToSync(listUpdates.get(position).getId());
-		startActivity(intentToCall);
 	}
 
 }
