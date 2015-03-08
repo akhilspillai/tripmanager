@@ -53,7 +53,6 @@ public class UpdatesFragment extends CustomFragment implements OnItemClickListen
 			tvNoUpdates=(TextView) rootView.findViewById(R.id.txt_no_updates);
 			listAdapter = new CustomUpdatesAdapter(getActivity(), listLabels, listActions);
 			lvUpdatesList.setAdapter(listAdapter);
-			lvUpdatesList.setDivider(null);
 			lvUpdatesList.setOnItemClickListener(this);
 			SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
 			prefs.edit().putInt(Constants.STR_COUNT, 0);

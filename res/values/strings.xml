@@ -11,6 +11,7 @@
     <string name="password">Password</string>
     <string name="conf_password">Confirm Password</string>
     <string name="new_user"><u>New user? Register here!!</u></string>
+    <string name="or"><u>Or</u></string>
     <string name="back_to_login"><u>Back to login.</u></string>
     <string name="login">Login</string>
     <string name="register">Register</string>
@@ -22,7 +23,9 @@
     <string name="no_trips">No expense-groups(EGs) available!! Please click on the + symbol to add an EG.</string>
     <string name="action_add_trip">Add EG</string>
     <string name="add_trip_name">Type EG name</string>
+    <string name="add_screen_name">Type Screen name</string>
     <string name="trip_name">EG name</string>
+    <string name="screen_name">Enter a screen name:</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="no_expense">No expense added for this expense-group(EG)!! Please click on the + symbol to add an expense.</string>

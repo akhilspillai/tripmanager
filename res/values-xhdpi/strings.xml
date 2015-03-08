@@ -2,7 +2,7 @@
 <resources>
    
     <dimen name="qr_size">400dp</dimen>
-    <string name="chart_size">500</string>
+    <string name="chart_size">560</string>
     <string name="qr_code_size">400</string>
     
 </resources>

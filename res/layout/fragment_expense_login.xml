@@ -97,11 +97,38 @@
                     android:text="@string/login" />
 
                 <TextView
-                    android:id="@+id/txt_new_user"
+                    android:id="@+id/txt_or"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btn_login"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/or"
+                    android:textSize="18sp" />
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/txt_or" />
+                
+                 <TextView
+                    android:id="@+id/txt_or_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sign_in_button"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/or"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txt_new_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_or_register"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:text="@string/new_user"
                     android:textColor="@color/app_color"

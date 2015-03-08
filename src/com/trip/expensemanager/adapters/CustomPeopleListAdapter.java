@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.trip.expensemanager.R;
+import com.trip.utils.Global;
 
 public class CustomPeopleListAdapter extends ArrayAdapter<String> {
 
@@ -24,6 +25,7 @@ public class CustomPeopleListAdapter extends ArrayAdapter<String> {
 	private List<Boolean> synced;
 	private int lastPosition = -1;
 	private List<String> amount;
+	private List<Integer> colors;
 
 	static class ViewHolder {
 		public TextView tvLabel;
@@ -33,12 +35,13 @@ public class CustomPeopleListAdapter extends ArrayAdapter<String> {
 		public RelativeLayout rlIcon;
 	}
 
-	public CustomPeopleListAdapter(Context context, List<String> items, List<String> amount, List<Boolean> synced) {
+	public CustomPeopleListAdapter(Context context, List<String> items, List<String> amount, List<Boolean> synced, List<Integer> colors) {
 		super(context, R.layout.people_row_layout, items);
 		this.context=context;
 		this.items=items;
 		this.amount=amount;
 		this.synced=synced;
+		this.colors=colors;
 	}
 
 	@Override
@@ -61,31 +64,8 @@ public class CustomPeopleListAdapter extends ArrayAdapter<String> {
 		viewHolder.tvLabel.setText(strItem);
 		char cIcon=strItem.toUpperCase().charAt(0);
 		viewHolder.tvIcon.setText(String.valueOf(cIcon));
-		int iIcon=cIcon;
-		int color=Color.BLUE;
 
-		int value=iIcon%6;
-		switch (value) {
-		case 0:
-			color=Color.rgb(60,179,113);
-			break;
-		case 1:
-			color=Color.rgb(178,34,34);
-			break;
-		case 2:
-			color=Color.rgb(30,144,255);
-			break;
-		case 3:
-			color=Color.rgb(160,82,45);
-			break;
-		case 4:
-			color=Color.rgb(250,164,96);
-			break;
-
-		case 5:
-			color=Color.rgb(100,149,237);
-			break;
-		}
+		int color=colors.get(position);
 		viewHolder.rlIcon.setBackgroundColor(color);
 		viewHolder.tvAmt.setText(amount.get(position));
 		
@@ -94,10 +74,10 @@ public class CustomPeopleListAdapter extends ArrayAdapter<String> {
 		} else{
 			viewHolder.ivStatus.setImageResource(R.drawable.ic_not_synched);
 		}
-		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+		/*Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
 		rowView.startAnimation(animation);
 		lastPosition = position;
-	    animation = null;
+	    animation = null;*/
 		
 		return rowView;
 	}

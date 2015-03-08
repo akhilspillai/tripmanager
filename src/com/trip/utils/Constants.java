@@ -7,6 +7,7 @@ public class Constants {
 	public static final int I_OPCODE_REGISTER=1;
 	public static final int I_OPCODE_CHECK_USER=2;
 	public static final int I_OPCODE_LOGIN = 3;
+	public static final int I_OPCODE_GOOGLE = 9;
 	public static final int I_OPCODE_ADD_TRIP = 4;
 	public static final int I_OPCODE_ADD_EXPENSE = 5;
 	public static final int I_OPCODE_ADD_TRIP_QR = 6;
@@ -27,6 +28,7 @@ public class Constants {
 	public static final String STR_ERROR = "error";
 	public static final String DATABASE = "expense.db";
 	public static final String STR_SUCCESS = "success";
+	public static final String STR_FAILURE ="failure";
 	public static final String USER_ID = "userid";
 	public static final String STR_TRIP_NAME = "trip_name";
 	public static final String STR_DATE = "date";
@@ -89,4 +91,6 @@ public class Constants {
 	public static final String STR_NOT_DELETED = "ND";
 	public static final String STR_ERROR_STATUS = "E";
 	public static final String STR_NOT_SYNCED = "NS";
+	public static final String STR_VERSION = "version";
+	public static final String STR_VERSION_CODE = "version code";
 }

@@ -9,6 +9,7 @@ import com.trip.expensemanager.R;
 import com.trip.expensemanager.adapters.CustomPeopleListAdapter;
 import com.trip.utils.Constants;
 import com.trip.utils.ExpenseBean;
+import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
 
@@ -66,6 +67,7 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 	private long lngAdminId;
 	private String strDate;
 	private ImageButton btnAddPeople;
+	private List<Integer> arrColors=new ArrayList<Integer>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -80,9 +82,8 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 			lngUserId=bundle.getLong(Constants.STR_USER_ID);
 			strTripName=bundle.getString(Constants.STR_TRIP_NAME);
 			lngTripId=bundle.getLong(Constants.STR_TRIP_ID);
-			listAdapter = new CustomPeopleListAdapter(getActivity(), arrPeople, arrAmount, arrSynced);
+			listAdapter = new CustomPeopleListAdapter(getActivity(), arrPeople, arrAmount, arrSynced, arrColors);
 			listPeople.setAdapter(listAdapter);
-			listPeople.setDivider(null);
 			listPeople.setOnItemClickListener(this);
 			btnAddPeople.setOnClickListener(this);
 			loadData();
@@ -99,6 +100,7 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 		arrPeople.removeAll(arrPeople);
 		arrAmount.removeAll(arrAmount);
 		arrSynced.removeAll(arrSynced);
+		arrColors.removeAll(arrColors);
 		try {
 			TripBean trip=localDb.retrieveTripDetails(lngTripId);
 			lngTripId=trip.getId();
@@ -136,6 +138,7 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 					txtNoPeople.setVisibility(View.GONE);
 				}
 			}
+			arrColors.addAll(Global.generateColor(arrPeople.size()));
 			listAdapter.notifyDataSetChanged();
 		} catch (Exception e) {
 			e.printStackTrace();

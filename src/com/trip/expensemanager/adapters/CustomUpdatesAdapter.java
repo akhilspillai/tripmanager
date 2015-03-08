@@ -81,10 +81,10 @@ public class CustomUpdatesAdapter extends ArrayAdapter<String> {
 			viewHolder.ivIcon.setImageResource(R.drawable.ic_not_synced);
 		}
 		
-		Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+		/*Animation animation = AnimationUtils.loadAnimation(getContext(), (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
 		rowView.startAnimation(animation);
 		lastPosition = position;
-	    animation = null;
+	    animation = null;*/
 		
 		return rowView;
 	}

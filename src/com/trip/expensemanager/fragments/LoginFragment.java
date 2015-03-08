@@ -2,6 +2,7 @@ package com.trip.expensemanager.fragments;
 
 import java.io.IOException;
 
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -29,7 +30,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.AccountPicker;
+import com.google.android.gms.common.SignInButton;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.trip.expensemanager.CloudEndpointUtils;
@@ -82,18 +86,24 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 	private Animation loginAnim;
 	private int position=0;
 	private FragmentActivity context;
-	private boolean isVersionICSorGreater=true;
+//	private boolean isVersionICSorGreater=true;
 	private EditText eTxtPrefferedName;
 	protected boolean prefferedNameChecked;
 	protected String strPrefferedName;
+	private SignInButton btnGoogleLogin;
 
+	static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
+	static final int REQUEST_CODE_RECOVER_FROM_AUTH_ERROR = 1001;
+	static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1002;
+
+	private String mEmail;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View rootView=null;
 		super.onCreateView(inflater, container, savedInstanceState);
 		try{
-			isVersionICSorGreater=android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+			/*isVersionICSorGreater=android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;*/
 			this.context=getActivity();
 			rootView= inflater.inflate(R.layout.fragment_expense_login,container, false);
 
@@ -112,9 +122,12 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 			pbUsername=(ProgressBar) rootView.findViewById(R.id.pb_username);
 			pbConfPwd=(ProgressBar) rootView.findViewById(R.id.pb_conf_password);
 			txtBack=(TextView) rootView.findViewById(R.id.txt_back);
-			if(!isVersionICSorGreater){
+			btnGoogleLogin=(com.google.android.gms.common.SignInButton) rootView.findViewById(R.id.sign_in_button);
+			btnGoogleLogin.setOnClickListener(this);
+
+//			if(!isVersionICSorGreater){
 				position=1;
-			}
+//			}
 			if(savedInstanceState!=null){
 				position=savedInstanceState.getInt("position");
 			}
@@ -124,12 +137,12 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 
 					@Override
 					public void run() {
-						if(isVersionICSorGreater){
+						/*if(isVersionICSorGreater){
 							bounceImage = AnimationUtils.loadAnimation(context, R.anim.down_n_bounce);
 							bounceImage.setInterpolator(new BounceInterpolator());
-						} else{
+						} else{*/
 							bounceImage = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-						}
+						/*}*/
 						bounceImage.setAnimationListener(LoginFragment.this);
 						ivIcon.setVisibility(View.VISIBLE);
 						ivIcon.startAnimation(bounceImage);
@@ -290,7 +303,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 					}
 				}
 			});
-			
+
 			eTxtPrefferedName.addTextChangedListener(new TextWatcher() {
 
 				@Override
@@ -467,8 +480,6 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 		return rootView;
 	}
 
-
-
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putInt("position", position);
@@ -479,22 +490,22 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 	public void onClick(View v) {
 		if(v.equals(txtNewUser)){
 			pwdChecked=false;
-			if(isVersionICSorGreater){
+			/*if(isVersionICSorGreater){
 				registerAnim = AnimationUtils.loadAnimation(context, R.anim.down_n_hide);
 				registerAnim.setInterpolator(new AnticipateOvershootInterpolator());
-			} else{
+			} else{*/
 				registerAnim=AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
-			}
+			/*}*/
 			registerAnim.setAnimationListener(LoginFragment.this);
 			svLogin.startAnimation(registerAnim);
 		} else if(v.equals(txtBack)){
 			pwdChecked=false;
-			if(isVersionICSorGreater){
+			/*if(isVersionICSorGreater){
 				loginAnim = AnimationUtils.loadAnimation(context, R.anim.down_n_hide);
 				loginAnim.setInterpolator(new AnticipateOvershootInterpolator());
-			} else{
+			} else{*/
 				loginAnim=AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
-			}
+			/*}*/
 			loginAnim.setAnimationListener(LoginFragment.this);
 			svRegister.startAnimation(loginAnim);
 		} else if(v.equals(btnLogin)){
@@ -530,6 +541,19 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 			} else{
 				showMessage("Looks like you are not connected to internet!!");
 			}
+		} else if(v.equals(btnGoogleLogin)){
+			pickUserAccount();
+		}
+	}
+
+	private void pickUserAccount() {
+		String[] accountTypes = new String[]{"com.google"};
+		try {
+			Intent intent = AccountPicker.newChooseAccountIntent(null, null,
+					accountTypes, false, null, null, null, null);
+			startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
+		} catch (Exception e) {
+			showGMSNotFoundDialog();
 		}
 	}
 
@@ -611,7 +635,18 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 				} else{
 
 				}
-			}
+			} else if (requestCode == REQUEST_CODE_PICK_ACCOUNT) {
+		        if (resultCode == Activity.RESULT_OK) {
+		            mEmail = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+		            String[] usrnamePwd=new String[]{mEmail};
+		            Intent intent=new Intent(context, ProcessingActivity.class);
+					intent.putExtra(Constants.STR_DATA, usrnamePwd);
+					intent.putExtra(Constants.STR_REQUEST, Constants.I_OPCODE_GOOGLE);
+					startActivityForResult(intent, REQUEST_CODE_REGISTER);
+		        } else if (resultCode == Activity.RESULT_CANCELED) {
+		            Toast.makeText(getActivity(), "No accounts found!!", Toast.LENGTH_SHORT).show();
+		        }
+		    }
 		} catch (Exception e) {
 			e.printStackTrace();
 			showMessage("Something went wrong!!");
@@ -663,48 +698,48 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 
 				@Override
 				public void run() {
-					if(isVersionICSorGreater){
+					/*if(isVersionICSorGreater){
 						exitAnim = AnimationUtils.loadAnimation(context, R.anim.down_n_hide);
 						exitAnim.setInterpolator(new AnticipateOvershootInterpolator());
-					} else{
+					} else{*/
 						exitAnim=AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
-					}
+					/*}*/
 					exitAnim.setAnimationListener(LoginFragment.this);
 					ivIcon.startAnimation(exitAnim);
 				}
 			}, 2000);
 		} else if(animation.equals(exitAnim)){
 			ivIcon.setVisibility(View.GONE);
-			if(isVersionICSorGreater){
+			/*if(isVersionICSorGreater){
 				enterAnim = AnimationUtils.loadAnimation(context, R.anim.down_n_bounce);
 				enterAnim.setInterpolator(new BounceInterpolator());
-			} else{
+			} else{*/
 				enterAnim=AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-			}
+			/*}*/
 			enterAnim.setAnimationListener(LoginFragment.this);
 			svLogin.setVisibility(View.VISIBLE);
 			svLogin.startAnimation(enterAnim);
 			position=1;
 		} else if(animation.equals(registerAnim)){
 			svLogin.setVisibility(View.INVISIBLE);
-			if(isVersionICSorGreater){
+			/*if(isVersionICSorGreater){
 				regEnterAnim = AnimationUtils.loadAnimation(context, R.anim.down_n_bounce);
 				regEnterAnim.setInterpolator(new BounceInterpolator());
-			} else{
+			} else{*/
 				regEnterAnim=AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-			}
+			/*}*/
 			regEnterAnim.setAnimationListener(LoginFragment.this);
 			svRegister.setVisibility(View.VISIBLE);
 			svRegister.startAnimation(regEnterAnim);
 			position=2;
 		} else if(animation.equals(loginAnim)){
 			svRegister.setVisibility(View.INVISIBLE);
-			if(isVersionICSorGreater){
+			/*if(isVersionICSorGreater){
 				enterAnim = AnimationUtils.loadAnimation(context, R.anim.down_n_bounce);
 				enterAnim.setInterpolator(new BounceInterpolator());
-			} else{
+			} else{*/
 				enterAnim=AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-			}
+			/*}*/
 			enterAnim.setAnimationListener(LoginFragment.this);
 			svLogin.setVisibility(View.VISIBLE);
 			svLogin.startAnimation(enterAnim);
@@ -716,4 +751,5 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 	public void onAnimationRepeat(Animation animation) {
 
 	}
+
 }

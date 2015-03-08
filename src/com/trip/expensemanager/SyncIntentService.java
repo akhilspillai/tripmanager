@@ -18,9 +18,12 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
+import com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint;
+import com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo;
 import com.trip.expensemanager.distributionendpoint.Distributionendpoint;
 import com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution;
 import com.trip.expensemanager.distributionendpoint.model.Distribution;
@@ -63,6 +66,18 @@ public class SyncIntentService extends IntentService{
 	protected void onHandleIntent(Intent intent) {
 		try {
 			if(Global.isConnected(getApplicationContext())){
+				SharedPreferences prefs = getSharedPreferences(Constants.STR_PREFERENCE, MODE_PRIVATE);
+				String strOldVersion = prefs.getString(Constants.STR_VERSION, "0");
+				int iOldVersionCode = prefs.getInt(Constants.STR_VERSION_CODE, 0);
+				String strNewVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+				int iNewVersionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+				if(!strOldVersion.equals(strNewVersion) || iOldVersionCode!=iNewVersionCode){
+					getNewGCMId();
+				}
+				prefs.edit().putString(Constants.STR_VERSION, strNewVersion).commit();
+				prefs.edit().putInt(Constants.STR_VERSION_CODE, iNewVersionCode).commit();
+			}
+			if(Global.isConnected(getApplicationContext())){
 				syncOthers();
 			}
 			if(Global.isConnected(getApplicationContext())){
@@ -79,6 +94,25 @@ public class SyncIntentService extends IntentService{
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void getNewGCMId() throws IOException {
+		LocalDB localDb = new LocalDB(getApplicationContext());
+		long deviceId = localDb.retrieveDeviceId();
+		Deviceinfoendpoint.Builder devInfoBuilder = new Deviceinfoendpoint.Builder(
+				AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
+		devInfoBuilder = CloudEndpointUtils.updateBuilder(devInfoBuilder);
+		Deviceinfoendpoint devInfoEndpoint = devInfoBuilder.build();
+		DeviceInfo devInfo = devInfoEndpoint.getDeviceInfo(deviceId).execute();
+		GoogleCloudMessaging gcm=null;
+		if (gcm == null) {
+			gcm = GoogleCloudMessaging.getInstance(this);
+		}
+		String strRegID = gcm.register(ProcessingActivity.PROJECT_NUMBER);
+		if(!devInfo.getGcmRegId().equals(strRegID)){
+			devInfo.setGcmRegId(strRegID);
+			devInfoEndpoint.updateDeviceInfo(devInfo).execute();
 		}
 	}
 

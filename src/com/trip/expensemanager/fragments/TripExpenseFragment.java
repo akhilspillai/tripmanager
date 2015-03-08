@@ -100,6 +100,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 	private long lngAdminId=0L;
 	private BroadcastReceiver receiver;
 	private ImageButton btnAddExpense;
+	private List<Integer> arrColors=new ArrayList<Integer>();
 	private static AtomicInteger newExpenseCalled=new AtomicInteger();
 
 	@Override
@@ -128,9 +129,8 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			lngTripId=bundle.getLong(Constants.STR_TRIP_ID);
 			lngAdminId=bundle.getLong(Constants.STR_ADMIN_ID);
 
-			listAdapter = new CustomExpenseListAdapter(getActivity(), arrExpenseNames, arrExpenseAmount, arrSynced);
+			listAdapter = new CustomExpenseListAdapter(getActivity(), arrExpenseNames, arrExpenseAmount, arrSynced, arrColors);
 			listExpense.setAdapter(listAdapter);
-			listExpense.setDivider(null);
 
 			listExpense.setOnItemClickListener(this);
 			btnAddExpense.setOnClickListener(this);
@@ -149,6 +149,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 		arrExpenseNames.removeAll(arrExpenseNames);
 		arrExpenseAmount.removeAll(arrExpenseAmount);
 		arrSynced.removeAll(arrSynced);
+		arrColors.removeAll(arrColors);
 		try {
 			TripBean trip = localDb.retrieveTripDetails(lngTripId);
 			if(trip==null){
@@ -202,6 +203,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 				listExpense.setVisibility(View.INVISIBLE);
 				txtNoExpense.setVisibility(View.VISIBLE);
 			}
+			arrColors.addAll(Global.generateColor(arrExpenseNames.size()));
 			listAdapter.notifyDataSetChanged();
 			int size=arrExpenseNotSynched.size();
 			if(size!=0){

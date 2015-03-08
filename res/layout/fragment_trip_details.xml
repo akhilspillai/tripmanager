@@ -58,12 +58,14 @@
 
     <LinearLayout
         android:id="@+id/ll_chart_container"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/v_view_expenses"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:orientation="vertical" >
+        android:background="@drawable/bg_qr_text"
+        android:orientation="vertical"
+        android:visibility="invisible" >
     </LinearLayout>
 
     <TextView

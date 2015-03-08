@@ -13,7 +13,6 @@ import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +24,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -455,9 +452,12 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 					}
 				}
 			});*/
-
+			
 			int sizeOfChart=Integer.parseInt(getActivity().getResources().getString(R.string.chart_size));
-			llChartContainer.addView(mChart, new LayoutParams(sizeOfChart, sizeOfChart));
+			llChartContainer.setVisibility(View.VISIBLE);
+			LayoutParams lp=new LayoutParams(sizeOfChart, sizeOfChart);
+			lp.gravity= Gravity.CENTER_HORIZONTAL;
+			llChartContainer.addView(mChart, lp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

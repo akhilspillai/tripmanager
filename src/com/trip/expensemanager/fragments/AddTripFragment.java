@@ -44,6 +44,7 @@ import com.trip.expensemanager.adapters.CustomTripListAdapter;
 import com.trip.expensemanager.scanner.ZBarConstants;
 import com.trip.expensemanager.scanner.ZBarScannerActivity;
 import com.trip.utils.Constants;
+import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
 
@@ -84,6 +85,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	public Button btnOk;
 	private BroadcastReceiver receiver;
 	private ImageButton btnAddTrip;
+	private List<Integer> arrColors=new ArrayList<Integer>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -107,9 +109,8 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 			btnAddTrip=(ImageButton) rootView.findViewById(R.id.btn_add_trip);
 			
 			lngUserId=getArguments().getLong(Constants.STR_USER_ID);
-			listAdapter = new CustomTripListAdapter(getActivity(), arrTripNames, arrCreationDates, arrClosed, arrSynched);
+			listAdapter = new CustomTripListAdapter(getActivity(), arrTripNames, arrCreationDates, arrClosed, arrSynched, arrColors);
 			listTrip.setAdapter(listAdapter);
-			listTrip.setDivider(null);
 			listTrip.setOnItemClickListener(this);
 			btnAddTrip.setOnClickListener(this);
 			setHasOptionsMenu(true);
@@ -180,6 +181,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 		arrClosed.removeAll(arrClosed);
 		arrSynched.removeAll(arrSynched);
 		arrAdminIds.removeAll(arrAdminIds);
+		arrColors.removeAll(arrColors);
 		try {
 			arrTrips = localDb.retrieveTrips();
 
@@ -220,6 +222,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 				listTrip.setVisibility(View.VISIBLE);
 				txtNoTrip.setVisibility(View.INVISIBLE);
 			}
+			arrColors.addAll(Global.generateColor(arrTripNames.size()));
 			listAdapter.notifyDataSetChanged();
 			/*int size=arrTripsNotSynched.size();
 			if(size!=0){
@@ -266,10 +269,12 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 					arrIds.remove(position);
 					arrClosed.remove(position);
 					arrSynched.remove(position);
+					arrColors.removeAll(arrColors);
 					if(arrTripNames.size()==0){
 						listTrip.setVisibility(View.INVISIBLE);
 						txtNoTrip.setVisibility(View.VISIBLE);
 					} else{
+						arrColors.addAll(Global.generateColor(arrTripNames.size()));
 						listAdapter.notifyDataSetChanged();
 					}
 					deleteTrip(tripId);
