@@ -1606,6 +1606,10 @@ com.google.android.gms.cast.CastDevice
 com.google.android.gms.cast.CastDevice: android.os.Parcelable$Creator CREATOR
 com.google.android.gms.cast.LaunchOptions
 com.google.android.gms.cast.LaunchOptions: android.os.Parcelable$Creator CREATOR
+com.google.android.gms.common.SignInButton
+com.google.android.gms.common.SignInButton: SignInButton(android.content.Context)
+com.google.android.gms.common.SignInButton: SignInButton(android.content.Context,android.util.AttributeSet)
+com.google.android.gms.common.SignInButton: SignInButton(android.content.Context,android.util.AttributeSet,int)
 com.google.android.gms.common.SignInButton: void setSize(int)
 com.google.android.gms.common.SignInButton: void setColorScheme(int)
 com.google.android.gms.common.SignInButton: void setOnClickListener(android.view.View$OnClickListener)
@@ -3105,6 +3109,7 @@ com.trip.expensemanager.R$id: int rl
 com.trip.expensemanager.R$id: int rl1
 com.trip.expensemanager.R$id: int rl2
 com.trip.expensemanager.R$id: int rl_conf_password
+com.trip.expensemanager.R$id: int rl_screen_name
 com.trip.expensemanager.R$id: int rl_trip_name
 com.trip.expensemanager.R$id: int rl_username
 com.trip.expensemanager.R$id: int sandbox
@@ -3124,6 +3129,7 @@ com.trip.expensemanager.R$id: int shortcut
 com.trip.expensemanager.R$id: int showCustom
 com.trip.expensemanager.R$id: int showHome
 com.trip.expensemanager.R$id: int showTitle
+com.trip.expensemanager.R$id: int sign_in_button
 com.trip.expensemanager.R$id: int split_action_bar
 com.trip.expensemanager.R$id: int strict_sandbox
 com.trip.expensemanager.R$id: int submit_area
@@ -3143,6 +3149,7 @@ com.trip.expensemanager.R$id: int tv_label
 com.trip.expensemanager.R$id: int tv_message
 com.trip.expensemanager.R$id: int tv_no_expenses
 com.trip.expensemanager.R$id: int tv_scan
+com.trip.expensemanager.R$id: int tv_screen_name
 com.trip.expensemanager.R$id: int tv_trip_name
 com.trip.expensemanager.R$id: int tv_update
 com.trip.expensemanager.R$id: int txt_all
@@ -3163,6 +3170,8 @@ com.trip.expensemanager.R$id: int txt_no_people
 com.trip.expensemanager.R$id: int txt_no_trips
 com.trip.expensemanager.R$id: int txt_no_updates
 com.trip.expensemanager.R$id: int txt_none
+com.trip.expensemanager.R$id: int txt_or
+com.trip.expensemanager.R$id: int txt_or_register
 com.trip.expensemanager.R$id: int txt_password
 com.trip.expensemanager.R$id: int txt_preffered_name
 com.trip.expensemanager.R$id: int txt_register_password
@@ -3229,6 +3238,7 @@ com.trip.expensemanager.R$layout: int fragment_trips
 com.trip.expensemanager.R$layout: int fragment_updates
 com.trip.expensemanager.R$layout: int people_row_layout
 com.trip.expensemanager.R$layout: int registration_error_dialog
+com.trip.expensemanager.R$layout: int screen_name_dialog
 com.trip.expensemanager.R$layout: int settle_debt_dialog
 com.trip.expensemanager.R$layout: int support_simple_spinner_dropdown_item
 com.trip.expensemanager.R$layout: int toolbar
@@ -3279,6 +3289,7 @@ com.trip.expensemanager.R$string: int add_expense_amount
 com.trip.expensemanager.R$string: int add_expense_detail
 com.trip.expensemanager.R$string: int add_expense_name
 com.trip.expensemanager.R$string: int add_people
+com.trip.expensemanager.R$string: int add_screen_name
 com.trip.expensemanager.R$string: int add_trip_name
 com.trip.expensemanager.R$string: int all
 com.trip.expensemanager.R$string: int amount
@@ -3338,12 +3349,14 @@ com.trip.expensemanager.R$string: int no_trips
 com.trip.expensemanager.R$string: int no_updates
 com.trip.expensemanager.R$string: int none
 com.trip.expensemanager.R$string: int ok
+com.trip.expensemanager.R$string: int or
 com.trip.expensemanager.R$string: int password
 com.trip.expensemanager.R$string: int people
 com.trip.expensemanager.R$string: int preffered_name
 com.trip.expensemanager.R$string: int qr_code_size
 com.trip.expensemanager.R$string: int register
 com.trip.expensemanager.R$string: int scan_qr
+com.trip.expensemanager.R$string: int screen_name
 com.trip.expensemanager.R$string: int select
 com.trip.expensemanager.R$string: int settle_expenses
 com.trip.expensemanager.R$string: int settled

@@ -4224,8 +4224,10 @@ com.google.android.gcm.GCMRegistrar
 com.google.android.gms.R:
     9:9:public R()
 com.google.android.gms.R$attr
-com.google.android.gms.R$color
-com.google.android.gms.R$drawable
+com.google.android.gms.R$color:
+    49:49:public R$color()
+com.google.android.gms.R$drawable:
+    78:78:public R$drawable()
 com.google.android.gms.R$id
 com.google.android.gms.R$integer
 com.google.android.gms.R$raw
@@ -4503,10 +4505,30 @@ com.google.android.gms.auth.AccountChangeEventsResponse:
     public java.util.List getEvents()
 com.google.android.gms.auth.AccountChangeEventsResponseCreator:
     public static final int CONTENT_DESCRIPTION
-com.google.android.gms.auth.GoogleAuthException
-com.google.android.gms.auth.GoogleAuthUtil
-com.google.android.gms.auth.GooglePlayServicesAvailabilityException
-com.google.android.gms.auth.UserRecoverableAuthException
+com.google.android.gms.auth.GoogleAuthException:
+    public GoogleAuthException(java.lang.String,java.lang.Throwable)
+    public GoogleAuthException(java.lang.Throwable)
+com.google.android.gms.auth.GoogleAuthUtil:
+    public static final java.lang.String GOOGLE_ACCOUNT_TYPE
+    public static final java.lang.String KEY_REQUEST_ACTIONS
+    public static final java.lang.String KEY_REQUEST_VISIBLE_ACTIVITIES
+    public static final java.lang.String KEY_SUPPRESS_PROGRESS_SCREEN
+    public static final int CHANGE_TYPE_ACCOUNT_ADDED
+    public static final int CHANGE_TYPE_ACCOUNT_REMOVED
+    public static final int CHANGE_TYPE_ACCOUNT_RENAMED_FROM
+    public static final int CHANGE_TYPE_ACCOUNT_RENAMED_TO
+    public static java.lang.String getTokenWithNotification(android.content.Context,java.lang.String,java.lang.String,android.os.Bundle)
+    public static java.lang.String getTokenWithNotification(android.content.Context,java.lang.String,java.lang.String,android.os.Bundle,android.content.Intent)
+    public static java.lang.String getTokenWithNotification(android.content.Context,java.lang.String,java.lang.String,android.os.Bundle,java.lang.String,android.os.Bundle)
+    public static void clearToken(android.content.Context,java.lang.String)
+    public static java.lang.String getAppCert(android.content.Context,java.lang.String)
+    public static java.util.List getAccountChangeEvents(android.content.Context,int,java.lang.String)
+    public static java.lang.String getAccountId(android.content.Context,java.lang.String)
+    private static void h(android.content.Intent)
+    private static java.lang.String a(android.content.Context,java.lang.String,java.lang.String,android.os.Bundle)
+    private GoogleAuthUtil()
+com.google.android.gms.auth.GooglePlayServicesAvailabilityException:
+    public int getConnectionStatusCode()
 com.google.android.gms.auth.UserRecoverableNotifiedException
 com.google.android.gms.cast.ApplicationMetadata:
     public boolean isNamespaceSupported(java.lang.String)
@@ -4576,7 +4598,8 @@ com.google.android.gms.cast.RemoteMediaPlayer$b$1
 com.google.android.gms.cast.RemoteMediaPlayer$b$2
 com.google.android.gms.cast.RemoteMediaPlayer$c
 com.google.android.gms.cast.TextTrackStyle
-com.google.android.gms.common.AccountPicker
+com.google.android.gms.common.AccountPicker:
+    private AccountPicker()
 com.google.android.gms.common.ConnectionResult:
     public static final int SUCCESS
     public static final int SERVICE_MISSING
@@ -4613,8 +4636,6 @@ com.google.android.gms.common.GooglePlayServicesClient:
     public abstract boolean isConnectionFailedListenerRegistered(com.google.android.gms.common.GooglePlayServicesClient$OnConnectionFailedListener)
     public abstract void unregisterConnectionFailedListener(com.google.android.gms.common.GooglePlayServicesClient$OnConnectionFailedListener)
 com.google.android.gms.common.GooglePlayServicesClient$ConnectionCallbacks
-com.google.android.gms.common.GooglePlayServicesRepairableException:
-    public int getConnectionStatusCode()
 com.google.android.gms.common.GooglePlayServicesUtil:
     public static final java.lang.String GMS_ERROR_DIALOG
     public static final int GOOGLE_PLAY_SERVICES_VERSION_CODE
@@ -4639,10 +4660,13 @@ com.google.android.gms.common.GooglePlayServicesUtil:
     static synthetic void b(int,android.content.Context)
 com.google.android.gms.common.GooglePlayServicesUtil$a
 com.google.android.gms.common.Scopes
-com.google.android.gms.common.SignInButton
+com.google.android.gms.common.SignInButton:
+    public static final int SIZE_STANDARD
+    public static final int SIZE_WIDE
+    public static final int SIZE_ICON_ONLY
+    public static final int COLOR_DARK
+    public static final int COLOR_LIGHT
 com.google.android.gms.common.SupportErrorDialogFragment
-com.google.android.gms.common.UserRecoverableException:
-    public android.content.Intent getIntent()
 com.google.android.gms.common.annotation.KeepName
 com.google.android.gms.common.api.Api
 com.google.android.gms.common.api.Api$ApiOptions
@@ -6609,7 +6633,6 @@ com.google.android.gms.internal.ie
 com.google.android.gms.internal.ih
 com.google.android.gms.internal.ih$a
 com.google.android.gms.internal.ih$a$a
-com.google.android.gms.internal.ii
 com.google.android.gms.internal.il
 com.google.android.gms.internal.im
 com.google.android.gms.internal.im$1
@@ -6700,11 +6723,6 @@ com.google.android.gms.internal.jq$a
 com.google.android.gms.internal.jr
 com.google.android.gms.internal.jr$a
 com.google.android.gms.internal.jr$a$a
-com.google.android.gms.internal.ju
-com.google.android.gms.internal.ju$a
-com.google.android.gms.internal.ju$a$a
-com.google.android.gms.internal.jy
-com.google.android.gms.internal.jz
 com.google.android.gms.internal.ka
 com.google.android.gms.internal.kb
 com.google.android.gms.internal.kc
@@ -7316,9 +7334,6 @@ com.google.android.gms.internal.qy:
 com.google.android.gms.internal.qz:
     static int hk(int)
     public static final int b(com.google.android.gms.internal.qo,int)
-com.google.android.gms.internal.r
-com.google.android.gms.internal.r$a
-com.google.android.gms.internal.r$a$a
 com.google.android.gms.internal.ra
 com.google.android.gms.internal.ra$a
 com.google.android.gms.internal.ra$b
@@ -9784,6 +9799,11 @@ com.trip.expensemanager.Manifest$permission
 com.trip.expensemanager.ProcessingActivity:
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST
     public static final java.lang.String PROJECT_NUMBER
+    public static final java.lang.String CLIENT_ID_TEST
+    public static final java.lang.String CLIENT_ID_PROD
+    private static final int AUTH_CODE_REQUEST_CODE
+com.trip.expensemanager.ProcessingActivity$ProcessTask:
+    private static final java.lang.String NAME_KEY
 com.trip.expensemanager.R
 com.trip.expensemanager.R$anim
 com.trip.expensemanager.R$array
@@ -9807,9 +9827,7 @@ com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint:
     public static final java.lang.String DEFAULT_SERVICE_PATH
     public static final java.lang.String DEFAULT_BASE_URL
     104:105:public Deviceinfoendpoint(com.google.api.client.http.HttpTransport,com.google.api.client.json.JsonFactory,com.google.api.client.http.HttpRequestInitializer)
-    130:132:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo getDeviceInfo(java.lang.Long)
     440:442:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo removeDeviceInfo(java.lang.Long)
-    533:535:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo updateDeviceInfo(com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo)
 com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder:
     661:661:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setHttpRequestInitializer(com.google.api.client.http.HttpRequestInitializer)
     666:666:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder setApplicationName(java.lang.String)
@@ -9823,7 +9841,26 @@ com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$Builder:
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressAllChecks(boolean)
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressRequiredParameterChecks(boolean)
     1:1:public bridge synthetic com.google.api.client.googleapis.services.json.AbstractGoogleJsonClient$Builder setSuppressPatternChecks(boolean)
-com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo:
+    private static final java.lang.String REST_PATH
+    158:158:public com.google.api.client.http.HttpResponse executeUsingHead()
+    163:163:public com.google.api.client.http.HttpRequest buildHttpRequestUsingHead()
+    168:168:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setAlt(java.lang.String)
+    173:173:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setFields(java.lang.String)
+    178:178:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setKey(java.lang.String)
+    183:183:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setOauthToken(java.lang.String)
+    188:188:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setPrettyPrint(java.lang.Boolean)
+    193:193:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setQuotaUser(java.lang.String)
+    198:198:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setUserIp(java.lang.String)
+    208:208:public java.lang.Long getId()
+    212:213:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$GetDeviceInfo setId(java.lang.Long)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
 com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo:
     private static final java.lang.String REST_PATH
     260:260:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$InsertDeviceInfo setAlt(java.lang.String)
@@ -9864,7 +9901,22 @@ com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$ListDeviceInfo:
     1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
     1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
 com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$RemoveDeviceInfo
-com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo
+com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo:
+    private static final java.lang.String REST_PATH
+    560:560:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo setAlt(java.lang.String)
+    565:565:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo setFields(java.lang.String)
+    570:570:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo setKey(java.lang.String)
+    575:575:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo setOauthToken(java.lang.String)
+    580:580:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo setPrettyPrint(java.lang.Boolean)
+    585:585:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo setQuotaUser(java.lang.String)
+    590:590:public com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint$UpdateDeviceInfo setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setPrettyPrint(java.lang.Boolean)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setUserIp(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setKey(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setFields(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setQuotaUser(java.lang.String)
+    1:1:public bridge synthetic com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setOauthToken(java.lang.String)
 com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest:
     57:57:public java.lang.String getAlt()
     62:63:public com.trip.expensemanager.deviceinfoendpoint.DeviceinfoendpointRequest setAlt(java.lang.String)
@@ -9889,7 +9941,6 @@ com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo:
     71:71:public java.lang.String getNextPageToken()
     78:79:public com.trip.expensemanager.deviceinfoendpoint.model.CollectionResponseDeviceInfo setNextPageToken(java.lang.String)
 com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo:
-    56:56:public java.lang.String getGcmRegId()
     78:79:public com.trip.expensemanager.deviceinfoendpoint.model.DeviceInfo setId(java.lang.Long)
     86:86:public java.lang.String getMake()
 com.trip.expensemanager.distributionendpoint.Distributionendpoint:
@@ -10150,6 +10201,9 @@ com.trip.expensemanager.fragments.AddTripFragment:
 com.trip.expensemanager.fragments.LoginFragment:
     private static final int REQUEST_CODE_LOGIN
     private static final int REQUEST_CODE_REGISTER
+    static final int REQUEST_CODE_PICK_ACCOUNT
+    static final int REQUEST_CODE_RECOVER_FROM_AUTH_ERROR
+    static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR
 com.trip.expensemanager.fragments.TripExpenseFragment:
     private static final int REQUEST_CODE_ADD
     private static final int REQUEST_CODE_UPDATE
@@ -10519,6 +10573,7 @@ com.trip.utils.Constants:
     public static final int I_OPCODE_REGISTER
     public static final int I_OPCODE_CHECK_USER
     public static final int I_OPCODE_LOGIN
+    public static final int I_OPCODE_GOOGLE
     public static final int I_OPCODE_ADD_TRIP
     public static final int I_OPCODE_ADD_EXPENSE
     public static final int I_OPCODE_ADD_TRIP_QR
@@ -10538,6 +10593,7 @@ com.trip.utils.Constants:
     public static final java.lang.String STR_ERROR
     public static final java.lang.String DATABASE
     public static final java.lang.String STR_SUCCESS
+    public static final java.lang.String STR_FAILURE
     public static final java.lang.String USER_ID
     public static final java.lang.String STR_TRIP_NAME
     public static final java.lang.String STR_DATE
@@ -10598,6 +10654,8 @@ com.trip.utils.Constants:
     public static final java.lang.String STR_NOT_DELETED
     public static final java.lang.String STR_ERROR_STATUS
     public static final java.lang.String STR_NOT_SYNCED
+    public static final java.lang.String STR_VERSION
+    public static final java.lang.String STR_VERSION_CODE
     3:3:public Constants()
 com.trip.utils.DistributionBean1:
     private java.lang.String synced

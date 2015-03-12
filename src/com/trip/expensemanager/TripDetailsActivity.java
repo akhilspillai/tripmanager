@@ -69,6 +69,7 @@ public class TripDetailsActivity extends ActionBarActivity {
 			TripBean trip=new LocalDB(this).retrieveTripDetails(lngTripId);
 			if(trip==null){
 				finish();
+				return;
 			}
 			lngTripId=trip.getId();
 			lngAdminId=trip.getAdminId();

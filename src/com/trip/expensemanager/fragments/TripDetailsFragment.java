@@ -377,13 +377,14 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 					arrPossibletoSettle.add(false);
 				}
 			}
+			/*TripBean trip=localDb.retrieveTripDetails(lngTripId);
 			for(DistributionBean tempBean:adArrNotOwed){
 				userFrom=localDb.retrievePrefferedName(tempBean.getUserId());
 				arrDistribution.add(userFrom+" doesn't owe anybody anything!");
 				arrFromUsrIds.add(tempBean.getUserId());
 				arrPossibletoSettle.add(false);
 				arrAmountToPay.add(tempBean.getAmount());
-			}
+			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

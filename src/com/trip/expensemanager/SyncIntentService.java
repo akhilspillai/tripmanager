@@ -72,10 +72,11 @@ public class SyncIntentService extends IntentService{
 				String strNewVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 				int iNewVersionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
 				if(!strOldVersion.equals(strNewVersion) || iOldVersionCode!=iNewVersionCode){
-					getNewGCMId();
+					if(getNewGCMId()){
+						prefs.edit().putString(Constants.STR_VERSION, strNewVersion).commit();
+						prefs.edit().putInt(Constants.STR_VERSION_CODE, iNewVersionCode).commit();
+					}
 				}
-				prefs.edit().putString(Constants.STR_VERSION, strNewVersion).commit();
-				prefs.edit().putInt(Constants.STR_VERSION_CODE, iNewVersionCode).commit();
 			}
 			if(Global.isConnected(getApplicationContext())){
 				syncOthers();
@@ -97,7 +98,7 @@ public class SyncIntentService extends IntentService{
 		}
 	}
 
-	private void getNewGCMId() throws IOException {
+	private boolean getNewGCMId() throws IOException {
 		LocalDB localDb = new LocalDB(getApplicationContext());
 		long deviceId = localDb.retrieveDeviceId();
 		Deviceinfoendpoint.Builder devInfoBuilder = new Deviceinfoendpoint.Builder(
@@ -106,14 +107,20 @@ public class SyncIntentService extends IntentService{
 		Deviceinfoendpoint devInfoEndpoint = devInfoBuilder.build();
 		DeviceInfo devInfo = devInfoEndpoint.getDeviceInfo(deviceId).execute();
 		GoogleCloudMessaging gcm=null;
-		if (gcm == null) {
-			gcm = GoogleCloudMessaging.getInstance(this);
+		try {
+			if (gcm == null) {
+				gcm = GoogleCloudMessaging.getInstance(this);
+			}
+			String strRegID = gcm.register(ProcessingActivity.PROJECT_NUMBER);
+			if(!devInfo.getGcmRegId().equals(strRegID)){
+				devInfo.setGcmRegId(strRegID);
+				devInfoEndpoint.updateDeviceInfo(devInfo).execute();
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		String strRegID = gcm.register(ProcessingActivity.PROJECT_NUMBER);
-		if(!devInfo.getGcmRegId().equals(strRegID)){
-			devInfo.setGcmRegId(strRegID);
-			devInfoEndpoint.updateDeviceInfo(devInfo).execute();
-		}
+		return false;
 	}
 
 	private void sendResult() {
@@ -988,8 +995,8 @@ public class SyncIntentService extends IntentService{
 					if(trip!=null){
 						tripUserIds=trip.getUserIDs();
 						if(expenseTemp.getSyncStatus().equals(Constants.STR_UPDATED)){
+							expense=endpoint.getExpense(expenseTemp.getId()).execute();
 							if(tripUserIds.containsAll(userIds)){
-								expense=endpoint.getExpense(expenseTemp.getId()).execute();
 								if(expense!=null){
 									expense.setName(expenseTemp.getName());
 									expense.setAmount(expenseTemp.getAmount());
