@@ -139,7 +139,7 @@ public class SyncIntentService extends IntentService{
 		String amount;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		long deviceId=localDb.retrieveDeviceId();
-		for(DistributionBean1 distTemp:arrDistributionsNotSynched){
+		for(DistributionBean1 distTemp:arrDistributionsNotSynched){				
 			amount=distTemp.getAmount();
 			if(distTemp.getFromId()!=lngUserId){
 				dist.setFromId(distTemp.getFromId());

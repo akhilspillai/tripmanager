@@ -74,7 +74,7 @@ public class TripDetailsActivity extends ActionBarActivity {
 			lngAdminId=trip.getAdminId();
 			intent.getLongExtra(Constants.STR_ADMIN_ID, 0L);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			getSupportActionBar().setTitle(R.string.group_detail);
+			getSupportActionBar().setTitle(trip.getName());
 			mAdapter = new CustomPagerAdapter(getSupportFragmentManager(), tabs, strTripName, lngUserId, lngTripId, this);
 			mViewPager = (ViewPager) findViewById(R.id.pager);
 			mViewPager.setAdapter(mAdapter);

@@ -170,6 +170,7 @@ public class UpdatesFragment extends CustomFragment implements OnItemClickListen
 			showInfoMessage("This expense-group was deleted or exited!!");
 		}
 		localDb.deleteToSync(listUpdates.get(position).getId());
+		loadData();
 	}
 
 }
