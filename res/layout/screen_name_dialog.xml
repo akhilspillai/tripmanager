@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl"
+    android:layout_width="300dp"
+    android:layout_height="300dp" >
+
+    <RelativeLayout
+        android:id="@+id/rl_screen_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TextView 
+            android:id="@+id/tv_screen_name"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/screen_name"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textStyle="bold"/>
+        
+        <EditText
+            android:id="@+id/etxt_trip_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/add_screen_name"
+            android:layout_below="@+id/tv_screen_name"
+            android:inputType="textCapWords"
+            android:textColor="@drawable/disable_color" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/Footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_screen_name"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@drawable/custom_button"
+            android:text="@string/ok" />
+
+    </LinearLayout>
+
+</RelativeLayout>

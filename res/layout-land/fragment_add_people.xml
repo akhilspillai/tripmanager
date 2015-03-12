@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    android:gravity="center" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:padding="5dp" >
+
+        <ImageView
+            android:id="@+id/iv_qrcode"
+            android:layout_width="@dimen/qr_size"
+            android:layout_height="@dimen/qr_size"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bg_qr"
+            android:contentDescription="@string/app_name"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/tv_scan"
+            android:layout_width="@dimen/qr_size"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_qrcode"
+            android:layout_toEndOf="@+id/iv_qrcode"
+            android:gravity="center_horizontal"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_qr_text"
+            android:text="@string/scan_qr"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black" />
+        
+    </RelativeLayout>
+
+</RelativeLayout>
