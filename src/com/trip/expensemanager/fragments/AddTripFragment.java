@@ -13,6 +13,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
@@ -33,7 +34,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -125,7 +125,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	public void onResume() {
 		super.onResume();
 		loadData();
-		LocalBroadcastManager.getInstance(getActivity()).registerReceiver((receiver), new IntentFilter(SyncIntentService.RESULT));
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver((receiver), new IntentFilter(SyncIntentService.RESULT_SYNC));
 	}
 	
 	@Override
@@ -138,7 +138,13 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
 		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.add_trip_fragment_action, menu);
+		SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
+		boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
+		if(isPurchased){
+			inflater.inflate(R.menu.add_trip_fragment_action, menu);
+		} else{
+			inflater.inflate(R.menu.add_trip_fragment_action_upgrade, menu);
+		}
 	}
 
 	@Override
@@ -150,11 +156,56 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 		case R.id.action_scan_qr:
 			scanQRCode();
 			return true;
+			
+		case R.id.action_upgrade:
+			showUpgradeDialog();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
+	@SuppressLint("InflateParams")
+	protected void showUpgradeDialog() {
+		try{
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			View view = getActivity().getLayoutInflater().inflate(R.layout.upgrade_dialog, null);
+			builder.setCancelable(true);
+			TextView textView = (TextView)view.findViewById(R.id.tv_message);
+			Button btnUpgrade = (Button) view.findViewById(R.id.btn_upgrade);
+			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+			btnUpgrade.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
+					boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
+					if(!isPurchased){
+						purchaseItem();
+					} else{
+						showInfoMessage("The item is already purchased!!");
+					}
+					alert.cancel();
+				}
+			});
+			btnCancel.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					alert.cancel();
+				}
+			});
+
+			textView.setText(R.string.upgrade_features);
+
+			alert = builder.create();
+			alert.setView(view, 0, 0, 0, 0);
+			alert.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
@@ -263,13 +314,6 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 
 				@Override
 				public void onClick(View v) {
-					arrTrips.remove(position);
-					arrTripNames.remove(position);
-					arrCreationDates.remove(position);
-					arrIds.remove(position);
-					arrClosed.remove(position);
-					arrSynched.remove(position);
-					arrColors.removeAll(arrColors);
 					if(arrTripNames.size()==0){
 						listTrip.setVisibility(View.INVISIBLE);
 						txtNoTrip.setVisibility(View.VISIBLE);

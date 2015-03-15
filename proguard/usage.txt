@@ -3527,6 +3527,17 @@ android.support.v7.widget.Toolbar$LayoutParams:
     static final int EXPANDED
     1807:1809:public Toolbar$LayoutParams(int,int,int)
     1812:1813:public Toolbar$LayoutParams(int)
+com.android.vending.billing.IInAppBillingService$Stub:
+    private static final java.lang.String DESCRIPTOR
+    static final int TRANSACTION_isBillingSupported
+    static final int TRANSACTION_getSkuDetails
+    static final int TRANSACTION_getBuyIntent
+    static final int TRANSACTION_getPurchases
+    static final int TRANSACTION_consumePurchase
+    37:40:public IInAppBillingService$Stub()
+    58:58:public android.os.IBinder asBinder()
+com.android.vending.billing.IInAppBillingService$Stub$Proxy:
+    186:186:public java.lang.String getInterfaceDescriptor()
 com.fasterxml.jackson.core.Base64Variant
 com.fasterxml.jackson.core.Base64Variants
 com.fasterxml.jackson.core.FormatSchema
@@ -9821,7 +9832,8 @@ com.trip.expensemanager.R$string
 com.trip.expensemanager.R$style
 com.trip.expensemanager.R$styleable
 com.trip.expensemanager.SyncIntentService:
-    public static final java.lang.String RESULT
+    public static final java.lang.String RESULT_SYNC
+    public static final java.lang.String RESULT_PURCHASE
 com.trip.expensemanager.deviceinfoendpoint.Deviceinfoendpoint:
     public static final java.lang.String DEFAULT_ROOT_URL
     public static final java.lang.String DEFAULT_SERVICE_PATH
@@ -10048,6 +10060,7 @@ com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistributio
     71:71:public java.lang.String getNextPageToken()
     78:79:public com.trip.expensemanager.distributionendpoint.model.CollectionResponseDistribution setNextPageToken(java.lang.String)
 com.trip.expensemanager.distributionendpoint.model.Distribution:
+    101:101:public java.lang.Long getChangerId()
     153:154:public com.trip.expensemanager.distributionendpoint.model.Distribution setId(java.lang.Long)
     161:161:public java.lang.String getPaid()
 com.trip.expensemanager.expenseendpoint.Expenseendpoint:
@@ -10198,6 +10211,8 @@ com.trip.expensemanager.expenseendpoint.model.Expense:
 com.trip.expensemanager.fragments.AddTripFragment:
     private static final int ZBAR_SCANNER_REQUEST
     public android.widget.Button btnOk
+com.trip.expensemanager.fragments.CustomFragment:
+    private static final int ORDER_ID
 com.trip.expensemanager.fragments.LoginFragment:
     private static final int REQUEST_CODE_LOGIN
     private static final int REQUEST_CODE_REGISTER
@@ -10331,7 +10346,7 @@ com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn:
     71:71:public java.lang.String getNextPageToken()
     78:79:public com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn setNextPageToken(java.lang.String)
 com.trip.expensemanager.loginendpoint.model.LogIn:
-    96:97:public com.trip.expensemanager.loginendpoint.model.LogIn setId(java.lang.Long)
+    102:103:public com.trip.expensemanager.loginendpoint.model.LogIn setId(java.lang.Long)
 com.trip.expensemanager.messageEndpoint.MessageEndpoint
 com.trip.expensemanager.messageEndpoint.MessageEndpoint$Builder
 com.trip.expensemanager.messageEndpoint.MessageEndpoint$ListMessages
@@ -10630,6 +10645,7 @@ com.trip.utils.Constants:
     public static final java.lang.String STR_EXPENSE_UPDATED
     public static final java.lang.String STR_EXPENSE_DELETED
     public static final java.lang.String STR_USER_DELETED
+    public static final java.lang.String STR_ITEM_PURCHASED
     public static final int NOTIFICATION_ID_TRIP
     public static final java.lang.String STR_IS_FROM_GCM
     public static final java.lang.String STR_GROUP
@@ -10656,6 +10672,16 @@ com.trip.utils.Constants:
     public static final java.lang.String STR_NOT_SYNCED
     public static final java.lang.String STR_VERSION
     public static final java.lang.String STR_VERSION_CODE
+    public static final java.lang.String STR_LICENSE_1
+    public static final java.lang.String STR_LICENSE_2
+    public static final java.lang.String STR_LICENSE_3
+    public static final java.lang.String STR_LICENSE_4
+    public static final java.lang.String STR_LICENSE_5
+    public static final java.lang.String STR_LICENSE_6
+    public static final java.lang.String STR_LICENSE_7
+    public static final java.lang.String STR_PURCHASED
+    public static final java.lang.String STR_PURCHASE_ID
+    public static final java.lang.String STR_SKU_PREMIUM
     3:3:public Constants()
 com.trip.utils.DistributionBean1:
     private java.lang.String synced
@@ -10665,25 +10691,26 @@ com.trip.utils.DistributionBean1:
 com.trip.utils.ExpenseBean:
     72:72:public long getRowId()
 com.trip.utils.Global:
+    private static final java.lang.String AB
     27:27:public Global()
-    91:99:public static java.util.Date stringToDate(java.lang.String)
-    103:116:public static java.lang.String arrToString(java.lang.Long[])
-    195:207:public static float subtract(float,java.lang.String)
-    244:256:public static android.view.View getViewByPosition(int,android.widget.ListView)
+    102:110:public static java.util.Date stringToDate(java.lang.String)
+    114:127:public static java.lang.String arrToString(java.lang.Long[])
+    206:218:public static float subtract(float,java.lang.String)
+    255:267:public static android.view.View getViewByPosition(int,android.widget.ListView)
 com.trip.utils.LocalDB:
-    117:142:public java.util.ArrayList retrieveUnsettledDistributionForTrip(long)
-    238:249:public boolean updateDistAmount(long,java.lang.String)
-    282:293:public varargs boolean delete(java.lang.String[])
-    299:314:public java.lang.String retrievePrefferedName()
-    395:406:public boolean update(java.lang.String,java.lang.String,java.lang.String)
-    411:419:public boolean checkDataBase()
-    423:435:public java.lang.String retrieveUsername()
-    815:826:public boolean updateTripSyncStatus(long,java.lang.String)
-    917:928:public boolean updateToSyncToRead(long)
-    1016:1024:public boolean deleteTrips(int)
-    1106:1117:public boolean updateTripIdinExpenses(long,long)
-    1157:1172:public long retrieveUserId(java.lang.String)
-    1340:1348:public boolean deleteExpenseOfTripnUser(long,long)
+    165:190:public java.util.ArrayList retrieveUnsettledDistributionForTrip(long)
+    286:297:public boolean updateDistAmount(long,java.lang.String)
+    330:341:public varargs boolean delete(java.lang.String[])
+    347:362:public java.lang.String retrievePrefferedName()
+    443:454:public boolean update(java.lang.String,java.lang.String,java.lang.String)
+    459:467:public boolean checkDataBase()
+    471:483:public java.lang.String retrieveUsername()
+    857:868:public boolean updateTripSyncStatus(long,java.lang.String)
+    959:970:public boolean updateToSyncToRead(long)
+    1058:1066:public boolean deleteTrips(int)
+    1148:1159:public boolean updateTripIdinExpenses(long,long)
+    1199:1214:public long retrieveUserId(java.lang.String)
+    1382:1390:public boolean deleteExpenseOfTripnUser(long,long)
 com.trip.utils.Logger
 com.trip.utils.SQLiteHelper:
     public static final java.lang.String TABLE_LOGIN
@@ -10700,6 +10727,7 @@ com.trip.utils.SQLiteHelper:
     public static final java.lang.String COLUMN_IS_SYNCHED
     public static final java.lang.String COLUMN_DEVICE_ID
     public static final java.lang.String COLUMN_PREFFERED_NAME
+    public static final java.lang.String COLUMN_PURCHASE_ID
     private static final java.lang.String LOGIN_TABLE_CREATE
     public static final java.lang.String COLUMN_TRIP_ID
     public static final java.lang.String COLUMN_TRIP_NAME
@@ -10729,6 +10757,102 @@ com.trip.utils.SQLiteHelper:
     private static final java.lang.String DISTRIBUTION_TABLE_CREATE
 com.trip.utils.TripBean:
     56:56:public long getRowId()
+com.trip.utils.billing.Base64:
+    public static final boolean ENCODE
+    public static final boolean DECODE
+    private static final byte EQUALS_SIGN
+    private static final byte NEW_LINE
+    private static final byte WHITE_SPACE_ENC
+    private static final byte EQUALS_SIGN_ENC
+    210:234:private static byte[] encode3to4(byte[],int,int,byte[],int,byte[])
+    247:247:public static java.lang.String encode(byte[])
+    258:258:public static java.lang.String encodeWebSafe(byte[],boolean)
+    274:286:public static java.lang.String encode(byte[],int,int,byte[],boolean)
+    301:345:public static byte[] encode(byte[],int,int,byte[],int)
+    431:432:public static byte[] decodeWebSafe(java.lang.String)
+    445:445:public static byte[] decode(byte[])
+    458:458:public static byte[] decodeWebSafe(byte[])
+    489:489:public static byte[] decodeWebSafe(byte[],int,int)
+com.trip.utils.billing.Base64DecoderException:
+    private static final long serialVersionUID
+com.trip.utils.billing.IabHelper:
+    public static final int BILLING_RESPONSE_RESULT_OK
+    public static final int BILLING_RESPONSE_RESULT_USER_CANCELED
+    public static final int BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE
+    public static final int BILLING_RESPONSE_RESULT_ITEM_UNAVAILABLE
+    public static final int BILLING_RESPONSE_RESULT_DEVELOPER_ERROR
+    public static final int BILLING_RESPONSE_RESULT_ERROR
+    public static final int BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED
+    public static final int BILLING_RESPONSE_RESULT_ITEM_NOT_OWNED
+    public static final int IABHELPER_ERROR_BASE
+    public static final int IABHELPER_REMOTE_EXCEPTION
+    public static final int IABHELPER_BAD_RESPONSE
+    public static final int IABHELPER_VERIFICATION_FAILED
+    public static final int IABHELPER_SEND_INTENT_FAILED
+    public static final int IABHELPER_USER_CANCELLED
+    public static final int IABHELPER_UNKNOWN_PURCHASE_RESPONSE
+    public static final int IABHELPER_MISSING_TOKEN
+    public static final int IABHELPER_UNKNOWN_ERROR
+    public static final int IABHELPER_SUBSCRIPTIONS_NOT_AVAILABLE
+    public static final int IABHELPER_INVALID_CONSUMPTION
+    public static final java.lang.String RESPONSE_CODE
+    public static final java.lang.String RESPONSE_GET_SKU_DETAILS_LIST
+    public static final java.lang.String RESPONSE_BUY_INTENT
+    public static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA
+    public static final java.lang.String RESPONSE_INAPP_SIGNATURE
+    public static final java.lang.String RESPONSE_INAPP_ITEM_LIST
+    public static final java.lang.String RESPONSE_INAPP_PURCHASE_DATA_LIST
+    public static final java.lang.String RESPONSE_INAPP_SIGNATURE_LIST
+    public static final java.lang.String INAPP_CONTINUATION_TOKEN
+    public static final java.lang.String ITEM_TYPE_INAPP
+    public static final java.lang.String ITEM_TYPE_SUBS
+    public static final java.lang.String GET_SKU_DETAILS_ITEM_LIST
+    public static final java.lang.String GET_SKU_DETAILS_ITEM_TYPE_LIST
+    173:176:public void enableDebugLogging(boolean,java.lang.String)
+    179:181:public void enableDebugLogging(boolean)
+    307:308:public boolean subscriptionsSupported()
+    333:334:public void launchPurchaseFlow(android.app.Activity,java.lang.String,int,com.trip.utils.billing.IabHelper$OnIabPurchaseFinishedListener)
+    343:344:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.trip.utils.billing.IabHelper$OnIabPurchaseFinishedListener)
+    348:349:public void launchSubscriptionPurchaseFlow(android.app.Activity,java.lang.String,int,com.trip.utils.billing.IabHelper$OnIabPurchaseFinishedListener,java.lang.String)
+    439:518:public boolean handleActivityResult(int,int,android.content.Intent)
+    643:644:public void queryInventoryAsync(boolean,com.trip.utils.billing.IabHelper$QueryInventoryFinishedListener)
+    657:687:void consume(com.trip.utils.billing.Purchase)
+    725:730:public void consumeAsync(com.trip.utils.billing.Purchase,com.trip.utils.billing.IabHelper$OnConsumeFinishedListener)
+    738:741:public void consumeAsync(java.util.List,com.trip.utils.billing.IabHelper$OnConsumeMultiFinishedListener)
+    804:814:int getResponseCodeFromIntent(android.content.Intent)
+    946:978:void consumeAsyncInternal(java.util.List,com.trip.utils.billing.IabHelper$OnConsumeFinishedListener,com.trip.utils.billing.IabHelper$OnConsumeMultiFinishedListener)
+com.trip.utils.billing.IabHelper$3
+com.trip.utils.billing.IabHelper$3$1
+com.trip.utils.billing.IabHelper$3$2
+com.trip.utils.billing.IabHelper$OnConsumeFinishedListener
+com.trip.utils.billing.IabHelper$OnConsumeMultiFinishedListener
+com.trip.utils.billing.IabResult:
+    39:39:public int getResponse()
+com.trip.utils.billing.Inventory:
+    35:35:public com.trip.utils.billing.SkuDetails getSkuDetails(java.lang.String)
+    40:40:public com.trip.utils.billing.Purchase getPurchase(java.lang.String)
+    50:50:public boolean hasDetails(java.lang.String)
+    62:63:public void erasePurchase(java.lang.String)
+    67:67:java.util.List getAllOwnedSkus()
+    81:81:java.util.List getAllPurchases()
+com.trip.utils.billing.Purchase:
+    51:51:public java.lang.String getOrderId()
+    52:52:public java.lang.String getPackageName()
+    54:54:public long getPurchaseTime()
+    55:55:public int getPurchaseState()
+    58:58:public java.lang.String getOriginalJson()
+    59:59:public java.lang.String getSignature()
+com.trip.utils.billing.Security:
+    private static final java.lang.String TAG
+    private static final java.lang.String KEY_FACTORY_ALGORITHM
+    private static final java.lang.String SIGNATURE_ALGORITHM
+    43:43:public Security()
+com.trip.utils.billing.SkuDetails:
+    34:35:public SkuDetails(java.lang.String)
+    49:49:public java.lang.String getType()
+    50:50:public java.lang.String getPrice()
+    51:51:public java.lang.String getTitle()
+    52:52:public java.lang.String getDescription()
 javax.annotation.CheckForNull
 javax.annotation.CheckForSigned
 javax.annotation.CheckReturnValue

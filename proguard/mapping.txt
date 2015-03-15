@@ -6747,7 +6747,24 @@ android.support.v7.widget.WindowCallbackWrapper -> android.support.v7.widget.aq:
     boolean onMenuOpened(int,android.view.Menu) -> c
     android.support.v7.view.ActionMode startActionMode(android.support.v7.view.ActionMode$Callback) -> a
     android.view.View onCreatePanelView(int) -> a
-com.fasterxml.jackson.core.JsonEncoding -> com.a.a.a.a:
+com.android.vending.billing.IInAppBillingService -> com.a.a.a.a:
+    int isBillingSupported(int,java.lang.String,java.lang.String) -> a
+    android.os.Bundle getSkuDetails(int,java.lang.String,java.lang.String,android.os.Bundle) -> a
+    android.os.Bundle getBuyIntent(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
+    android.os.Bundle getPurchases(int,java.lang.String,java.lang.String,java.lang.String) -> a
+    int consumePurchase(int,java.lang.String,java.lang.String) -> b
+com.android.vending.billing.IInAppBillingService$Stub -> com.a.a.a.b:
+    com.android.vending.billing.IInAppBillingService asInterface(android.os.IBinder) -> a
+    boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
+com.android.vending.billing.IInAppBillingService$Stub$Proxy -> com.a.a.a.c:
+    android.os.IBinder mRemote -> a
+    android.os.IBinder asBinder() -> asBinder
+    int isBillingSupported(int,java.lang.String,java.lang.String) -> a
+    android.os.Bundle getSkuDetails(int,java.lang.String,java.lang.String,android.os.Bundle) -> a
+    android.os.Bundle getBuyIntent(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> a
+    android.os.Bundle getPurchases(int,java.lang.String,java.lang.String,java.lang.String) -> a
+    int consumePurchase(int,java.lang.String,java.lang.String) -> b
+com.fasterxml.jackson.core.JsonEncoding -> com.b.a.a.a:
     com.fasterxml.jackson.core.JsonEncoding UTF8 -> a
     com.fasterxml.jackson.core.JsonEncoding UTF16_BE -> b
     com.fasterxml.jackson.core.JsonEncoding UTF16_LE -> c
@@ -6760,7 +6777,7 @@ com.fasterxml.jackson.core.JsonEncoding -> com.a.a.a.a:
     com.fasterxml.jackson.core.JsonEncoding valueOf(java.lang.String) -> valueOf
     java.lang.String getJavaName() -> a
     boolean isBigEndian() -> b
-com.fasterxml.jackson.core.JsonFactory -> com.a.a.a.b:
+com.fasterxml.jackson.core.JsonFactory -> com.b.a.a.b:
     int DEFAULT_FACTORY_FEATURE_FLAGS -> a
     int DEFAULT_PARSER_FEATURE_FLAGS -> b
     int DEFAULT_GENERATOR_FEATURE_FLAGS -> c
@@ -6793,7 +6810,7 @@ com.fasterxml.jackson.core.JsonFactory -> com.a.a.a.b:
     java.io.Writer _createWriter(java.io.OutputStream,com.fasterxml.jackson.core.JsonEncoding,com.fasterxml.jackson.core.io.IOContext) -> a
     com.fasterxml.jackson.core.io.IOContext _createContext(java.lang.Object,boolean) -> a
     com.fasterxml.jackson.core.util.BufferRecycler _getBufferRecycler() -> a
-com.fasterxml.jackson.core.JsonFactory$Feature -> com.a.a.a.c:
+com.fasterxml.jackson.core.JsonFactory$Feature -> com.b.a.a.c:
     com.fasterxml.jackson.core.JsonFactory$Feature INTERN_FIELD_NAMES -> a
     com.fasterxml.jackson.core.JsonFactory$Feature CANONICALIZE_FIELD_NAMES -> b
     boolean _defaultState -> c
@@ -6803,8 +6820,8 @@ com.fasterxml.jackson.core.JsonFactory$Feature -> com.a.a.a.c:
     int collectDefaults() -> a
     boolean enabledByDefault() -> b
     int getMask() -> c
-com.fasterxml.jackson.core.JsonGenerationException -> com.a.a.a.d:
-com.fasterxml.jackson.core.JsonGenerator -> com.a.a.a.e:
+com.fasterxml.jackson.core.JsonGenerationException -> com.b.a.a.d:
+com.fasterxml.jackson.core.JsonGenerator -> com.b.a.a.e:
     com.fasterxml.jackson.core.PrettyPrinter _cfgPrettyPrinter -> a
     com.fasterxml.jackson.core.JsonGenerator setRootValueSeparator(com.fasterxml.jackson.core.SerializableString) -> a
     com.fasterxml.jackson.core.JsonGenerator setPrettyPrinter(com.fasterxml.jackson.core.PrettyPrinter) -> a
@@ -6831,7 +6848,7 @@ com.fasterxml.jackson.core.JsonGenerator -> com.a.a.a.e:
     void writeBoolean(boolean) -> a
     void writeNull() -> g
     void flush() -> flush
-com.fasterxml.jackson.core.JsonGenerator$Feature -> com.a.a.a.f:
+com.fasterxml.jackson.core.JsonGenerator$Feature -> com.b.a.a.f:
     com.fasterxml.jackson.core.JsonGenerator$Feature AUTO_CLOSE_TARGET -> a
     com.fasterxml.jackson.core.JsonGenerator$Feature AUTO_CLOSE_JSON_CONTENT -> b
     com.fasterxml.jackson.core.JsonGenerator$Feature QUOTE_FIELD_NAMES -> c
@@ -6847,7 +6864,7 @@ com.fasterxml.jackson.core.JsonGenerator$Feature -> com.a.a.a.f:
     int collectDefaults() -> a
     boolean enabledByDefault() -> b
     int getMask() -> c
-com.fasterxml.jackson.core.JsonLocation -> com.a.a.a.g:
+com.fasterxml.jackson.core.JsonLocation -> com.b.a.a.g:
     com.fasterxml.jackson.core.JsonLocation NA -> a
     long _totalBytes -> b
     long _totalChars -> c
@@ -6858,8 +6875,8 @@ com.fasterxml.jackson.core.JsonLocation -> com.a.a.a.g:
     java.lang.String toString() -> toString
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
-com.fasterxml.jackson.core.JsonParseException -> com.a.a.a.h:
-com.fasterxml.jackson.core.JsonParser -> com.a.a.a.i:
+com.fasterxml.jackson.core.JsonParseException -> com.b.a.a.h:
+com.fasterxml.jackson.core.JsonParser -> com.b.a.a.i:
     int _features -> a
     void close() -> close
     boolean isEnabled(com.fasterxml.jackson.core.JsonParser$Feature) -> a
@@ -6878,7 +6895,7 @@ com.fasterxml.jackson.core.JsonParser -> com.a.a.a.i:
     double getDoubleValue() -> m
     java.math.BigDecimal getDecimalValue() -> n
     com.fasterxml.jackson.core.JsonParseException _constructError(java.lang.String) -> a
-com.fasterxml.jackson.core.JsonParser$Feature -> com.a.a.a.j:
+com.fasterxml.jackson.core.JsonParser$Feature -> com.b.a.a.j:
     com.fasterxml.jackson.core.JsonParser$Feature AUTO_CLOSE_SOURCE -> a
     com.fasterxml.jackson.core.JsonParser$Feature ALLOW_COMMENTS -> b
     com.fasterxml.jackson.core.JsonParser$Feature ALLOW_UNQUOTED_FIELD_NAMES -> c
@@ -6894,13 +6911,13 @@ com.fasterxml.jackson.core.JsonParser$Feature -> com.a.a.a.j:
     int collectDefaults() -> a
     boolean enabledByDefault() -> b
     int getMask() -> c
-com.fasterxml.jackson.core.JsonProcessingException -> com.a.a.a.k:
+com.fasterxml.jackson.core.JsonProcessingException -> com.b.a.a.k:
     com.fasterxml.jackson.core.JsonLocation _location -> a
     com.fasterxml.jackson.core.JsonLocation getLocation() -> a
     java.lang.String getMessageSuffix() -> b
     java.lang.String getMessage() -> getMessage
     java.lang.String toString() -> toString
-com.fasterxml.jackson.core.JsonStreamContext -> com.a.a.a.l:
+com.fasterxml.jackson.core.JsonStreamContext -> com.b.a.a.l:
     int _type -> a
     int _index -> b
     boolean inArray() -> a
@@ -6909,7 +6926,7 @@ com.fasterxml.jackson.core.JsonStreamContext -> com.a.a.a.l:
     java.lang.String getTypeDesc() -> d
     int getEntryCount() -> e
     int getCurrentIndex() -> f
-com.fasterxml.jackson.core.JsonToken -> com.a.a.a.m:
+com.fasterxml.jackson.core.JsonToken -> com.b.a.a.m:
     com.fasterxml.jackson.core.JsonToken NOT_AVAILABLE -> a
     com.fasterxml.jackson.core.JsonToken START_OBJECT -> b
     com.fasterxml.jackson.core.JsonToken END_OBJECT -> c
@@ -6930,8 +6947,8 @@ com.fasterxml.jackson.core.JsonToken -> com.a.a.a.m:
     com.fasterxml.jackson.core.JsonToken[] values() -> values
     com.fasterxml.jackson.core.JsonToken valueOf(java.lang.String) -> valueOf
     java.lang.String asString() -> a
-com.fasterxml.jackson.core.ObjectCodec -> com.a.a.a.n:
-com.fasterxml.jackson.core.PrettyPrinter -> com.a.a.a.o:
+com.fasterxml.jackson.core.ObjectCodec -> com.b.a.a.n:
+com.fasterxml.jackson.core.PrettyPrinter -> com.b.a.a.o:
     void writeRootValueSeparator(com.fasterxml.jackson.core.JsonGenerator) -> a
     void writeStartObject(com.fasterxml.jackson.core.JsonGenerator) -> b
     void writeEndObject(com.fasterxml.jackson.core.JsonGenerator,int) -> a
@@ -6942,10 +6959,10 @@ com.fasterxml.jackson.core.PrettyPrinter -> com.a.a.a.o:
     void writeArrayValueSeparator(com.fasterxml.jackson.core.JsonGenerator) -> f
     void beforeArrayValues(com.fasterxml.jackson.core.JsonGenerator) -> g
     void beforeObjectEntries(com.fasterxml.jackson.core.JsonGenerator) -> h
-com.fasterxml.jackson.core.SerializableString -> com.a.a.a.p:
+com.fasterxml.jackson.core.SerializableString -> com.b.a.a.p:
     java.lang.String getValue() -> a
     byte[] asUnquotedUTF8() -> b
-com.fasterxml.jackson.core.base.GeneratorBase -> com.a.a.a.a.a:
+com.fasterxml.jackson.core.base.GeneratorBase -> com.b.a.a.a.a:
     com.fasterxml.jackson.core.ObjectCodec _objectCodec -> b
     int _features -> c
     boolean _cfgNumbersAsStrings -> d
@@ -6957,7 +6974,7 @@ com.fasterxml.jackson.core.base.GeneratorBase -> com.a.a.a.a.a:
     void close() -> close
     void _reportError(java.lang.String) -> d
     void _cantHappen() -> i
-com.fasterxml.jackson.core.base.ParserBase -> com.a.a.a.a.b:
+com.fasterxml.jackson.core.base.ParserBase -> com.b.a.a.a.b:
     com.fasterxml.jackson.core.io.IOContext _ioContext -> b
     boolean _closed -> c
     int _inputPtr -> d
@@ -7025,7 +7042,7 @@ com.fasterxml.jackson.core.base.ParserBase -> com.a.a.a.a.b:
     void reportOverflowInt() -> y
     void reportOverflowLong() -> z
     char _decodeEscaped() -> A
-com.fasterxml.jackson.core.base.ParserMinimalBase -> com.a.a.a.a.c:
+com.fasterxml.jackson.core.base.ParserMinimalBase -> com.b.a.a.a.c:
     com.fasterxml.jackson.core.JsonToken _currToken -> K
     com.fasterxml.jackson.core.JsonToken nextToken() -> a
     com.fasterxml.jackson.core.JsonToken getCurrentToken() -> c
@@ -7044,9 +7061,9 @@ com.fasterxml.jackson.core.base.ParserMinimalBase -> com.a.a.a.a.c:
     void _wrapError(java.lang.String,java.lang.Throwable) -> a
     void _throwInternal() -> D
     com.fasterxml.jackson.core.JsonParseException _constructError(java.lang.String,java.lang.Throwable) -> b
-com.fasterxml.jackson.core.base.ParserMinimalBase$1 -> com.a.a.a.a.d:
+com.fasterxml.jackson.core.base.ParserMinimalBase$1 -> com.b.a.a.a.d:
     int[] $SwitchMap$com$fasterxml$jackson$core$JsonToken -> a
-com.fasterxml.jackson.core.io.BaseReader -> com.a.a.a.b.a:
+com.fasterxml.jackson.core.io.BaseReader -> com.b.a.a.b.a:
     com.fasterxml.jackson.core.io.IOContext _context -> a
     java.io.InputStream _in -> b
     byte[] _buffer -> c
@@ -7058,7 +7075,7 @@ com.fasterxml.jackson.core.io.BaseReader -> com.a.a.a.b.a:
     void freeBuffers() -> a
     void reportBounds(char[],int,int) -> a
     void reportStrangeStream() -> b
-com.fasterxml.jackson.core.io.CharTypes -> com.a.a.a.b.b:
+com.fasterxml.jackson.core.io.CharTypes -> com.b.a.a.b.b:
     char[] HEX_CHARS -> h
     byte[] HEX_BYTES -> i
     int[] sInputCodes -> a
@@ -7078,10 +7095,10 @@ com.fasterxml.jackson.core.io.CharTypes -> com.a.a.a.b.b:
     void appendQuoted(java.lang.StringBuilder,java.lang.String) -> a
     char[] copyHexChars() -> g
     byte[] copyHexBytes() -> h
-com.fasterxml.jackson.core.io.CharacterEscapes -> com.a.a.a.b.c:
+com.fasterxml.jackson.core.io.CharacterEscapes -> com.b.a.a.b.c:
     int[] getEscapeCodesForAscii() -> a
     com.fasterxml.jackson.core.SerializableString getEscapeSequence(int) -> a
-com.fasterxml.jackson.core.io.IOContext -> com.a.a.a.b.d:
+com.fasterxml.jackson.core.io.IOContext -> com.b.a.a.b.d:
     java.lang.Object _sourceRef -> a
     com.fasterxml.jackson.core.JsonEncoding _encoding -> b
     boolean _managedResource -> c
@@ -7106,10 +7123,10 @@ com.fasterxml.jackson.core.io.IOContext -> com.a.a.a.b.d:
     void releaseTokenBuffer(char[]) -> a
     void releaseConcatBuffer(char[]) -> b
     void releaseNameCopyBuffer(char[]) -> c
-com.fasterxml.jackson.core.io.InputDecorator -> com.a.a.a.b.e:
+com.fasterxml.jackson.core.io.InputDecorator -> com.b.a.a.b.e:
     java.io.InputStream decorate(com.fasterxml.jackson.core.io.IOContext,java.io.InputStream) -> a
     java.io.Reader decorate(com.fasterxml.jackson.core.io.IOContext,java.io.Reader) -> a
-com.fasterxml.jackson.core.io.JsonStringEncoder -> com.a.a.a.b.f:
+com.fasterxml.jackson.core.io.JsonStringEncoder -> com.b.a.a.b.f:
     char[] HEX_CHARS -> d
     byte[] HEX_BYTES -> e
     java.lang.ThreadLocal _threadEncoder -> a
@@ -7119,7 +7136,7 @@ com.fasterxml.jackson.core.io.JsonStringEncoder -> com.a.a.a.b.f:
     byte[] encodeAsUTF8(java.lang.String) -> a
     int _convertSurrogate(int,int) -> a
     void _throwIllegalSurrogate(int) -> a
-com.fasterxml.jackson.core.io.MergedStream -> com.a.a.a.b.g:
+com.fasterxml.jackson.core.io.MergedStream -> com.b.a.a.b.g:
     com.fasterxml.jackson.core.io.IOContext _context -> a
     java.io.InputStream _in -> b
     byte[] _buffer -> c
@@ -7135,14 +7152,14 @@ com.fasterxml.jackson.core.io.MergedStream -> com.a.a.a.b.g:
     void reset() -> reset
     long skip(long) -> skip
     void freeMergedBuffer() -> a
-com.fasterxml.jackson.core.io.NumberInput -> com.a.a.a.b.h:
+com.fasterxml.jackson.core.io.NumberInput -> com.b.a.a.b.h:
     java.lang.String MIN_LONG_STR_NO_SIGN -> a
     java.lang.String MAX_LONG_STR -> b
     int parseInt(char[],int,int) -> a
     long parseLong(char[],int,int) -> b
     boolean inLongRange(char[],int,int,boolean) -> a
     double parseDouble(java.lang.String) -> a
-com.fasterxml.jackson.core.io.NumberOutput -> com.a.a.a.b.i:
+com.fasterxml.jackson.core.io.NumberOutput -> com.b.a.a.b.i:
     int MILLION -> g
     int BILLION -> h
     long TEN_BILLION_L -> i
@@ -7164,10 +7181,10 @@ com.fasterxml.jackson.core.io.NumberOutput -> com.a.a.a.b.i:
     int outputFullTriplet(int,char[],int) -> c
     int outputFullTriplet(int,byte[],int) -> c
     int calcLongStrLength(long) -> a
-com.fasterxml.jackson.core.io.OutputDecorator -> com.a.a.a.b.j:
+com.fasterxml.jackson.core.io.OutputDecorator -> com.b.a.a.b.j:
     java.io.OutputStream decorate(com.fasterxml.jackson.core.io.IOContext,java.io.OutputStream) -> a
     java.io.Writer decorate(com.fasterxml.jackson.core.io.IOContext,java.io.Writer) -> a
-com.fasterxml.jackson.core.io.SerializedString -> com.a.a.a.b.k:
+com.fasterxml.jackson.core.io.SerializedString -> com.b.a.a.b.k:
     java.lang.String _value -> a
     byte[] _unquotedUTF8Ref -> b
     java.lang.String getValue() -> a
@@ -7175,7 +7192,7 @@ com.fasterxml.jackson.core.io.SerializedString -> com.a.a.a.b.k:
     java.lang.String toString() -> toString
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
-com.fasterxml.jackson.core.io.UTF32Reader -> com.a.a.a.b.l:
+com.fasterxml.jackson.core.io.UTF32Reader -> com.b.a.a.b.l:
     boolean _bigEndian -> g
     char _surrogate -> h
     int _charCount -> i
@@ -7187,7 +7204,7 @@ com.fasterxml.jackson.core.io.UTF32Reader -> com.a.a.a.b.l:
     boolean loadMore(int) -> a
     int read() -> read
     void close() -> close
-com.fasterxml.jackson.core.io.UTF8Writer -> com.a.a.a.b.m:
+com.fasterxml.jackson.core.io.UTF8Writer -> com.b.a.a.b.m:
     com.fasterxml.jackson.core.io.IOContext _context -> a
     java.io.OutputStream _out -> b
     byte[] _outBuffer -> c
@@ -7205,7 +7222,7 @@ com.fasterxml.jackson.core.io.UTF8Writer -> com.a.a.a.b.m:
     int convertSurrogate(int) -> a
     void throwIllegal(int) -> b
     java.lang.Appendable append(char) -> append
-com.fasterxml.jackson.core.json.ByteSourceJsonBootstrapper -> com.a.a.a.c.a:
+com.fasterxml.jackson.core.json.ByteSourceJsonBootstrapper -> com.b.a.a.c.a:
     com.fasterxml.jackson.core.io.IOContext _context -> a
     java.io.InputStream _in -> b
     byte[] _inputBuffer -> c
@@ -7223,9 +7240,9 @@ com.fasterxml.jackson.core.json.ByteSourceJsonBootstrapper -> com.a.a.a.c.a:
     boolean checkUTF16(int) -> d
     void reportWeirdUCS4(java.lang.String) -> a
     boolean ensureLoaded(int) -> a
-com.fasterxml.jackson.core.json.ByteSourceJsonBootstrapper$1 -> com.a.a.a.c.b:
+com.fasterxml.jackson.core.json.ByteSourceJsonBootstrapper$1 -> com.b.a.a.c.b:
     int[] $SwitchMap$com$fasterxml$jackson$core$JsonEncoding -> a
-com.fasterxml.jackson.core.json.JsonGeneratorImpl -> com.a.a.a.c.c:
+com.fasterxml.jackson.core.json.JsonGeneratorImpl -> com.b.a.a.c.c:
     int[] sOutputEscapes -> g
     com.fasterxml.jackson.core.io.IOContext _ioContext -> h
     int[] _outputEscapes -> i
@@ -7235,7 +7252,7 @@ com.fasterxml.jackson.core.json.JsonGeneratorImpl -> com.a.a.a.c.c:
     com.fasterxml.jackson.core.JsonGenerator setHighestNonEscapedChar(int) -> a
     com.fasterxml.jackson.core.JsonGenerator setCharacterEscapes(com.fasterxml.jackson.core.io.CharacterEscapes) -> a
     com.fasterxml.jackson.core.JsonGenerator setRootValueSeparator(com.fasterxml.jackson.core.SerializableString) -> a
-com.fasterxml.jackson.core.json.JsonReadContext -> com.a.a.a.c.d:
+com.fasterxml.jackson.core.json.JsonReadContext -> com.b.a.a.c.d:
     com.fasterxml.jackson.core.json.JsonReadContext _parent -> c
     int _lineNr -> d
     int _columnNr -> e
@@ -7251,7 +7268,7 @@ com.fasterxml.jackson.core.json.JsonReadContext -> com.a.a.a.c.d:
     boolean expectComma() -> j
     void setCurrentName(java.lang.String) -> a
     java.lang.String toString() -> toString
-com.fasterxml.jackson.core.json.JsonWriteContext -> com.a.a.a.c.e:
+com.fasterxml.jackson.core.json.JsonWriteContext -> com.b.a.a.c.e:
     com.fasterxml.jackson.core.json.JsonWriteContext _parent -> c
     java.lang.String _currentName -> d
     com.fasterxml.jackson.core.json.JsonWriteContext _child -> e
@@ -7264,7 +7281,7 @@ com.fasterxml.jackson.core.json.JsonWriteContext -> com.a.a.a.c.e:
     int writeValue() -> k
     void appendDesc(java.lang.StringBuilder) -> a
     java.lang.String toString() -> toString
-com.fasterxml.jackson.core.json.ReaderBasedJsonParser -> com.a.a.a.c.f:
+com.fasterxml.jackson.core.json.ReaderBasedJsonParser -> com.b.a.a.c.f:
     java.io.Reader _reader -> L
     char[] _inputBuffer -> M
     com.fasterxml.jackson.core.ObjectCodec _objectCodec -> N
@@ -7304,9 +7321,9 @@ com.fasterxml.jackson.core.json.ReaderBasedJsonParser -> com.a.a.a.c.f:
     char _decodeEscaped() -> A
     void _matchToken(java.lang.String,int) -> a
     void _reportInvalidToken(java.lang.String,java.lang.String) -> a
-com.fasterxml.jackson.core.json.ReaderBasedJsonParser$1 -> com.a.a.a.c.g:
+com.fasterxml.jackson.core.json.ReaderBasedJsonParser$1 -> com.b.a.a.c.g:
     int[] $SwitchMap$com$fasterxml$jackson$core$JsonToken -> a
-com.fasterxml.jackson.core.json.UTF8JsonGenerator -> com.a.a.a.c.h:
+com.fasterxml.jackson.core.json.UTF8JsonGenerator -> com.b.a.a.c.h:
     byte[] HEX_CHARS -> m
     byte[] NULL_BYTES -> v
     byte[] TRUE_BYTES -> w
@@ -7366,7 +7383,7 @@ com.fasterxml.jackson.core.json.UTF8JsonGenerator -> com.a.a.a.c.h:
     void _writeNull() -> l
     int _writeGenericEscape(int,int) -> d
     void _flushBuffer() -> k
-com.fasterxml.jackson.core.json.UTF8StreamJsonParser -> com.a.a.a.c.i:
+com.fasterxml.jackson.core.json.UTF8StreamJsonParser -> com.b.a.a.c.i:
     int[] sInputCodesUtf8 -> S
     int[] sInputCodesLatin1 -> T
     com.fasterxml.jackson.core.ObjectCodec _objectCodec -> L
@@ -7433,9 +7450,9 @@ com.fasterxml.jackson.core.json.UTF8StreamJsonParser -> com.a.a.a.c.i:
     void _reportInvalidOther(int) -> l
     void _reportInvalidOther(int,int) -> a
     int[] growArrayBy(int[],int) -> a
-com.fasterxml.jackson.core.json.UTF8StreamJsonParser$1 -> com.a.a.a.c.j:
+com.fasterxml.jackson.core.json.UTF8StreamJsonParser$1 -> com.b.a.a.c.j:
     int[] $SwitchMap$com$fasterxml$jackson$core$JsonToken -> a
-com.fasterxml.jackson.core.json.WriterBasedJsonGenerator -> com.a.a.a.c.k:
+com.fasterxml.jackson.core.json.WriterBasedJsonGenerator -> com.b.a.a.c.k:
     char[] HEX_CHARS -> m
     java.io.Writer _writer -> n
     char[] _outputBuffer -> o
@@ -7486,7 +7503,7 @@ com.fasterxml.jackson.core.json.WriterBasedJsonGenerator -> com.a.a.a.c.k:
     int _prependOrWriteCharacterEscape(char[],int,int,char,int) -> a
     char[] _allocateEntityBuffer() -> m
     void _flushBuffer() -> k
-com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer -> com.a.a.a.d.a:
+com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer -> com.b.a.a.d.a:
     com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer _parent -> a
     java.util.concurrent.atomic.AtomicReference _tableInfo -> b
     int _hashSeed -> l
@@ -7528,14 +7545,14 @@ com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer -> com.a.a.a.d.a:
     void expandCollision() -> k
     com.fasterxml.jackson.core.sym.Name constructName(int,java.lang.String,int[],int) -> a
     void reportTooManyCollisions(int) -> d
-com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer$Bucket -> com.a.a.a.d.b:
+com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer$Bucket -> com.b.a.a.d.b:
     com.fasterxml.jackson.core.sym.Name _name -> a
     com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer$Bucket _next -> b
     int _length -> c
     int length() -> a
     com.fasterxml.jackson.core.sym.Name find(int,int,int) -> a
     com.fasterxml.jackson.core.sym.Name find(int,int[],int) -> a
-com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer$TableInfo -> com.a.a.a.d.c:
+com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer$TableInfo -> com.b.a.a.d.c:
     int count -> a
     int mainHashMask -> b
     int[] mainHash -> c
@@ -7544,7 +7561,7 @@ com.fasterxml.jackson.core.sym.BytesToNameCanonicalizer$TableInfo -> com.a.a.a.d
     int collCount -> f
     int collEnd -> g
     int longestCollisionList -> h
-com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer -> com.a.a.a.d.d:
+com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer -> com.b.a.a.d.d:
     com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer sBootstrapSymbolTable -> a
     com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer _parent -> b
     int _hashSeed -> l
@@ -7575,7 +7592,7 @@ com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer -> com.a.a.a.d.d:
     void copyArrays() -> f
     void rehash() -> g
     void reportTooManyCollisions(int) -> c
-com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer$Bucket -> com.a.a.a.d.e:
+com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer$Bucket -> com.b.a.a.d.e:
     java.lang.String _symbol -> a
     com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer$Bucket _next -> b
     int _length -> c
@@ -7583,7 +7600,7 @@ com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer$Bucket -> com.a.a.a.d.e:
     com.fasterxml.jackson.core.sym.CharsToNameCanonicalizer$Bucket getNext() -> b
     int length() -> c
     java.lang.String find(char[],int,int) -> a
-com.fasterxml.jackson.core.sym.Name -> com.a.a.a.d.f:
+com.fasterxml.jackson.core.sym.Name -> com.b.a.a.d.f:
     java.lang.String _name -> a
     int _hashCode -> b
     java.lang.String getName() -> a
@@ -7593,33 +7610,33 @@ com.fasterxml.jackson.core.sym.Name -> com.a.a.a.d.f:
     java.lang.String toString() -> toString
     int hashCode() -> hashCode
     boolean equals(java.lang.Object) -> equals
-com.fasterxml.jackson.core.sym.Name1 -> com.a.a.a.d.g:
+com.fasterxml.jackson.core.sym.Name1 -> com.b.a.a.d.g:
     com.fasterxml.jackson.core.sym.Name1 sEmptyName -> c
     int mQuad -> d
     com.fasterxml.jackson.core.sym.Name1 getEmptyName() -> b
     boolean equals(int) -> a
     boolean equals(int,int) -> a
     boolean equals(int[],int) -> a
-com.fasterxml.jackson.core.sym.Name2 -> com.a.a.a.d.h:
+com.fasterxml.jackson.core.sym.Name2 -> com.b.a.a.d.h:
     int mQuad1 -> c
     int mQuad2 -> d
     boolean equals(int) -> a
     boolean equals(int,int) -> a
     boolean equals(int[],int) -> a
-com.fasterxml.jackson.core.sym.Name3 -> com.a.a.a.d.i:
+com.fasterxml.jackson.core.sym.Name3 -> com.b.a.a.d.i:
     int mQuad1 -> c
     int mQuad2 -> d
     int mQuad3 -> e
     boolean equals(int) -> a
     boolean equals(int,int) -> a
     boolean equals(int[],int) -> a
-com.fasterxml.jackson.core.sym.NameN -> com.a.a.a.d.j:
+com.fasterxml.jackson.core.sym.NameN -> com.b.a.a.d.j:
     int[] mQuads -> c
     int mQuadLen -> d
     boolean equals(int) -> a
     boolean equals(int,int) -> a
     boolean equals(int[],int) -> a
-com.fasterxml.jackson.core.util.BufferRecycler -> com.a.a.a.e.a:
+com.fasterxml.jackson.core.util.BufferRecycler -> com.b.a.a.e.a:
     byte[][] _byteBuffers -> a
     char[][] _charBuffers -> b
     byte[] allocByteBuffer(com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType) -> a
@@ -7629,7 +7646,7 @@ com.fasterxml.jackson.core.util.BufferRecycler -> com.a.a.a.e.a:
     void releaseCharBuffer(com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType,char[]) -> a
     byte[] balloc(int) -> a
     char[] calloc(int) -> b
-com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType -> com.a.a.a.e.b:
+com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType -> com.b.a.a.e.b:
     com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType READ_IO_BUFFER -> a
     com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType WRITE_ENCODING_BUFFER -> b
     com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType WRITE_CONCAT_BUFFER -> c
@@ -7638,7 +7655,7 @@ com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType -> com.a.a.a.e.b:
     com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType[] $VALUES -> f
     com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType[] values() -> values
     com.fasterxml.jackson.core.util.BufferRecycler$ByteBufferType valueOf(java.lang.String) -> valueOf
-com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType -> com.a.a.a.e.c:
+com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType -> com.b.a.a.e.c:
     com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType TOKEN_BUFFER -> a
     com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType CONCAT_BUFFER -> b
     com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType TEXT_BUFFER -> c
@@ -7647,7 +7664,7 @@ com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType -> com.a.a.a.e.c:
     com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType[] $VALUES -> f
     com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType[] values() -> values
     com.fasterxml.jackson.core.util.BufferRecycler$CharBufferType valueOf(java.lang.String) -> valueOf
-com.fasterxml.jackson.core.util.ByteArrayBuilder -> com.a.a.a.e.d:
+com.fasterxml.jackson.core.util.ByteArrayBuilder -> com.b.a.a.e.d:
     byte[] NO_BYTES -> a
     com.fasterxml.jackson.core.util.BufferRecycler _bufferRecycler -> b
     java.util.LinkedList _pastBlocks -> c
@@ -7666,7 +7683,7 @@ com.fasterxml.jackson.core.util.ByteArrayBuilder -> com.a.a.a.e.d:
     void close() -> close
     void flush() -> flush
     void _allocMore() -> e
-com.fasterxml.jackson.core.util.DefaultPrettyPrinter -> com.a.a.a.e.e:
+com.fasterxml.jackson.core.util.DefaultPrettyPrinter -> com.b.a.a.e.e:
     com.fasterxml.jackson.core.io.SerializedString DEFAULT_ROOT_VALUE_SEPARATOR -> a
     com.fasterxml.jackson.core.util.DefaultPrettyPrinter$Indenter _arrayIndenter -> b
     com.fasterxml.jackson.core.util.DefaultPrettyPrinter$Indenter _objectIndenter -> c
@@ -7683,24 +7700,24 @@ com.fasterxml.jackson.core.util.DefaultPrettyPrinter -> com.a.a.a.e.e:
     void beforeArrayValues(com.fasterxml.jackson.core.JsonGenerator) -> g
     void writeArrayValueSeparator(com.fasterxml.jackson.core.JsonGenerator) -> f
     void writeEndArray(com.fasterxml.jackson.core.JsonGenerator,int) -> b
-com.fasterxml.jackson.core.util.DefaultPrettyPrinter$FixedSpaceIndenter -> com.a.a.a.e.f:
+com.fasterxml.jackson.core.util.DefaultPrettyPrinter$FixedSpaceIndenter -> com.b.a.a.e.f:
     com.fasterxml.jackson.core.util.DefaultPrettyPrinter$FixedSpaceIndenter instance -> a
     void writeIndentation(com.fasterxml.jackson.core.JsonGenerator,int) -> a
     boolean isInline() -> a
-com.fasterxml.jackson.core.util.DefaultPrettyPrinter$Indenter -> com.a.a.a.e.g:
+com.fasterxml.jackson.core.util.DefaultPrettyPrinter$Indenter -> com.b.a.a.e.g:
     void writeIndentation(com.fasterxml.jackson.core.JsonGenerator,int) -> a
     boolean isInline() -> a
-com.fasterxml.jackson.core.util.DefaultPrettyPrinter$Lf2SpacesIndenter -> com.a.a.a.e.h:
+com.fasterxml.jackson.core.util.DefaultPrettyPrinter$Lf2SpacesIndenter -> com.b.a.a.e.h:
     com.fasterxml.jackson.core.util.DefaultPrettyPrinter$Lf2SpacesIndenter instance -> a
     java.lang.String SYSTEM_LINE_SEPARATOR -> b
     char[] SPACES -> c
     boolean isInline() -> a
     void writeIndentation(com.fasterxml.jackson.core.JsonGenerator,int) -> a
-com.fasterxml.jackson.core.util.InternCache -> com.a.a.a.e.i:
+com.fasterxml.jackson.core.util.InternCache -> com.b.a.a.e.i:
     com.fasterxml.jackson.core.util.InternCache instance -> a
     boolean removeEldestEntry(java.util.Map$Entry) -> removeEldestEntry
     java.lang.String intern(java.lang.String) -> a
-com.fasterxml.jackson.core.util.TextBuffer -> com.a.a.a.e.j:
+com.fasterxml.jackson.core.util.TextBuffer -> com.b.a.a.e.j:
     char[] NO_CHARS -> a
     com.fasterxml.jackson.core.util.BufferRecycler _allocator -> b
     char[] _inputBuffer -> c
@@ -20870,20 +20887,35 @@ com.google.zxing.qrcode.encoder.QRCode -> com.google.c.b.b.g:
     void setMatrix(com.google.zxing.qrcode.encoder.ByteMatrix) -> a
     boolean isValidMaskPattern(int) -> b
 com.trip.expensemanager.AllDetailsActivity -> com.trip.expensemanager.AllDetailsActivity:
+    android.content.BroadcastReceiver receiver -> n
     void onCreate(android.os.Bundle) -> onCreate
     void onBackPressed() -> onBackPressed
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
-com.trip.expensemanager.CloudEndpointUtils -> com.trip.expensemanager.a:
+    void loadAd() -> j
+    void onResume() -> onResume
+    void onPause() -> onPause
+com.trip.expensemanager.AllDetailsActivity$1 -> com.trip.expensemanager.a:
+    com.trip.expensemanager.AllDetailsActivity this$0 -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.trip.expensemanager.CloudEndpointUtils -> com.trip.expensemanager.b:
     com.google.api.client.googleapis.services.AbstractGoogleClient$Builder updateBuilder(com.google.api.client.googleapis.services.AbstractGoogleClient$Builder) -> a
-com.trip.expensemanager.CloudEndpointUtils$1 -> com.trip.expensemanager.b:
+com.trip.expensemanager.CloudEndpointUtils$1 -> com.trip.expensemanager.c:
     boolean val$enableGZip -> a
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
 com.trip.expensemanager.ConnectivityChangeListener -> com.trip.expensemanager.ConnectivityChangeListener:
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.trip.expensemanager.ExpenseActivity -> com.trip.expensemanager.ExpenseActivity:
+    android.content.BroadcastReceiver receiver -> n
     void onCreate(android.os.Bundle) -> onCreate
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     void onBackPressed() -> onBackPressed
+    void loadAd() -> j
+    void onResume() -> onResume
+    void onPause() -> onPause
+    void onDestroy() -> onDestroy
+com.trip.expensemanager.ExpenseActivity$1 -> com.trip.expensemanager.d:
+    com.trip.expensemanager.ExpenseActivity this$0 -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.trip.expensemanager.GcmBroadcastReceiver -> com.trip.expensemanager.GcmBroadcastReceiver:
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.trip.expensemanager.ProcessingActivity -> com.trip.expensemanager.ProcessingActivity:
@@ -20912,7 +20944,7 @@ com.trip.expensemanager.ProcessingActivity -> com.trip.expensemanager.Processing
     int access$1(com.trip.expensemanager.ProcessingActivity) -> b
     java.lang.String access$2(com.trip.expensemanager.ProcessingActivity) -> c
     java.lang.String access$3(com.trip.expensemanager.ProcessingActivity,java.lang.String) -> a
-com.trip.expensemanager.ProcessingActivity$ProcessTask -> com.trip.expensemanager.c:
+com.trip.expensemanager.ProcessingActivity$ProcessTask -> com.trip.expensemanager.e:
     java.lang.String strToken -> b
     com.trip.expensemanager.ProcessingActivity this$0 -> a
     void onPreExecute() -> onPreExecute
@@ -20930,16 +20962,27 @@ com.trip.expensemanager.SyncIntentService -> com.trip.expensemanager.SyncIntentS
     long lngUserId -> a
     android.app.NotificationManager mNotificationManager -> b
     android.support.v4.content.LocalBroadcastManager broadcaster -> c
+    com.trip.utils.billing.IabHelper mHelper -> d
     void onCreate() -> onCreate
     void onHandleIntent(android.content.Intent) -> onHandleIntent
-    boolean getNewGCMId() -> a
-    void sendResult() -> b
+    void syncPurchase() -> a
+    boolean getNewGCMId() -> b
+    void sendResult(java.lang.String) -> a
     void onDestroy() -> onDestroy
     void syncAllSettledDistributions() -> c
     void syncOthers() -> d
     void sendNotification(java.lang.String,java.lang.String,java.lang.String,android.content.Intent,int,java.lang.String,long) -> a
     void syncAllTrips() -> e
     void syncAllExpenses() -> f
+    void access$0(com.trip.expensemanager.SyncIntentService,java.lang.String) -> a
+    com.trip.utils.billing.IabHelper access$1(com.trip.expensemanager.SyncIntentService) -> a
+com.trip.expensemanager.SyncIntentService$1 -> com.trip.expensemanager.f:
+    com.trip.expensemanager.SyncIntentService this$0 -> a
+    void onIabSetupFinished(com.trip.utils.billing.IabResult) -> a
+    com.trip.expensemanager.SyncIntentService access$0(com.trip.expensemanager.SyncIntentService$1) -> a
+com.trip.expensemanager.SyncIntentService$1$1 -> com.trip.expensemanager.g:
+    com.trip.expensemanager.SyncIntentService$1 this$1 -> a
+    void onQueryInventoryFinished(com.trip.utils.billing.IabResult,com.trip.utils.billing.Inventory) -> a
 com.trip.expensemanager.TripDetailsActivity -> com.trip.expensemanager.TripDetailsActivity:
     long lngUserId -> n
     java.lang.String strTripName -> o
@@ -20949,18 +20992,20 @@ com.trip.expensemanager.TripDetailsActivity -> com.trip.expensemanager.TripDetai
     com.trip.expensemanager.views.SlidingTabLayout tabLayout -> s
     long lngTripId -> t
     android.content.BroadcastReceiver receiver -> u
-    long lngAdminId -> v
-    android.app.AlertDialog alert -> w
+    android.content.BroadcastReceiver purchaseReceiver -> v
+    long lngAdminId -> w
+    android.app.AlertDialog alert -> x
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
     void onPause() -> onPause
-    void updateViews() -> j
+    void loadAd() -> j
+    void updateViews() -> k
     boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
     boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
     void showDeleteTripDialog(java.lang.String,long) -> a
     void deleteTrip(long) -> a
-    void tryExitingTrip() -> l
-    void showExitEG() -> k
+    void tryExitingTrip() -> m
+    void showExitEG() -> l
     void exitEG(long,long) -> a
     void showInfoMessage(java.lang.String) -> b
     void onBackPressed() -> onBackPressed
@@ -20968,32 +21013,46 @@ com.trip.expensemanager.TripDetailsActivity -> com.trip.expensemanager.TripDetai
     android.app.AlertDialog access$1(com.trip.expensemanager.TripDetailsActivity) -> b
     long access$2(com.trip.expensemanager.TripDetailsActivity) -> c
     long access$3(com.trip.expensemanager.TripDetailsActivity) -> d
-com.trip.expensemanager.TripDetailsActivity$1 -> com.trip.expensemanager.d:
+com.trip.expensemanager.TripDetailsActivity$1 -> com.trip.expensemanager.h:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.trip.expensemanager.TripDetailsActivity$2 -> com.trip.expensemanager.e:
+com.trip.expensemanager.TripDetailsActivity$2 -> com.trip.expensemanager.i:
+    com.trip.expensemanager.TripDetailsActivity this$0 -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.trip.expensemanager.TripDetailsActivity$3 -> com.trip.expensemanager.j:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     int getIndicatorColor(int) -> a
-com.trip.expensemanager.TripDetailsActivity$3 -> com.trip.expensemanager.f:
+com.trip.expensemanager.TripDetailsActivity$4 -> com.trip.expensemanager.k:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     long val$tripId -> b
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.TripDetailsActivity$4 -> com.trip.expensemanager.g:
+com.trip.expensemanager.TripDetailsActivity$5 -> com.trip.expensemanager.l:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.TripDetailsActivity$5 -> com.trip.expensemanager.h:
+com.trip.expensemanager.TripDetailsActivity$6 -> com.trip.expensemanager.m:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.TripDetailsActivity$6 -> com.trip.expensemanager.i:
+com.trip.expensemanager.TripDetailsActivity$7 -> com.trip.expensemanager.n:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.TripDetailsActivity$7 -> com.trip.expensemanager.j:
+com.trip.expensemanager.TripDetailsActivity$8 -> com.trip.expensemanager.o:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     void onClick(android.view.View) -> onClick
+com.trip.expensemanager.UpdateLoginTask -> com.trip.expensemanager.p:
+    android.content.Context context -> a
+    java.lang.Void doInBackground(java.lang.Void[]) -> a
+    java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
 com.trip.expensemanager.UpdatesActivity -> com.trip.expensemanager.UpdatesActivity:
+    android.content.BroadcastReceiver receiver -> n
     void onCreate(android.os.Bundle) -> onCreate
     void onActivityResult(int,int,android.content.Intent) -> onActivityResult
     void onBackPressed() -> onBackPressed
+    void loadAd() -> j
+    void onResume() -> onResume
+    void onPause() -> onPause
+com.trip.expensemanager.UpdatesActivity$1 -> com.trip.expensemanager.q:
+    com.trip.expensemanager.UpdatesActivity this$0 -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.trip.expensemanager.adapters.CustomAddExpenseAdapter -> com.trip.expensemanager.a.a:
     android.content.Context context -> a
     java.util.List users -> b
@@ -21240,20 +21299,19 @@ com.trip.expensemanager.distributionendpoint.model.Distribution -> com.trip.expe
     java.lang.Long tripId -> tripId
     java.lang.String getAmount() -> a
     com.trip.expensemanager.distributionendpoint.model.Distribution setAmount(java.lang.String) -> a
-    java.lang.Long getChangerId() -> e
     com.trip.expensemanager.distributionendpoint.model.Distribution setChangerId(java.lang.Long) -> a
-    com.google.api.client.util.DateTime getCreationDate() -> f
+    com.google.api.client.util.DateTime getCreationDate() -> e
     com.trip.expensemanager.distributionendpoint.model.Distribution setCreationDate(com.google.api.client.util.DateTime) -> a
-    java.lang.Long getFromId() -> h
+    java.lang.Long getFromId() -> f
     com.trip.expensemanager.distributionendpoint.model.Distribution setFromId(java.lang.Long) -> b
-    java.lang.Long getId() -> i
+    java.lang.Long getId() -> h
     com.trip.expensemanager.distributionendpoint.model.Distribution setPaid(java.lang.String) -> b
-    java.lang.Long getToId() -> j
+    java.lang.Long getToId() -> i
     com.trip.expensemanager.distributionendpoint.model.Distribution setToId(java.lang.Long) -> c
-    java.lang.Long getTripId() -> k
+    java.lang.Long getTripId() -> j
     com.trip.expensemanager.distributionendpoint.model.Distribution setTripId(java.lang.Long) -> d
     com.trip.expensemanager.distributionendpoint.model.Distribution set(java.lang.String,java.lang.Object) -> a
-    com.trip.expensemanager.distributionendpoint.model.Distribution clone() -> l
+    com.trip.expensemanager.distributionendpoint.model.Distribution clone() -> k
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
 com.trip.expensemanager.expenseendpoint.Expenseendpoint -> com.trip.expensemanager.d.a:
@@ -21465,13 +21523,14 @@ com.trip.expensemanager.fragments.AddTripFragment -> com.trip.expensemanager.e.k
     void onPause() -> l
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
+    void showUpgradeDialog() -> J
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
-    void loadData() -> J
+    void loadData() -> M
     boolean onContextItemSelected(android.view.MenuItem) -> b
     void showDeleteTripDialog(java.lang.String,long,int) -> a
     void deleteTrip(long) -> b
-    void scanQRCode() -> K
-    void showAddTripDialog() -> L
+    void scanQRCode() -> N
+    void showAddTripDialog() -> O
     void showUpdateTripDialog(java.lang.String,long,int) -> b
     void updateTrip(long,java.lang.String) -> a
     void addTrip(java.lang.String) -> a
@@ -21479,64 +21538,79 @@ com.trip.expensemanager.fragments.AddTripFragment -> com.trip.expensemanager.e.k
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
     void onClick(android.view.View) -> onClick
     void access$0(com.trip.expensemanager.fragments.AddTripFragment) -> a
-    java.util.ArrayList access$1(com.trip.expensemanager.fragments.AddTripFragment) -> b
-    java.util.List access$2(com.trip.expensemanager.fragments.AddTripFragment) -> c
-    java.util.List access$3(com.trip.expensemanager.fragments.AddTripFragment) -> d
+    java.util.List access$1(com.trip.expensemanager.fragments.AddTripFragment) -> b
+    android.widget.ListView access$2(com.trip.expensemanager.fragments.AddTripFragment) -> c
+    android.widget.TextView access$3(com.trip.expensemanager.fragments.AddTripFragment) -> d
     java.util.List access$4(com.trip.expensemanager.fragments.AddTripFragment) -> e
-    java.util.List access$5(com.trip.expensemanager.fragments.AddTripFragment) -> f
-    java.util.List access$6(com.trip.expensemanager.fragments.AddTripFragment) -> g
-    java.util.List access$7(com.trip.expensemanager.fragments.AddTripFragment) -> h
-    android.widget.ListView access$8(com.trip.expensemanager.fragments.AddTripFragment) -> i
-    android.widget.TextView access$9(com.trip.expensemanager.fragments.AddTripFragment) -> j
-    com.trip.expensemanager.adapters.CustomTripListAdapter access$10(com.trip.expensemanager.fragments.AddTripFragment) -> k
-    android.widget.Button access$11(com.trip.expensemanager.fragments.AddTripFragment) -> l
-    android.widget.EditText access$12(com.trip.expensemanager.fragments.AddTripFragment) -> m
+    com.trip.expensemanager.adapters.CustomTripListAdapter access$5(com.trip.expensemanager.fragments.AddTripFragment) -> f
+    android.widget.Button access$6(com.trip.expensemanager.fragments.AddTripFragment) -> g
+    android.widget.EditText access$7(com.trip.expensemanager.fragments.AddTripFragment) -> h
 com.trip.expensemanager.fragments.AddTripFragment$1 -> com.trip.expensemanager.e.l:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.trip.expensemanager.fragments.AddTripFragment$2 -> com.trip.expensemanager.e.m:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    int val$position -> b
-    long val$tripId -> c
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$3 -> com.trip.expensemanager.e.n:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$4 -> com.trip.expensemanager.e.o:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.AddTripFragment$5 -> com.trip.expensemanager.e.p:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$6 -> com.trip.expensemanager.e.q:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$7 -> com.trip.expensemanager.e.r:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.AddTripFragment$8 -> com.trip.expensemanager.e.s:
+com.trip.expensemanager.fragments.AddTripFragment$10 -> com.trip.expensemanager.e.m:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     long val$tripId -> b
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$9 -> com.trip.expensemanager.e.t:
+com.trip.expensemanager.fragments.AddTripFragment$11 -> com.trip.expensemanager.e.n:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.CustomFragment -> com.trip.expensemanager.e.u:
+com.trip.expensemanager.fragments.AddTripFragment$2 -> com.trip.expensemanager.e.o:
+    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.AddTripFragment$3 -> com.trip.expensemanager.e.p:
+    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.AddTripFragment$4 -> com.trip.expensemanager.e.q:
+    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
+    long val$tripId -> b
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.AddTripFragment$5 -> com.trip.expensemanager.e.r:
+    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.AddTripFragment$6 -> com.trip.expensemanager.e.s:
+    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+com.trip.expensemanager.fragments.AddTripFragment$7 -> com.trip.expensemanager.e.t:
+    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.AddTripFragment$8 -> com.trip.expensemanager.e.u:
+    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.AddTripFragment$9 -> com.trip.expensemanager.e.v:
+    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+com.trip.expensemanager.fragments.CustomFragment -> com.trip.expensemanager.e.w:
     android.app.AlertDialog alert -> ac
+    com.trip.utils.billing.IabHelper mHelper -> aa
+    boolean isPurchaseReady -> ab
+    java.lang.String strUniqueString -> ad
+    void onCreate(android.os.Bundle) -> d
+    void purchaseItem() -> K
+    void continuePurchase() -> L
     void showMessage(java.lang.String) -> b
     void showInfoMessage(java.lang.String) -> c
     void showError(android.widget.EditText,java.lang.String) -> a
-com.trip.expensemanager.fragments.CustomFragment$1 -> com.trip.expensemanager.e.v:
+    void onDestroy() -> o
+    void access$0(com.trip.expensemanager.fragments.CustomFragment,boolean) -> a
+    java.lang.String access$1(com.trip.expensemanager.fragments.CustomFragment) -> a
+com.trip.expensemanager.fragments.CustomFragment$1 -> com.trip.expensemanager.e.x:
+    com.trip.expensemanager.fragments.CustomFragment this$0 -> a
+    void onIabSetupFinished(com.trip.utils.billing.IabResult) -> a
+com.trip.expensemanager.fragments.CustomFragment$2 -> com.trip.expensemanager.e.y:
+    com.trip.expensemanager.fragments.CustomFragment this$0 -> a
+    void onIabPurchaseFinished(com.trip.utils.billing.IabResult,com.trip.utils.billing.Purchase) -> a
+com.trip.expensemanager.fragments.CustomFragment$3 -> com.trip.expensemanager.e.z:
     com.trip.expensemanager.fragments.CustomFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.CustomFragment$2 -> com.trip.expensemanager.e.w:
+com.trip.expensemanager.fragments.CustomFragment$4 -> com.trip.expensemanager.e.aa:
     com.trip.expensemanager.fragments.CustomFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.e.x:
+com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.e.ab:
     android.widget.TextView txtNewUser -> aj
     android.widget.EditText eTxtLoginUsername -> ak
     android.widget.EditText eTxtLoginPassword -> al
@@ -21574,11 +21648,11 @@ com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.e.x:
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void onSaveInstanceState(android.os.Bundle) -> g
     void onClick(android.view.View) -> onClick
-    void pickUserAccount() -> K
-    void registerUser() -> L
-    void login() -> M
+    void pickUserAccount() -> M
+    void registerUser() -> N
+    void login() -> O
     void onActivityResult(int,int,android.content.Intent) -> a
-    void showGMSNotFoundDialog() -> N
+    void showGMSNotFoundDialog() -> P
     void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
     void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
     void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
@@ -21600,85 +21674,85 @@ com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.e.x:
     android.widget.EditText access$15(com.trip.expensemanager.fragments.LoginFragment) -> n
     void access$16(com.trip.expensemanager.fragments.LoginFragment,java.lang.String) -> c
     java.lang.String access$17(com.trip.expensemanager.fragments.LoginFragment) -> o
-com.trip.expensemanager.fragments.LoginFragment$1 -> com.trip.expensemanager.e.y:
+com.trip.expensemanager.fragments.LoginFragment$1 -> com.trip.expensemanager.e.ac:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$2 -> com.trip.expensemanager.e.z:
+com.trip.expensemanager.fragments.LoginFragment$2 -> com.trip.expensemanager.e.ad:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.LoginFragment$3 -> com.trip.expensemanager.e.aa:
+com.trip.expensemanager.fragments.LoginFragment$3 -> com.trip.expensemanager.e.ae:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.LoginFragment$4 -> com.trip.expensemanager.e.ab:
+com.trip.expensemanager.fragments.LoginFragment$4 -> com.trip.expensemanager.e.af:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$4) -> a
-com.trip.expensemanager.fragments.LoginFragment$4$1 -> com.trip.expensemanager.e.ac:
+com.trip.expensemanager.fragments.LoginFragment$4$1 -> com.trip.expensemanager.e.ag:
     com.trip.expensemanager.fragments.LoginFragment$4 this$1 -> a
     void run() -> run
     com.trip.expensemanager.fragments.LoginFragment$4 access$0(com.trip.expensemanager.fragments.LoginFragment$4$1) -> a
-com.trip.expensemanager.fragments.LoginFragment$4$1$1 -> com.trip.expensemanager.e.ad:
+com.trip.expensemanager.fragments.LoginFragment$4$1$1 -> com.trip.expensemanager.e.ah:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$1$2 -> com.trip.expensemanager.e.ae:
+com.trip.expensemanager.fragments.LoginFragment$4$1$2 -> com.trip.expensemanager.e.ai:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$1$3 -> com.trip.expensemanager.e.af:
+com.trip.expensemanager.fragments.LoginFragment$4$1$3 -> com.trip.expensemanager.e.aj:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$1$4 -> com.trip.expensemanager.e.ag:
+com.trip.expensemanager.fragments.LoginFragment$4$1$4 -> com.trip.expensemanager.e.ak:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$5 -> com.trip.expensemanager.e.ah:
+com.trip.expensemanager.fragments.LoginFragment$5 -> com.trip.expensemanager.e.al:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.LoginFragment$6 -> com.trip.expensemanager.e.ai:
+com.trip.expensemanager.fragments.LoginFragment$6 -> com.trip.expensemanager.e.am:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$6) -> a
-com.trip.expensemanager.fragments.LoginFragment$6$1 -> com.trip.expensemanager.e.aj:
+com.trip.expensemanager.fragments.LoginFragment$6$1 -> com.trip.expensemanager.e.an:
     com.trip.expensemanager.fragments.LoginFragment$6 this$1 -> a
     void run() -> run
     com.trip.expensemanager.fragments.LoginFragment$6 access$0(com.trip.expensemanager.fragments.LoginFragment$6$1) -> a
-com.trip.expensemanager.fragments.LoginFragment$6$1$1 -> com.trip.expensemanager.e.ak:
+com.trip.expensemanager.fragments.LoginFragment$6$1$1 -> com.trip.expensemanager.e.ao:
     com.trip.expensemanager.fragments.LoginFragment$6$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$6$1$2 -> com.trip.expensemanager.e.al:
+com.trip.expensemanager.fragments.LoginFragment$6$1$2 -> com.trip.expensemanager.e.ap:
     com.trip.expensemanager.fragments.LoginFragment$6$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$7 -> com.trip.expensemanager.e.am:
+com.trip.expensemanager.fragments.LoginFragment$7 -> com.trip.expensemanager.e.aq:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$7) -> a
-com.trip.expensemanager.fragments.LoginFragment$7$1 -> com.trip.expensemanager.e.an:
+com.trip.expensemanager.fragments.LoginFragment$7$1 -> com.trip.expensemanager.e.ar:
     com.trip.expensemanager.fragments.LoginFragment$7 this$1 -> a
     void run() -> run
     com.trip.expensemanager.fragments.LoginFragment$7 access$0(com.trip.expensemanager.fragments.LoginFragment$7$1) -> a
-com.trip.expensemanager.fragments.LoginFragment$7$1$1 -> com.trip.expensemanager.e.ao:
+com.trip.expensemanager.fragments.LoginFragment$7$1$1 -> com.trip.expensemanager.e.as:
     com.trip.expensemanager.fragments.LoginFragment$7$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$7$1$2 -> com.trip.expensemanager.e.ap:
+com.trip.expensemanager.fragments.LoginFragment$7$1$2 -> com.trip.expensemanager.e.at:
     com.trip.expensemanager.fragments.LoginFragment$7$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$8 -> com.trip.expensemanager.e.aq:
+com.trip.expensemanager.fragments.LoginFragment$8 -> com.trip.expensemanager.e.au:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.LoginFragment$9 -> com.trip.expensemanager.e.ar:
+com.trip.expensemanager.fragments.LoginFragment$9 -> com.trip.expensemanager.e.av:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void run() -> run
-com.trip.expensemanager.fragments.TripDetailsFragment -> com.trip.expensemanager.e.as:
+com.trip.expensemanager.fragments.TripDetailsFragment -> com.trip.expensemanager.e.aw:
     android.app.AlertDialog alert -> aa
     long lngUserId -> ab
     java.util.ArrayList arrExpenses -> ad
@@ -21714,16 +21788,16 @@ com.trip.expensemanager.fragments.TripDetailsFragment -> com.trip.expensemanager
     void loadData(com.trip.utils.TripBean) -> a
     void buildDistribution() -> J
     void splitExpense(com.trip.utils.DistributionBean[],com.trip.utils.DistributionBean[],com.trip.utils.DistributionBean[]) -> a
-    void openChart() -> K
+    void openChart() -> M
     void onClick(android.view.View) -> onClick
     void showSettleDeptDialog(int) -> b
     void markDistributionAsSettled(int) -> a
     void showUpdateTripNameDialog(java.lang.String) -> a
     void updateTrip(long,java.lang.String) -> a
     void onCheckedChanged(android.widget.RadioGroup,int) -> onCheckedChanged
-    void reBuildDistribution() -> L
-    void showSettledDistribution() -> M
-    void showUnsettledDistribution() -> N
+    void reBuildDistribution() -> N
+    void showSettledDistribution() -> O
+    void showUnsettledDistribution() -> P
     android.widget.Button access$0(com.trip.expensemanager.fragments.TripDetailsFragment) -> a
     void access$1(com.trip.expensemanager.fragments.TripDetailsFragment,java.lang.String) -> a
     java.lang.String access$2(com.trip.expensemanager.fragments.TripDetailsFragment) -> b
@@ -21733,30 +21807,30 @@ com.trip.expensemanager.fragments.TripDetailsFragment -> com.trip.expensemanager
     long access$6(com.trip.expensemanager.fragments.TripDetailsFragment) -> e
     java.lang.String access$7(com.trip.expensemanager.fragments.TripDetailsFragment) -> f
     android.widget.TextView access$8(com.trip.expensemanager.fragments.TripDetailsFragment) -> g
-com.trip.expensemanager.fragments.TripDetailsFragment$1 -> com.trip.expensemanager.e.at:
+com.trip.expensemanager.fragments.TripDetailsFragment$1 -> com.trip.expensemanager.e.ax:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.TripDetailsFragment$2 -> com.trip.expensemanager.e.au:
+com.trip.expensemanager.fragments.TripDetailsFragment$2 -> com.trip.expensemanager.e.ay:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     int val$position -> b
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$3 -> com.trip.expensemanager.e.av:
+com.trip.expensemanager.fragments.TripDetailsFragment$3 -> com.trip.expensemanager.e.az:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$4 -> com.trip.expensemanager.e.aw:
+com.trip.expensemanager.fragments.TripDetailsFragment$4 -> com.trip.expensemanager.e.ba:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.TripDetailsFragment$5 -> com.trip.expensemanager.e.ax:
+com.trip.expensemanager.fragments.TripDetailsFragment$5 -> com.trip.expensemanager.e.bb:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$6 -> com.trip.expensemanager.e.ay:
+com.trip.expensemanager.fragments.TripDetailsFragment$6 -> com.trip.expensemanager.e.bc:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager.e.az:
+com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager.e.bd:
     android.app.AlertDialog alert -> aa
     android.widget.ListView listExpense -> ab
     long lngUserId -> ad
@@ -21771,11 +21845,10 @@ com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager
     java.util.List arrSynced -> am
     java.util.List arrExpenseNotSynched -> an
     long lngExpUserId -> ao
-    long lngAdminId -> ap
-    android.content.BroadcastReceiver receiver -> aq
-    android.widget.ImageButton btnAddExpense -> ar
-    java.util.List arrColors -> as
-    java.util.concurrent.atomic.AtomicInteger newExpenseCalled -> at
+    android.content.BroadcastReceiver receiver -> ap
+    android.widget.ImageButton btnAddExpense -> aq
+    java.util.List arrColors -> ar
+    java.util.concurrent.atomic.AtomicInteger newExpenseCalled -> as
     com.trip.expensemanager.fragments.TripExpenseFragment newInstance(java.lang.String,long,long) -> a
     android.support.v4.app.Fragment newInstance(long,long,int,long,long) -> a
     void onCreate(android.os.Bundle) -> d
@@ -21786,7 +21859,7 @@ com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> b
     void showDeleteExpenseDialog(java.lang.String,long,int) -> a
-    void showAddExpense() -> K
+    void showAddExpense() -> M
     void onActivityResult(int,int,android.content.Intent) -> a
     void deleteExpense(long,int) -> a
     boolean areAllUsersPresent(com.trip.utils.TripBean,com.trip.utils.ExpenseBean) -> a
@@ -21797,18 +21870,18 @@ com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager
     void onClick(android.view.View) -> onClick
     void access$0(com.trip.expensemanager.fragments.TripExpenseFragment) -> a
     void access$1(com.trip.expensemanager.fragments.TripExpenseFragment,long,int) -> a
-com.trip.expensemanager.fragments.TripExpenseFragment$1 -> com.trip.expensemanager.e.ba:
+com.trip.expensemanager.fragments.TripExpenseFragment$1 -> com.trip.expensemanager.e.be:
     com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.trip.expensemanager.fragments.TripExpenseFragment$2 -> com.trip.expensemanager.e.bb:
+com.trip.expensemanager.fragments.TripExpenseFragment$2 -> com.trip.expensemanager.e.bf:
     com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
     long val$expenseId -> b
     int val$position -> c
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripExpenseFragment$3 -> com.trip.expensemanager.e.bc:
+com.trip.expensemanager.fragments.TripExpenseFragment$3 -> com.trip.expensemanager.e.bg:
     com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripPeopleFragment -> com.trip.expensemanager.e.bd:
+com.trip.expensemanager.fragments.TripPeopleFragment -> com.trip.expensemanager.e.bh:
     android.app.AlertDialog alert -> aa
     android.widget.ListView listPeople -> ab
     long lngUserId -> ad
@@ -21828,7 +21901,7 @@ com.trip.expensemanager.fragments.TripPeopleFragment -> com.trip.expensemanager.
     com.trip.expensemanager.fragments.TripPeopleFragment newInstance(java.lang.String,long,long) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void loadData() -> J
-    void showAddPeopleFragment() -> K
+    void showAddPeopleFragment() -> M
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
     void showExpenseByPerson(long,int) -> b
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
@@ -21837,15 +21910,15 @@ com.trip.expensemanager.fragments.TripPeopleFragment -> com.trip.expensemanager.
     void deleteUser(long,int) -> a
     java.lang.String add(java.lang.String,java.lang.String) -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripPeopleFragment$1 -> com.trip.expensemanager.e.be:
+com.trip.expensemanager.fragments.TripPeopleFragment$1 -> com.trip.expensemanager.e.bi:
     com.trip.expensemanager.fragments.TripPeopleFragment this$0 -> a
     long val$userId -> b
     int val$position -> c
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripPeopleFragment$2 -> com.trip.expensemanager.e.bf:
+com.trip.expensemanager.fragments.TripPeopleFragment$2 -> com.trip.expensemanager.e.bj:
     com.trip.expensemanager.fragments.TripPeopleFragment this$0 -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.UpdatesFragment -> com.trip.expensemanager.e.bg:
+com.trip.expensemanager.fragments.UpdatesFragment -> com.trip.expensemanager.e.bk:
     com.trip.expensemanager.adapters.CustomUpdatesAdapter listAdapter -> aa
     android.widget.ListView lvUpdatesList -> ab
     java.util.List listUpdates -> ad
@@ -21854,7 +21927,7 @@ com.trip.expensemanager.fragments.UpdatesFragment -> com.trip.expensemanager.e.b
     android.widget.TextView tvNoUpdates -> ag
     com.trip.expensemanager.fragments.UpdatesFragment newInstance() -> J
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void loadData() -> K
+    void loadData() -> M
     void onResume() -> k
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
 com.trip.expensemanager.loginendpoint.Loginendpoint -> com.trip.expensemanager.f.a:
@@ -21919,6 +21992,7 @@ com.trip.expensemanager.loginendpoint.model.LogIn -> com.trip.expensemanager.f.a
     java.lang.Long id -> id
     java.lang.String password -> password
     java.lang.String prefferedName -> prefferedName
+    java.lang.String purchaseId -> purchaseId
     java.util.List tripIDs -> tripIDs
     java.lang.String username -> username
     java.util.List getDeviceIDs() -> a
@@ -21928,12 +22002,14 @@ com.trip.expensemanager.loginendpoint.model.LogIn -> com.trip.expensemanager.f.a
     com.trip.expensemanager.loginendpoint.model.LogIn setPassword(java.lang.String) -> a
     java.lang.String getPrefferedName() -> h
     com.trip.expensemanager.loginendpoint.model.LogIn setPrefferedName(java.lang.String) -> b
-    java.util.List getTripIDs() -> i
+    java.lang.String getPurchaseId() -> i
+    com.trip.expensemanager.loginendpoint.model.LogIn setPurchaseId(java.lang.String) -> c
+    java.util.List getTripIDs() -> j
     com.trip.expensemanager.loginendpoint.model.LogIn setTripIDs(java.util.List) -> b
-    java.lang.String getUsername() -> j
-    com.trip.expensemanager.loginendpoint.model.LogIn setUsername(java.lang.String) -> c
+    java.lang.String getUsername() -> k
+    com.trip.expensemanager.loginendpoint.model.LogIn setUsername(java.lang.String) -> d
     com.trip.expensemanager.loginendpoint.model.LogIn set(java.lang.String,java.lang.Object) -> a
-    com.trip.expensemanager.loginendpoint.model.LogIn clone() -> k
+    com.trip.expensemanager.loginendpoint.model.LogIn clone() -> l
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
 com.trip.expensemanager.scanner.CameraPreview -> com.trip.expensemanager.scanner.a:
@@ -22230,6 +22306,8 @@ com.trip.utils.ExpenseBean -> com.trip.a.d:
     java.lang.String getAmounts() -> k
     void setAmounts(java.lang.String) -> h
 com.trip.utils.Global -> com.trip.a.e:
+    java.util.Random rnd -> a
+    java.lang.String randomString(int) -> a
     boolean validate(android.view.View[]) -> a
     void showError(android.widget.EditText,java.lang.String) -> a
     java.lang.String listToString(java.util.List) -> a
@@ -22240,7 +22318,7 @@ com.trip.utils.Global -> com.trip.a.e:
     java.lang.String subtract(java.lang.String,java.lang.String) -> b
     java.lang.String divide(java.lang.String,java.lang.String) -> c
     boolean isConnected(android.content.Context) -> a
-    java.util.ArrayList generateColor(int) -> a
+    java.util.ArrayList generateColor(int) -> b
 com.trip.utils.Heap -> com.trip.a.f:
     com.trip.utils.DistributionBean[] A -> a
     com.trip.utils.DistributionBean[] getArray() -> a
@@ -22264,20 +22342,23 @@ com.trip.utils.LocalDB -> com.trip.a.g:
     android.database.sqlite.SQLiteDatabase open() -> a
     void close() -> b
     boolean insert(long,java.lang.String,java.lang.String,java.lang.String,long) -> a
+    boolean updatePurchaseId(java.lang.String) -> a
+    boolean updatePurchaseToSynced() -> c
+    java.lang.String[] getPurchaseId() -> d
     long insertDistribution(long,long,java.lang.String,long,java.lang.String,java.lang.String) -> a
     boolean updateDistributionId(long,long) -> a
     java.util.ArrayList retrieveSettledDistributionForTrip(long) -> a
-    java.util.ArrayList retrieveNotSynchedDistributions() -> c
+    java.util.ArrayList retrieveNotSynchedDistributions() -> e
     java.util.List retrieveSettledDistributionByUser(long,long) -> b
     boolean updateDistributionPaidStatus(long,java.lang.String) -> a
     boolean deleteDistributionofTrip(long) -> b
     java.lang.String retrieveUsername(long) -> c
     java.lang.String retrievePrefferedName(long) -> d
-    long retrieve() -> d
-    long retrieveDeviceId() -> e
+    long retrieve() -> f
+    long retrieveDeviceId() -> g
     long insertTrip(java.lang.String,long,java.lang.String,java.lang.String,long,java.lang.String) -> a
-    java.util.ArrayList retrieveTrips() -> f
-    java.util.ArrayList retrieveNotSynchedTrips() -> g
+    java.util.ArrayList retrieveTrips() -> h
+    java.util.ArrayList retrieveNotSynchedTrips() -> i
     boolean isTripPresent(long) -> e
     com.trip.utils.TripBean retrieveTripDetails(long) -> f
     java.util.ArrayList retrieveExpenses(long) -> g
@@ -22291,15 +22372,15 @@ com.trip.utils.LocalDB -> com.trip.a.g:
     boolean updateExpenseSyncStatus(java.lang.Long,java.lang.String) -> a
     boolean updateExpenseSyncStatus(java.lang.Long) -> b
     long insertToSync(java.lang.String,java.lang.String,long) -> a
-    java.util.ArrayList retrieveUpdates() -> h
-    java.util.ArrayList retrieveUnreadUpdates() -> i
+    java.util.ArrayList retrieveUpdates() -> j
+    java.util.ArrayList retrieveUnreadUpdates() -> k
     boolean deleteToSync(long) -> i
-    boolean deleteAllToSync() -> j
+    boolean deleteAllToSync() -> l
     boolean updateTrip(long,java.lang.String,java.lang.String) -> a
     boolean updateExpense(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,long) -> a
     boolean updateTripId(long,long) -> d
     boolean updateExpenseId(long,long) -> e
-    java.util.ArrayList retrieveNotSynchedExpenses() -> k
+    java.util.ArrayList retrieveNotSynchedExpenses() -> m
     boolean isTripSynced(long) -> j
     boolean updateTripStatusToDeleted(long) -> k
     boolean updateTripStatusToExited(long) -> l
@@ -22309,7 +22390,7 @@ com.trip.utils.LocalDB -> com.trip.a.g:
     boolean updateExpenseTripId(long,long) -> f
     java.util.ArrayList retrieveExpenses(long,long) -> g
     boolean deleteExpenseofTrip(long) -> p
-    void clearAllTables() -> l
+    void clearAllTables() -> n
 com.trip.utils.SQLiteHelper -> com.trip.a.h:
     void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
     void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
@@ -22350,6 +22431,122 @@ com.trip.utils.UpdateBean -> com.trip.a.j:
     void setId(long) -> a
     long getItemId() -> d
     void setItemId(long) -> b
+com.trip.utils.billing.Base64 -> com.trip.a.a.a:
+    byte[] ALPHABET -> b
+    byte[] WEBSAFE_ALPHABET -> c
+    byte[] DECODABET -> d
+    byte[] WEBSAFE_DECODABET -> e
+    boolean $assertionsDisabled -> a
+    int decode4to3(byte[],int,byte[],int,byte[]) -> a
+    byte[] decode(java.lang.String) -> a
+    byte[] decode(byte[],int,int) -> a
+    byte[] decode(byte[],int,int,byte[]) -> a
+com.trip.utils.billing.Base64DecoderException -> com.trip.a.a.b:
+com.trip.utils.billing.IabException -> com.trip.a.a.c:
+    com.trip.utils.billing.IabResult mResult -> a
+    com.trip.utils.billing.IabResult getResult() -> a
+com.trip.utils.billing.IabHelper -> com.trip.a.a.d:
+    boolean mDebugLog -> a
+    java.lang.String mDebugTag -> b
+    boolean mSetupDone -> c
+    boolean mDisposed -> d
+    boolean mSubscriptionsSupported -> e
+    boolean mAsyncInProgress -> f
+    java.lang.String mAsyncOperation -> g
+    android.content.Context mContext -> h
+    com.android.vending.billing.IInAppBillingService mService -> i
+    android.content.ServiceConnection mServiceConn -> j
+    int mRequestCode -> k
+    java.lang.String mPurchasingItemType -> l
+    java.lang.String mSignatureBase64 -> m
+    com.trip.utils.billing.IabHelper$OnIabPurchaseFinishedListener mPurchaseListener -> n
+    void startSetup(com.trip.utils.billing.IabHelper$OnIabSetupFinishedListener) -> a
+    void dispose() -> a
+    void checkNotDisposed() -> c
+    void launchPurchaseFlow(android.app.Activity,java.lang.String,int,com.trip.utils.billing.IabHelper$OnIabPurchaseFinishedListener,java.lang.String) -> a
+    void launchPurchaseFlow(android.app.Activity,java.lang.String,java.lang.String,int,com.trip.utils.billing.IabHelper$OnIabPurchaseFinishedListener,java.lang.String) -> a
+    com.trip.utils.billing.Inventory queryInventory(boolean,java.util.List) -> a
+    com.trip.utils.billing.Inventory queryInventory(boolean,java.util.List,java.util.List) -> a
+    void queryInventoryAsync(boolean,java.util.List,com.trip.utils.billing.IabHelper$QueryInventoryFinishedListener) -> a
+    void queryInventoryAsync(com.trip.utils.billing.IabHelper$QueryInventoryFinishedListener) -> a
+    java.lang.String getResponseDesc(int) -> a
+    void checkSetupDone(java.lang.String) -> a
+    int getResponseCodeFromBundle(android.os.Bundle) -> a
+    void flagStartAsync(java.lang.String) -> b
+    void flagEndAsync() -> b
+    int queryPurchases(com.trip.utils.billing.Inventory,java.lang.String) -> a
+    int querySkuDetails(java.lang.String,com.trip.utils.billing.Inventory,java.util.List) -> a
+    void logDebug(java.lang.String) -> c
+    void logError(java.lang.String) -> d
+    void logWarn(java.lang.String) -> e
+com.trip.utils.billing.IabHelper$1 -> com.trip.a.a.e:
+    com.trip.utils.billing.IabHelper this$0 -> a
+    com.trip.utils.billing.IabHelper$OnIabSetupFinishedListener val$listener -> b
+    void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
+    void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
+com.trip.utils.billing.IabHelper$2 -> com.trip.a.a.f:
+    com.trip.utils.billing.IabHelper this$0 -> a
+    boolean val$querySkuDetails -> b
+    java.util.List val$moreSkus -> c
+    com.trip.utils.billing.IabHelper$QueryInventoryFinishedListener val$listener -> d
+    android.os.Handler val$handler -> e
+    void run() -> run
+com.trip.utils.billing.IabHelper$2$1 -> com.trip.a.a.g:
+    com.trip.utils.billing.IabHelper$2 this$1 -> a
+    com.trip.utils.billing.IabHelper$QueryInventoryFinishedListener val$listener -> b
+    com.trip.utils.billing.IabResult val$result_f -> c
+    com.trip.utils.billing.Inventory val$inv_f -> d
+    void run() -> run
+com.trip.utils.billing.IabHelper$OnIabPurchaseFinishedListener -> com.trip.a.a.h:
+    void onIabPurchaseFinished(com.trip.utils.billing.IabResult,com.trip.utils.billing.Purchase) -> a
+com.trip.utils.billing.IabHelper$OnIabSetupFinishedListener -> com.trip.a.a.i:
+    void onIabSetupFinished(com.trip.utils.billing.IabResult) -> a
+com.trip.utils.billing.IabHelper$QueryInventoryFinishedListener -> com.trip.a.a.j:
+    void onQueryInventoryFinished(com.trip.utils.billing.IabResult,com.trip.utils.billing.Inventory) -> a
+com.trip.utils.billing.IabResult -> com.trip.a.a.k:
+    int mResponse -> a
+    java.lang.String mMessage -> b
+    java.lang.String getMessage() -> a
+    boolean isSuccess() -> b
+    boolean isFailure() -> c
+    java.lang.String toString() -> toString
+com.trip.utils.billing.Inventory -> com.trip.a.a.l:
+    java.util.Map mSkuMap -> a
+    java.util.Map mPurchaseMap -> b
+    boolean hasPurchase(java.lang.String) -> a
+    java.util.List getAllOwnedSkus(java.lang.String) -> b
+    void addSkuDetails(com.trip.utils.billing.SkuDetails) -> a
+    void addPurchase(com.trip.utils.billing.Purchase) -> a
+com.trip.utils.billing.Purchase -> com.trip.a.a.m:
+    java.lang.String mItemType -> a
+    java.lang.String mOrderId -> b
+    java.lang.String mPackageName -> c
+    java.lang.String mSku -> d
+    long mPurchaseTime -> e
+    int mPurchaseState -> f
+    java.lang.String mDeveloperPayload -> g
+    java.lang.String mToken -> h
+    java.lang.String mOriginalJson -> i
+    java.lang.String mSignature -> j
+    java.lang.String getItemType() -> a
+    java.lang.String getSku() -> b
+    java.lang.String getDeveloperPayload() -> c
+    java.lang.String getToken() -> d
+    java.lang.String toString() -> toString
+com.trip.utils.billing.Security -> com.trip.a.a.n:
+    boolean verifyPurchase(java.lang.String,java.lang.String,java.lang.String) -> a
+    java.security.PublicKey generatePublicKey(java.lang.String) -> a
+    boolean verify(java.security.PublicKey,java.lang.String,java.lang.String) -> a
+com.trip.utils.billing.SkuDetails -> com.trip.a.a.o:
+    java.lang.String mItemType -> a
+    java.lang.String mSku -> b
+    java.lang.String mType -> c
+    java.lang.String mPrice -> d
+    java.lang.String mTitle -> e
+    java.lang.String mDescription -> f
+    java.lang.String mJson -> g
+    java.lang.String getSku() -> a
+    java.lang.String toString() -> toString
 net.sourceforge.zbar.Config -> net.sourceforge.zbar.Config:
     int ENABLE -> ENABLE
     int ADD_CHECK -> ADD_CHECK

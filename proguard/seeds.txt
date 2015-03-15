@@ -2972,6 +2972,7 @@ com.trip.expensemanager.R$drawable: int ic_scan
 com.trip.expensemanager.R$drawable: int ic_splash
 com.trip.expensemanager.R$drawable: int ic_trip_closed
 com.trip.expensemanager.R$drawable: int ic_trip_open
+com.trip.expensemanager.R$drawable: int ic_upgrade
 com.trip.expensemanager.R$drawable: int ic_welcome
 com.trip.expensemanager.R$drawable: int powered_by_google_dark
 com.trip.expensemanager.R$drawable: int powered_by_google_light
@@ -3001,7 +3002,7 @@ com.trip.expensemanager.R$id: int action_mode_bar_stub
 com.trip.expensemanager.R$id: int action_mode_close_button
 com.trip.expensemanager.R$id: int action_save_expense
 com.trip.expensemanager.R$id: int action_scan_qr
-com.trip.expensemanager.R$id: int action_settings
+com.trip.expensemanager.R$id: int action_upgrade
 com.trip.expensemanager.R$id: int activity_chooser_view_content
 com.trip.expensemanager.R$id: int adView
 com.trip.expensemanager.R$id: int adjust_height
@@ -3021,6 +3022,7 @@ com.trip.expensemanager.R$id: int btn_register
 com.trip.expensemanager.R$id: int btn_settle
 com.trip.expensemanager.R$id: int btn_settled
 com.trip.expensemanager.R$id: int btn_unsettled
+com.trip.expensemanager.R$id: int btn_upgrade
 com.trip.expensemanager.R$id: int btn_yes
 com.trip.expensemanager.R$id: int button_capture
 com.trip.expensemanager.R$id: int buyButton
@@ -3244,13 +3246,14 @@ com.trip.expensemanager.R$layout: int support_simple_spinner_dropdown_item
 com.trip.expensemanager.R$layout: int toolbar
 com.trip.expensemanager.R$layout: int trips_row_layout
 com.trip.expensemanager.R$layout: int update_row_layout
+com.trip.expensemanager.R$layout: int upgrade_dialog
 com.trip.expensemanager.R$layout: int userids_row_layout
 com.trip.expensemanager.R$menu: int add_expense_fragment_action
 com.trip.expensemanager.R$menu: int add_people_fragment_action
 com.trip.expensemanager.R$menu: int add_trip_context
 com.trip.expensemanager.R$menu: int add_trip_fragment_action
+com.trip.expensemanager.R$menu: int add_trip_fragment_action_upgrade
 com.trip.expensemanager.R$menu: int expense_exit_action
-com.trip.expensemanager.R$menu: int tab
 com.trip.expensemanager.R$menu: int trip_detail_action
 com.trip.expensemanager.R$menu: int trip_expense_fragment_action
 com.trip.expensemanager.R$menu: int update_expense_fragment_action
@@ -3283,6 +3286,7 @@ com.trip.expensemanager.R$string: int action_exit_eg
 com.trip.expensemanager.R$string: int action_save_expense
 com.trip.expensemanager.R$string: int action_scan_qr
 com.trip.expensemanager.R$string: int action_settings
+com.trip.expensemanager.R$string: int action_upgrade
 com.trip.expensemanager.R$string: int add
 com.trip.expensemanager.R$string: int add_expense
 com.trip.expensemanager.R$string: int add_expense_amount
@@ -3370,6 +3374,8 @@ com.trip.expensemanager.R$string: int trips
 com.trip.expensemanager.R$string: int unit_id
 com.trip.expensemanager.R$string: int unsettled
 com.trip.expensemanager.R$string: int updates
+com.trip.expensemanager.R$string: int upgrade
+com.trip.expensemanager.R$string: int upgrade_features
 com.trip.expensemanager.R$string: int url
 com.trip.expensemanager.R$string: int username
 com.trip.expensemanager.R$string: int wallet_buy_button_place_holder
@@ -4018,6 +4024,7 @@ com.trip.expensemanager.loginendpoint.model.LogIn: java.util.List deviceIDs
 com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.Long id
 com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.String password
 com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.String prefferedName
+com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.String purchaseId
 com.trip.expensemanager.loginendpoint.model.LogIn: java.util.List tripIDs
 com.trip.expensemanager.loginendpoint.model.LogIn: java.lang.String username
 com.trip.expensemanager.messageEndpoint.MessageEndpoint$ListMessages: java.lang.String cursor

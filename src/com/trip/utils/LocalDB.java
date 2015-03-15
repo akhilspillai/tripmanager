@@ -1,6 +1,5 @@
 package com.trip.utils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class LocalDB{
 		boolean done = false;
 		try{
 			SQLiteDatabase database=open();
-			cursor=database.query(SQLiteHelper.TABLE_LOGIN, new String[]{SQLiteHelper.COLUMN_USER_ID}, SQLiteHelper.COLUMN_USER_ID+"=?", new String[]{String.valueOf(lngUserId)}, null, null, null);
+			cursor=database.query(SQLiteHelper.TABLE_LOGIN, new String[]{SQLiteHelper.COLUMN_USER_ID}, null, null, null, null, null);
 			if(!cursor.moveToFirst()){
 				ContentValues values = new ContentValues();
 				values.put(SQLiteHelper.COLUMN_USER_ID, lngUserId);
@@ -71,6 +70,55 @@ public class LocalDB{
 			close();
 		}
 		return done;
+	}
+	
+
+
+	public boolean updatePurchaseId(String strPurchaseId) {
+		try {
+			SQLiteDatabase database=open();
+			ContentValues args = new ContentValues();
+			args.put(SQLiteHelper.COLUMN_PURCHASE_ID, strPurchaseId);
+			args.put(SQLiteHelper.COLUMN_IS_SYNCHED, Constants.STR_NOT_SYNCHED);
+			database.update(SQLiteHelper.TABLE_TO_SYNC, args, null, null);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}finally{
+			close();
+		}
+		return false;
+	}
+	
+
+
+	public boolean updatePurchaseToSynced() {
+		try {
+			SQLiteDatabase database=open();
+			ContentValues args = new ContentValues();
+			args.put(SQLiteHelper.COLUMN_IS_SYNCHED, Constants.STR_SYNCHED);
+			database.update(SQLiteHelper.TABLE_TO_SYNC, args, null, null);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}finally{
+			close();
+		}
+		return false;
+	}
+	
+	public String[] getPurchaseId() {
+		String[] strArrPurchase=null;
+		SQLiteDatabase database=open(); 
+		cursor = database.query(SQLiteHelper.TABLE_LOGIN, new String[]{SQLiteHelper.COLUMN_PURCHASE_ID, SQLiteHelper.COLUMN_IS_SYNCHED}, null, null, null, null, null);
+		if (cursor.moveToFirst()) {
+			strArrPurchase=new String[2];
+			strArrPurchase[0]=cursor.getString(1);
+			strArrPurchase[1]=cursor.getString(0);
+		}
+		return strArrPurchase;
 	}
 
 	public long insertDistribution(long lngFromId, long lngToId, String strAmount, long lngTripId, String strPaidStatus, String strDate) {
@@ -681,12 +729,6 @@ public class LocalDB{
 
 	public ExpenseBean retrieveExpense(long lngExpenseId) {
 		ExpenseBean expense = null;
-		String strUserIds=null, strAmounts=null;
-		String[] strArrUserIds=null;
-		String[] strArrAmounts=null;
-		long[] lngArrUserIds=null;
-		int[] iArrAmounts=null;
-		int i;
 		try {
 			SQLiteDatabase database=open(); 
 			cursor = database.query(SQLiteHelper.TABLE_EXPENSE, COLUMNS_EXPENSE, SQLiteHelper.COLUMN_EXPENSE_ID+"=?", new String[]{String.valueOf(lngExpenseId)},null, null, null);

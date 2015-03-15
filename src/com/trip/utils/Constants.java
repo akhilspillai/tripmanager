@@ -3,7 +3,7 @@ package com.trip.utils;
 public class Constants {
 
 	public static final String STR_OPCODE="opcode";
-//	Opcodes
+	//	Opcodes
 	public static final int I_OPCODE_REGISTER=1;
 	public static final int I_OPCODE_CHECK_USER=2;
 	public static final int I_OPCODE_LOGIN = 3;
@@ -13,7 +13,7 @@ public class Constants {
 	public static final int I_OPCODE_ADD_TRIP_QR = 6;
 	public static final int I_OPCODE_UPDATE_EXPENSE = 7;
 	public static final int I_OPCODE_SHOW_USER_EXPENSES = 8;
-//	End
+	//	End
 	public static final String STR_USER = "user";
 	public static final String STR_STATUS_EXISTS_OPCODE = "01";
 	public static final String STR_STATUS_DO_NOT_EXIST_OPCODE = "00";
@@ -65,6 +65,7 @@ public class Constants {
 	public static final String STR_EXPENSE_UPDATED = "EU";
 	public static final String STR_EXPENSE_DELETED = "ED";
 	public static final String STR_USER_DELETED = "UD";
+	public static final String STR_ITEM_PURCHASED = "IP";
 	public static final int NOTIFICATION_ID_TRIP = 1;
 	public static final String STR_IS_FROM_GCM = "from_gcm";
 	public static final String STR_GROUP = "group";
@@ -93,4 +94,15 @@ public class Constants {
 	public static final String STR_NOT_SYNCED = "NS";
 	public static final String STR_VERSION = "version";
 	public static final String STR_VERSION_CODE = "version code";
+	
+	public static final String STR_LICENSE_1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCg";
+	public static final String STR_LICENSE_2 =  "KCAQEAqDlntTQC7RNTdjDCTqaPVPbHzbceUaUyKMIGjgEqVvvyJ07RIBg4Ais9oP5F";
+	public static final String STR_LICENSE_3 =  "1icXP7hsgD1XlVnzH/ybq1xHb0Pu70UJd5j8WisSRG90RSR+smSwi/mofel/WDROGZ";
+	public static final String STR_LICENSE_4 =  "zXLsbultCTkFjWpjRXmOkfFV44668EPESPXTcwh/YDmBIuPNCgoOiHmkT7G6F+HIsp";
+	public static final String STR_LICENSE_5 =  "uBNs6t7l9qSiuuxk1obCwkHsS8eVQTi3hvft7bt7ou4ObFA6B7dRTDbw+Gxw/QWZCK";
+	public static final String STR_LICENSE_6 =  "96fOb8WJUeNe0399RV+KLcITgHhmitXwS9RdL3jdVtYA9/AEOzoY5xEr56Yp8ka8x/";
+	public static final String STR_LICENSE_7 =  "lAseP9jIkSiHoYJSHQIDAQAB";
+	public static final String STR_PURCHASED = "purchased";
+	public static final String STR_PURCHASE_ID = "purchas_id";
+	public static final String STR_SKU_PREMIUM = "466678";
 }

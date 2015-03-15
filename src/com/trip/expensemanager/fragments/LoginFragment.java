@@ -3,6 +3,7 @@ package com.trip.expensemanager.fragments;
 import java.io.IOException;
 
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -22,8 +23,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -97,7 +96,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 	static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1002;
 
 	private String mEmail;
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View rootView=null;
@@ -653,6 +652,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 		}
 	}
 
+	@SuppressLint("InflateParams")
 	private void showGMSNotFoundDialog() {
 		try{
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -670,6 +670,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 					} catch (android.content.ActivityNotFoundException anfe) {
 						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.google.android.gms")));
 					}
+					alert.cancel();
 				}
 			});
 

@@ -20,7 +20,6 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,13 +33,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.trip.expensemanager.AllDetailsActivity;
-import com.trip.expensemanager.ExpenseActivity;
 import com.trip.expensemanager.R;
 import com.trip.expensemanager.SyncIntentService;
 import com.trip.expensemanager.TripDetailsActivity;
 import com.trip.expensemanager.adapters.CustomExpenseListAdapter;
 import com.trip.utils.Constants;
-import com.trip.utils.DistributionBean1;
 import com.trip.utils.ExpenseBean;
 import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
@@ -97,7 +94,6 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 	private List<Integer> arrSynced=new ArrayList<Integer>();
 	private List<ExpenseBean> arrExpenseNotSynched=new ArrayList<ExpenseBean>();
 	private long lngExpUserId=0L;
-	private long lngAdminId=0L;
 	private BroadcastReceiver receiver;
 	private ImageButton btnAddExpense;
 	private List<Integer> arrColors=new ArrayList<Integer>();
@@ -127,7 +123,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			lngUserId=bundle.getLong(Constants.STR_USER_ID);
 			lngExpUserId=bundle.getLong(Constants.STR_EXP_USR_ID);
 			lngTripId=bundle.getLong(Constants.STR_TRIP_ID);
-			lngAdminId=bundle.getLong(Constants.STR_ADMIN_ID);
+			bundle.getLong(Constants.STR_ADMIN_ID);
 
 			listAdapter = new CustomExpenseListAdapter(getActivity(), arrExpenseNames, arrExpenseAmount, arrSynced, arrColors);
 			listExpense.setAdapter(listAdapter);
@@ -219,7 +215,7 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 	public void onResume() {
 		super.onResume();
 		if(lngExpUserId!=0L){
-			LocalBroadcastManager.getInstance(getActivity()).registerReceiver((receiver), new IntentFilter(SyncIntentService.RESULT));
+			LocalBroadcastManager.getInstance(getActivity()).registerReceiver((receiver), new IntentFilter(SyncIntentService.RESULT_SYNC));
 		}
 	}
 
@@ -230,69 +226,6 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 			LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver((receiver));
 		}
 	}
-
-	/*@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.clear();
-		super.onCreateOptionsMenu(menu, inflater);
-		if(lngExpUserId==0L){
-			inflater.inflate(R.menu.trip_expense_fragment_action, menu);
-		} else if(lngAdminId!=lngUserId && lngUserId==lngExpUserId){
-			inflater.inflate(R.menu.expense_exit_action, menu);
-		}
-	}*/
-
-	/*@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_add_expense:
-			showAddExpense();
-			return true;
-
-		case R.id.action_exit_eg:
-			tryExitingTrip();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}*/
-
-
-	/*private void tryExitingTrip() {
-		LocalDB localDb=new LocalDB(getActivity());
-		List<ExpenseBean> lstExpenses = localDb.retrieveExpenses(lngTripId);
-		List<Long> expUserIds;
-		List<String> expAmounts;
-		long userId=0L;
-		int indexOfExpense;
-		String strAmtToGet="0";
-		for(ExpenseBean expense:lstExpenses){
-			userId=expense.getUserId();
-			expUserIds=Global.longToList(expense.getUserIds());
-			expAmounts=Global.stringToList(expense.getAmounts());
-			if(userId==lngUserId){
-				strAmtToGet=Global.add(strAmtToGet, expense.getAmount());
-			}
-			indexOfExpense=expUserIds.indexOf(lngUserId);
-			if(indexOfExpense>=0){
-				strAmtToGet=Global.subtract(strAmtToGet, expAmounts.get(indexOfExpense));
-			}
-		}
-		List<DistributionBean1> lstDist=localDb.retrieveSettledDistributionByUser(lngUserId, lngTripId);
-		for(DistributionBean1 distTemp:lstDist){
-			if(distTemp.getFromId()==lngUserId){
-				strAmtToGet=Global.add(strAmtToGet, distTemp.getAmount());
-			} else{
-				strAmtToGet=Global.subtract(strAmtToGet, distTemp.getAmount());
-			}
-		}
-		float fAmtToGet=Float.parseFloat(strAmtToGet);
-		if(fAmtToGet==0){
-			showExitEG();
-		} else{
-			showInfoMessage(Constants.STR_SETTLE_FIRST);
-		}
-	}*/
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {

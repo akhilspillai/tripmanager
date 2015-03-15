@@ -26,7 +26,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/unit_id"
-        android:visibility="gone" />
+        ads:adUnitId="@string/unit_id" />
 
 </RelativeLayout>

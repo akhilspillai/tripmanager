@@ -1,10 +1,8 @@
 package com.trip.utils;
 
 import android.content.Context;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
@@ -15,7 +13,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public static final String TABLE_TO_SYNC = "to_sync";
 	public static final String TABLE_DISTRIBUTION = "distribution";
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	public static final String ROW_ID = "_id";
 	public static final String COLUMN_USERNAME = "username";
 	public static final String COLUMN_PASSWORD = "password";
@@ -23,6 +21,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_IS_SYNCHED = "is_synched";
 	public static final String COLUMN_DEVICE_ID = "device_id";
 	public static final String COLUMN_PREFFERED_NAME = "prefferred_name";
+	public static final String COLUMN_PURCHASE_ID = "purchase_id";
 
 	private static final String LOGIN_TABLE_CREATE = "create table "
 			+ TABLE_LOGIN + "( " +ROW_ID+" integer primary key,"
@@ -30,7 +29,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			+ COLUMN_DEVICE_ID+ " integer,"
 			+ COLUMN_USERNAME+ " text,"
 			+ COLUMN_PASSWORD+ " text,"
-			+ COLUMN_PREFFERED_NAME+ " text);";
+			+ COLUMN_PURCHASE_ID+ " text,"
+			+ COLUMN_PREFFERED_NAME+ " text,"
+			+ COLUMN_IS_SYNCHED+" text);";
 
 	public static final String COLUMN_TRIP_ID = "trip_id";
 	public static final String COLUMN_TRIP_NAME = "trip_name";
@@ -129,13 +130,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		try {
-			db.execSQL("DROP TABLE IF EXISTS" + TABLE_LOGIN);
-			db.execSQL("DROP TABLE IF EXISTS" + TABLE_TRIP);
-			db.execSQL("DROP TABLE IF EXISTS" + TABLE_EXPENSE);
-			db.execSQL("DROP TABLE IF EXISTS" + TABLE_USERS);
-			db.execSQL("DROP TABLE IF EXISTS" + TABLE_TO_SYNC);
-			db.execSQL("DROP TABLE IF EXISTS" + TABLE_DISTRIBUTION);
-			onCreate(db);
+			
+			db.execSQL("ALTER TABLE "+TABLE_LOGIN+" ADD COLUMN "+COLUMN_IS_SYNCHED+" text default 'N';");
+			db.execSQL("ALTER TABLE "+TABLE_LOGIN+" ADD COLUMN "+COLUMN_PURCHASE_ID+" text;");
 		} catch (Exception e) {
 			e.printStackTrace();
 

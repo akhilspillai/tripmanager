@@ -1,9 +1,14 @@
 package com.trip.expensemanager;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -18,6 +23,8 @@ import com.trip.utils.Constants;
 
 public class AllDetailsActivity extends ActionBarActivity {
 
+	private BroadcastReceiver receiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,6 +33,12 @@ public class AllDetailsActivity extends ActionBarActivity {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+        receiver = new BroadcastReceiver() {
+	        @Override
+	        public void onReceive(Context context, Intent intent) {
+	            loadAd();
+	        }
+	    };
 		Intent retIntent = new Intent();
         setResult(Activity.RESULT_CANCELED, retIntent);
 		Intent intent=getIntent();
@@ -69,15 +82,12 @@ public class AllDetailsActivity extends ActionBarActivity {
 			default:
 				break;
 			}
-			AdView adView = (AdView)findViewById(R.id.adView);
-			AdRequest adRequest = new AdRequest.Builder().addTestDevice("07479579BCD31CAC59F426C69FC347F0").addTestDevice("CA38245079883989F4F525CCE75019B4").addTestDevice("73F2A5CA55F628C98441DA7DAFECE33C").build();
-			if(adView.getVisibility()==View.VISIBLE){
-				adView.loadAd(adRequest);
-			}
+			loadAd();
+			
 		}
 		
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		if(getSupportFragmentManager().getBackStackEntryCount()==0){
@@ -99,4 +109,28 @@ public class AllDetailsActivity extends ActionBarActivity {
 	    return super.onOptionsItemSelected(item);
 	}
 	
+	protected void loadAd() {
+		AdView adView = (AdView)findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().addTestDevice("07479579BCD31CAC59F426C69FC347F0").addTestDevice("CA38245079883989F4F525CCE75019B4").addTestDevice("73F2A5CA55F628C98441DA7DAFECE33C").build();
+		
+		SharedPreferences prefs = getSharedPreferences(Constants.STR_PREFERENCE, MODE_PRIVATE);
+		boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
+		if(isPurchased){
+			adView.setVisibility(View.GONE);
+		} else{
+			adView.loadAd(adRequest);
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		LocalBroadcastManager.getInstance(this).registerReceiver((receiver), new IntentFilter(SyncIntentService.RESULT_PURCHASE));
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		LocalBroadcastManager.getInstance(this).unregisterReceiver((receiver));
+	}
 }

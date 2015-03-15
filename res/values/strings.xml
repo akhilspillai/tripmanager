@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Group Expense Manager</string>
+    <string name="app_name">Expense Manager</string>
     <string name="amount">Amount</string>
     <string name="amount_to_settle">Amount to Settle:</string>
     <string name="hello_world">Hello world!</string>
@@ -11,7 +11,7 @@
     <string name="password">Password</string>
     <string name="conf_password">Confirm Password</string>
     <string name="new_user"><u>New user? Register here!!</u></string>
-    <string name="or"><u>Or</u></string>
+    <string name="or">or</string>
     <string name="back_to_login"><u>Back to login.</u></string>
     <string name="login">Login</string>
     <string name="register">Register</string>
@@ -20,6 +20,7 @@
     <string name="title_activity_expense">Expenses</string>
     <string name="ok">OK</string>
     <string name="yes">Yes</string>
+    <string name="upgrade">Upgrade!!</string>
     <string name="no_trips">No expense-groups(EGs) available!! Please click on the + symbol to add an EG.</string>
     <string name="action_add_trip">Add EG</string>
     <string name="add_trip_name">Type EG name</string>
@@ -42,6 +43,7 @@
     <string name="scan_qr">Please scan the QR code from the other users device to add this expense-group</string>
     <string name="title_activity_tab">TabActivity</string>
     <string name="action_scan_qr">Scan QR code</string>
+    <string name="action_upgrade">Upgrade to pro!</string>
     <string name="action_add_new">Add new</string>
     <string name="delete_trip_info">You can only delete trips which are either closed. If the selection includes trips which are not closed, those will not be deleted.</string>
     <string name="expenses">Expenses</string>
@@ -70,5 +72,6 @@
     <string name="settled">Settled</string>
     <string name="settle_expenses">Settle</string>
     <string name="unsettled">Unsettled</string>
+    <string name="upgrade_features">If you upgrade to premium you will have the following features:\n 1. No ads!\n 2. Add unlimited EGs!\n 3. Add unlimited number of people to your EGs!\n 4. Access across all your devices.</string>
 
 </resources>

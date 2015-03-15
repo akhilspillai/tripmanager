@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
@@ -33,6 +34,7 @@ import com.trip.utils.ExpenseBean;
 import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
+import com.trip.utils.billing.IabHelper;
 
 public class TripDetailsActivity extends ActionBarActivity {
 
@@ -44,8 +46,10 @@ public class TripDetailsActivity extends ActionBarActivity {
 	private SlidingTabLayout tabLayout;
 	private long lngTripId;
 	private BroadcastReceiver receiver;
+	private BroadcastReceiver purchaseReceiver;
 	private long lngAdminId;
 	private AlertDialog alert;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,6 +63,13 @@ public class TripDetailsActivity extends ActionBarActivity {
 				@Override
 				public void onReceive(Context context, Intent intent) {
 					mAdapter.notifyDataSetChanged();
+				}
+			};
+			
+			purchaseReceiver = new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					loadAd();
 				}
 			};
 			Intent intent=getIntent();
@@ -96,11 +107,7 @@ public class TripDetailsActivity extends ActionBarActivity {
 			if(tabToSelect!=0){
 				mViewPager.setCurrentItem(tabToSelect-1);
 			}
-			AdView adView = (AdView)findViewById(R.id.adView);
-			AdRequest adRequest = new AdRequest.Builder().addTestDevice("07479579BCD31CAC59F426C69FC347F0").addTestDevice("CA38245079883989F4F525CCE75019B4").addTestDevice("73F2A5CA55F628C98441DA7DAFECE33C").build();
-			if(adView.getVisibility()==View.VISIBLE){
-				adView.loadAd(adRequest);
-			}
+			loadAd();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -110,13 +117,28 @@ public class TripDetailsActivity extends ActionBarActivity {
 	public void onResume() {
 		super.onResume();
 		mAdapter.notifyDataSetChanged();
-		LocalBroadcastManager.getInstance(this).registerReceiver((receiver), new IntentFilter(SyncIntentService.RESULT));
+		LocalBroadcastManager.getInstance(this).registerReceiver((receiver), new IntentFilter(SyncIntentService.RESULT_SYNC));
+		LocalBroadcastManager.getInstance(this).registerReceiver((purchaseReceiver), new IntentFilter(SyncIntentService.RESULT_PURCHASE));
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		LocalBroadcastManager.getInstance(this).unregisterReceiver((receiver));
+		LocalBroadcastManager.getInstance(this).unregisterReceiver((purchaseReceiver));
+	}
+	
+	protected void loadAd() {
+		AdView adView = (AdView)findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().addTestDevice("07479579BCD31CAC59F426C69FC347F0").addTestDevice("CA38245079883989F4F525CCE75019B4").addTestDevice("73F2A5CA55F628C98441DA7DAFECE33C").build();
+		
+		SharedPreferences prefs = getSharedPreferences(Constants.STR_PREFERENCE, MODE_PRIVATE);
+		boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
+		if(isPurchased){
+			adView.setVisibility(View.GONE);
+		} else{
+			adView.loadAd(adRequest);
+		}
 	}
 
 	public void updateViews(){
