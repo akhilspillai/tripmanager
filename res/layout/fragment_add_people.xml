@@ -5,35 +5,40 @@
     android:background="@android:color/background_light"
     android:gravity="center" >
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:padding="5dp" >
+        android:layout_height="wrap_content" >
 
-        <ImageView
-            android:id="@+id/iv_qrcode"
-            android:layout_width="@dimen/qr_size"
-            android:layout_height="@dimen/qr_size"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/bg_qr"
-            android:contentDescription="@string/app_name"
-            android:padding="5dp" />
-
-        <TextView
-            android:id="@+id/tv_scan"
-            android:layout_width="@dimen/qr_size"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_qrcode"
-            android:gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/bg_qr_text"
-            android:text="@string/scan_qr"
+            android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:textColor="@android:color/black" />
-    </RelativeLayout>
+            android:padding="5dp" >
+
+            <ImageView
+                android:id="@+id/iv_qrcode"
+                android:layout_width="@dimen/qr_size"
+                android:layout_height="@dimen/qr_size"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/bg_qr"
+                android:contentDescription="@string/app_name"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/tv_scan"
+                android:layout_width="@dimen/qr_size"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_qrcode"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/bg_qr_text"
+                android:gravity="center_horizontal"
+                android:text="@string/scan_qr"
+                android:textColor="@android:color/black" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

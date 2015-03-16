@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
    
-    <dimen name="qr_size">400dp</dimen>
+    <dimen name="qr_size">350dp</dimen>
     <string name="chart_size">520</string>
     <string name="qr_code_size">400</string>
     

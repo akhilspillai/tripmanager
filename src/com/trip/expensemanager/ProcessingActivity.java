@@ -343,49 +343,28 @@ public class ProcessingActivity extends Activity{
 					} else{
 						strName=strEmail.substring(0, strEmail.indexOf('@'));
 					}
-					long userIdTemp=localDb.retrieve();
-					if(userIdTemp!=0L){
-						Loginendpoint.Builder builder = new Loginendpoint.Builder(
-								AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
-						builder = CloudEndpointUtils.updateBuilder(builder);
-						Loginendpoint endpoint = builder.build();
-						Deviceinfoendpoint.Builder devInfoBuilder = new Deviceinfoendpoint.Builder(
-								AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
-						devInfoBuilder = CloudEndpointUtils.updateBuilder(devInfoBuilder);
-						Deviceinfoendpoint devInfoEndpoint = devInfoBuilder.build();
-						CollectionResponseLogIn entities = endpoint.listLogIn().setUsername(strEmail).execute();
-						String strDeviceName = getDeviceName();
-						if (entities == null || entities.getItems() == null || entities.getItems().size() < 1) {
-							if(entities==null){
-								returnIntent.putExtra(Constants.STR_RESULT,0);
-								returnIntent.putExtra(Constants.STR_ERROR,"Something went wrong!!");
-								setResult(RESULT_OK,returnIntent);
-								cancel(true);
-								finish();
-							} else{
-								String strHashPwd = null;
-								login.setUsername(strEmail);
-								login.setPassword(strHashPwd);
-								login.setPrefferedName(strName);
-								CollectionResponseDeviceInfo devInfoEntities = devInfoEndpoint.listDeviceInfo().setGcmRegId(strRegID).execute();
-								if (devInfoEntities == null || devInfoEntities.getItems() == null || devInfoEntities.getItems().size() < 1) {
-									devInfo.setGcmRegId(strRegID);
-									devInfo.setMake(strDeviceName);
-									retDevInfo=devInfoEndpoint.insertDeviceInfo(devInfo).execute();
-								} else{
-									List<DeviceInfo> collDevInfo = devInfoEntities.getItems();
-									retDevInfo=collDevInfo.get(0);
-								}
-								listDevs.add(retDevInfo.getId());
-								login.setDeviceIDs(listDevs);
-								retLogin=endpoint.insertLogIn(login).execute();
-								lngUserId=retLogin.getId();
-								localDb.insert(lngUserId, retLogin.getUsername(), "", Constants.STR_YOU, retDevInfo.getId());
-								localDb.insertPerson(lngUserId, retLogin.getUsername(), Constants.STR_YOU);
-							}
+					Loginendpoint.Builder builder = new Loginendpoint.Builder(
+							AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
+					builder = CloudEndpointUtils.updateBuilder(builder);
+					Loginendpoint endpoint = builder.build();
+					Deviceinfoendpoint.Builder devInfoBuilder = new Deviceinfoendpoint.Builder(
+							AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
+					devInfoBuilder = CloudEndpointUtils.updateBuilder(devInfoBuilder);
+					Deviceinfoendpoint devInfoEndpoint = devInfoBuilder.build();
+					CollectionResponseLogIn entities = endpoint.listLogIn().setUsername(strEmail).execute();
+					String strDeviceName = getDeviceName();
+					if (entities == null || entities.getItems() == null || entities.getItems().size() < 1) {
+						if(entities==null){
+							returnIntent.putExtra(Constants.STR_RESULT,0);
+							returnIntent.putExtra(Constants.STR_ERROR,"Something went wrong!!");
+							setResult(RESULT_OK,returnIntent);
+							cancel(true);
+							finish();
 						} else{
-							login=entities.getItems().get(0);
-
+							String strHashPwd = null;
+							login.setUsername(strEmail);
+							login.setPassword(strHashPwd);
+							login.setPrefferedName(strName);
 							CollectionResponseDeviceInfo devInfoEntities = devInfoEndpoint.listDeviceInfo().setGcmRegId(strRegID).execute();
 							if (devInfoEntities == null || devInfoEntities.getItems() == null || devInfoEntities.getItems().size() < 1) {
 								devInfo.setGcmRegId(strRegID);
@@ -395,106 +374,121 @@ public class ProcessingActivity extends Activity{
 								List<DeviceInfo> collDevInfo = devInfoEntities.getItems();
 								retDevInfo=collDevInfo.get(0);
 							}
-							listDevs=login.getDeviceIDs();
-							if(!listDevs.contains(retDevInfo.getId())){
-								listDevs.add(retDevInfo.getId());
-							}
+							listDevs.add(retDevInfo.getId());
 							login.setDeviceIDs(listDevs);
-							lngUserId=login.getId();
-							localDb.insert(lngUserId, login.getUsername(), login.getPassword(), Constants.STR_YOU, retDevInfo.getId());
-							localDb.insertPerson(lngUserId, strArrData[0], Constants.STR_YOU);
-							listTripIds=login.getTripIDs();
-							int i=0;
-							Tripendpoint.Builder tripBuilder = new Tripendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
-							tripBuilder = CloudEndpointUtils.updateBuilder(tripBuilder);
-							Tripendpoint tripEndpoint = tripBuilder.build();
-							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-							String date=null;
+							retLogin=endpoint.insertLogIn(login).execute();
+							lngUserId=retLogin.getId();
+							localDb.insert(lngUserId, retLogin.getUsername(), "", Constants.STR_YOU, retDevInfo.getId());
+							localDb.insertPerson(lngUserId, retLogin.getUsername(), Constants.STR_YOU);
+						}
+					} else{
+						login=entities.getItems().get(0);
 
-							Expenseendpoint.Builder expenseBuilder = new Expenseendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
-							expenseBuilder = CloudEndpointUtils.updateBuilder(expenseBuilder);
-							Expenseendpoint expenseEndpoint = expenseBuilder.build();
-							CollectionResponseExpense response=null;
-							ArrayList<Expense> arrExpense=null;
+						CollectionResponseDeviceInfo devInfoEntities = devInfoEndpoint.listDeviceInfo().setGcmRegId(strRegID).execute();
+						if (devInfoEntities == null || devInfoEntities.getItems() == null || devInfoEntities.getItems().size() < 1) {
+							devInfo.setGcmRegId(strRegID);
+							devInfo.setMake(strDeviceName);
+							retDevInfo=devInfoEndpoint.insertDeviceInfo(devInfo).execute();
+						} else{
+							List<DeviceInfo> collDevInfo = devInfoEntities.getItems();
+							retDevInfo=collDevInfo.get(0);
+						}
+						listDevs=login.getDeviceIDs();
+						if(!listDevs.contains(retDevInfo.getId())){
+							listDevs.add(retDevInfo.getId());
+						}
+						login.setDeviceIDs(listDevs);
+						lngUserId=login.getId();
+						localDb.insert(lngUserId, login.getUsername(), login.getPassword(), Constants.STR_YOU, retDevInfo.getId());
+						localDb.insertPerson(lngUserId, strArrData[0], Constants.STR_YOU);
+						listTripIds=login.getTripIDs();
+						int i=0;
+						Tripendpoint.Builder tripBuilder = new Tripendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
+						tripBuilder = CloudEndpointUtils.updateBuilder(tripBuilder);
+						Tripendpoint tripEndpoint = tripBuilder.build();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+						String date=null;
 
-							Distributionendpoint.Builder distBuilder = new Distributionendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
-							distBuilder = CloudEndpointUtils.updateBuilder(distBuilder);
-							Distributionendpoint distEndpoint = distBuilder.build();
-							CollectionResponseDistribution distResponse=null;
-							ArrayList<Distribution> arrDist=null;
+						Expenseendpoint.Builder expenseBuilder = new Expenseendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
+						expenseBuilder = CloudEndpointUtils.updateBuilder(expenseBuilder);
+						Expenseendpoint expenseEndpoint = expenseBuilder.build();
+						CollectionResponseExpense response=null;
+						ArrayList<Expense> arrExpense=null;
 
-							List<Long> listUserIdsTemp=null;
-							long rowId;
-							while (listTripIds!=null && i<listTripIds.size()) {
-								retTrip=tripEndpoint.getTrip(listTripIds.get(i++)).execute();
-								if(retTrip!=null){
-									date = sdf.format(new Date(retTrip.getCreationDate().getValue()));
-									listUserIdsTemp=retTrip.getUserIDs();
-									long lngAdmin=retTrip.getAdmin();
-									StringBuffer sbUsers=new StringBuffer();
-									Loginendpoint.Builder loginBuilder = new Loginendpoint.Builder(
-											AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
-									loginBuilder = CloudEndpointUtils.updateBuilder(loginBuilder);
-									Loginendpoint loginEndpoint = loginBuilder.build();
-									String username=null;
-									for(long userId:listUserIdsTemp){
-										username=localDb.retrieveUsername(userId);
-										if(username==null){
-											retLogin=loginEndpoint.getLogIn(userId).execute();
-											username=retLogin.getUsername();
-											localDb.insertPerson(userId, username, retLogin.getPrefferedName());
-										}
-										sbUsers.append(userId+",");
+						Distributionendpoint.Builder distBuilder = new Distributionendpoint.Builder(AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
+						distBuilder = CloudEndpointUtils.updateBuilder(distBuilder);
+						Distributionendpoint distEndpoint = distBuilder.build();
+						CollectionResponseDistribution distResponse=null;
+						ArrayList<Distribution> arrDist=null;
+
+						List<Long> listUserIdsTemp=null;
+						long rowId;
+						while (listTripIds!=null && i<listTripIds.size()) {
+							retTrip=tripEndpoint.getTrip(listTripIds.get(i++)).execute();
+							if(retTrip!=null){
+								date = sdf.format(new Date(retTrip.getCreationDate().getValue()));
+								listUserIdsTemp=retTrip.getUserIDs();
+								long lngAdmin=retTrip.getAdmin();
+								StringBuffer sbUsers=new StringBuffer();
+								Loginendpoint.Builder loginBuilder = new Loginendpoint.Builder(
+										AndroidHttp.newCompatibleTransport(), new JacksonFactory(), null);
+								loginBuilder = CloudEndpointUtils.updateBuilder(loginBuilder);
+								Loginendpoint loginEndpoint = loginBuilder.build();
+								String username=null;
+								for(long userId:listUserIdsTemp){
+									username=localDb.retrieveUsername(userId);
+									if(username==null){
+										retLogin=loginEndpoint.getLogIn(userId).execute();
+										username=retLogin.getUsername();
+										localDb.insertPerson(userId, username, retLogin.getPrefferedName());
 									}
-									sbUsers.delete(sbUsers.length()-1, sbUsers.length());
-									localDb.insertTrip(retTrip.getName(), retTrip.getId(), date, sbUsers.toString(), lngAdmin, Constants.STR_SYNCHED);
-									response=expenseEndpoint.listExpense().setTripId(retTrip.getId()).execute();
-									if(response!=null){
-										arrExpense=(ArrayList<Expense>) response.getItems();
-										if(arrExpense!=null && arrExpense.size()!=0){
-											List<Long> userIds;
-											List<String> amounts;
-											String strUserIds, strAmounts;
-											for(Expense tempExpense:arrExpense){
-												date = sdf.format(new Date(tempExpense.getCreationDate().getValue()));
-												userIds=tempExpense.getExpenseUserIds();
-												strUserIds=Global.listToString(userIds);
-												if(!userIds.contains(tempExpense.getUserId())){
-													userIds.add(tempExpense.getUserId());
-												}
-												for(long userId:userIds){
-													username=localDb.retrieveUsername(userId);
-													if(username==null){
-														retLogin=loginEndpoint.getLogIn(userId).execute();
-														username=retLogin.getUsername();
-														localDb.insertPerson(userId, username, retLogin.getPrefferedName());
-													}
-												}
-												amounts=tempExpense.getExpenseAmounts();
-												strAmounts=Global.listToString(amounts);
-												localDb.insertExpense(tempExpense.getName(), tempExpense.getId(), date, "INR", tempExpense.getAmount(), tempExpense.getDescription(), tempExpense.getTripId(), tempExpense.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);
+									sbUsers.append(userId+",");
+								}
+								sbUsers.delete(sbUsers.length()-1, sbUsers.length());
+								localDb.insertTrip(retTrip.getName(), retTrip.getId(), date, sbUsers.toString(), lngAdmin, Constants.STR_SYNCHED);
+								response=expenseEndpoint.listExpense().setTripId(retTrip.getId()).execute();
+								if(response!=null){
+									arrExpense=(ArrayList<Expense>) response.getItems();
+									if(arrExpense!=null && arrExpense.size()!=0){
+										List<Long> userIds;
+										List<String> amounts;
+										String strUserIds, strAmounts;
+										for(Expense tempExpense:arrExpense){
+											date = sdf.format(new Date(tempExpense.getCreationDate().getValue()));
+											userIds=tempExpense.getExpenseUserIds();
+											strUserIds=Global.listToString(userIds);
+											if(!userIds.contains(tempExpense.getUserId())){
+												userIds.add(tempExpense.getUserId());
 											}
+											for(long userId:userIds){
+												username=localDb.retrieveUsername(userId);
+												if(username==null){
+													retLogin=loginEndpoint.getLogIn(userId).execute();
+													username=retLogin.getUsername();
+													localDb.insertPerson(userId, username, retLogin.getPrefferedName());
+												}
+											}
+											amounts=tempExpense.getExpenseAmounts();
+											strAmounts=Global.listToString(amounts);
+											localDb.insertExpense(tempExpense.getName(), tempExpense.getId(), date, "INR", tempExpense.getAmount(), tempExpense.getDescription(), tempExpense.getTripId(), tempExpense.getUserId(), strUserIds, strAmounts, Constants.STR_SYNCHED);
 										}
 									}
+								}
 
-									distResponse=distEndpoint.listDistribution().setTripId(retTrip.getId()).execute();
-									if(distResponse!=null){
-										arrDist=(ArrayList<Distribution>) distResponse.getItems();
-										if(arrDist!=null && arrDist.size()!=0){
-											for(Distribution tempDist:arrDist){
-												date = sdf.format(new Date(tempDist.getCreationDate().getValue()));
-												rowId=localDb.insertDistribution(tempDist.getFromId(), tempDist.getToId(), tempDist.getAmount(), tempDist.getTripId(), Constants.STR_YES, date);
-												localDb.updateDistributionId(rowId, tempDist.getId());
-											}
+								distResponse=distEndpoint.listDistribution().setTripId(retTrip.getId()).execute();
+								if(distResponse!=null){
+									arrDist=(ArrayList<Distribution>) distResponse.getItems();
+									if(arrDist!=null && arrDist.size()!=0){
+										for(Distribution tempDist:arrDist){
+											date = sdf.format(new Date(tempDist.getCreationDate().getValue()));
+											rowId=localDb.insertDistribution(tempDist.getFromId(), tempDist.getToId(), tempDist.getAmount(), tempDist.getTripId(), Constants.STR_YES, date);
+											localDb.updateDistributionId(rowId, tempDist.getId());
 										}
 									}
 								}
 							}
-							endpoint.updateLogIn(login).execute();
 						}
-					} else{
-						cancel(true);
-						finish();
+						endpoint.updateLogIn(login).execute();
 					}
 					result=Constants.STR_SUCCESS;
 				} else if (sc == 401) {
