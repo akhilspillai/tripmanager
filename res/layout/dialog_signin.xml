@@ -4,8 +4,10 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingLeft="15dp"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
+    android:paddingRight="15dp"
     android:paddingTop="10dp"
     android:layout_gravity="center"
     android:background="@android:color/background_light" >
@@ -27,7 +29,7 @@
         android:text="@string/delete_trip_info"
         android:textColor="@android:color/black"
         android:layout_marginTop="10dp"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
 
     <RelativeLayout
         android:id="@+id/Footer"
