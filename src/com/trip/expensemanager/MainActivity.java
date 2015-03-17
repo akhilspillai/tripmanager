@@ -4,11 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.support.v4.app.DialogFragment;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.utils.DBCursorAdapter;
@@ -134,7 +135,16 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogListe
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			LayoutInflater inflater = getActivity().getLayoutInflater();
-			builder.setView(inflater.inflate(R.layout.dialog_signin, null));
+			View view=inflater.inflate(R.layout.dialog_signin, null);
+			Button b=(Button) view.findViewById(R.id.btn_cancel);
+			b.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					mListener.onDialogNegativeClick(CheckFragment.this);
+				}
+			});
+			builder.setView(view);
 			
 			return builder.create();
 		}
@@ -148,8 +158,7 @@ public class MainActivity extends ActionBarActivity implements NoticeDialogListe
 
 	@Override
 	public void onDialogNegativeClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
-		
+		dialog.dismiss();
 	}
 }
 
