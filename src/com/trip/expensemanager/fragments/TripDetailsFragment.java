@@ -660,7 +660,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			View view = getActivity().getLayoutInflater().inflate(R.layout.add_trip_dialog, null);
 			builder.setCancelable(true);
 			eTxtTripName = (EditText)view.findViewById(R.id.etxt_trip_name);
-			btnModify = (Button) view.findViewById(R.id.btn_add);
+			btnModify = (Button) view.findViewById(R.id.btn_ok);
 			btnCancel = (Button) view.findViewById(R.id.btn_cancel);
 			btnModify.setText("Update");
 			eTxtTripName.setText(tripName);

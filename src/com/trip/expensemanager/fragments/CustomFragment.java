@@ -1,18 +1,13 @@
 package com.trip.expensemanager.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.trip.expensemanager.R;
 import com.trip.expensemanager.UpdateLoginTask;
@@ -26,8 +21,6 @@ import com.trip.utils.billing.Purchase;
 public class CustomFragment extends Fragment {
 	private static final int ORDER_ID = 1001;
 
-	protected AlertDialog alert;
-
 	private IabHelper mHelper;
 	private boolean isPurchaseReady=false;
 
@@ -37,7 +30,7 @@ public class CustomFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 
 	}
 
@@ -96,56 +89,24 @@ public class CustomFragment extends Fragment {
 				mPurchaseFinishedListener, strUniqueString);
 	}
 
-	@SuppressLint("InflateParams")
 	protected void showMessage(String strMessage) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.registration_error_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.error);
-			Button btnOk = (Button) view.findViewById(R.id.btnOk);
-			btnOk.setOnClickListener(new OnClickListener() {
+		InfoDialogListener listener=new InfoDialogListener() {
 
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText("Oops!! "+strMessage);
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			public void onDialogButtonClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		InformationFragment.newInstance("Error", "Oops!! "+strMessage,null, R.layout.fragment_dialog_info, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
-	@SuppressLint("InflateParams")
 	protected void showInfoMessage(String strMessage) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.registration_error_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.error);
-			Button btnOk = (Button) view.findViewById(R.id.btnOk);
-			btnOk.setOnClickListener(new OnClickListener() {
+		InfoDialogListener listener=new InfoDialogListener() {
 
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText(strMessage);
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			public void onDialogButtonClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		InformationFragment.newInstance("Info", strMessage,null, R.layout.fragment_dialog_info, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
 	protected void showError(EditText et, String strError){

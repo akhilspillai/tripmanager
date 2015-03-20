@@ -11,7 +11,7 @@
     <color name="button_settle_dsbld_color">#3b3b3b</color>
     <color name="button_settle_prsd_color">#FF8100</color>
     <color name="button_settle_fcsd_color">#4169B1</color>
-    <color name="button_transparent_color">#FF000000</color>
+    <color name="button_transparent_color">#00000000</color>
     <color name="button_pressed_color">#FF8C00</color>
     <color name="button_disabled_color">#ADD8E6</color>
     <color name="button_cancel_color">#FF0000</color>
@@ -22,4 +22,5 @@
     <color name="text_qr">#D3D3D3</color>
     <color name="bg_login">#80D3D3D3</color>
     <color name="tabsScrollColor">#8a140e</color>
+    <color name="translucent">#40000000</color>
 </resources>

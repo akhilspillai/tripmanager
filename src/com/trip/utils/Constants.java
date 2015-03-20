@@ -105,4 +105,9 @@ public class Constants {
 	public static final String STR_PURCHASED = "purchased";
 	public static final String STR_PURCHASE_ID = "purchas_id";
 	public static final String STR_SKU_PREMIUM = "466678";
+	public static final String STR_TITLE = "title";
+	public static final String STR_CONTENT = "content";
+	public static final String STR_ACTION = "action";
+	public static final String STR_LAYOUT = "layout";
+	
 }

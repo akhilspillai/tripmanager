@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -66,7 +67,6 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	}
 
 
-	protected AlertDialog alert;
 	private EditText eTxtTripName;
 	private ListView listTrip;
 	private long lngUserId;
@@ -91,13 +91,13 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		receiver = new BroadcastReceiver() {
-	        @Override
-	        public void onReceive(Context context, Intent intent) {
-	            loadData();
-	        }
-	    };
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				loadData();
+			}
+		};
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		View rootView=null;
@@ -107,7 +107,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 			listTrip=(ListView) rootView.findViewById(R.id.li_trips);
 			txtNoTrip=(TextView) rootView.findViewById(R.id.txt_no_trips);
 			btnAddTrip=(ImageButton) rootView.findViewById(R.id.btn_add_trip);
-			
+
 			lngUserId=getArguments().getLong(Constants.STR_USER_ID);
 			listAdapter = new CustomTripListAdapter(getActivity(), arrTripNames, arrCreationDates, arrClosed, arrSynched, arrColors);
 			listTrip.setAdapter(listAdapter);
@@ -127,7 +127,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 		loadData();
 		LocalBroadcastManager.getInstance(getActivity()).registerReceiver((receiver), new IntentFilter(SyncIntentService.RESULT_SYNC));
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -150,62 +150,43 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		/*case R.id.action_new_trip:
-			showAddTripDialog();
-			return true;*/
+
 		case R.id.action_scan_qr:
 			scanQRCode();
 			return true;
-			
+
 		case R.id.action_upgrade:
 			showUpgradeDialog();
 			return true;
+
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
-	@SuppressLint("InflateParams")
 	protected void showUpgradeDialog() {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.upgrade_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			Button btnUpgrade = (Button) view.findViewById(R.id.btn_upgrade);
-			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			btnUpgrade.setOnClickListener(new OnClickListener() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onClick(View v) {
-					SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
-					boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
-					if(!isPurchased){
-						purchaseItem();
-					} else{
-						showInfoMessage("The item is already purchased!!");
-					}
-					alert.cancel();
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
+				boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
+				if(!isPurchased){
+					purchaseItem();
+				} else{
+					showInfoMessage("The item is already purchased!!");
 				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
+				dialog.dismiss();
+			}
 
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText(R.string.upgrade_features);
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		ConfirmationFragment.newInstance("Upgrade", getActivity().getResources().getString(R.string.upgrade_features),null, R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
@@ -222,7 +203,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 			menu.add(Menu.NONE, i, i, menuItems[i]);
 		}
 	}
-	
+
 	private void loadData() {
 		LocalDB localDb=new LocalDB(getActivity());
 		arrTrips.removeAll(arrTrips);
@@ -253,7 +234,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 						arrCreationDates.add("Created on "+strDate);
 						arrClosed.add(trip.isClosed());
 						arrAdminIds.add(trip.getAdminId());
-						
+
 						if(trip.getSyncStatus().equals(Constants.STR_NOT_SYNCHED)){
 							arrSynched.add(0);
 						} else if(trip.getSyncStatus().equals(Constants.STR_QR_ADDED)){
@@ -264,7 +245,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 						i++;
 					}
 				}
-				
+
 			}
 			if(arrTripNames.size()==0){
 				listTrip.setVisibility(View.INVISIBLE);
@@ -291,7 +272,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 		int menuItemIndex = item.getItemId();
-//		String[] menuItems = getResources().getStringArray(R.array.menu_trip_list_admin);
+		//		String[] menuItems = getResources().getStringArray(R.array.menu_trip_list_admin);
 		long lngTripId = arrIds.get(info.position);
 		if(menuItemIndex==0){
 			showUpdateTripDialog(arrTripNames.get(info.position), lngTripId, info.position);
@@ -301,46 +282,29 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 		return true;
 	}
 
-	@SuppressLint("InflateParams")
 	protected void showDeleteTripDialog(final String tripName, final long tripId, final int position) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.delete_expensegroup_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			Button btnYes = (Button) view.findViewById(R.id.btn_yes);
-			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			btnYes.setOnClickListener(new OnClickListener() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onClick(View v) {
-					if(arrTripNames.size()==0){
-						listTrip.setVisibility(View.INVISIBLE);
-						txtNoTrip.setVisibility(View.VISIBLE);
-					} else{
-						arrColors.addAll(Global.generateColor(arrTripNames.size()));
-						listAdapter.notifyDataSetChanged();
-					}
-					deleteTrip(tripId);
-					alert.cancel();
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				if(arrTripNames.size()==0){
+					listTrip.setVisibility(View.INVISIBLE);
+					txtNoTrip.setVisibility(View.VISIBLE);
+				} else{
+					arrColors.addAll(Global.generateColor(arrTripNames.size()));
+					listAdapter.notifyDataSetChanged();
 				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
+				deleteTrip(tripId);
+				dialog.dismiss();
+			}
 
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		ConfirmationFragment.newInstance(tripName, "Are you sure you want to delete the expense-group "+tripName+"?",null, R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 
-			textView.setText("Are you sure you want to delete the expense-group "+tripName+"?");
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	protected void deleteTrip(long tripId) {
@@ -367,112 +331,41 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 		startActivityForResult(intent, ZBAR_SCANNER_REQUEST);
 	}
 
-	@SuppressLint("InflateParams")
 	private void showAddTripDialog() {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.add_trip_dialog, null);
-			builder.setCancelable(true);
-			eTxtTripName = (EditText)view.findViewById(R.id.etxt_trip_name);
-			btnAdd = (Button) view.findViewById(R.id.btn_add);
-			btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			eTxtTripName.addTextChangedListener(new TextWatcher() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					btnAdd.setEnabled(false);
-				}
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				strTripName=eTxtTripName.getText().toString();
+				addTrip(strTripName);
+				dialog.dismiss();
+			}
 
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-					if(s.length()!=0){
-						btnAdd.setEnabled(true);
-					}
-				}
-			});
-			btnAdd.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					strTripName=eTxtTripName.getText().toString();
-					alert.cancel();
-					addTrip(strTripName);
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		AddTripDialogFragment.newInstance(listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
 	@SuppressLint("InflateParams")
 	private void showUpdateTripDialog(String tripName, final long tripId, final int position) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.add_trip_dialog, null);
-			builder.setCancelable(true);
-			eTxtTripName = (EditText)view.findViewById(R.id.etxt_trip_name);
-			btnAdd = (Button) view.findViewById(R.id.btn_add);
-			btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			eTxtTripName.setText(tripName);
-			btnAdd.setText("Update");
-			eTxtTripName.addTextChangedListener(new TextWatcher() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					btnAdd.setEnabled(false);
-				}
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				strTripName=eTxtTripName.getText().toString();
+				addTrip(strTripName);
+				dialog.dismiss();
+			}
 
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-					if(s.length()!=0){
-						btnAdd.setEnabled(true);
-					}
-				}
-			});
-			btnAdd.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					strTripName=eTxtTripName.getText().toString();
-					alert.cancel();
-					updateTrip(tripId, strTripName);
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		AddTripDialogFragment.newInstance(listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
 	protected void updateTrip(long lngTripIdToChange, String strTripNameToChange) {
@@ -564,5 +457,5 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	public void onClick(View v) {
 		showAddTripDialog();
 	}
-	
+
 }

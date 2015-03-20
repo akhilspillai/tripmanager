@@ -22,44 +22,32 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                android:text="@string/action_add_trip"
                 android:textStyle="bold" />
-            
+
             <TextView
-                android:id="@+id/tv_trip_name"
+                android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/trip_name"
                 android:layout_below="@+id/tv_title"
+                android:layout_marginTop="10dp"
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/etxt_trip_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_trip_name"
-                android:layout_marginTop="5dp"
-                android:hint="@string/add_trip_name"
-                android:inputType="textCapWords"
-                android:textColor="@drawable/disable_color" />
 
             <RelativeLayout
                 android:id="@+id/Footer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/etxt_trip_name"
+                android:layout_below="@+id/tv_content"
                 android:layout_marginTop="15dp" >
 
                 <Button
                     android:id="@+id/btn_ok"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/btn_cancel"
-                    android:layout_toStartOf="@+id/btn_cancel"
                     android:background="@drawable/lollipop_button"
                     android:text="@string/ok"
+                    android:layout_toLeftOf="@+id/btn_cancel"
+                    android:layout_toStartOf="@+id/btn_cancel"
                     android:textColor="@color/app_color_dark" />
 
                 <Button

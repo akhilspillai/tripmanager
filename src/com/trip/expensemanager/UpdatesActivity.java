@@ -68,6 +68,7 @@ public class UpdatesActivity extends ActionBarActivity {
 		if(isPurchased){
 			adView.setVisibility(View.GONE);
 		} else{
+			adView.setVisibility(View.VISIBLE);
 			adView.loadAd(adRequest);
 		}
 	}

@@ -94,6 +94,7 @@ public class SyncIntentService extends IntentService{
 							if (!result.isFailure()) {
 								mIsPremium = inventory.hasPurchase(Constants.STR_SKU_PREMIUM); 
 							}
+							
 							SharedPreferences prefs = getSharedPreferences(Constants.STR_PREFERENCE, MODE_PRIVATE);
 							prefs.edit().putBoolean(Constants.STR_PURCHASED, mIsPremium).commit();
 							sendResult(RESULT_PURCHASE);

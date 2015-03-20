@@ -6,12 +6,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -121,7 +119,7 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 			rootView=inflater.inflate(R.layout.fragment_add_expense_list, container, false);
 			lvUsersList=(ListView) rootView.findViewById(R.id.lv_distribution);
 			lvUsersList.setDivider(null);
-			View header = inflater.inflate(R.layout.fragment_add_expense, null, false); 
+			View header = View.inflate(getActivity(), R.layout.fragment_add_expense, null); 
 
 			lvUsersList.addHeaderView(header);
 			listAdapter = new CustomAddExpenseAdapter(getActivity(), strLstUsers, strLstAmounts, bLstChecked, bLstEnabled, this);
@@ -133,63 +131,6 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 			txtSelectNone = (TextView)rootView.findViewById(R.id.txt_none);
 			txtSelectAll.setOnClickListener(this);
 			txtSelectNone.setOnClickListener(this);
-
-			/*eTxtExpenseAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-				@Override
-				public void onFocusChange(View v, boolean hasFocus) {
-					if(!hasFocus){
-						final String amount=((EditText)v).getText().toString();
-
-						new Thread(new Runnable() {
-
-							@Override
-							public void run() {
-								if(!isAutoChanged){
-									int size=strLstAmounts.size();
-									if(amount.equals("")){
-										for(int i=0;i<size;i++){
-											strLstAmounts.set(i, "0");
-										}
-									} else{
-										float fAmount=Float.parseFloat(amount);
-										int checked=0;
-										boolean[] isChecked=new boolean[size];
-										for(int i=0;i<size;i++){
-											if(bLstChecked.get(i)){
-												checked++;
-												isChecked[i]=true;
-											} else{
-												isChecked[i]=false;
-											}
-										}
-										float fDistAmount=0f;
-										if(checked!=0){
-											fDistAmount=Global.divide(fAmount, checked);
-										}
-										for(int i=0;i<size;i++){
-											if(isChecked[i]){
-												strLstAmounts.set(i, String.valueOf(fDistAmount));
-											} else{
-												strLstAmounts.set(i, String.valueOf(0f));
-											}
-										}
-										getActivity().runOnUiThread(new Runnable() {
-
-											@Override
-											public void run() {
-												listAdapter.notifyDataSetChanged();
-											}
-										});
-									}
-								} else{
-									isAutoChanged=false;
-								}
-							}
-						}).start();
-					}
-				}
-			});*/
 
 			eTxtExpenseAmount.addTextChangedListener(new TextWatcher() {
 
@@ -498,46 +439,29 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
-	@SuppressLint("InflateParams")
+	
 	protected void showDeleteExpenseDialog(final String expenseName, final long expenseId, final int position) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.delete_expensegroup_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			Button btnYes = (Button) view.findViewById(R.id.btn_yes);
-			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			btnYes.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {					
-					String[] retArr = new String[2];
-					retArr[0]=String.valueOf(expenseId);
-					retArr[1]=String.valueOf(position);
-					Intent retIntent = new Intent();
-					retIntent.putExtra(Constants.STR_EXPENSE_DETAIL_ARR, retArr);
-					getActivity().setResult(Activity.RESULT_OK, retIntent);
-					getActivity().finish();
-					alert.cancel();
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText("Are you sure you want to delete the expense "+expenseName+"?");
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
+			
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				String[] retArr = new String[2];
+				retArr[0]=String.valueOf(expenseId);
+				retArr[1]=String.valueOf(position);
+				Intent retIntent = new Intent();
+				retIntent.putExtra(Constants.STR_EXPENSE_DETAIL_ARR, retArr);
+				getActivity().setResult(Activity.RESULT_OK, retIntent);
+				getActivity().finish();
+				dialog.dismiss();
+			}
+			
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		ConfirmationFragment.newInstance(expenseName, "Are you sure you want to delete the expense "+expenseName+"?",null, R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
 	public void changeData(final boolean isRefreshRequired) {

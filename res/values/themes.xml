@@ -15,7 +15,23 @@
         <item name="colorControlNormal">@color/app_color_dark</item>
     </style>
 
-    <style name="Toolbar_Theme">
+    <style name="ThemeDialogCustom">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/up_n_show</item>
+        <item name="android:windowExitAnimation">@anim/down_n_go</item>
+    </style>
+    
+    <style name="ToolbarTheme">
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
