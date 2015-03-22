@@ -109,5 +109,7 @@ public class Constants {
 	public static final String STR_CONTENT = "content";
 	public static final String STR_ACTION = "action";
 	public static final String STR_LAYOUT = "layout";
+	public static final String STR_TEXT = "text";
+	public static final String STR_AMOUNT = "amount";
 	
 }

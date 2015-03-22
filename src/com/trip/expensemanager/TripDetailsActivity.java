@@ -2,15 +2,14 @@ package com.trip.expensemanager;
 
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -20,13 +19,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.trip.expensemanager.adapters.CustomPagerAdapter;
+import com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener;
+import com.trip.expensemanager.fragments.dialogs.ConfirmationFragment;
+import com.trip.expensemanager.fragments.dialogs.InfoDialogListener;
+import com.trip.expensemanager.fragments.dialogs.InformationFragment;
 import com.trip.expensemanager.views.SlidingTabLayout;
 import com.trip.utils.Constants;
 import com.trip.utils.DistributionBean1;
@@ -34,7 +34,6 @@ import com.trip.utils.ExpenseBean;
 import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
-import com.trip.utils.billing.IabHelper;
 
 public class TripDetailsActivity extends ActionBarActivity {
 
@@ -48,7 +47,6 @@ public class TripDetailsActivity extends ActionBarActivity {
 	private BroadcastReceiver receiver;
 	private BroadcastReceiver purchaseReceiver;
 	private long lngAdminId;
-	private AlertDialog alert;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -176,39 +174,22 @@ public class TripDetailsActivity extends ActionBarActivity {
 		return true;
 	}
 	
-	@SuppressLint("InflateParams")
+	
 	protected void showDeleteTripDialog(final String tripName, final long tripId) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			View view = getLayoutInflater().inflate(R.layout.delete_expensegroup_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			Button btnYes = (Button) view.findViewById(R.id.btn_yes);
-			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			btnYes.setOnClickListener(new OnClickListener() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onClick(View v) {
-					deleteTrip(tripId);
-					alert.cancel();
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				deleteTrip(tripId);
+				dialog.dismiss();
+			}
 
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText("Are you sure you want to delete the expense-group "+tripName+"?");
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		ConfirmationFragment.newInstance(tripName, "Are you sure you want to delete the expense-group "+tripName+"?",null, R.layout.fragment_dialog_confirm, listener).show(getSupportFragmentManager(), "dialog");
 	}
 	
 	protected void deleteTrip(long tripId) {
@@ -263,40 +244,26 @@ public class TripDetailsActivity extends ActionBarActivity {
 		}
 	}
 	
-	@SuppressLint("InflateParams")
+	
 	protected void showExitEG() {
 		Context context=this;
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(context);
-			View view = getLayoutInflater().inflate(R.layout.delete_expensegroup_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			Button btnYes = (Button) view.findViewById(R.id.btn_yes);
-			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			btnYes.setOnClickListener(new OnClickListener() {
+		
 
-				@Override
-				public void onClick(View v) {					
-					exitEG(lngUserId, lngTripId);
-					alert.cancel();
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-			TripBean tripTemp=new LocalDB(context).retrieveTripDetails(lngTripId);
-			textView.setText("Are you sure you want to exit from the expense-group "+tripTemp.getName()+"?");
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				exitEG(lngUserId, lngTripId);
+				dialog.dismiss();
+			}
 
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		TripBean tripTemp=new LocalDB(context).retrieveTripDetails(lngTripId);
+		ConfirmationFragment.newInstance(tripTemp.getName(), "Are you sure you want to exit from the expense-group "+tripTemp.getName()+"?", null, R.layout.fragment_dialog_confirm, listener).show(getSupportFragmentManager(), "dialog");
 	}
 
 	protected void exitEG(long lngExpUserIdTemp, long lngTripIdTemp) {
@@ -319,30 +286,15 @@ public class TripDetailsActivity extends ActionBarActivity {
 
 	}
 	
-	@SuppressLint("InflateParams")
+	
 	protected void showInfoMessage(String strMessage) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			View view = getLayoutInflater().inflate(R.layout.registration_error_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.error);
-			Button btnOk = (Button) view.findViewById(R.id.btnOk);
-			btnOk.setOnClickListener(new OnClickListener() {
+		InfoDialogListener listener=new InfoDialogListener() {
 
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText(strMessage);
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			public void onDialogButtonClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		InformationFragment.newInstance("Info", strMessage,null, R.layout.fragment_dialog_info, listener).show(getSupportFragmentManager(), "dialog");
 	}
 	
 	@Override

@@ -28,6 +28,7 @@
     <string name="trip_name">EG name</string>
     <string name="screen_name">Enter a screen name:</string>
     <string name="add">Add</string>
+    <string name="update">Update</string>
     <string name="cancel">Cancel</string>
     <string name="no_expense">No expense added for this expense-group(EG)!! Please click on the + symbol to add an expense.</string>
     <string name="add_expense_name">Type expense name</string>
@@ -73,5 +74,5 @@
     <string name="settle_expenses">Settle</string>
     <string name="unsettled">Unsettled</string>
     <string name="upgrade_features">If you upgrade to premium you will have the following features:\n 1. No ads!\n 2. Add unlimited EGs!\n 3. Add unlimited number of people to your EGs!\n 4. Access across all your devices.</string>
-
+	
 </resources>

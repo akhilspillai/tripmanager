@@ -6,9 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import net.sourceforge.zbar.Symbol;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +16,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -42,6 +38,9 @@ import com.trip.expensemanager.R;
 import com.trip.expensemanager.SyncIntentService;
 import com.trip.expensemanager.TripDetailsActivity;
 import com.trip.expensemanager.adapters.CustomTripListAdapter;
+import com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment;
+import com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener;
+import com.trip.expensemanager.fragments.dialogs.ConfirmationFragment;
 import com.trip.expensemanager.scanner.ZBarConstants;
 import com.trip.expensemanager.scanner.ZBarScannerActivity;
 import com.trip.utils.Constants;
@@ -67,11 +66,8 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	}
 
 
-	private EditText eTxtTripName;
 	private ListView listTrip;
 	private long lngUserId;
-	private Button btnAdd;
-	private Button btnCancel;
 	private CustomTripListAdapter listAdapter;
 	private ArrayList<TripBean> arrTrips=new ArrayList<TripBean>();
 	private TextView txtNoTrip;
@@ -156,35 +152,12 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 			return true;
 
 		case R.id.action_upgrade:
-			showUpgradeDialog();
+			showUpgradeDialog(getActivity().getResources().getString(R.string.upgrade_features));
 			return true;
 
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	protected void showUpgradeDialog() {
-		ConfirmDialogListener listener=new ConfirmDialogListener() {
-
-			@Override
-			public void onDialogPositiveClick(DialogFragment dialog) {
-				SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
-				boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
-				if(!isPurchased){
-					purchaseItem();
-				} else{
-					showInfoMessage("The item is already purchased!!");
-				}
-				dialog.dismiss();
-			}
-
-			@Override
-			public void onDialogNegativeClick(DialogFragment dialog) {
-				dialog.dismiss();
-			}
-		};
-		ConfirmationFragment.newInstance("Upgrade", getActivity().getResources().getString(R.string.upgrade_features),null, R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
 	@Override
@@ -256,12 +229,6 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 			}
 			arrColors.addAll(Global.generateColor(arrTripNames.size()));
 			listAdapter.notifyDataSetChanged();
-			/*int size=arrTripsNotSynched.size();
-			if(size!=0){
-				TripBean[] arrTripsToSync=new TripBean[size];
-				arrTripsToSync=arrTripsNotSynched.toArray(arrTripsToSync);
-//				new SyncAllTripsTask().execute(arrTripsToSync);
-			}*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -275,14 +242,14 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 		//		String[] menuItems = getResources().getStringArray(R.array.menu_trip_list_admin);
 		long lngTripId = arrIds.get(info.position);
 		if(menuItemIndex==0){
-			showUpdateTripDialog(arrTripNames.get(info.position), lngTripId, info.position);
+			showUpdateTripDialog(arrTripNames.get(info.position), lngTripId);
 		} else{
-			showDeleteTripDialog(arrTripNames.get(info.position), lngTripId, info.position);
+			showDeleteTripDialog(arrTripNames.get(info.position), lngTripId);
 		}
 		return true;
 	}
 
-	protected void showDeleteTripDialog(final String tripName, final long tripId, final int position) {
+	protected void showDeleteTripDialog(final String tripName, final long tripId) {
 		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
 			@Override
@@ -336,7 +303,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 
 			@Override
 			public void onDialogPositiveClick(DialogFragment dialog) {
-				strTripName=eTxtTripName.getText().toString();
+				strTripName=((EditText)dialog.getDialog().findViewById(R.id.etxt_trip_name)).getText().toString();
 				addTrip(strTripName);
 				dialog.dismiss();
 			}
@@ -346,17 +313,16 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 				dialog.dismiss();
 			}
 		};
-		AddTripDialogFragment.newInstance(listener).show(getActivity().getSupportFragmentManager(), "dialog");
+		AddTripDialogFragment.newInstance(getActivity().getResources().getString(R.string.add), "", listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
-	@SuppressLint("InflateParams")
-	private void showUpdateTripDialog(String tripName, final long tripId, final int position) {
+	private void showUpdateTripDialog(String tripName, final long tripId) {
 		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
 			@Override
 			public void onDialogPositiveClick(DialogFragment dialog) {
-				strTripName=eTxtTripName.getText().toString();
-				addTrip(strTripName);
+				strTripName=((EditText)dialog.getDialog().findViewById(R.id.etxt_trip_name)).getText().toString();
+				updateTrip(tripId, strTripName);
 				dialog.dismiss();
 			}
 
@@ -365,7 +331,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 				dialog.dismiss();
 			}
 		};
-		AddTripDialogFragment.newInstance(listener).show(getActivity().getSupportFragmentManager(), "dialog");
+		AddTripDialogFragment.newInstance(getActivity().getResources().getString(R.string.update), tripName, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
 	protected void updateTrip(long lngTripIdToChange, String strTripNameToChange) {
@@ -455,7 +421,12 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 
 	@Override
 	public void onClick(View v) {
-		showAddTripDialog();
+		if(arrTripNames.size()>=3){
+			String strContent="You should be a premium user to add more Expense Groups.\n"+getActivity().getResources().getString(R.string.upgrade_features);
+			showUpgradeDialog(strContent);
+		} else{
+			showAddTripDialog();
+		}
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -13,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
@@ -27,7 +27,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +36,8 @@ import com.trip.expensemanager.R;
 import com.trip.expensemanager.SyncIntentService;
 import com.trip.expensemanager.TripDetailsActivity;
 import com.trip.expensemanager.adapters.CustomExpenseListAdapter;
+import com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener;
+import com.trip.expensemanager.fragments.dialogs.ConfirmationFragment;
 import com.trip.utils.Constants;
 import com.trip.utils.ExpenseBean;
 import com.trip.utils.Global;
@@ -267,39 +268,21 @@ public class TripExpenseFragment extends CustomFragment implements OnItemClickLi
 	}
 
 
-	@SuppressLint("InflateParams")
 	protected void showDeleteExpenseDialog(final String expenseName, final long expenseId, final int position) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.delete_expensegroup_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			Button btnYes = (Button) view.findViewById(R.id.btn_yes);
-			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			btnYes.setOnClickListener(new OnClickListener() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onClick(View v) {					
-					deleteExpense(expenseId, position);
-					alert.cancel();
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				deleteExpense(expenseId, position);
+				dialog.dismiss();
+			}
 
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText("Are you sure you want to delete the expense "+expenseName+"?");
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		ConfirmationFragment.newInstance(expenseName, "Are you sure you want to delete the expense "+expenseName+"?", null, R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
 	private void showAddExpense() {

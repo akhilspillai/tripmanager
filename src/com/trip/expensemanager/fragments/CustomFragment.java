@@ -11,6 +11,10 @@ import android.widget.EditText;
 
 import com.trip.expensemanager.R;
 import com.trip.expensemanager.UpdateLoginTask;
+import com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener;
+import com.trip.expensemanager.fragments.dialogs.ConfirmationFragment;
+import com.trip.expensemanager.fragments.dialogs.InfoDialogListener;
+import com.trip.expensemanager.fragments.dialogs.InformationFragment;
 import com.trip.utils.Constants;
 import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
@@ -123,5 +127,28 @@ public class CustomFragment extends Fragment {
 		if (mHelper != null) mHelper.dispose();
 		mHelper = null;
 		isPurchaseReady=false;
+	}
+	
+	protected void showUpgradeDialog(String strContent) {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
+
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
+				boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
+				if(!isPurchased){
+					purchaseItem();
+				} else{
+					showInfoMessage("The item is already purchased!!");
+				}
+				dialog.dismiss();
+			}
+
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		ConfirmationFragment.newInstance("Upgrade", strContent, getActivity().getResources().getString(R.string.upgrade), R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 }

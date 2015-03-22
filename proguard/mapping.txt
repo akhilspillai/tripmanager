@@ -33,6 +33,7 @@ android.support.v4.app.BackStackRecord -> android.support.v4.app.e:
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
     void dump(java.lang.String,java.io.PrintWriter,boolean) -> a
     void addOp(android.support.v4.app.BackStackRecord$Op) -> a
+    android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String) -> a
     android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment) -> a
     android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
     void doAddOp(int,android.support.v4.app.Fragment,java.lang.String,int) -> a
@@ -133,158 +134,186 @@ android.support.v4.app.BackStackState$1 -> android.support.v4.app.k:
     android.support.v4.app.BackStackState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
+android.support.v4.app.DialogFragment -> android.support.v4.app.l:
+    int mStyle -> a
+    int mTheme -> b
+    boolean mCancelable -> c
+    boolean mShowsDialog -> d
+    int mBackStackId -> e
+    android.app.Dialog mDialog -> f
+    boolean mViewDestroyed -> g
+    boolean mDismissed -> h
+    boolean mShownByMe -> i
+    void show(android.support.v4.app.FragmentManager,java.lang.String) -> a
+    void dismiss() -> a
+    void dismissInternal(boolean) -> a
+    android.app.Dialog getDialog() -> b
+    int getTheme() -> c
+    void onAttach(android.app.Activity) -> a
+    void onDetach() -> d
+    void onCreate(android.os.Bundle) -> a
+    android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> b
+    android.app.Dialog onCreateDialog(android.os.Bundle) -> c
+    void onCancel(android.content.DialogInterface) -> onCancel
+    void onDismiss(android.content.DialogInterface) -> onDismiss
+    void onActivityCreated(android.os.Bundle) -> d
+    void onStart() -> e
+    void onSaveInstanceState(android.os.Bundle) -> e
+    void onStop() -> f
+    void onDestroyView() -> g
 android.support.v4.app.Fragment -> android.support.v4.app.Fragment:
-    android.support.v4.util.SimpleArrayMap sClassMap -> aa
-    java.lang.Object USE_DEFAULT_TRANSITION -> a
-    int mState -> b
-    android.view.View mAnimatingAway -> c
-    int mStateAfterAnimating -> d
-    android.os.Bundle mSavedFragmentState -> e
-    android.util.SparseArray mSavedViewState -> f
-    int mIndex -> g
-    java.lang.String mWho -> h
-    android.os.Bundle mArguments -> i
-    android.support.v4.app.Fragment mTarget -> j
-    int mTargetIndex -> k
-    int mTargetRequestCode -> l
-    boolean mAdded -> m
-    boolean mRemoving -> n
-    boolean mResumed -> o
-    boolean mFromLayout -> p
-    boolean mInLayout -> q
-    boolean mRestored -> r
-    int mBackStackNesting -> s
-    android.support.v4.app.FragmentManagerImpl mFragmentManager -> t
-    android.support.v4.app.FragmentActivity mActivity -> u
-    android.support.v4.app.FragmentManagerImpl mChildFragmentManager -> v
-    android.support.v4.app.Fragment mParentFragment -> w
-    int mFragmentId -> x
-    int mContainerId -> y
-    java.lang.String mTag -> z
-    boolean mHidden -> A
-    boolean mDetached -> B
-    boolean mRetainInstance -> C
-    boolean mRetaining -> D
-    boolean mHasMenu -> E
-    boolean mMenuVisible -> F
-    boolean mCalled -> G
-    int mNextAnim -> H
-    android.view.ViewGroup mContainer -> I
-    android.view.View mView -> J
-    android.view.View mInnerView -> K
-    boolean mDeferStart -> L
-    boolean mUserVisibleHint -> M
-    android.support.v4.app.LoaderManagerImpl mLoaderManager -> N
-    boolean mLoadersStarted -> O
-    boolean mCheckedForLoaderManager -> P
-    java.lang.Object mEnterTransition -> Q
-    java.lang.Object mReturnTransition -> R
-    java.lang.Object mExitTransition -> S
-    java.lang.Object mReenterTransition -> T
-    java.lang.Object mSharedElementEnterTransition -> U
-    java.lang.Object mSharedElementReturnTransition -> V
-    java.lang.Boolean mAllowReturnTransitionOverlap -> W
-    java.lang.Boolean mAllowEnterTransitionOverlap -> X
-    android.support.v4.app.SharedElementCallback mEnterTransitionCallback -> Y
-    android.support.v4.app.SharedElementCallback mExitTransitionCallback -> Z
+    android.support.v4.util.SimpleArrayMap sClassMap -> a
+    java.lang.Object USE_DEFAULT_TRANSITION -> j
+    int mState -> k
+    android.view.View mAnimatingAway -> l
+    int mStateAfterAnimating -> m
+    android.os.Bundle mSavedFragmentState -> n
+    android.util.SparseArray mSavedViewState -> o
+    int mIndex -> p
+    java.lang.String mWho -> q
+    android.os.Bundle mArguments -> r
+    android.support.v4.app.Fragment mTarget -> s
+    int mTargetIndex -> t
+    int mTargetRequestCode -> u
+    boolean mAdded -> v
+    boolean mRemoving -> w
+    boolean mResumed -> x
+    boolean mFromLayout -> y
+    boolean mInLayout -> z
+    boolean mRestored -> A
+    int mBackStackNesting -> B
+    android.support.v4.app.FragmentManagerImpl mFragmentManager -> C
+    android.support.v4.app.FragmentActivity mActivity -> D
+    android.support.v4.app.FragmentManagerImpl mChildFragmentManager -> E
+    android.support.v4.app.Fragment mParentFragment -> F
+    int mFragmentId -> G
+    int mContainerId -> H
+    java.lang.String mTag -> I
+    boolean mHidden -> J
+    boolean mDetached -> K
+    boolean mRetainInstance -> L
+    boolean mRetaining -> M
+    boolean mHasMenu -> N
+    boolean mMenuVisible -> O
+    boolean mCalled -> P
+    int mNextAnim -> Q
+    android.view.ViewGroup mContainer -> R
+    android.view.View mView -> S
+    android.view.View mInnerView -> T
+    boolean mDeferStart -> U
+    boolean mUserVisibleHint -> V
+    android.support.v4.app.LoaderManagerImpl mLoaderManager -> W
+    boolean mLoadersStarted -> X
+    boolean mCheckedForLoaderManager -> Y
+    java.lang.Object mEnterTransition -> Z
+    java.lang.Object mReturnTransition -> aa
+    java.lang.Object mExitTransition -> ab
+    java.lang.Object mReenterTransition -> ac
+    java.lang.Object mSharedElementEnterTransition -> ad
+    java.lang.Object mSharedElementReturnTransition -> ae
+    java.lang.Boolean mAllowReturnTransitionOverlap -> af
+    java.lang.Boolean mAllowEnterTransitionOverlap -> ag
+    android.support.v4.app.SharedElementCallback mEnterTransitionCallback -> ah
+    android.support.v4.app.SharedElementCallback mExitTransitionCallback -> ai
     android.support.v4.app.Fragment instantiate(android.content.Context,java.lang.String) -> a
     android.support.v4.app.Fragment instantiate(android.content.Context,java.lang.String,android.os.Bundle) -> a
     boolean isSupportFragmentClass(android.content.Context,java.lang.String) -> b
-    void restoreViewState(android.os.Bundle) -> a
+    void restoreViewState(android.os.Bundle) -> f
     void setIndex(int,android.support.v4.app.Fragment) -> a
-    boolean isInBackStack() -> a
+    boolean isInBackStack() -> h
     boolean equals(java.lang.Object) -> equals
     int hashCode() -> hashCode
     java.lang.String toString() -> toString
-    void setArguments(android.os.Bundle) -> b
-    android.os.Bundle getArguments() -> b
+    void setArguments(android.os.Bundle) -> g
+    android.os.Bundle getArguments() -> i
     void setInitialSavedState(android.support.v4.app.Fragment$SavedState) -> a
-    android.support.v4.app.FragmentActivity getActivity() -> c
-    android.content.res.Resources getResources() -> d
-    android.support.v4.app.FragmentManager getChildFragmentManager() -> e
-    boolean isAdded() -> f
-    boolean isDetached() -> g
-    boolean isHidden() -> h
-    void onHiddenChanged(boolean) -> a
-    void setHasOptionsMenu(boolean) -> b
-    void setMenuVisibility(boolean) -> c
-    void setUserVisibleHint(boolean) -> d
+    android.support.v4.app.FragmentActivity getActivity() -> j
+    android.content.res.Resources getResources() -> k
+    android.support.v4.app.FragmentManager getFragmentManager() -> l
+    android.support.v4.app.FragmentManager getChildFragmentManager() -> m
+    boolean isAdded() -> n
+    boolean isDetached() -> o
+    boolean isHidden() -> p
+    void onHiddenChanged(boolean) -> b
+    void setHasOptionsMenu(boolean) -> c
+    void setMenuVisibility(boolean) -> d
+    void setUserVisibleHint(boolean) -> e
     void startActivity(android.content.Intent) -> a
     void startActivityForResult(android.content.Intent,int) -> a
     void onActivityResult(int,int,android.content.Intent) -> a
-    android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> c
+    android.view.LayoutInflater getLayoutInflater(android.os.Bundle) -> b
     void onInflate(android.app.Activity,android.util.AttributeSet,android.os.Bundle) -> a
     void onAttach(android.app.Activity) -> a
     android.view.animation.Animation onCreateAnimation(int,boolean,int) -> a
-    void onCreate(android.os.Bundle) -> d
+    void onCreate(android.os.Bundle) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void onViewCreated(android.view.View,android.os.Bundle) -> a
-    android.view.View getView() -> i
-    void onActivityCreated(android.os.Bundle) -> e
-    void onViewStateRestored(android.os.Bundle) -> f
-    void onStart() -> j
-    void onResume() -> k
-    void onSaveInstanceState(android.os.Bundle) -> g
+    android.view.View getView() -> q
+    void onActivityCreated(android.os.Bundle) -> d
+    void onViewStateRestored(android.os.Bundle) -> h
+    void onStart() -> e
+    void onResume() -> r
+    void onSaveInstanceState(android.os.Bundle) -> e
     void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
-    void onPause() -> l
-    void onStop() -> m
+    void onPause() -> s
+    void onStop() -> f
     void onLowMemory() -> onLowMemory
-    void onDestroyView() -> n
-    void onDestroy() -> o
-    void initState() -> p
-    void onDetach() -> q
+    void onDestroyView() -> g
+    void onDestroy() -> t
+    void initState() -> u
+    void onDetach() -> d
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     void onPrepareOptionsMenu(android.view.Menu) -> a
-    void onDestroyOptionsMenu() -> r
+    void onDestroyOptionsMenu() -> v
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
     void onOptionsMenuClosed(android.view.Menu) -> b
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     void registerForContextMenu(android.view.View) -> a
     boolean onContextItemSelected(android.view.MenuItem) -> b
-    java.lang.Object getEnterTransition() -> s
-    java.lang.Object getReturnTransition() -> t
-    java.lang.Object getExitTransition() -> u
-    java.lang.Object getReenterTransition() -> v
-    java.lang.Object getSharedElementEnterTransition() -> w
-    java.lang.Object getSharedElementReturnTransition() -> x
-    boolean getAllowEnterTransitionOverlap() -> y
-    boolean getAllowReturnTransitionOverlap() -> z
+    java.lang.Object getEnterTransition() -> w
+    java.lang.Object getReturnTransition() -> x
+    java.lang.Object getExitTransition() -> y
+    java.lang.Object getReenterTransition() -> z
+    java.lang.Object getSharedElementEnterTransition() -> A
+    java.lang.Object getSharedElementReturnTransition() -> B
+    boolean getAllowEnterTransitionOverlap() -> C
+    boolean getAllowReturnTransitionOverlap() -> D
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
-    void instantiateChildFragmentManager() -> A
-    void performCreate(android.os.Bundle) -> h
+    void instantiateChildFragmentManager() -> E
+    void performCreate(android.os.Bundle) -> i
     android.view.View performCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> b
-    void performActivityCreated(android.os.Bundle) -> i
-    void performStart() -> B
-    void performResume() -> C
+    void performActivityCreated(android.os.Bundle) -> j
+    void performStart() -> F
+    void performResume() -> G
     void performConfigurationChanged(android.content.res.Configuration) -> a
-    void performLowMemory() -> D
+    void performLowMemory() -> H
     boolean performCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> b
     boolean performPrepareOptionsMenu(android.view.Menu) -> c
     boolean performOptionsItemSelected(android.view.MenuItem) -> c
     boolean performContextItemSelected(android.view.MenuItem) -> d
     void performOptionsMenuClosed(android.view.Menu) -> d
-    void performSaveInstanceState(android.os.Bundle) -> j
-    void performPause() -> E
-    void performStop() -> F
-    void performReallyStop() -> G
-    void performDestroyView() -> H
-    void performDestroy() -> I
-android.support.v4.app.Fragment$1 -> android.support.v4.app.l:
+    void performSaveInstanceState(android.os.Bundle) -> k
+    void performPause() -> I
+    void performStop() -> J
+    void performReallyStop() -> K
+    void performDestroyView() -> L
+    void performDestroy() -> M
+android.support.v4.app.Fragment$1 -> android.support.v4.app.m:
     android.support.v4.app.Fragment this$0 -> a
     android.view.View findViewById(int) -> a
     boolean hasView() -> a
-android.support.v4.app.Fragment$InstantiationException -> android.support.v4.app.m:
+android.support.v4.app.Fragment$InstantiationException -> android.support.v4.app.n:
 android.support.v4.app.Fragment$SavedState -> android.support.v4.app.Fragment$SavedState:
     android.os.Bundle mState -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-android.support.v4.app.Fragment$SavedState$1 -> android.support.v4.app.n:
+android.support.v4.app.Fragment$SavedState$1 -> android.support.v4.app.o:
     android.support.v4.app.Fragment$SavedState createFromParcel(android.os.Parcel) -> a
     android.support.v4.app.Fragment$SavedState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-android.support.v4.app.FragmentActivity -> android.support.v4.app.o:
+android.support.v4.app.FragmentActivity -> android.support.v4.app.p:
     android.os.Handler mHandler -> a
     android.support.v4.app.FragmentManagerImpl mFragments -> b
     android.support.v4.app.FragmentContainer mContainer -> c
@@ -334,34 +363,35 @@ android.support.v4.app.FragmentActivity -> android.support.v4.app.o:
     void startActivityFromFragment(android.support.v4.app.Fragment,android.content.Intent,int) -> a
     void invalidateSupportFragment(java.lang.String) -> a
     android.support.v4.app.LoaderManagerImpl getLoaderManager(java.lang.String,boolean,boolean) -> a
-android.support.v4.app.FragmentActivity$1 -> android.support.v4.app.p:
+android.support.v4.app.FragmentActivity$1 -> android.support.v4.app.q:
     android.support.v4.app.FragmentActivity this$0 -> a
     void handleMessage(android.os.Message) -> handleMessage
-android.support.v4.app.FragmentActivity$2 -> android.support.v4.app.q:
+android.support.v4.app.FragmentActivity$2 -> android.support.v4.app.r:
     android.support.v4.app.FragmentActivity this$0 -> a
     android.view.View findViewById(int) -> a
     boolean hasView() -> a
-android.support.v4.app.FragmentActivity$NonConfigurationInstances -> android.support.v4.app.r:
+android.support.v4.app.FragmentActivity$NonConfigurationInstances -> android.support.v4.app.s:
     java.lang.Object activity -> a
     java.lang.Object custom -> b
     android.support.v4.util.SimpleArrayMap children -> c
     java.util.ArrayList fragments -> d
     android.support.v4.util.SimpleArrayMap loaders -> e
-android.support.v4.app.FragmentContainer -> android.support.v4.app.s:
+android.support.v4.app.FragmentContainer -> android.support.v4.app.t:
     android.view.View findViewById(int) -> a
     boolean hasView() -> a
-android.support.v4.app.FragmentManager -> android.support.v4.app.t:
+android.support.v4.app.FragmentManager -> android.support.v4.app.u:
     android.support.v4.app.FragmentTransaction beginTransaction() -> a
     boolean executePendingTransactions() -> b
     android.support.v4.app.Fragment findFragmentByTag(java.lang.String) -> a
     void popBackStack(java.lang.String,int) -> a
+    void popBackStack(int,int) -> a
     int getBackStackEntryCount() -> c
     void putFragment(android.os.Bundle,java.lang.String,android.support.v4.app.Fragment) -> a
     android.support.v4.app.Fragment getFragment(android.os.Bundle,java.lang.String) -> a
     android.support.v4.app.Fragment$SavedState saveFragmentInstanceState(android.support.v4.app.Fragment) -> a
-android.support.v4.app.FragmentManager$OnBackStackChangedListener -> android.support.v4.app.u:
+android.support.v4.app.FragmentManager$OnBackStackChangedListener -> android.support.v4.app.v:
     void onBackStackChanged() -> a
-android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.v:
+android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.w:
     boolean DEBUG -> a
     boolean HONEYCOMB -> b
     java.util.ArrayList mPendingActions -> c
@@ -396,6 +426,7 @@ android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.v:
     boolean executePendingTransactions() -> b
     boolean popBackStackImmediate() -> d
     void popBackStack(java.lang.String,int) -> a
+    void popBackStack(int,int) -> a
     int getBackStackEntryCount() -> c
     void putFragment(android.os.Bundle,java.lang.String,android.support.v4.app.Fragment) -> a
     android.support.v4.app.Fragment getFragment(android.os.Bundle,java.lang.String) -> a
@@ -457,21 +488,26 @@ android.support.v4.app.FragmentManagerImpl -> android.support.v4.app.v:
     int transitToStyleIndex(int,boolean) -> b
     android.view.View onCreateView(java.lang.String,android.content.Context,android.util.AttributeSet) -> onCreateView
     android.view.LayoutInflater$Factory getLayoutInflaterFactory() -> u
-android.support.v4.app.FragmentManagerImpl$1 -> android.support.v4.app.w:
+android.support.v4.app.FragmentManagerImpl$1 -> android.support.v4.app.x:
     android.support.v4.app.FragmentManagerImpl this$0 -> a
     void run() -> run
-android.support.v4.app.FragmentManagerImpl$3 -> android.support.v4.app.x:
+android.support.v4.app.FragmentManagerImpl$3 -> android.support.v4.app.y:
     java.lang.String val$name -> a
     int val$flags -> b
     android.support.v4.app.FragmentManagerImpl this$0 -> c
     void run() -> run
-android.support.v4.app.FragmentManagerImpl$5 -> android.support.v4.app.y:
+android.support.v4.app.FragmentManagerImpl$4 -> android.support.v4.app.z:
+    int val$id -> a
+    int val$flags -> b
+    android.support.v4.app.FragmentManagerImpl this$0 -> c
+    void run() -> run
+android.support.v4.app.FragmentManagerImpl$5 -> android.support.v4.app.aa:
     android.support.v4.app.Fragment val$fragment -> a
     android.support.v4.app.FragmentManagerImpl this$0 -> b
     void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
     void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
     void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
-android.support.v4.app.FragmentManagerImpl$FragmentTag -> android.support.v4.app.z:
+android.support.v4.app.FragmentManagerImpl$FragmentTag -> android.support.v4.app.ab:
     int[] Fragment -> a
 android.support.v4.app.FragmentManagerState -> android.support.v4.app.FragmentManagerState:
     android.support.v4.app.FragmentState[] mActive -> a
@@ -480,7 +516,7 @@ android.support.v4.app.FragmentManagerState -> android.support.v4.app.FragmentMa
     android.os.Parcelable$Creator CREATOR -> CREATOR
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-android.support.v4.app.FragmentManagerState$1 -> android.support.v4.app.aa:
+android.support.v4.app.FragmentManagerState$1 -> android.support.v4.app.ac:
     android.support.v4.app.FragmentManagerState createFromParcel(android.os.Parcel) -> a
     android.support.v4.app.FragmentManagerState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
@@ -501,12 +537,12 @@ android.support.v4.app.FragmentState -> android.support.v4.app.FragmentState:
     android.support.v4.app.Fragment instantiate(android.support.v4.app.FragmentActivity,android.support.v4.app.Fragment) -> a
     int describeContents() -> describeContents
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
-android.support.v4.app.FragmentState$1 -> android.support.v4.app.ab:
+android.support.v4.app.FragmentState$1 -> android.support.v4.app.ad:
     android.support.v4.app.FragmentState createFromParcel(android.os.Parcel) -> a
     android.support.v4.app.FragmentState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-android.support.v4.app.FragmentStatePagerAdapter -> android.support.v4.app.ac:
+android.support.v4.app.FragmentStatePagerAdapter -> android.support.v4.app.ae:
     android.support.v4.app.FragmentManager mFragmentManager -> a
     android.support.v4.app.FragmentTransaction mCurTransaction -> b
     java.util.ArrayList mSavedState -> c
@@ -537,18 +573,18 @@ android.support.v4.app.FragmentTabHost -> android.support.v4.app.FragmentTabHost
     void onRestoreInstanceState(android.os.Parcelable) -> onRestoreInstanceState
     void onTabChanged(java.lang.String) -> onTabChanged
     android.support.v4.app.FragmentTransaction doTabChanged(java.lang.String,android.support.v4.app.FragmentTransaction) -> a
-android.support.v4.app.FragmentTabHost$1 -> android.support.v4.app.ad:
+android.support.v4.app.FragmentTabHost$1 -> android.support.v4.app.af:
 android.support.v4.app.FragmentTabHost$SavedState -> android.support.v4.app.FragmentTabHost$SavedState:
     java.lang.String curTab -> a
     android.os.Parcelable$Creator CREATOR -> CREATOR
     void writeToParcel(android.os.Parcel,int) -> writeToParcel
     java.lang.String toString() -> toString
-android.support.v4.app.FragmentTabHost$SavedState$1 -> android.support.v4.app.ae:
+android.support.v4.app.FragmentTabHost$SavedState$1 -> android.support.v4.app.ag:
     android.support.v4.app.FragmentTabHost$SavedState createFromParcel(android.os.Parcel) -> a
     android.support.v4.app.FragmentTabHost$SavedState[] newArray(int) -> a
     java.lang.Object[] newArray(int) -> newArray
     java.lang.Object createFromParcel(android.os.Parcel) -> createFromParcel
-android.support.v4.app.FragmentTabHost$TabInfo -> android.support.v4.app.af:
+android.support.v4.app.FragmentTabHost$TabInfo -> android.support.v4.app.ah:
     java.lang.String tag -> a
     java.lang.Class clss -> b
     android.os.Bundle args -> c
@@ -558,7 +594,8 @@ android.support.v4.app.FragmentTabHost$TabInfo -> android.support.v4.app.af:
     java.lang.String access$200(android.support.v4.app.FragmentTabHost$TabInfo) -> b
     java.lang.Class access$300(android.support.v4.app.FragmentTabHost$TabInfo) -> c
     android.os.Bundle access$400(android.support.v4.app.FragmentTabHost$TabInfo) -> d
-android.support.v4.app.FragmentTransaction -> android.support.v4.app.ag:
+android.support.v4.app.FragmentTransaction -> android.support.v4.app.ai:
+    android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String) -> a
     android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment) -> a
     android.support.v4.app.FragmentTransaction add(int,android.support.v4.app.Fragment,java.lang.String) -> a
     android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment) -> b
@@ -567,7 +604,7 @@ android.support.v4.app.FragmentTransaction -> android.support.v4.app.ag:
     android.support.v4.app.FragmentTransaction attach(android.support.v4.app.Fragment) -> c
     int commit() -> a
     int commitAllowingStateLoss() -> b
-android.support.v4.app.FragmentTransitionCompat21 -> android.support.v4.app.ah:
+android.support.v4.app.FragmentTransitionCompat21 -> android.support.v4.app.aj:
     java.lang.String getTransitionName(android.view.View) -> a
     java.lang.Object cloneTransition(java.lang.Object) -> a
     java.lang.Object captureExitingViews(java.lang.Object,android.view.View,java.util.ArrayList,java.util.Map) -> a
@@ -585,10 +622,10 @@ android.support.v4.app.FragmentTransitionCompat21 -> android.support.v4.app.ah:
     void addTargets(java.lang.Object,java.util.ArrayList) -> b
     void access$000(java.util.ArrayList,android.view.View) -> a
     android.graphics.Rect access$100(android.view.View) -> b
-android.support.v4.app.FragmentTransitionCompat21$1 -> android.support.v4.app.ai:
+android.support.v4.app.FragmentTransitionCompat21$1 -> android.support.v4.app.ak:
     android.graphics.Rect val$epicenter -> a
     android.graphics.Rect onGetEpicenter(android.transition.Transition) -> onGetEpicenter
-android.support.v4.app.FragmentTransitionCompat21$2 -> android.support.v4.app.aj:
+android.support.v4.app.FragmentTransitionCompat21$2 -> android.support.v4.app.al:
     android.view.View val$container -> a
     android.support.v4.app.FragmentTransitionCompat21$ViewRetriever val$inFragment -> b
     java.util.Map val$nameOverrides -> c
@@ -596,11 +633,11 @@ android.support.v4.app.FragmentTransitionCompat21$2 -> android.support.v4.app.aj
     android.transition.Transition val$enterTransition -> e
     java.util.ArrayList val$enteringViews -> f
     boolean onPreDraw() -> onPreDraw
-android.support.v4.app.FragmentTransitionCompat21$3 -> android.support.v4.app.ak:
+android.support.v4.app.FragmentTransitionCompat21$3 -> android.support.v4.app.am:
     android.graphics.Rect mEpicenter -> b
     android.support.v4.app.FragmentTransitionCompat21$EpicenterView val$epicenterView -> a
     android.graphics.Rect onGetEpicenter(android.transition.Transition) -> onGetEpicenter
-android.support.v4.app.FragmentTransitionCompat21$4 -> android.support.v4.app.al:
+android.support.v4.app.FragmentTransitionCompat21$4 -> android.support.v4.app.an:
     android.view.View val$sceneRoot -> a
     android.transition.Transition val$enterTransition -> b
     android.view.View val$nonExistentView -> c
@@ -613,17 +650,17 @@ android.support.v4.app.FragmentTransitionCompat21$4 -> android.support.v4.app.al
     java.util.ArrayList val$hiddenViews -> j
     android.transition.Transition val$overallTransition -> k
     boolean onPreDraw() -> onPreDraw
-android.support.v4.app.FragmentTransitionCompat21$EpicenterView -> android.support.v4.app.am:
+android.support.v4.app.FragmentTransitionCompat21$EpicenterView -> android.support.v4.app.ao:
     android.view.View epicenter -> a
-android.support.v4.app.FragmentTransitionCompat21$ViewRetriever -> android.support.v4.app.an:
+android.support.v4.app.FragmentTransitionCompat21$ViewRetriever -> android.support.v4.app.ap:
     android.view.View getView() -> a
-android.support.v4.app.LoaderManager -> android.support.v4.app.ao:
+android.support.v4.app.LoaderManager -> android.support.v4.app.aq:
     boolean hasRunningLoaders() -> a
-android.support.v4.app.LoaderManager$LoaderCallbacks -> android.support.v4.app.ap:
+android.support.v4.app.LoaderManager$LoaderCallbacks -> android.support.v4.app.ar:
     android.support.v4.content.Loader onCreateLoader(int,android.os.Bundle) -> a
     void onLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     void onLoaderReset(android.support.v4.content.Loader) -> a
-android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.aq:
+android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.as:
     boolean DEBUG -> a
     android.support.v4.util.SparseArrayCompat mLoaders -> b
     android.support.v4.util.SparseArrayCompat mInactiveLoaders -> c
@@ -642,7 +679,7 @@ android.support.v4.app.LoaderManagerImpl -> android.support.v4.app.aq:
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
     boolean hasRunningLoaders() -> a
-android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.ar:
+android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.at:
     int mId -> a
     android.os.Bundle mArgs -> b
     android.support.v4.app.LoaderManager$LoaderCallbacks mCallbacks -> c
@@ -667,7 +704,7 @@ android.support.v4.app.LoaderManagerImpl$LoaderInfo -> android.support.v4.app.ar
     void callOnLoadFinished(android.support.v4.content.Loader,java.lang.Object) -> a
     java.lang.String toString() -> toString
     void dump(java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[]) -> a
-android.support.v4.app.NavUtils -> android.support.v4.app.as:
+android.support.v4.app.NavUtils -> android.support.v4.app.au:
     android.support.v4.app.NavUtils$NavUtilsImpl IMPL -> a
     boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> a
     void navigateUpFromSameTask(android.app.Activity) -> a
@@ -676,43 +713,43 @@ android.support.v4.app.NavUtils -> android.support.v4.app.as:
     android.content.Intent getParentActivityIntent(android.content.Context,android.content.ComponentName) -> a
     java.lang.String getParentActivityName(android.app.Activity) -> c
     java.lang.String getParentActivityName(android.content.Context,android.content.ComponentName) -> b
-android.support.v4.app.NavUtils$NavUtilsImpl -> android.support.v4.app.at:
+android.support.v4.app.NavUtils$NavUtilsImpl -> android.support.v4.app.av:
     android.content.Intent getParentActivityIntent(android.app.Activity) -> a
     boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> a
     void navigateUpTo(android.app.Activity,android.content.Intent) -> b
     java.lang.String getParentActivityName(android.content.Context,android.content.pm.ActivityInfo) -> a
-android.support.v4.app.NavUtils$NavUtilsImplBase -> android.support.v4.app.au:
+android.support.v4.app.NavUtils$NavUtilsImplBase -> android.support.v4.app.aw:
     android.content.Intent getParentActivityIntent(android.app.Activity) -> a
     boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> a
     void navigateUpTo(android.app.Activity,android.content.Intent) -> b
     java.lang.String getParentActivityName(android.content.Context,android.content.pm.ActivityInfo) -> a
-android.support.v4.app.NavUtils$NavUtilsImplJB -> android.support.v4.app.av:
+android.support.v4.app.NavUtils$NavUtilsImplJB -> android.support.v4.app.ax:
     android.content.Intent getParentActivityIntent(android.app.Activity) -> a
     android.content.Intent superGetParentActivityIntent(android.app.Activity) -> b
     boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> a
     void navigateUpTo(android.app.Activity,android.content.Intent) -> b
     java.lang.String getParentActivityName(android.content.Context,android.content.pm.ActivityInfo) -> a
-android.support.v4.app.NavUtilsJB -> android.support.v4.app.aw:
+android.support.v4.app.NavUtilsJB -> android.support.v4.app.ay:
     android.content.Intent getParentActivityIntent(android.app.Activity) -> a
     boolean shouldUpRecreateTask(android.app.Activity,android.content.Intent) -> a
     void navigateUpTo(android.app.Activity,android.content.Intent) -> b
     java.lang.String getParentActivityName(android.content.pm.ActivityInfo) -> a
-android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.ax:
+android.support.v4.app.NoSaveStateFrameLayout -> android.support.v4.app.az:
     android.view.ViewGroup wrap(android.view.View) -> a
     void dispatchSaveInstanceState(android.util.SparseArray) -> dispatchSaveInstanceState
     void dispatchRestoreInstanceState(android.util.SparseArray) -> dispatchRestoreInstanceState
-android.support.v4.app.NotificationBuilderWithActions -> android.support.v4.app.ay:
+android.support.v4.app.NotificationBuilderWithActions -> android.support.v4.app.ba:
     void addAction(android.support.v4.app.NotificationCompatBase$Action) -> a
-android.support.v4.app.NotificationBuilderWithBuilderAccessor -> android.support.v4.app.az:
+android.support.v4.app.NotificationBuilderWithBuilderAccessor -> android.support.v4.app.bb:
     android.app.Notification$Builder getBuilder() -> a
-android.support.v4.app.NotificationCompat -> android.support.v4.app.ba:
+android.support.v4.app.NotificationCompat -> android.support.v4.app.bc:
     android.support.v4.app.NotificationCompat$NotificationCompatImpl IMPL -> a
     void addActionsToBuilder(android.support.v4.app.NotificationBuilderWithActions,java.util.ArrayList) -> b
     void addStyleToBuilderJellybean(android.support.v4.app.NotificationBuilderWithBuilderAccessor,android.support.v4.app.NotificationCompat$Style) -> b
     void access$000(android.support.v4.app.NotificationBuilderWithActions,java.util.ArrayList) -> a
     void access$100(android.support.v4.app.NotificationBuilderWithBuilderAccessor,android.support.v4.app.NotificationCompat$Style) -> a
     android.support.v4.app.NotificationCompat$NotificationCompatImpl access$200() -> a
-android.support.v4.app.NotificationCompat$Action -> android.support.v4.app.bb:
+android.support.v4.app.NotificationCompat$Action -> android.support.v4.app.bd:
     android.os.Bundle mExtras -> e
     android.support.v4.app.RemoteInput[] mRemoteInputs -> f
     int icon -> a
@@ -725,15 +762,15 @@ android.support.v4.app.NotificationCompat$Action -> android.support.v4.app.bb:
     android.os.Bundle getExtras() -> d
     android.support.v4.app.RemoteInput[] getRemoteInputs() -> e
     android.support.v4.app.RemoteInputCompatBase$RemoteInput[] getRemoteInputs() -> f
-android.support.v4.app.NotificationCompat$Action$1 -> android.support.v4.app.bc:
-android.support.v4.app.NotificationCompat$BigPictureStyle -> android.support.v4.app.bd:
+android.support.v4.app.NotificationCompat$Action$1 -> android.support.v4.app.be:
+android.support.v4.app.NotificationCompat$BigPictureStyle -> android.support.v4.app.bf:
     android.graphics.Bitmap mPicture -> a
     android.graphics.Bitmap mBigLargeIcon -> b
     boolean mBigLargeIconSet -> c
-android.support.v4.app.NotificationCompat$BigTextStyle -> android.support.v4.app.be:
+android.support.v4.app.NotificationCompat$BigTextStyle -> android.support.v4.app.bg:
     java.lang.CharSequence mBigText -> a
     android.support.v4.app.NotificationCompat$BigTextStyle bigText(java.lang.CharSequence) -> a
-android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.bf:
+android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.bh:
     android.content.Context mContext -> a
     java.lang.CharSequence mContentTitle -> b
     java.lang.CharSequence mContentText -> c
@@ -776,61 +813,61 @@ android.support.v4.app.NotificationCompat$Builder -> android.support.v4.app.bf:
     android.support.v4.app.NotificationCompat$Builder setStyle(android.support.v4.app.NotificationCompat$Style) -> a
     android.app.Notification build() -> a
     java.lang.CharSequence limitCharSequenceLength(java.lang.CharSequence) -> d
-android.support.v4.app.NotificationCompat$InboxStyle -> android.support.v4.app.bg:
+android.support.v4.app.NotificationCompat$InboxStyle -> android.support.v4.app.bi:
     java.util.ArrayList mTexts -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImpl -> android.support.v4.app.bh:
+android.support.v4.app.NotificationCompat$NotificationCompatImpl -> android.support.v4.app.bj:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplApi20 -> android.support.v4.app.bi:
+android.support.v4.app.NotificationCompat$NotificationCompatImplApi20 -> android.support.v4.app.bk:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplApi21 -> android.support.v4.app.bj:
+android.support.v4.app.NotificationCompat$NotificationCompatImplApi21 -> android.support.v4.app.bl:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplBase -> android.support.v4.app.bk:
+android.support.v4.app.NotificationCompat$NotificationCompatImplBase -> android.support.v4.app.bm:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplGingerbread -> android.support.v4.app.bl:
+android.support.v4.app.NotificationCompat$NotificationCompatImplGingerbread -> android.support.v4.app.bn:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb -> android.support.v4.app.bm:
+android.support.v4.app.NotificationCompat$NotificationCompatImplHoneycomb -> android.support.v4.app.bo:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplIceCreamSandwich -> android.support.v4.app.bn:
+android.support.v4.app.NotificationCompat$NotificationCompatImplIceCreamSandwich -> android.support.v4.app.bp:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplJellybean -> android.support.v4.app.bo:
+android.support.v4.app.NotificationCompat$NotificationCompatImplJellybean -> android.support.v4.app.bq:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$NotificationCompatImplKitKat -> android.support.v4.app.bp:
+android.support.v4.app.NotificationCompat$NotificationCompatImplKitKat -> android.support.v4.app.br:
     android.app.Notification build(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompat$Style -> android.support.v4.app.bq:
+android.support.v4.app.NotificationCompat$Style -> android.support.v4.app.bs:
     android.support.v4.app.NotificationCompat$Builder mBuilder -> d
     java.lang.CharSequence mBigContentTitle -> e
     java.lang.CharSequence mSummaryText -> f
     boolean mSummaryTextSet -> g
     void setBuilder(android.support.v4.app.NotificationCompat$Builder) -> a
-android.support.v4.app.NotificationCompatApi20 -> android.support.v4.app.br:
+android.support.v4.app.NotificationCompatApi20 -> android.support.v4.app.bt:
     void addAction(android.app.Notification$Builder,android.support.v4.app.NotificationCompatBase$Action) -> a
-android.support.v4.app.NotificationCompatApi20$Builder -> android.support.v4.app.bs:
+android.support.v4.app.NotificationCompatApi20$Builder -> android.support.v4.app.bu:
     android.app.Notification$Builder b -> a
     android.os.Bundle mExtras -> b
     void addAction(android.support.v4.app.NotificationCompatBase$Action) -> a
     android.app.Notification$Builder getBuilder() -> a
     android.app.Notification build() -> b
-android.support.v4.app.NotificationCompatApi21 -> android.support.v4.app.bt:
-android.support.v4.app.NotificationCompatApi21$Builder -> android.support.v4.app.bu:
+android.support.v4.app.NotificationCompatApi21 -> android.support.v4.app.bv:
+android.support.v4.app.NotificationCompatApi21$Builder -> android.support.v4.app.bw:
     android.app.Notification$Builder b -> a
     void addAction(android.support.v4.app.NotificationCompatBase$Action) -> a
     android.app.Notification$Builder getBuilder() -> a
     android.app.Notification build() -> b
-android.support.v4.app.NotificationCompatBase -> android.support.v4.app.bv:
-android.support.v4.app.NotificationCompatBase$Action -> android.support.v4.app.bw:
+android.support.v4.app.NotificationCompatBase -> android.support.v4.app.bx:
+android.support.v4.app.NotificationCompatBase$Action -> android.support.v4.app.by:
     int getIcon() -> a
     java.lang.CharSequence getTitle() -> b
     android.app.PendingIntent getActionIntent() -> c
     android.os.Bundle getExtras() -> d
     android.support.v4.app.RemoteInputCompatBase$RemoteInput[] getRemoteInputs() -> f
-android.support.v4.app.NotificationCompatBase$Action$Factory -> android.support.v4.app.bx:
-android.support.v4.app.NotificationCompatGingerbread -> android.support.v4.app.by:
+android.support.v4.app.NotificationCompatBase$Action$Factory -> android.support.v4.app.bz:
+android.support.v4.app.NotificationCompatGingerbread -> android.support.v4.app.ca:
     android.app.Notification add(android.app.Notification,android.content.Context,java.lang.CharSequence,java.lang.CharSequence,android.app.PendingIntent,android.app.PendingIntent) -> a
-android.support.v4.app.NotificationCompatHoneycomb -> android.support.v4.app.bz:
+android.support.v4.app.NotificationCompatHoneycomb -> android.support.v4.app.cb:
     android.app.Notification add(android.content.Context,android.app.Notification,java.lang.CharSequence,java.lang.CharSequence,java.lang.CharSequence,android.widget.RemoteViews,int,android.app.PendingIntent,android.app.PendingIntent,android.graphics.Bitmap) -> a
-android.support.v4.app.NotificationCompatIceCreamSandwich -> android.support.v4.app.ca:
+android.support.v4.app.NotificationCompatIceCreamSandwich -> android.support.v4.app.cc:
     android.app.Notification add(android.content.Context,android.app.Notification,java.lang.CharSequence,java.lang.CharSequence,java.lang.CharSequence,android.widget.RemoteViews,int,android.app.PendingIntent,android.app.PendingIntent,android.graphics.Bitmap,int,int,boolean) -> a
-android.support.v4.app.NotificationCompatJellybean -> android.support.v4.app.cb:
+android.support.v4.app.NotificationCompatJellybean -> android.support.v4.app.cd:
     java.lang.Object sExtrasLock -> a
     java.lang.reflect.Field sExtrasField -> b
     boolean sExtrasFieldAccessFailed -> c
@@ -841,22 +878,22 @@ android.support.v4.app.NotificationCompatJellybean -> android.support.v4.app.cb:
     android.util.SparseArray buildActionExtrasMap(java.util.List) -> a
     android.os.Bundle getExtras(android.app.Notification) -> a
     android.os.Bundle writeActionAndGetExtras(android.app.Notification$Builder,android.support.v4.app.NotificationCompatBase$Action) -> a
-android.support.v4.app.NotificationCompatJellybean$Builder -> android.support.v4.app.cc:
+android.support.v4.app.NotificationCompatJellybean$Builder -> android.support.v4.app.ce:
     android.app.Notification$Builder b -> a
     android.os.Bundle mExtras -> b
     java.util.List mActionExtrasList -> c
     void addAction(android.support.v4.app.NotificationCompatBase$Action) -> a
     android.app.Notification$Builder getBuilder() -> a
     android.app.Notification build() -> b
-android.support.v4.app.NotificationCompatKitKat -> android.support.v4.app.cd:
-android.support.v4.app.NotificationCompatKitKat$Builder -> android.support.v4.app.ce:
+android.support.v4.app.NotificationCompatKitKat -> android.support.v4.app.cf:
+android.support.v4.app.NotificationCompatKitKat$Builder -> android.support.v4.app.cg:
     android.app.Notification$Builder b -> a
     android.os.Bundle mExtras -> b
     java.util.List mActionExtrasList -> c
     void addAction(android.support.v4.app.NotificationCompatBase$Action) -> a
     android.app.Notification$Builder getBuilder() -> a
     android.app.Notification build() -> b
-android.support.v4.app.RemoteInput -> android.support.v4.app.cf:
+android.support.v4.app.RemoteInput -> android.support.v4.app.ch:
     java.lang.String mResultKey -> b
     java.lang.CharSequence mLabel -> c
     java.lang.CharSequence[] mChoices -> d
@@ -869,30 +906,30 @@ android.support.v4.app.RemoteInput -> android.support.v4.app.cf:
     java.lang.CharSequence[] getChoices() -> c
     boolean getAllowFreeFormInput() -> d
     android.os.Bundle getExtras() -> e
-android.support.v4.app.RemoteInput$1 -> android.support.v4.app.cg:
-android.support.v4.app.RemoteInput$Impl -> android.support.v4.app.ch:
-android.support.v4.app.RemoteInput$ImplApi20 -> android.support.v4.app.ci:
-android.support.v4.app.RemoteInput$ImplBase -> android.support.v4.app.cj:
-android.support.v4.app.RemoteInput$ImplJellybean -> android.support.v4.app.ck:
-android.support.v4.app.RemoteInputCompatApi20 -> android.support.v4.app.cl:
+android.support.v4.app.RemoteInput$1 -> android.support.v4.app.ci:
+android.support.v4.app.RemoteInput$Impl -> android.support.v4.app.cj:
+android.support.v4.app.RemoteInput$ImplApi20 -> android.support.v4.app.ck:
+android.support.v4.app.RemoteInput$ImplBase -> android.support.v4.app.cl:
+android.support.v4.app.RemoteInput$ImplJellybean -> android.support.v4.app.cm:
+android.support.v4.app.RemoteInputCompatApi20 -> android.support.v4.app.cn:
     android.app.RemoteInput[] fromCompat(android.support.v4.app.RemoteInputCompatBase$RemoteInput[]) -> a
-android.support.v4.app.RemoteInputCompatBase -> android.support.v4.app.cm:
-android.support.v4.app.RemoteInputCompatBase$RemoteInput -> android.support.v4.app.cn:
+android.support.v4.app.RemoteInputCompatBase -> android.support.v4.app.co:
+android.support.v4.app.RemoteInputCompatBase$RemoteInput -> android.support.v4.app.cp:
     java.lang.String getResultKey() -> a
     java.lang.CharSequence getLabel() -> b
     java.lang.CharSequence[] getChoices() -> c
     boolean getAllowFreeFormInput() -> d
     android.os.Bundle getExtras() -> e
-android.support.v4.app.RemoteInputCompatBase$RemoteInput$Factory -> android.support.v4.app.co:
-android.support.v4.app.RemoteInputCompatJellybean -> android.support.v4.app.cp:
+android.support.v4.app.RemoteInputCompatBase$RemoteInput$Factory -> android.support.v4.app.cq:
+android.support.v4.app.RemoteInputCompatJellybean -> android.support.v4.app.cr:
     android.os.Bundle toBundle(android.support.v4.app.RemoteInputCompatBase$RemoteInput) -> a
     android.os.Bundle[] toBundleArray(android.support.v4.app.RemoteInputCompatBase$RemoteInput[]) -> a
-android.support.v4.app.SharedElementCallback -> android.support.v4.app.cq:
+android.support.v4.app.SharedElementCallback -> android.support.v4.app.cs:
     void onSharedElementStart(java.util.List,java.util.List,java.util.List) -> a
     void onSharedElementEnd(java.util.List,java.util.List,java.util.List) -> b
     void onMapSharedElements(java.util.List,java.util.Map) -> a
-android.support.v4.app.SuperNotCalledException -> android.support.v4.app.cr:
-android.support.v4.app.TaskStackBuilder -> android.support.v4.app.cs:
+android.support.v4.app.SuperNotCalledException -> android.support.v4.app.ct:
+android.support.v4.app.TaskStackBuilder -> android.support.v4.app.cu:
     android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl IMPL -> a
     java.util.ArrayList mIntents -> b
     android.content.Context mSourceContext -> c
@@ -903,11 +940,11 @@ android.support.v4.app.TaskStackBuilder -> android.support.v4.app.cs:
     java.util.Iterator iterator() -> iterator
     void startActivities() -> a
     void startActivities(android.os.Bundle) -> a
-android.support.v4.app.TaskStackBuilder$SupportParentable -> android.support.v4.app.ct:
+android.support.v4.app.TaskStackBuilder$SupportParentable -> android.support.v4.app.cv:
     android.content.Intent getSupportParentActivityIntent() -> a
-android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl -> android.support.v4.app.cu:
-android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplBase -> android.support.v4.app.cv:
-android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplHoneycomb -> android.support.v4.app.cw:
+android.support.v4.app.TaskStackBuilder$TaskStackBuilderImpl -> android.support.v4.app.cw:
+android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplBase -> android.support.v4.app.cx:
+android.support.v4.app.TaskStackBuilder$TaskStackBuilderImplHoneycomb -> android.support.v4.app.cy:
 android.support.v4.content.ContextCompat -> android.support.v4.a.a:
     boolean startActivities(android.content.Context,android.content.Intent[],android.os.Bundle) -> a
     android.graphics.drawable.Drawable getDrawable(android.content.Context,int) -> a
@@ -20902,8 +20939,6 @@ com.trip.expensemanager.CloudEndpointUtils -> com.trip.expensemanager.b:
 com.trip.expensemanager.CloudEndpointUtils$1 -> com.trip.expensemanager.c:
     boolean val$enableGZip -> a
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
-com.trip.expensemanager.ConnectivityChangeListener -> com.trip.expensemanager.ConnectivityChangeListener:
-    void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.trip.expensemanager.ExpenseActivity -> com.trip.expensemanager.ExpenseActivity:
     android.content.BroadcastReceiver receiver -> n
     void onCreate(android.os.Bundle) -> onCreate
@@ -20994,7 +21029,6 @@ com.trip.expensemanager.TripDetailsActivity -> com.trip.expensemanager.TripDetai
     android.content.BroadcastReceiver receiver -> u
     android.content.BroadcastReceiver purchaseReceiver -> v
     long lngAdminId -> w
-    android.app.AlertDialog alert -> x
     void onCreate(android.os.Bundle) -> onCreate
     void onResume() -> onResume
     void onPause() -> onPause
@@ -21010,9 +21044,8 @@ com.trip.expensemanager.TripDetailsActivity -> com.trip.expensemanager.TripDetai
     void showInfoMessage(java.lang.String) -> b
     void onBackPressed() -> onBackPressed
     com.trip.expensemanager.adapters.CustomPagerAdapter access$0(com.trip.expensemanager.TripDetailsActivity) -> a
-    android.app.AlertDialog access$1(com.trip.expensemanager.TripDetailsActivity) -> b
+    long access$1(com.trip.expensemanager.TripDetailsActivity) -> b
     long access$2(com.trip.expensemanager.TripDetailsActivity) -> c
-    long access$3(com.trip.expensemanager.TripDetailsActivity) -> d
 com.trip.expensemanager.TripDetailsActivity$1 -> com.trip.expensemanager.h:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
@@ -21025,20 +21058,16 @@ com.trip.expensemanager.TripDetailsActivity$3 -> com.trip.expensemanager.j:
 com.trip.expensemanager.TripDetailsActivity$4 -> com.trip.expensemanager.k:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
     long val$tripId -> b
-    void onClick(android.view.View) -> onClick
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
 com.trip.expensemanager.TripDetailsActivity$5 -> com.trip.expensemanager.l:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
-    void onClick(android.view.View) -> onClick
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
 com.trip.expensemanager.TripDetailsActivity$6 -> com.trip.expensemanager.m:
     com.trip.expensemanager.TripDetailsActivity this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.TripDetailsActivity$7 -> com.trip.expensemanager.n:
-    com.trip.expensemanager.TripDetailsActivity this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.TripDetailsActivity$8 -> com.trip.expensemanager.o:
-    com.trip.expensemanager.TripDetailsActivity this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.UpdateLoginTask -> com.trip.expensemanager.p:
+    void onDialogButtonClick(android.support.v4.app.DialogFragment) -> a
+com.trip.expensemanager.UpdateLoginTask -> com.trip.expensemanager.n:
     android.content.Context context -> a
     java.lang.Void doInBackground(java.lang.Void[]) -> a
     java.lang.Object doInBackground(java.lang.Object[]) -> doInBackground
@@ -21050,7 +21079,7 @@ com.trip.expensemanager.UpdatesActivity -> com.trip.expensemanager.UpdatesActivi
     void loadAd() -> j
     void onResume() -> onResume
     void onPause() -> onPause
-com.trip.expensemanager.UpdatesActivity$1 -> com.trip.expensemanager.q:
+com.trip.expensemanager.UpdatesActivity$1 -> com.trip.expensemanager.o:
     com.trip.expensemanager.UpdatesActivity this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
 com.trip.expensemanager.adapters.CustomAddExpenseAdapter -> com.trip.expensemanager.a.a:
@@ -21081,9 +21110,8 @@ com.trip.expensemanager.adapters.CustomAddExpenseAdapter$ViewHolder -> com.trip.
 com.trip.expensemanager.adapters.CustomDistributionAdapter -> com.trip.expensemanager.a.e:
     android.content.Context context -> a
     java.util.List items -> b
-    int lastPosition -> c
-    java.util.List isSettlementPossible -> d
-    com.trip.expensemanager.fragments.TripDetailsFragment fragment -> e
+    java.util.List isSettlementPossible -> c
+    com.trip.expensemanager.fragments.TripDetailsFragment fragment -> d
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.String getItem(int) -> a
     boolean hasStableIds() -> hasStableIds
@@ -21095,9 +21123,8 @@ com.trip.expensemanager.adapters.CustomExpenseListAdapter -> com.trip.expenseman
     android.content.Context context -> a
     java.util.List items -> b
     java.util.List synced -> c
-    int lastPosition -> d
-    java.util.List amount -> e
-    java.util.List colors -> f
+    java.util.List amount -> d
+    java.util.List colors -> e
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.String getItem(int) -> a
     boolean hasStableIds() -> hasStableIds
@@ -21114,7 +21141,6 @@ com.trip.expensemanager.adapters.CustomPagerAdapter -> com.trip.expensemanager.a
     long lngUserId -> b
     long lngTripId -> c
     java.lang.String[] tabs -> d
-    android.support.v7.app.ActionBarActivity context -> e
     android.support.v4.app.Fragment getItem(int) -> a
     int getCount() -> b
     int getItemPosition(java.lang.Object) -> a
@@ -21123,9 +21149,8 @@ com.trip.expensemanager.adapters.CustomPeopleListAdapter -> com.trip.expensemana
     android.content.Context context -> a
     java.util.List items -> b
     java.util.List synced -> c
-    int lastPosition -> d
-    java.util.List amount -> e
-    java.util.List colors -> f
+    java.util.List amount -> d
+    java.util.List colors -> e
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.String getItem(int) -> a
     boolean hasStableIds() -> hasStableIds
@@ -21142,8 +21167,7 @@ com.trip.expensemanager.adapters.CustomTripListAdapter -> com.trip.expensemanage
     java.util.List creationDates -> c
     java.util.List closed -> d
     java.util.List synched -> e
-    int lastPosition -> f
-    java.util.List colors -> g
+    java.util.List colors -> f
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.String getItem(int) -> a
     boolean hasStableIds() -> hasStableIds
@@ -21157,9 +21181,8 @@ com.trip.expensemanager.adapters.CustomTripListAdapter$ViewHolder -> com.trip.ex
     android.widget.RelativeLayout rlIcon -> f
 com.trip.expensemanager.adapters.CustomUpdatesAdapter -> com.trip.expensemanager.a.n:
     android.content.Context context -> a
-    int lastPosition -> b
-    java.util.List labels -> c
-    java.util.List actions -> d
+    java.util.List labels -> b
+    java.util.List actions -> c
     android.view.View getView(int,android.view.View,android.view.ViewGroup) -> getView
     java.lang.String getItem(int) -> a
     boolean hasStableIds() -> hasStableIds
@@ -21415,42 +21438,42 @@ com.trip.expensemanager.expenseendpoint.model.Expense -> com.trip.expensemanager
     com.google.api.client.json.GenericJson clone() -> b
     com.google.api.client.json.GenericJson set(java.lang.String,java.lang.Object) -> b
 com.trip.expensemanager.fragments.AddExpenseFragment -> com.trip.expensemanager.e.a:
-    long lngTripId -> aa
-    long lngUserId -> ab
-    android.widget.EditText eTxtExpenseName -> ad
-    android.widget.EditText eTxtExpenseDetail -> ae
-    android.widget.EditText eTxtExpenseAmount -> af
-    android.widget.EditText eTxtExpenseAdmin -> ag
-    android.widget.EditText eTxtExpenseCreationDate -> ah
-    long lngAdminId -> ai
-    java.lang.String strDate -> aj
-    int opcode -> ak
-    long lngExpenseId -> al
-    int iPosition -> am
-    java.lang.String strName -> an
-    java.lang.String strDetail -> ao
-    java.lang.String strAmount -> ap
-    android.widget.ListView lvUsersList -> aq
-    com.trip.expensemanager.adapters.CustomAddExpenseAdapter listAdapter -> ar
-    java.util.List strLstUsers -> as
-    java.util.List strLstUserIds -> at
-    java.util.List strLstAmounts -> au
-    java.util.List bLstChecked -> av
-    java.util.List bLstEnabled -> aw
-    java.util.List strLstPrevAmounts -> ax
-    boolean isAutoChanged -> ay
-    android.widget.TextView txtSelectAll -> az
-    android.widget.TextView txtSelectNone -> aA
+    long lngTripId -> a
+    long lngUserId -> b
+    android.widget.EditText eTxtExpenseName -> c
+    android.widget.EditText eTxtExpenseDetail -> d
+    android.widget.EditText eTxtExpenseAmount -> e
+    android.widget.EditText eTxtExpenseAdmin -> f
+    android.widget.EditText eTxtExpenseCreationDate -> g
+    long lngAdminId -> h
+    java.lang.String strDate -> i
+    int opcode -> aj
+    long lngExpenseId -> ak
+    int iPosition -> al
+    java.lang.String strName -> am
+    java.lang.String strDetail -> an
+    java.lang.String strAmount -> ao
+    android.widget.ListView lvUsersList -> ap
+    com.trip.expensemanager.adapters.CustomAddExpenseAdapter listAdapter -> aq
+    java.util.List strLstUsers -> ar
+    java.util.List strLstUserIds -> as
+    java.util.List strLstAmounts -> at
+    java.util.List bLstChecked -> au
+    java.util.List bLstEnabled -> av
+    java.util.List strLstPrevAmounts -> aw
+    boolean isAutoChanged -> ax
+    android.widget.TextView txtSelectAll -> ay
+    android.widget.TextView txtSelectNone -> az
     android.support.v4.app.Fragment newInstance(long,long,int) -> a
     android.support.v4.app.Fragment newInstance(long,long,long,int,int) -> a
-    void onCreate(android.os.Bundle) -> d
+    void onCreate(android.os.Bundle) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void loadUsersnAmounts(com.trip.utils.TripBean,com.trip.utils.ExpenseBean) -> a
     void loadUsers(com.trip.utils.TripBean) -> a
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
     void showDeleteExpenseDialog(java.lang.String,long,int) -> a
-    void changeData(boolean) -> e
+    void changeData(boolean) -> a
     void onClick(android.view.View) -> onClick
     boolean access$0(com.trip.expensemanager.fragments.AddExpenseFragment) -> a
     java.util.List access$1(com.trip.expensemanager.fragments.AddExpenseFragment) -> b
@@ -21479,59 +21502,52 @@ com.trip.expensemanager.fragments.AddExpenseFragment$3 -> com.trip.expensemanage
     com.trip.expensemanager.fragments.AddExpenseFragment this$0 -> a
     long val$expenseId -> b
     int val$position -> c
-    void onClick(android.view.View) -> onClick
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
 com.trip.expensemanager.fragments.AddExpenseFragment$4 -> com.trip.expensemanager.e.g:
-    com.trip.expensemanager.fragments.AddExpenseFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddExpenseFragment$5 -> com.trip.expensemanager.e.h:
     com.trip.expensemanager.fragments.AddExpenseFragment this$0 -> a
     java.lang.String val$strAmount -> b
     void run() -> run
-    com.trip.expensemanager.fragments.AddExpenseFragment access$0(com.trip.expensemanager.fragments.AddExpenseFragment$5) -> a
-com.trip.expensemanager.fragments.AddExpenseFragment$5$1 -> com.trip.expensemanager.e.i:
-    com.trip.expensemanager.fragments.AddExpenseFragment$5 this$1 -> a
+    com.trip.expensemanager.fragments.AddExpenseFragment access$0(com.trip.expensemanager.fragments.AddExpenseFragment$4) -> a
+com.trip.expensemanager.fragments.AddExpenseFragment$4$1 -> com.trip.expensemanager.e.h:
+    com.trip.expensemanager.fragments.AddExpenseFragment$4 this$1 -> a
     void run() -> run
-com.trip.expensemanager.fragments.AddPeopleFragment -> com.trip.expensemanager.e.j:
-    android.widget.ImageView ivQrImage -> aa
+com.trip.expensemanager.fragments.AddPeopleFragment -> com.trip.expensemanager.e.i:
+    android.widget.ImageView ivQrImage -> a
     android.support.v4.app.Fragment newInstance(long,java.lang.String,long,java.lang.String) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     android.graphics.Bitmap encodeAsBitmap(java.lang.String,com.google.zxing.BarcodeFormat,int,int) -> a
-com.trip.expensemanager.fragments.AddTripFragment -> com.trip.expensemanager.e.k:
-    android.app.AlertDialog alert -> aa
-    android.widget.EditText eTxtTripName -> ad
-    android.widget.ListView listTrip -> ae
-    long lngUserId -> af
-    android.widget.Button btnAdd -> ag
-    android.widget.Button btnCancel -> ah
-    com.trip.expensemanager.adapters.CustomTripListAdapter listAdapter -> ai
-    java.util.ArrayList arrTrips -> aj
-    android.widget.TextView txtNoTrip -> ak
-    java.lang.String strTripName -> ab
-    java.util.List arrTripNames -> al
-    java.util.List arrIds -> am
-    java.util.List arrAdminIds -> an
-    java.util.List arrCreationDates -> ao
-    java.util.List arrClosed -> ap
-    java.util.List arrSynched -> aq
-    android.content.BroadcastReceiver receiver -> ar
-    android.widget.ImageButton btnAddTrip -> as
-    java.util.List arrColors -> at
+com.trip.expensemanager.fragments.AddTripFragment -> com.trip.expensemanager.e.j:
+    android.widget.ListView listTrip -> b
+    long lngUserId -> c
+    com.trip.expensemanager.adapters.CustomTripListAdapter listAdapter -> d
+    java.util.ArrayList arrTrips -> e
+    android.widget.TextView txtNoTrip -> f
+    java.lang.String strTripName -> a
+    java.util.List arrTripNames -> g
+    java.util.List arrIds -> h
+    java.util.List arrAdminIds -> i
+    java.util.List arrCreationDates -> aj
+    java.util.List arrClosed -> ak
+    java.util.List arrSynched -> al
+    android.content.BroadcastReceiver receiver -> am
+    android.widget.ImageButton btnAddTrip -> an
+    java.util.List arrColors -> ao
     com.trip.expensemanager.fragments.AddTripFragment newInstance(long) -> a
-    void onCreate(android.os.Bundle) -> d
+    void onCreate(android.os.Bundle) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void onResume() -> k
-    void onPause() -> l
+    void onResume() -> r
+    void onPause() -> s
     void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater) -> a
     boolean onOptionsItemSelected(android.view.MenuItem) -> a
-    void showUpgradeDialog() -> J
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
-    void loadData() -> M
+    void loadData() -> c
     boolean onContextItemSelected(android.view.MenuItem) -> b
-    void showDeleteTripDialog(java.lang.String,long,int) -> a
+    void showDeleteTripDialog(java.lang.String,long) -> a
     void deleteTrip(long) -> b
     void scanQRCode() -> N
     void showAddTripDialog() -> O
-    void showUpdateTripDialog(java.lang.String,long,int) -> b
+    void showUpdateTripDialog(java.lang.String,long) -> b
     void updateTrip(long,java.lang.String) -> a
     void addTrip(java.lang.String) -> a
     void onActivityResult(int,int,android.content.Intent) -> a
@@ -21543,116 +21559,95 @@ com.trip.expensemanager.fragments.AddTripFragment -> com.trip.expensemanager.e.k
     android.widget.TextView access$3(com.trip.expensemanager.fragments.AddTripFragment) -> d
     java.util.List access$4(com.trip.expensemanager.fragments.AddTripFragment) -> e
     com.trip.expensemanager.adapters.CustomTripListAdapter access$5(com.trip.expensemanager.fragments.AddTripFragment) -> f
-    android.widget.Button access$6(com.trip.expensemanager.fragments.AddTripFragment) -> g
-    android.widget.EditText access$7(com.trip.expensemanager.fragments.AddTripFragment) -> h
-com.trip.expensemanager.fragments.AddTripFragment$1 -> com.trip.expensemanager.e.l:
+com.trip.expensemanager.fragments.AddTripFragment$1 -> com.trip.expensemanager.e.k:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.trip.expensemanager.fragments.AddTripFragment$10 -> com.trip.expensemanager.e.m:
+com.trip.expensemanager.fragments.AddTripFragment$2 -> com.trip.expensemanager.e.l:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     long val$tripId -> b
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$11 -> com.trip.expensemanager.e.n:
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.AddTripFragment$3 -> com.trip.expensemanager.e.m:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$2 -> com.trip.expensemanager.e.o:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$3 -> com.trip.expensemanager.e.p:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$4 -> com.trip.expensemanager.e.q:
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.AddTripFragment$4 -> com.trip.expensemanager.e.n:
     com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
     long val$tripId -> b
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$5 -> com.trip.expensemanager.e.r:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$6 -> com.trip.expensemanager.e.s:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.AddTripFragment$7 -> com.trip.expensemanager.e.t:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$8 -> com.trip.expensemanager.e.u:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.AddTripFragment$9 -> com.trip.expensemanager.e.v:
-    com.trip.expensemanager.fragments.AddTripFragment this$0 -> a
-    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.CustomFragment -> com.trip.expensemanager.e.w:
-    android.app.AlertDialog alert -> ac
-    com.trip.utils.billing.IabHelper mHelper -> aa
-    boolean isPurchaseReady -> ab
-    java.lang.String strUniqueString -> ad
-    void onCreate(android.os.Bundle) -> d
-    void purchaseItem() -> K
-    void continuePurchase() -> L
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.CustomFragment -> com.trip.expensemanager.e.o:
+    com.trip.utils.billing.IabHelper mHelper -> a
+    boolean isPurchaseReady -> b
+    java.lang.String strUniqueString -> c
+    void onCreate(android.os.Bundle) -> a
+    void purchaseItem() -> a
+    void continuePurchase() -> b
     void showMessage(java.lang.String) -> b
     void showInfoMessage(java.lang.String) -> c
     void showError(android.widget.EditText,java.lang.String) -> a
-    void onDestroy() -> o
+    void onDestroy() -> t
+    void showUpgradeDialog(java.lang.String) -> d
     void access$0(com.trip.expensemanager.fragments.CustomFragment,boolean) -> a
     java.lang.String access$1(com.trip.expensemanager.fragments.CustomFragment) -> a
-com.trip.expensemanager.fragments.CustomFragment$1 -> com.trip.expensemanager.e.x:
+com.trip.expensemanager.fragments.CustomFragment$1 -> com.trip.expensemanager.e.p:
     com.trip.expensemanager.fragments.CustomFragment this$0 -> a
     void onIabSetupFinished(com.trip.utils.billing.IabResult) -> a
-com.trip.expensemanager.fragments.CustomFragment$2 -> com.trip.expensemanager.e.y:
+com.trip.expensemanager.fragments.CustomFragment$2 -> com.trip.expensemanager.e.q:
     com.trip.expensemanager.fragments.CustomFragment this$0 -> a
     void onIabPurchaseFinished(com.trip.utils.billing.IabResult,com.trip.utils.billing.Purchase) -> a
-com.trip.expensemanager.fragments.CustomFragment$3 -> com.trip.expensemanager.e.z:
+com.trip.expensemanager.fragments.CustomFragment$3 -> com.trip.expensemanager.e.r:
     com.trip.expensemanager.fragments.CustomFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.CustomFragment$4 -> com.trip.expensemanager.e.aa:
+    void onDialogButtonClick(android.support.v4.app.DialogFragment) -> a
+com.trip.expensemanager.fragments.CustomFragment$4 -> com.trip.expensemanager.e.s:
     com.trip.expensemanager.fragments.CustomFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.e.ab:
-    android.widget.TextView txtNewUser -> aj
-    android.widget.EditText eTxtLoginUsername -> ak
-    android.widget.EditText eTxtLoginPassword -> al
-    android.widget.EditText eTxtRegisterUsername -> am
-    android.widget.EditText eTxtRegisterPassword -> an
-    android.widget.EditText eTxtConfPassword -> ao
-    android.widget.Button btnLogin -> ap
-    android.widget.Button btnRegister -> aq
-    java.lang.String strUsername -> ar
-    java.lang.String strPassword -> as
-    java.lang.String strConfPassword -> at
-    android.app.AlertDialog alert -> aa
-    android.widget.ImageView ivIcon -> au
-    android.widget.ScrollView svLogin -> av
-    android.widget.ScrollView svRegister -> aw
-    android.view.animation.Animation bounceImage -> ab
-    android.view.animation.Animation exitAnim -> ad
-    android.view.animation.Animation enterAnim -> ae
-    android.widget.ProgressBar pbUsername -> ax
-    android.widget.ProgressBar pbConfPwd -> ay
-    boolean pwdChecked -> af
-    boolean usernameChecked -> ag
-    android.view.animation.Animation registerAnim -> az
-    android.view.animation.Animation regEnterAnim -> aA
-    android.widget.TextView txtBack -> aB
-    android.view.animation.Animation loginAnim -> aC
-    int position -> aD
-    android.support.v4.app.FragmentActivity context -> aE
-    android.widget.EditText eTxtPrefferedName -> aF
-    boolean prefferedNameChecked -> ah
-    java.lang.String strPrefferedName -> ai
-    com.google.android.gms.common.SignInButton btnGoogleLogin -> aG
-    java.lang.String mEmail -> aH
-    com.trip.expensemanager.fragments.LoginFragment newInstance() -> J
+    void onDialogButtonClick(android.support.v4.app.DialogFragment) -> a
+com.trip.expensemanager.fragments.CustomFragment$5 -> com.trip.expensemanager.e.t:
+    com.trip.expensemanager.fragments.CustomFragment this$0 -> a
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.e.u:
+    android.widget.TextView txtNewUser -> h
+    android.widget.EditText eTxtLoginUsername -> i
+    android.widget.EditText eTxtLoginPassword -> aj
+    android.widget.EditText eTxtRegisterUsername -> ak
+    android.widget.EditText eTxtRegisterPassword -> al
+    android.widget.EditText eTxtConfPassword -> am
+    android.widget.Button btnLogin -> an
+    android.widget.Button btnRegister -> ao
+    java.lang.String strUsername -> ap
+    java.lang.String strPassword -> aq
+    java.lang.String strConfPassword -> ar
+    android.widget.ImageView ivIcon -> as
+    android.widget.ScrollView svLogin -> at
+    android.widget.ScrollView svRegister -> au
+    android.view.animation.Animation bounceImage -> a
+    android.view.animation.Animation exitAnim -> b
+    android.view.animation.Animation enterAnim -> c
+    android.widget.ProgressBar pbUsername -> av
+    android.widget.ProgressBar pbConfPwd -> aw
+    boolean pwdChecked -> d
+    boolean usernameChecked -> e
+    android.view.animation.Animation registerAnim -> ax
+    android.view.animation.Animation regEnterAnim -> ay
+    android.widget.TextView txtBack -> az
+    android.view.animation.Animation loginAnim -> aA
+    int position -> aB
+    android.support.v4.app.FragmentActivity context -> aC
+    android.widget.EditText eTxtPrefferedName -> aD
+    boolean prefferedNameChecked -> f
+    java.lang.String strPrefferedName -> g
+    com.google.android.gms.common.SignInButton btnGoogleLogin -> aE
+    java.lang.String mEmail -> aF
+    com.trip.expensemanager.fragments.LoginFragment newInstance() -> c
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void onSaveInstanceState(android.os.Bundle) -> g
+    void onSaveInstanceState(android.os.Bundle) -> e
     void onClick(android.view.View) -> onClick
-    void pickUserAccount() -> M
-    void registerUser() -> N
-    void login() -> O
+    void pickUserAccount() -> N
+    void registerUser() -> O
+    void login() -> P
     void onActivityResult(int,int,android.content.Intent) -> a
-    void showGMSNotFoundDialog() -> P
+    void showGMSNotFoundDialog() -> Q
     void onAnimationStart(android.view.animation.Animation) -> onAnimationStart
     void onAnimationEnd(android.view.animation.Animation) -> onAnimationEnd
     void onAnimationRepeat(android.view.animation.Animation) -> onAnimationRepeat
@@ -21674,192 +21669,164 @@ com.trip.expensemanager.fragments.LoginFragment -> com.trip.expensemanager.e.ab:
     android.widget.EditText access$15(com.trip.expensemanager.fragments.LoginFragment) -> n
     void access$16(com.trip.expensemanager.fragments.LoginFragment,java.lang.String) -> c
     java.lang.String access$17(com.trip.expensemanager.fragments.LoginFragment) -> o
-com.trip.expensemanager.fragments.LoginFragment$1 -> com.trip.expensemanager.e.ac:
+com.trip.expensemanager.fragments.LoginFragment$1 -> com.trip.expensemanager.e.v:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$2 -> com.trip.expensemanager.e.ad:
+com.trip.expensemanager.fragments.LoginFragment$2 -> com.trip.expensemanager.e.w:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.LoginFragment$3 -> com.trip.expensemanager.e.ae:
+com.trip.expensemanager.fragments.LoginFragment$3 -> com.trip.expensemanager.e.x:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.LoginFragment$4 -> com.trip.expensemanager.e.af:
+com.trip.expensemanager.fragments.LoginFragment$4 -> com.trip.expensemanager.e.y:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$4) -> a
-com.trip.expensemanager.fragments.LoginFragment$4$1 -> com.trip.expensemanager.e.ag:
+com.trip.expensemanager.fragments.LoginFragment$4$1 -> com.trip.expensemanager.e.z:
     com.trip.expensemanager.fragments.LoginFragment$4 this$1 -> a
     void run() -> run
     com.trip.expensemanager.fragments.LoginFragment$4 access$0(com.trip.expensemanager.fragments.LoginFragment$4$1) -> a
-com.trip.expensemanager.fragments.LoginFragment$4$1$1 -> com.trip.expensemanager.e.ah:
+com.trip.expensemanager.fragments.LoginFragment$4$1$1 -> com.trip.expensemanager.e.aa:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$1$2 -> com.trip.expensemanager.e.ai:
+com.trip.expensemanager.fragments.LoginFragment$4$1$2 -> com.trip.expensemanager.e.ab:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$1$3 -> com.trip.expensemanager.e.aj:
+com.trip.expensemanager.fragments.LoginFragment$4$1$3 -> com.trip.expensemanager.e.ac:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$4$1$4 -> com.trip.expensemanager.e.ak:
+com.trip.expensemanager.fragments.LoginFragment$4$1$4 -> com.trip.expensemanager.e.ad:
     com.trip.expensemanager.fragments.LoginFragment$4$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$5 -> com.trip.expensemanager.e.al:
+com.trip.expensemanager.fragments.LoginFragment$5 -> com.trip.expensemanager.e.ae:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.LoginFragment$6 -> com.trip.expensemanager.e.am:
+com.trip.expensemanager.fragments.LoginFragment$6 -> com.trip.expensemanager.e.af:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$6) -> a
-com.trip.expensemanager.fragments.LoginFragment$6$1 -> com.trip.expensemanager.e.an:
+com.trip.expensemanager.fragments.LoginFragment$6$1 -> com.trip.expensemanager.e.ag:
     com.trip.expensemanager.fragments.LoginFragment$6 this$1 -> a
     void run() -> run
     com.trip.expensemanager.fragments.LoginFragment$6 access$0(com.trip.expensemanager.fragments.LoginFragment$6$1) -> a
-com.trip.expensemanager.fragments.LoginFragment$6$1$1 -> com.trip.expensemanager.e.ao:
+com.trip.expensemanager.fragments.LoginFragment$6$1$1 -> com.trip.expensemanager.e.ah:
     com.trip.expensemanager.fragments.LoginFragment$6$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$6$1$2 -> com.trip.expensemanager.e.ap:
+com.trip.expensemanager.fragments.LoginFragment$6$1$2 -> com.trip.expensemanager.e.ai:
     com.trip.expensemanager.fragments.LoginFragment$6$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$7 -> com.trip.expensemanager.e.aq:
+com.trip.expensemanager.fragments.LoginFragment$7 -> com.trip.expensemanager.e.aj:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
     void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
     void afterTextChanged(android.text.Editable) -> afterTextChanged
     com.trip.expensemanager.fragments.LoginFragment access$0(com.trip.expensemanager.fragments.LoginFragment$7) -> a
-com.trip.expensemanager.fragments.LoginFragment$7$1 -> com.trip.expensemanager.e.ar:
+com.trip.expensemanager.fragments.LoginFragment$7$1 -> com.trip.expensemanager.e.ak:
     com.trip.expensemanager.fragments.LoginFragment$7 this$1 -> a
     void run() -> run
     com.trip.expensemanager.fragments.LoginFragment$7 access$0(com.trip.expensemanager.fragments.LoginFragment$7$1) -> a
-com.trip.expensemanager.fragments.LoginFragment$7$1$1 -> com.trip.expensemanager.e.as:
+com.trip.expensemanager.fragments.LoginFragment$7$1$1 -> com.trip.expensemanager.e.al:
     com.trip.expensemanager.fragments.LoginFragment$7$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$7$1$2 -> com.trip.expensemanager.e.at:
+com.trip.expensemanager.fragments.LoginFragment$7$1$2 -> com.trip.expensemanager.e.am:
     com.trip.expensemanager.fragments.LoginFragment$7$1 this$2 -> a
     void run() -> run
-com.trip.expensemanager.fragments.LoginFragment$8 -> com.trip.expensemanager.e.au:
+com.trip.expensemanager.fragments.LoginFragment$8 -> com.trip.expensemanager.e.an:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.LoginFragment$9 -> com.trip.expensemanager.e.av:
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.LoginFragment$9 -> com.trip.expensemanager.e.ao:
     com.trip.expensemanager.fragments.LoginFragment this$0 -> a
     void run() -> run
-com.trip.expensemanager.fragments.TripDetailsFragment -> com.trip.expensemanager.e.aw:
-    android.app.AlertDialog alert -> aa
-    long lngUserId -> ab
-    java.util.ArrayList arrExpenses -> ad
-    long lngTripId -> ae
-    java.lang.String strTripName -> af
-    android.widget.TextView txtTripName -> ag
-    android.widget.ImageView ivEdit -> ah
-    android.widget.LinearLayout llChartContainer -> ai
-    org.achartengine.GraphicalView mChart -> aj
-    android.widget.TextView txtNoExpenses -> ak
-    android.support.v4.util.LongSparseArray expenseSparseArr -> al
-    android.support.v4.util.LongSparseArray toGetSparseArr -> am
-    java.lang.String strTotalSpent -> an
-    java.util.List arrDistribution -> ao
-    java.util.List arrPossibletoSettle -> ap
-    java.util.ArrayList arrFromUsrIds -> aq
-    java.util.ArrayList arrAmountToPay -> ar
-    android.widget.ListView lvDistributionList -> as
-    android.widget.ArrayAdapter listAdapter -> at
-    android.widget.EditText eTxtTripName -> au
-    android.widget.Button btnModify -> av
-    android.widget.Button btnCancel -> aw
-    android.widget.TextView txtDistribution -> ax
-    long lngAdminId -> ay
-    android.widget.TextView txtTripAmount -> az
-    android.widget.RadioButton btnUnsettled -> aA
-    android.widget.RadioButton btnSettled -> aB
-    android.widget.RadioGroup rgDist -> aC
-    android.widget.Button btnYes -> aD
-    java.lang.String strAmount -> aE
+com.trip.expensemanager.fragments.TripDetailsFragment -> com.trip.expensemanager.e.ap:
+    long lngUserId -> a
+    java.util.ArrayList arrExpenses -> b
+    long lngTripId -> c
+    java.lang.String strTripName -> d
+    android.widget.TextView txtTripName -> e
+    android.widget.ImageView ivEdit -> f
+    android.widget.LinearLayout llChartContainer -> g
+    org.achartengine.GraphicalView mChart -> h
+    android.widget.TextView txtNoExpenses -> i
+    android.support.v4.util.LongSparseArray expenseSparseArr -> aj
+    android.support.v4.util.LongSparseArray toGetSparseArr -> ak
+    java.lang.String strTotalSpent -> al
+    java.util.List arrDistribution -> am
+    java.util.List arrPossibletoSettle -> an
+    java.util.ArrayList arrFromUsrIds -> ao
+    java.util.ArrayList arrAmountToPay -> ap
+    android.widget.ListView lvDistributionList -> aq
+    android.widget.ArrayAdapter listAdapter -> ar
+    android.widget.TextView txtDistribution -> as
+    android.widget.TextView txtTripAmount -> at
+    android.widget.RadioButton btnUnsettled -> au
+    android.widget.RadioGroup rgDist -> av
     com.trip.expensemanager.fragments.TripDetailsFragment newInstance(java.lang.String,long,long) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
     void loadData(com.trip.utils.TripBean) -> a
-    void buildDistribution() -> J
+    void buildDistribution() -> c
     void splitExpense(com.trip.utils.DistributionBean[],com.trip.utils.DistributionBean[],com.trip.utils.DistributionBean[]) -> a
-    void openChart() -> M
+    void openChart() -> N
     void onClick(android.view.View) -> onClick
-    void showSettleDeptDialog(int) -> b
-    void markDistributionAsSettled(int) -> a
+    void showSettleDeptDialog(int) -> a
+    void markDistributionAsSettled(java.lang.String,int) -> a
     void showUpdateTripNameDialog(java.lang.String) -> a
     void updateTrip(long,java.lang.String) -> a
     void onCheckedChanged(android.widget.RadioGroup,int) -> onCheckedChanged
-    void reBuildDistribution() -> N
-    void showSettledDistribution() -> O
-    void showUnsettledDistribution() -> P
-    android.widget.Button access$0(com.trip.expensemanager.fragments.TripDetailsFragment) -> a
-    void access$1(com.trip.expensemanager.fragments.TripDetailsFragment,java.lang.String) -> a
+    void reBuildDistribution() -> O
+    void showSettledDistribution() -> P
+    void showUnsettledDistribution() -> Q
+    void access$0(com.trip.expensemanager.fragments.TripDetailsFragment,java.lang.String) -> a
+    long access$1(com.trip.expensemanager.fragments.TripDetailsFragment) -> a
     java.lang.String access$2(com.trip.expensemanager.fragments.TripDetailsFragment) -> b
-    android.widget.Button access$3(com.trip.expensemanager.fragments.TripDetailsFragment) -> c
-    android.widget.EditText access$4(com.trip.expensemanager.fragments.TripDetailsFragment) -> d
-    void access$5(com.trip.expensemanager.fragments.TripDetailsFragment,java.lang.String) -> b
-    long access$6(com.trip.expensemanager.fragments.TripDetailsFragment) -> e
-    java.lang.String access$7(com.trip.expensemanager.fragments.TripDetailsFragment) -> f
-    android.widget.TextView access$8(com.trip.expensemanager.fragments.TripDetailsFragment) -> g
-com.trip.expensemanager.fragments.TripDetailsFragment$1 -> com.trip.expensemanager.e.ax:
-    com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
-    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.TripDetailsFragment$2 -> com.trip.expensemanager.e.ay:
+com.trip.expensemanager.fragments.TripDetailsFragment$1 -> com.trip.expensemanager.e.aq:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
     int val$position -> b
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$3 -> com.trip.expensemanager.e.az:
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.TripDetailsFragment$2 -> com.trip.expensemanager.e.ar:
     com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$4 -> com.trip.expensemanager.e.ba:
-    com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
-    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
-    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
-    void afterTextChanged(android.text.Editable) -> afterTextChanged
-com.trip.expensemanager.fragments.TripDetailsFragment$5 -> com.trip.expensemanager.e.bb:
-    com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripDetailsFragment$6 -> com.trip.expensemanager.e.bc:
-    com.trip.expensemanager.fragments.TripDetailsFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager.e.bd:
-    android.app.AlertDialog alert -> aa
-    android.widget.ListView listExpense -> ab
-    long lngUserId -> ad
-    android.widget.ArrayAdapter listAdapter -> ae
-    java.util.ArrayList arrExpenses -> af
-    android.widget.TextView txtNoExpense -> ag
-    long lngTripId -> ah
-    java.util.List arrIds -> ai
-    java.util.List arrUserIds -> aj
-    java.util.List arrExpenseNames -> ak
-    java.util.List arrExpenseAmount -> al
-    java.util.List arrSynced -> am
-    java.util.List arrExpenseNotSynched -> an
-    long lngExpUserId -> ao
-    android.content.BroadcastReceiver receiver -> ap
-    android.widget.ImageButton btnAddExpense -> aq
-    java.util.List arrColors -> ar
-    java.util.concurrent.atomic.AtomicInteger newExpenseCalled -> as
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager.e.as:
+    android.widget.ListView listExpense -> a
+    long lngUserId -> b
+    android.widget.ArrayAdapter listAdapter -> c
+    java.util.ArrayList arrExpenses -> d
+    android.widget.TextView txtNoExpense -> e
+    long lngTripId -> f
+    java.util.List arrIds -> g
+    java.util.List arrUserIds -> h
+    java.util.List arrExpenseNames -> i
+    java.util.List arrExpenseAmount -> aj
+    java.util.List arrSynced -> ak
+    java.util.List arrExpenseNotSynched -> al
+    long lngExpUserId -> am
+    android.content.BroadcastReceiver receiver -> an
+    android.widget.ImageButton btnAddExpense -> ao
+    java.util.List arrColors -> ap
+    java.util.concurrent.atomic.AtomicInteger newExpenseCalled -> aq
     com.trip.expensemanager.fragments.TripExpenseFragment newInstance(java.lang.String,long,long) -> a
     android.support.v4.app.Fragment newInstance(long,long,int,long,long) -> a
-    void onCreate(android.os.Bundle) -> d
+    void onCreate(android.os.Bundle) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void loadData() -> J
-    void onResume() -> k
-    void onPause() -> l
+    void loadData() -> c
+    void onResume() -> r
+    void onPause() -> s
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> b
     void showDeleteExpenseDialog(java.lang.String,long,int) -> a
-    void showAddExpense() -> M
+    void showAddExpense() -> N
     void onActivityResult(int,int,android.content.Intent) -> a
     void deleteExpense(long,int) -> a
     boolean areAllUsersPresent(com.trip.utils.TripBean,com.trip.utils.ExpenseBean) -> a
@@ -21870,66 +21837,130 @@ com.trip.expensemanager.fragments.TripExpenseFragment -> com.trip.expensemanager
     void onClick(android.view.View) -> onClick
     void access$0(com.trip.expensemanager.fragments.TripExpenseFragment) -> a
     void access$1(com.trip.expensemanager.fragments.TripExpenseFragment,long,int) -> a
-com.trip.expensemanager.fragments.TripExpenseFragment$1 -> com.trip.expensemanager.e.be:
+com.trip.expensemanager.fragments.TripExpenseFragment$1 -> com.trip.expensemanager.e.at:
     com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
     void onReceive(android.content.Context,android.content.Intent) -> onReceive
-com.trip.expensemanager.fragments.TripExpenseFragment$2 -> com.trip.expensemanager.e.bf:
+com.trip.expensemanager.fragments.TripExpenseFragment$2 -> com.trip.expensemanager.e.au:
     com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
     long val$expenseId -> b
     int val$position -> c
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripExpenseFragment$3 -> com.trip.expensemanager.e.bg:
-    com.trip.expensemanager.fragments.TripExpenseFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripPeopleFragment -> com.trip.expensemanager.e.bh:
-    android.app.AlertDialog alert -> aa
-    android.widget.ListView listPeople -> ab
-    long lngUserId -> ad
-    android.widget.ArrayAdapter listAdapter -> ae
-    java.util.List arrPeople -> af
-    java.util.List arrPeopleIds -> ag
-    java.util.List arrAmount -> ah
-    android.widget.TextView txtNoPeople -> ai
-    long lngTripId -> aj
-    java.lang.String strTripName -> ak
-    java.util.List arrExpenses -> al
-    java.util.List arrSynced -> am
-    long lngAdminId -> an
-    java.lang.String strDate -> ao
-    android.widget.ImageButton btnAddPeople -> ap
-    java.util.List arrColors -> aq
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.TripPeopleFragment -> com.trip.expensemanager.e.av:
+    android.widget.ListView listPeople -> a
+    long lngUserId -> b
+    android.widget.ArrayAdapter listAdapter -> c
+    java.util.List arrPeople -> d
+    java.util.List arrPeopleIds -> e
+    java.util.List arrAmount -> f
+    android.widget.TextView txtNoPeople -> g
+    long lngTripId -> h
+    java.lang.String strTripName -> i
+    java.util.List arrExpenses -> aj
+    java.util.List arrSynced -> ak
+    long lngAdminId -> al
+    java.lang.String strDate -> am
+    android.widget.ImageButton btnAddPeople -> an
+    java.util.List arrColors -> ao
     com.trip.expensemanager.fragments.TripPeopleFragment newInstance(java.lang.String,long,long) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void loadData() -> J
-    void showAddPeopleFragment() -> M
+    void loadData() -> c
+    void showAddPeopleFragment() -> N
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
-    void showExpenseByPerson(long,int) -> b
+    void showExpenseByPerson(long,int) -> a
     void onCreateContextMenu(android.view.ContextMenu,android.view.View,android.view.ContextMenu$ContextMenuInfo) -> onCreateContextMenu
     boolean onContextItemSelected(android.view.MenuItem) -> b
     void showDeletePersonDialog(java.lang.String,long,int,java.lang.String) -> a
-    void deleteUser(long,int) -> a
+    void deleteUser(long) -> a
     java.lang.String add(java.lang.String,java.lang.String) -> a
     void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripPeopleFragment$1 -> com.trip.expensemanager.e.bi:
+com.trip.expensemanager.fragments.TripPeopleFragment$1 -> com.trip.expensemanager.e.aw:
     com.trip.expensemanager.fragments.TripPeopleFragment this$0 -> a
     long val$userId -> b
-    int val$position -> c
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.TripPeopleFragment$2 -> com.trip.expensemanager.e.bj:
-    com.trip.expensemanager.fragments.TripPeopleFragment this$0 -> a
-    void onClick(android.view.View) -> onClick
-com.trip.expensemanager.fragments.UpdatesFragment -> com.trip.expensemanager.e.bk:
-    com.trip.expensemanager.adapters.CustomUpdatesAdapter listAdapter -> aa
-    android.widget.ListView lvUpdatesList -> ab
-    java.util.List listUpdates -> ad
-    java.util.List listLabels -> ae
-    java.util.List listActions -> af
-    android.widget.TextView tvNoUpdates -> ag
-    com.trip.expensemanager.fragments.UpdatesFragment newInstance() -> J
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.UpdatesFragment -> com.trip.expensemanager.e.ax:
+    com.trip.expensemanager.adapters.CustomUpdatesAdapter listAdapter -> a
+    android.widget.ListView lvUpdatesList -> b
+    java.util.List listUpdates -> c
+    java.util.List listLabels -> d
+    java.util.List listActions -> e
+    android.widget.TextView tvNoUpdates -> f
+    com.trip.expensemanager.fragments.UpdatesFragment newInstance() -> c
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> a
-    void loadData() -> M
-    void onResume() -> k
+    void loadData() -> N
+    void onResume() -> r
     void onItemClick(android.widget.AdapterView,android.view.View,int,long) -> onItemClick
+com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment -> com.trip.expensemanager.e.a.a:
+    com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener mListener -> aj
+    java.lang.CharSequence strAction -> ak
+    java.lang.String strText -> al
+    com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment newInstance(java.lang.String,java.lang.String,com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener) -> a
+    void onCreate(android.os.Bundle) -> a
+    android.app.Dialog onCreateDialog(android.os.Bundle) -> c
+com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment$1 -> com.trip.expensemanager.e.a.b:
+    com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment this$0 -> a
+    android.widget.Button val$btnOk -> b
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment$2 -> com.trip.expensemanager.e.a.c:
+    com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment$3 -> com.trip.expensemanager.e.a.d:
+    com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener -> com.trip.expensemanager.e.a.e:
+    void onDialogPositiveClick(android.support.v4.app.DialogFragment) -> a
+    void onDialogNegativeClick(android.support.v4.app.DialogFragment) -> b
+com.trip.expensemanager.fragments.dialogs.ConfirmationFragment -> com.trip.expensemanager.e.a.f:
+    com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener mListener -> aj
+    java.lang.String strTitle -> ak
+    java.lang.String strContent -> al
+    java.lang.String strAction -> am
+    int iLayout -> an
+    com.trip.expensemanager.fragments.dialogs.ConfirmationFragment newInstance(java.lang.String,java.lang.String,java.lang.String,int,com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener) -> a
+    void onCreate(android.os.Bundle) -> a
+    android.app.Dialog onCreateDialog(android.os.Bundle) -> c
+com.trip.expensemanager.fragments.dialogs.ConfirmationFragment$1 -> com.trip.expensemanager.e.a.g:
+    com.trip.expensemanager.fragments.dialogs.ConfirmationFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.dialogs.ConfirmationFragment$2 -> com.trip.expensemanager.e.a.h:
+    com.trip.expensemanager.fragments.dialogs.ConfirmationFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.dialogs.InfoDialogListener -> com.trip.expensemanager.e.a.i:
+    void onDialogButtonClick(android.support.v4.app.DialogFragment) -> a
+com.trip.expensemanager.fragments.dialogs.InformationFragment -> com.trip.expensemanager.e.a.j:
+    com.trip.expensemanager.fragments.dialogs.InfoDialogListener mListener -> aj
+    java.lang.String strTitle -> ak
+    java.lang.String strContent -> al
+    java.lang.String strAction -> am
+    int iLayout -> an
+    com.trip.expensemanager.fragments.dialogs.InformationFragment newInstance(java.lang.String,java.lang.String,java.lang.String,int,com.trip.expensemanager.fragments.dialogs.InfoDialogListener) -> a
+    void onCreate(android.os.Bundle) -> a
+    android.app.Dialog onCreateDialog(android.os.Bundle) -> c
+com.trip.expensemanager.fragments.dialogs.InformationFragment$1 -> com.trip.expensemanager.e.a.k:
+    com.trip.expensemanager.fragments.dialogs.InformationFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.dialogs.SettleDebtDialogFragment -> com.trip.expensemanager.e.a.l:
+    com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener mListener -> aj
+    java.lang.String strText -> ak
+    java.lang.String strAmount -> al
+    com.trip.expensemanager.fragments.dialogs.SettleDebtDialogFragment newInstance(java.lang.String,java.lang.String,com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener) -> a
+    void onCreate(android.os.Bundle) -> a
+    android.app.Dialog onCreateDialog(android.os.Bundle) -> c
+com.trip.expensemanager.fragments.dialogs.SettleDebtDialogFragment$1 -> com.trip.expensemanager.e.a.m:
+    com.trip.expensemanager.fragments.dialogs.SettleDebtDialogFragment this$0 -> a
+    android.widget.Button val$btnOk -> b
+    void onTextChanged(java.lang.CharSequence,int,int,int) -> onTextChanged
+    void beforeTextChanged(java.lang.CharSequence,int,int,int) -> beforeTextChanged
+    void afterTextChanged(android.text.Editable) -> afterTextChanged
+com.trip.expensemanager.fragments.dialogs.SettleDebtDialogFragment$2 -> com.trip.expensemanager.e.a.n:
+    com.trip.expensemanager.fragments.dialogs.SettleDebtDialogFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.trip.expensemanager.fragments.dialogs.SettleDebtDialogFragment$3 -> com.trip.expensemanager.e.a.o:
+    com.trip.expensemanager.fragments.dialogs.SettleDebtDialogFragment this$0 -> a
+    void onClick(android.view.View) -> onClick
 com.trip.expensemanager.loginendpoint.Loginendpoint -> com.trip.expensemanager.f.a:
     void initialize(com.google.api.client.googleapis.services.AbstractGoogleClientRequest) -> a
     com.trip.expensemanager.loginendpoint.Loginendpoint$GetLogIn getLogIn(java.lang.Long) -> a

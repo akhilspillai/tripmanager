@@ -22,7 +22,10 @@ package com.trip.utils.billing;
  * call {@link #getResult()}.
  */
 public class IabException extends Exception {
-    IabResult mResult;
+    /**
+	 * 
+	 */
+	IabResult mResult;
 
     public IabException(IabResult r) {
         this(r, null);

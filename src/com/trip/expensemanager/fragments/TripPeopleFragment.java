@@ -4,35 +4,35 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.trip.expensemanager.AllDetailsActivity;
 import com.trip.expensemanager.R;
 import com.trip.expensemanager.adapters.CustomPeopleListAdapter;
+import com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener;
+import com.trip.expensemanager.fragments.dialogs.ConfirmationFragment;
 import com.trip.utils.Constants;
 import com.trip.utils.ExpenseBean;
 import com.trip.utils.Global;
 import com.trip.utils.LocalDB;
 import com.trip.utils.TripBean;
-
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class TripPeopleFragment extends CustomFragment implements OnItemClickListener, OnClickListener {
 
@@ -218,8 +218,8 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 		int menuItemIndex = item.getItemId();
-		String[] menuItems = getResources().getStringArray(R.array.menu_expense_list);
-		String menuItemName = menuItems[menuItemIndex];
+//		String[] menuItems = getResources().getStringArray(R.array.menu_expense_list);
+//		String menuItemName = menuItems[menuItemIndex];
 		long lngUserId = arrPeopleIds.get(info.position);
 		if(menuItemIndex==0){
 			showDeletePersonDialog(arrPeople.get(info.position), lngUserId, info.position, strTripName);
@@ -227,42 +227,25 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 		return true;
 	}
 
-	@SuppressLint("InflateParams")
+	
 	protected void showDeletePersonDialog(final String username, final long userId, final int position, String tripName) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.delete_expensegroup_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			Button btnYes = (Button) view.findViewById(R.id.btn_yes);
-			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			btnYes.setOnClickListener(new OnClickListener() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onClick(View v) {					
-					deleteUser(userId, position);
-					alert.cancel();
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				deleteUser(userId);
+				dialog.dismiss();
+			}
 
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText("Are you sure you want to delete the person "+username+" from trip "+tripName+"?");
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		ConfirmationFragment.newInstance(username, "Are you sure you want to delete the person "+username+" from trip "+tripName+"?", null, R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
-	protected void deleteUser(long userId, int position) {
+	protected void deleteUser(long userId) {
 		// TODO Auto-generated method stub
 
 	}
@@ -284,7 +267,12 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 
 	@Override
 	public void onClick(View v) {
-		showAddPeopleFragment();;
+		if(arrPeople.size()>=5){
+			String strContent="You should be a premium user to add more people to this Expense Groups.\n"+getActivity().getResources().getString(R.string.upgrade_features);
+			showUpgradeDialog(strContent);
+		} else{
+			showAddPeopleFragment();
+		}
 	}
 	
 }

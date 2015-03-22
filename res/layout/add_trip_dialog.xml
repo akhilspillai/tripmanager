@@ -1,78 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/translucent" >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@android:color/white"
+    android:padding="20dp" >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_add_trip"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_trip_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginTop="15dp"
+        android:text="@string/trip_name"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/etxt_trip_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_trip_name"
+        android:layout_marginTop="5dp"
+        android:hint="@string/add_trip_name"
+        android:inputType="textCapWords"
+        android:textColor="@drawable/disable_color" />
 
     <RelativeLayout
-        android:layout_width="300dp"
+        android:id="@+id/Footer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/abc_popup_background_mtrl_mult" >
+        android:layout_below="@+id/etxt_trip_name"
+        android:layout_marginTop="15dp" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp" >
+            android:layout_toLeftOf="@+id/btn_cancel"
+            android:layout_toStartOf="@+id/btn_cancel"
+            android:background="@drawable/lollipop_button"
+            android:enabled="false"
+            android:textColor="@drawable/btn_text_selector" />
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
-                android:text="@string/action_add_trip"
-                android:textStyle="bold" />
-            
-            <TextView
-                android:id="@+id/tv_trip_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/trip_name"
-                android:layout_below="@+id/tv_title"
-                android:textColor="@android:color/black"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/etxt_trip_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_trip_name"
-                android:layout_marginTop="5dp"
-                android:hint="@string/add_trip_name"
-                android:inputType="textCapWords"
-                android:textColor="@drawable/disable_color" />
-
-            <RelativeLayout
-                android:id="@+id/Footer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/etxt_trip_name"
-                android:layout_marginTop="15dp" >
-
-                <Button
-                    android:id="@+id/btn_ok"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/btn_cancel"
-                    android:layout_toStartOf="@+id/btn_cancel"
-                    android:background="@drawable/lollipop_button"
-                    android:text="@string/ok"
-                    android:textColor="@color/app_color_dark" />
-
-                <Button
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/lollipop_button"
-                    android:text="@string/cancel"
-                    android:textColor="@color/app_color_dark" />
-            </RelativeLayout>
-        </RelativeLayout>
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/lollipop_button"
+            android:text="@string/cancel"
+            android:textColor="@drawable/btn_text_selector" />
     </RelativeLayout>
 
 </RelativeLayout>

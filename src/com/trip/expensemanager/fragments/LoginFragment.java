@@ -3,7 +3,6 @@ package com.trip.expensemanager.fragments;
 import java.io.IOException;
 
 import android.accounts.AccountManager;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -11,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -38,6 +38,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.trip.expensemanager.CloudEndpointUtils;
 import com.trip.expensemanager.ProcessingActivity;
 import com.trip.expensemanager.R;
+import com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener;
+import com.trip.expensemanager.fragments.dialogs.ConfirmationFragment;
 import com.trip.expensemanager.loginendpoint.Loginendpoint;
 import com.trip.expensemanager.loginendpoint.model.CollectionResponseLogIn;
 import com.trip.utils.Constants;
@@ -652,39 +654,27 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 		}
 	}
 
-	@SuppressLint("InflateParams")
+	
 	private void showGMSNotFoundDialog() {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.registration_error_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.error);
-			Button btnOk = (Button) view.findViewById(R.id.btnOk);
-			btnOk.setText("Install");
-			btnOk.setOnClickListener(new OnClickListener() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onClick(View v) {
-					try {
-						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.gms")));
-					} catch (android.content.ActivityNotFoundException anfe) {
-						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.google.android.gms")));
-					}
-					alert.cancel();
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				try {
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.gms")));
+				} catch (android.content.ActivityNotFoundException anfe) {
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.google.android.gms")));
 				}
-			});
+				dialog.dismiss();
+			}
 
-			textView.setText("Oops!! Seems like you don't have google play services installed. Please install and try again!!");
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		ConfirmationFragment.newInstance("No Google Play Services", "Oops!! Seems like you don't have google play services installed. Please install and try again!!", "Install", R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
-
-
 
 	@Override
 	public void onAnimationStart(Animation animation) {

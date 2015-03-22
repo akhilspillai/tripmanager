@@ -3,12 +3,9 @@ package com.trip.expensemanager.adapters;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -16,14 +13,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.trip.expensemanager.R;
-import com.trip.utils.Global;
 
 public class CustomExpenseListAdapter extends ArrayAdapter<String> {
 
 	private Context context;
 	private List<String> items;
 	private List<Integer> synced;
-	private int lastPosition = -1;
 	private List<String> amount;
 	private List<Integer> colors;
 

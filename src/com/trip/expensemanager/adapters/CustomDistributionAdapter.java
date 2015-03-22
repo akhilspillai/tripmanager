@@ -6,8 +6,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,7 +17,6 @@ public class CustomDistributionAdapter extends ArrayAdapter<String> {
 
 	private Context context;
 	private List<String> items;
-	private int lastPosition=-1;
 	private List<Boolean> isSettlementPossible;
 	private TripDetailsFragment fragment;
 

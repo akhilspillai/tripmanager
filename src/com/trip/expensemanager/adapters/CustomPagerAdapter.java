@@ -1,6 +1,5 @@
 package com.trip.expensemanager.adapters;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -16,15 +15,13 @@ public class CustomPagerAdapter extends FragmentStatePagerAdapter{
 	private long lngUserId;
 	private long lngTripId;
 	private String[] tabs;
-	private ActionBarActivity context;
-
+	
 	public CustomPagerAdapter(FragmentManager fm, String[] tabs, String strTrip, long lngUserId, long lngTripId, ActionBarActivity context) {
 		super(fm);
 		this.tabs=tabs;
 		this.strTrip=strTrip;
 		this.lngUserId=lngUserId;
 		this.lngTripId=lngTripId;
-		this.context=context;
 	}
 
 	@Override

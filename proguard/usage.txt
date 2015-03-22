@@ -92,7 +92,6 @@ android.support.v4.app.BackStackRecord:
     368:368:public int getBreadCrumbShortTitleRes()
     372:375:public java.lang.CharSequence getBreadCrumbTitle()
     379:382:public java.lang.CharSequence getBreadCrumbShortTitle()
-    401:402:public android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String)
     465:470:public android.support.v4.app.FragmentTransaction hide(android.support.v4.app.Fragment)
     474:479:public android.support.v4.app.FragmentTransaction show(android.support.v4.app.Fragment)
     501:501:public android.support.v4.app.FragmentTransaction setCustomAnimations(int,int)
@@ -111,7 +110,24 @@ android.support.v4.app.BackStackRecord:
     978:978:public int getTransitionStyle()
     982:982:public boolean isEmpty()
 android.support.v4.app.BundleUtil
-android.support.v4.app.DialogFragment
+android.support.v4.app.DialogFragment:
+    public static final int STYLE_NORMAL
+    public static final int STYLE_NO_TITLE
+    public static final int STYLE_NO_FRAME
+    public static final int STYLE_NO_INPUT
+    private static final java.lang.String SAVED_DIALOG_STATE_TAG
+    private static final java.lang.String SAVED_STYLE
+    private static final java.lang.String SAVED_THEME
+    private static final java.lang.String SAVED_CANCELABLE
+    private static final java.lang.String SAVED_SHOWS_DIALOG
+    private static final java.lang.String SAVED_BACK_STACK_ID
+    113:120:public void setStyle(int,int)
+    151:156:public int show(android.support.v4.app.FragmentTransaction,java.lang.String)
+    176:177:public void dismissAllowingStateLoss()
+    224:226:public void setCancelable(boolean)
+    232:232:public boolean isCancelable()
+    253:254:public void setShowsDialog(boolean)
+    260:260:public boolean getShowsDialog()
 android.support.v4.app.DialogFragment$DialogStyle
 android.support.v4.app.Fragment:
     static final int INITIALIZING
@@ -128,7 +144,6 @@ android.support.v4.app.Fragment:
     631:631:public final java.lang.CharSequence getText(int)
     641:641:public final java.lang.String getString(int)
     654:654:public final varargs java.lang.String getString(int,java.lang.Object[])
-    668:668:public final android.support.v4.app.FragmentManager getFragmentManager()
     696:696:public final android.support.v4.app.Fragment getParentFragment()
     721:721:public final boolean isRemoving()
     732:732:public final boolean isInLayout()
@@ -171,7 +186,6 @@ android.support.v4.app.FragmentManager:
     public abstract void popBackStack()
     public abstract boolean popBackStackImmediate()
     public abstract boolean popBackStackImmediate(java.lang.String,int)
-    public abstract void popBackStack(int,int)
     public abstract boolean popBackStackImmediate(int,int)
     public abstract android.support.v4.app.FragmentManager$BackStackEntry getBackStackEntryAt(int)
     public abstract void addOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
@@ -196,7 +210,6 @@ android.support.v4.app.FragmentManagerImpl:
     public static final int ANIM_STYLE_FADE_EXIT
     491:496:public void popBackStack()
     516:518:public boolean popBackStackImmediate(java.lang.String,int)
-    523:531:public void popBackStack(int,int)
     535:540:public boolean popBackStackImmediate(int,int)
     550:550:public android.support.v4.app.FragmentManager$BackStackEntry getBackStackEntryAt(int)
     555:559:public void addOnBackStackChangedListener(android.support.v4.app.FragmentManager$OnBackStackChangedListener)
@@ -205,7 +218,6 @@ android.support.v4.app.FragmentManagerImpl:
     615:615:public boolean isDestroyed()
     1352:1360:public android.support.v4.app.Fragment findFragmentByWho(java.lang.String)
 android.support.v4.app.FragmentManagerImpl$2
-android.support.v4.app.FragmentManagerImpl$4
 android.support.v4.app.FragmentManagerImpl$FragmentTag:
     public static final int Fragment_id
     public static final int Fragment_name
@@ -236,7 +248,6 @@ android.support.v4.app.FragmentTransaction:
     public static final int TRANSIT_FRAGMENT_OPEN
     public static final int TRANSIT_FRAGMENT_CLOSE
     public static final int TRANSIT_FRAGMENT_FADE
-    public abstract android.support.v4.app.FragmentTransaction add(android.support.v4.app.Fragment,java.lang.String)
     public abstract android.support.v4.app.FragmentTransaction replace(int,android.support.v4.app.Fragment,java.lang.String)
     public abstract android.support.v4.app.FragmentTransaction hide(android.support.v4.app.Fragment)
     public abstract android.support.v4.app.FragmentTransaction show(android.support.v4.app.Fragment)
@@ -10216,14 +10227,20 @@ com.trip.expensemanager.fragments.CustomFragment:
 com.trip.expensemanager.fragments.LoginFragment:
     private static final int REQUEST_CODE_LOGIN
     private static final int REQUEST_CODE_REGISTER
+    protected android.app.AlertDialog alert
     static final int REQUEST_CODE_PICK_ACCOUNT
     static final int REQUEST_CODE_RECOVER_FROM_AUTH_ERROR
     static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR
+com.trip.expensemanager.fragments.TripDetailsFragment:
+    protected android.app.AlertDialog alert
+    private android.widget.Button btnYes
 com.trip.expensemanager.fragments.TripExpenseFragment:
     private static final int REQUEST_CODE_ADD
     private static final int REQUEST_CODE_UPDATE
+    protected android.app.AlertDialog alert
 com.trip.expensemanager.fragments.TripPeopleFragment:
     private static final int REQUEST_CODE_SHOW_EXP
+    protected android.app.AlertDialog alert
 com.trip.expensemanager.loginendpoint.Loginendpoint:
     public static final java.lang.String DEFAULT_ROOT_URL
     public static final java.lang.String DEFAULT_SERVICE_PATH
@@ -10682,6 +10699,12 @@ com.trip.utils.Constants:
     public static final java.lang.String STR_PURCHASED
     public static final java.lang.String STR_PURCHASE_ID
     public static final java.lang.String STR_SKU_PREMIUM
+    public static final java.lang.String STR_TITLE
+    public static final java.lang.String STR_CONTENT
+    public static final java.lang.String STR_ACTION
+    public static final java.lang.String STR_LAYOUT
+    public static final java.lang.String STR_TEXT
+    public static final java.lang.String STR_AMOUNT
     3:3:public Constants()
 com.trip.utils.DistributionBean1:
     private java.lang.String synced
@@ -10846,7 +10869,7 @@ com.trip.utils.billing.Security:
     private static final java.lang.String TAG
     private static final java.lang.String KEY_FACTORY_ALGORITHM
     private static final java.lang.String SIGNATURE_ALGORITHM
-    43:43:public Security()
+    39:39:public Security()
 com.trip.utils.billing.SkuDetails:
     34:35:public SkuDetails(java.lang.String)
     49:49:public java.lang.String getType()

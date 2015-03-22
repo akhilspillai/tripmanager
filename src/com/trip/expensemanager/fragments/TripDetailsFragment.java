@@ -12,12 +12,12 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.util.LongSparseArray;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -46,6 +46,9 @@ import com.trip.expensemanager.R;
 import com.trip.expensemanager.SyncIntentService;
 import com.trip.expensemanager.TripDetailsActivity;
 import com.trip.expensemanager.adapters.CustomDistributionAdapter;
+import com.trip.expensemanager.fragments.dialogs.AddTripDialogFragment;
+import com.trip.expensemanager.fragments.dialogs.ConfirmDialogListener;
+import com.trip.expensemanager.fragments.dialogs.SettleDebtDialogFragment;
 import com.trip.utils.Constants;
 import com.trip.utils.DistributionBean;
 import com.trip.utils.DistributionBean1;
@@ -91,20 +94,14 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	private ArrayList<String> arrAmountToPay=new ArrayList<String>();
 	private ListView lvDistributionList;
 	private ArrayAdapter<String> listAdapter;
-	private EditText eTxtTripName;
-	private Button btnModify;
-	private Button btnCancel;
 	private TextView txtDistribution;
-	private long lngAdminId;
 	private TextView txtTripAmount;
 	private RadioButton btnUnsettled;
-	private RadioButton btnSettled;
 	private RadioGroup rgDist;
 	private Button btnYes;
-	private String strAmount;
+//	private String strAmount;
 
 
-	@SuppressLint("InflateParams")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		View rootView=null;
@@ -121,7 +118,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			strTripName=trip.getName();
 			lvDistributionList=(ListView) rootView.findViewById(R.id.lv_distribution);
 
-			View header = inflater.inflate(R.layout.fragment_trip_details, null, false); 
+			View header = View.inflate(getActivity(), R.layout.fragment_trip_details, null); 
 
 			lvDistributionList.addHeaderView(header);
 			listAdapter = new CustomDistributionAdapter(getActivity(), arrDistribution, arrPossibletoSettle, this);
@@ -134,7 +131,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			rgDist=(RadioGroup)rootView.findViewById(R.id.rg);
 
 			btnUnsettled=(RadioButton)rootView.findViewById(R.id.btn_unsettled);
-			btnSettled=(RadioButton)rootView.findViewById(R.id.btn_settled);
+//			btnSettled=(RadioButton)rootView.findViewById(R.id.btn_settled);
 			llChartContainer=(LinearLayout)rootView.findViewById(R.id.ll_chart_container);
 			txtTripAmount=(TextView)rootView.findViewById(R.id.txt_trip_amount);
 
@@ -152,7 +149,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	private void loadData(TripBean trip) {
 		LocalDB localDb=new LocalDB(getActivity());
 		try{
-			lngAdminId=trip.getAdminId();
+//			lngAdminId=trip.getAdminId();
 			arrExpenses = localDb.retrieveExpenses(lngTripId);
 
 			if(trip.getSyncStatus().equals(Constants.STR_QR_ADDED)){
@@ -485,7 +482,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	}*/
 
 
-	/*@SuppressLint("InflateParams")
+	/*
 	protected void showDeleteTripDialog(final String tripName, final long tripId) {
 		try{
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -546,86 +543,38 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		}
 	}
 
-	@SuppressLint("InflateParams")
+	
 	private void showSettleDeptDialog(final int position) {
-		try{
-			Context context=getActivity();
-			LocalDB localDb=new LocalDB(context);
-			String user=localDb.retrievePrefferedName(arrFromUsrIds.get(position));
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.settle_debt_dialog, null);
-			builder.setCancelable(true);
-			TextView textView = (TextView)view.findViewById(R.id.tv_message);
-			EditText etAmount=(EditText) view.findViewById(R.id.et_amount);
-			strAmount=arrAmountToPay.get(position);
-			if(strAmount.startsWith("-")){
-				strAmount=strAmount.substring(1);
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
+
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				EditText et=(EditText)dialog.getDialog().findViewById(R.id.et_amount);
+				String strAmount=et.getText().toString();
+				markDistributionAsSettled(strAmount, position);
+				dialog.dismiss();
 			}
-			etAmount.setText(strAmount);
-			btnYes = (Button) view.findViewById(R.id.btn_yes);
-			Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			etAmount.addTextChangedListener(new TextWatcher() {
 
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					btnYes.setEnabled(false);
-				}
-
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count,
-						int after) {
-
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-					if(s.length()==0){
-						btnYes.setEnabled(false);
-					} else{
-						strAmount=s.toString();
-						float fAmount;
-						try {
-							fAmount=Float.parseFloat(strAmount);
-						} catch (NumberFormatException e) {
-							fAmount=0;
-						}
-						if(fAmount!=0){
-							btnYes.setEnabled(true);
-						}
-					}
-				}
-			});
-			btnYes.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					markDistributionAsSettled(position);
-					alert.cancel();
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			textView.setText("Do you want to mark "+user+"'s debt as settled?");
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		Context context=getActivity();
+		LocalDB localDb=new LocalDB(context);
+		String user=localDb.retrievePrefferedName(arrFromUsrIds.get(position));
+		String strAmount=arrAmountToPay.get(position);
+		if(strAmount.startsWith("-")){
+			strAmount=strAmount.substring(1);
 		}
+		SettleDebtDialogFragment.newInstance("Do you want to mark "+user+"'s debt as settled?", strAmount, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 
 	}
 
-	protected void markDistributionAsSettled(int position) {
+	protected void markDistributionAsSettled(String strAmount, int position) {
 		long userId=arrFromUsrIds.get(position);
 		String strSettledAmount=strAmount;
-		String strAmountToPay=arrAmountToPay.get(position);
+//		String strAmountToPay=arrAmountToPay.get(position);
 		/*if(strAmountToPay.equals(strSettledAmount)){
 			arrDistribution.remove(position);
 			arrPossibletoSettle.remove(position);
@@ -653,61 +602,23 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 		context.startService(new Intent(context, SyncIntentService.class));
 	}
 
-	@SuppressLint("InflateParams")
+	
 	private void showUpdateTripNameDialog(String tripName) {
-		try{
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			View view = getActivity().getLayoutInflater().inflate(R.layout.add_trip_dialog, null);
-			builder.setCancelable(true);
-			eTxtTripName = (EditText)view.findViewById(R.id.etxt_trip_name);
-			btnModify = (Button) view.findViewById(R.id.btn_ok);
-			btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-			btnModify.setText("Update");
-			eTxtTripName.setText(tripName);
-			eTxtTripName.addTextChangedListener(new TextWatcher() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
-				@Override
-				public void onTextChanged(CharSequence s, int start, int before, int count) {
-					btnModify.setEnabled(false);
-				}
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				strTripName=((EditText)dialog.getDialog().findViewById(R.id.etxt_trip_name)).getText().toString();
+				updateTrip(lngTripId, strTripName);
+				dialog.dismiss();
+			}
 
-				@Override
-				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-				}
-
-				@Override
-				public void afterTextChanged(Editable s) {
-					if(s.length()!=0){
-						btnModify.setEnabled(true);
-					}
-				}
-			});
-			btnModify.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					strTripName=eTxtTripName.getText().toString();
-					alert.cancel();
-					updateTrip(lngTripId, strTripName);
-					txtTripName.setText(strTripName);
-
-				}
-			});
-			btnCancel.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					alert.cancel();
-				}
-			});
-
-			alert = builder.create();
-			alert.setView(view, 0, 0, 0, 0);
-			alert.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		AddTripDialogFragment.newInstance(getActivity().getResources().getString(R.string.update), tripName, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 
 	protected void updateTrip(long lngTripIdToChange, String strTripNameToChange) {

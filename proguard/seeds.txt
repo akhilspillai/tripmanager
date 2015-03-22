@@ -2454,8 +2454,6 @@ com.google.zxing.qrcode.decoder.Mode: com.google.zxing.qrcode.decoder.Mode[] val
 com.google.zxing.qrcode.decoder.Mode: com.google.zxing.qrcode.decoder.Mode valueOf(java.lang.String)
 com.trip.expensemanager.AllDetailsActivity
 com.trip.expensemanager.AllDetailsActivity: AllDetailsActivity()
-com.trip.expensemanager.ConnectivityChangeListener
-com.trip.expensemanager.ConnectivityChangeListener: ConnectivityChangeListener()
 com.trip.expensemanager.ExpenseActivity
 com.trip.expensemanager.ExpenseActivity: ExpenseActivity()
 com.trip.expensemanager.GcmBroadcastReceiver
@@ -2785,6 +2783,7 @@ com.trip.expensemanager.R$color: int switch_thumb_normal_material_light
 com.trip.expensemanager.R$color: int tabsScrollColor
 com.trip.expensemanager.R$color: int text_blue
 com.trip.expensemanager.R$color: int text_qr
+com.trip.expensemanager.R$color: int translucent
 com.trip.expensemanager.R$color: int unselected_color
 com.trip.expensemanager.R$color: int wallet_bright_foreground_disabled_holo_light
 com.trip.expensemanager.R$color: int wallet_bright_foreground_holo_dark
@@ -2902,6 +2901,7 @@ com.trip.expensemanager.R$drawable: int bg_login
 com.trip.expensemanager.R$drawable: int bg_login_img
 com.trip.expensemanager.R$drawable: int bg_qr
 com.trip.expensemanager.R$drawable: int bg_qr_text
+com.trip.expensemanager.R$drawable: int btn_text_selector
 com.trip.expensemanager.R$drawable: int common_full_open_on_phone
 com.trip.expensemanager.R$drawable: int common_ic_googleplayservices
 com.trip.expensemanager.R$drawable: int common_signin_btn_icon_dark
@@ -2933,6 +2933,7 @@ com.trip.expensemanager.R$drawable: int custom_button
 com.trip.expensemanager.R$drawable: int custom_button_cancel
 com.trip.expensemanager.R$drawable: int custom_button_settled
 com.trip.expensemanager.R$drawable: int custom_button_tab
+com.trip.expensemanager.R$drawable: int custom_dialog_bg
 com.trip.expensemanager.R$drawable: int custom_text_settled
 com.trip.expensemanager.R$drawable: int disable_color
 com.trip.expensemanager.R$drawable: int error
@@ -2974,9 +2975,9 @@ com.trip.expensemanager.R$drawable: int ic_trip_closed
 com.trip.expensemanager.R$drawable: int ic_trip_open
 com.trip.expensemanager.R$drawable: int ic_upgrade
 com.trip.expensemanager.R$drawable: int ic_welcome
+com.trip.expensemanager.R$drawable: int lollipop_button
 com.trip.expensemanager.R$drawable: int powered_by_google_dark
 com.trip.expensemanager.R$drawable: int powered_by_google_light
-com.trip.expensemanager.R$drawable: int qr
 com.trip.expensemanager.R$drawable: int round_button
 com.trip.expensemanager.R$drawable: int spin
 com.trip.expensemanager.R$drawable: int tab_selector
@@ -3012,7 +3013,6 @@ com.trip.expensemanager.R$id: int always
 com.trip.expensemanager.R$id: int beginning
 com.trip.expensemanager.R$id: int book_now
 com.trip.expensemanager.R$id: int btnOk
-com.trip.expensemanager.R$id: int btn_add
 com.trip.expensemanager.R$id: int btn_add_expense
 com.trip.expensemanager.R$id: int btn_add_people
 com.trip.expensemanager.R$id: int btn_add_trip
@@ -3099,7 +3099,6 @@ com.trip.expensemanager.R$id: int pb
 com.trip.expensemanager.R$id: int pb_conf_password
 com.trip.expensemanager.R$id: int pb_expense_add
 com.trip.expensemanager.R$id: int pb_trip_add
-com.trip.expensemanager.R$id: int pb_trip_name
 com.trip.expensemanager.R$id: int pb_username
 com.trip.expensemanager.R$id: int production
 com.trip.expensemanager.R$id: int progress_circular
@@ -3111,7 +3110,6 @@ com.trip.expensemanager.R$id: int rl1
 com.trip.expensemanager.R$id: int rl2
 com.trip.expensemanager.R$id: int rl_conf_password
 com.trip.expensemanager.R$id: int rl_screen_name
-com.trip.expensemanager.R$id: int rl_trip_name
 com.trip.expensemanager.R$id: int rl_username
 com.trip.expensemanager.R$id: int sandbox
 com.trip.expensemanager.R$id: int satellite
@@ -3143,6 +3141,7 @@ com.trip.expensemanager.R$id: int title
 com.trip.expensemanager.R$id: int toolbar
 com.trip.expensemanager.R$id: int toolbar_view
 com.trip.expensemanager.R$id: int tv_amount
+com.trip.expensemanager.R$id: int tv_content
 com.trip.expensemanager.R$id: int tv_creation_time
 com.trip.expensemanager.R$id: int tv_distribution
 com.trip.expensemanager.R$id: int tv_icon_view
@@ -3151,6 +3150,7 @@ com.trip.expensemanager.R$id: int tv_message
 com.trip.expensemanager.R$id: int tv_no_expenses
 com.trip.expensemanager.R$id: int tv_scan
 com.trip.expensemanager.R$id: int tv_screen_name
+com.trip.expensemanager.R$id: int tv_title
 com.trip.expensemanager.R$id: int tv_trip_name
 com.trip.expensemanager.R$id: int tv_update
 com.trip.expensemanager.R$id: int txt_all
@@ -3226,6 +3226,8 @@ com.trip.expensemanager.R$layout: int expenses_row_layout
 com.trip.expensemanager.R$layout: int fragment_add_expense
 com.trip.expensemanager.R$layout: int fragment_add_expense_list
 com.trip.expensemanager.R$layout: int fragment_add_people
+com.trip.expensemanager.R$layout: int fragment_dialog_confirm
+com.trip.expensemanager.R$layout: int fragment_dialog_info
 com.trip.expensemanager.R$layout: int fragment_distribution_list
 com.trip.expensemanager.R$layout: int fragment_expense_login
 com.trip.expensemanager.R$layout: int fragment_expense_register
@@ -3370,6 +3372,7 @@ com.trip.expensemanager.R$string: int trip_name
 com.trip.expensemanager.R$string: int trips
 com.trip.expensemanager.R$string: int unit_id
 com.trip.expensemanager.R$string: int unsettled
+com.trip.expensemanager.R$string: int update
 com.trip.expensemanager.R$string: int updates
 com.trip.expensemanager.R$string: int upgrade
 com.trip.expensemanager.R$string: int upgrade_features
@@ -3490,6 +3493,7 @@ com.trip.expensemanager.R$style: int Base_Widget_AppCompat_Spinner_DropDown_Acti
 com.trip.expensemanager.R$style: int Base_Widget_AppCompat_Toolbar
 com.trip.expensemanager.R$style: int Base_Widget_AppCompat_Toolbar_Button_Navigation
 com.trip.expensemanager.R$style: int CustomActionBarTheme
+com.trip.expensemanager.R$style: int DialogAnimation
 com.trip.expensemanager.R$style: int MyActionBar
 com.trip.expensemanager.R$style: int Platform_AppCompat
 com.trip.expensemanager.R$style: int Platform_AppCompat_Dialog
@@ -3563,12 +3567,13 @@ com.trip.expensemanager.R$style: int Theme_AppCompat_Light_NoActionBar
 com.trip.expensemanager.R$style: int Theme_AppCompat_NoActionBar
 com.trip.expensemanager.R$style: int Theme_IAPTheme
 com.trip.expensemanager.R$style: int Theme_Transparent
+com.trip.expensemanager.R$style: int ThemeDialogCustom
 com.trip.expensemanager.R$style: int ThemeOverlay_AppCompat
 com.trip.expensemanager.R$style: int ThemeOverlay_AppCompat_ActionBar
 com.trip.expensemanager.R$style: int ThemeOverlay_AppCompat_Dark
 com.trip.expensemanager.R$style: int ThemeOverlay_AppCompat_Dark_ActionBar
 com.trip.expensemanager.R$style: int ThemeOverlay_AppCompat_Light
-com.trip.expensemanager.R$style: int Toolbar_Theme
+com.trip.expensemanager.R$style: int ToolbarTheme
 com.trip.expensemanager.R$style: int WalletFragmentDefaultButtonTextAppearance
 com.trip.expensemanager.R$style: int WalletFragmentDefaultDetailsHeaderTextAppearance
 com.trip.expensemanager.R$style: int WalletFragmentDefaultDetailsTextAppearance

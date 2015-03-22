@@ -3,26 +3,19 @@ package com.trip.expensemanager.adapters;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.trip.expensemanager.R;
 import com.trip.utils.Constants;
-import com.trip.utils.UpdateBean;
 
 public class CustomUpdatesAdapter extends ArrayAdapter<String> {
 
 	private Context context;
-	private int lastPosition=-1;
 	private List<String> labels;
 	private List<String> actions;
 
