@@ -267,8 +267,8 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 
 	@Override
 	public void onClick(View v) {
-		if(arrPeople.size()>=5){
-			String strContent="You should be a premium user to add more people to this Expense Groups.\n"+getActivity().getResources().getString(R.string.upgrade_features);
+		if(arrPeople.size()>=5 && !isPurchased()){
+			String strContent="You should be a premium user to add more people to this Expense Group.\n"+getActivity().getResources().getString(R.string.upgrade_features);
 			showUpgradeDialog(strContent);
 		} else{
 			showAddPeopleFragment();

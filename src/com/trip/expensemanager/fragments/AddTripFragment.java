@@ -134,9 +134,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.clear();
 		super.onCreateOptionsMenu(menu, inflater);
-		SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
-		boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
-		if(isPurchased){
+		if(isPurchased()){
 			inflater.inflate(R.menu.add_trip_fragment_action, menu);
 		} else{
 			inflater.inflate(R.menu.add_trip_fragment_action_upgrade, menu);
@@ -421,7 +419,7 @@ public class AddTripFragment extends CustomFragment implements OnItemClickListen
 
 	@Override
 	public void onClick(View v) {
-		if(arrTripNames.size()>=3){
+		if(arrTripNames.size()>=3 && !isPurchased()){
 			String strContent="You should be a premium user to add more Expense Groups.\n"+getActivity().getResources().getString(R.string.upgrade_features);
 			showUpgradeDialog(strContent);
 		} else{

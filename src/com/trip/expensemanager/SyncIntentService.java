@@ -732,9 +732,9 @@ public class SyncIntentService extends IntentService{
 								}
 								TripBean tripBean=localDb.retrieveTripDetails(distTemp.getTripId());
 								if(toUser!=null && fromUser!=null){
-									sendNotification(toSyncTemp.getSyncType(), "Debt Settled", toUser+" marked your debt of "+strAmount+" in the expense-group "+tripBean.getName()+" as paid!!", intentToCall , Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
+									sendNotification(toSyncTemp.getSyncType(), "Debt Settled", toUser+" marked "+fromUser+" debt of "+strAmount+" in the expense-group "+tripBean.getName()+" as paid!!", intentToCall , Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
 								} else{
-									sendNotification(toSyncTemp.getSyncType(), "Debt Settled", "Your debt of "+strAmount+" in the expense-group "+tripBean.getName()+" is marked as paid!!", intentToCall , Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
+									sendNotification(toSyncTemp.getSyncType(), "Debt Settled", "Debt of "+strAmount+" in the expense-group "+tripBean.getName()+" is marked as paid!!", intentToCall , Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
 								}
 
 							} else{

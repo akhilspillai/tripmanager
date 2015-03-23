@@ -134,9 +134,8 @@ public class CustomFragment extends Fragment {
 
 			@Override
 			public void onDialogPositiveClick(DialogFragment dialog) {
-				SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
-				boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
-				if(!isPurchased){
+				
+				if(!isPurchased()){
 					purchaseItem();
 				} else{
 					showInfoMessage("The item is already purchased!!");
@@ -150,5 +149,10 @@ public class CustomFragment extends Fragment {
 			}
 		};
 		ConfirmationFragment.newInstance("Upgrade", strContent, getActivity().getResources().getString(R.string.upgrade), R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
+	}
+	
+	protected boolean isPurchased() {
+		SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
+		return prefs.getBoolean(Constants.STR_PURCHASED, false);
 	}
 }
