@@ -1,5 +1,7 @@
 package com.trip.expensemanager;
 
+import java.util.regex.Pattern;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,12 +11,13 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.trip.expensemanager.fragments.AddTripFragment;
-import com.trip.expensemanager.fragments.LoginFragment;
+import com.trip.expensemanager.fragments.NewUserFragment;
 import com.trip.utils.Constants;
 import com.trip.utils.LocalDB;
 
@@ -26,12 +29,6 @@ public class ExpenseActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_expense);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-		if (toolbar != null) {
-			setSupportActionBar(toolbar);
-		}
 		
 		receiver = new BroadcastReceiver() {
 	        @Override
@@ -43,9 +40,25 @@ public class ExpenseActivity extends ActionBarActivity {
 		LocalDB localDb=new LocalDB(this);
 		if (savedInstanceState == null) {
 			long lngUserId=localDb.retrieve();
-			if(lngUserId==0L){
-				getSupportFragmentManager().beginTransaction().add(R.id.container, LoginFragment.newInstance()).commit();
+			String strUsername=localDb.retrieveUsername();
+			Pattern emailPattern = Patterns.EMAIL_ADDRESS;
+			boolean isEmail=emailPattern.matcher(strUsername).matches();
+			if(!isEmail || lngUserId==0L){
+				setContentView(R.layout.activity_new_user);
+				Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+				if (toolbar != null) {
+					setSupportActionBar(toolbar);
+				}
+				getSupportActionBar().setDisplayShowTitleEnabled(false);
+				getSupportFragmentManager().beginTransaction().add(R.id.container, NewUserFragment.newInstance()).commit();
 			} else{
+				setContentView(R.layout.activity_expense);
+				Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+				if (toolbar != null) {
+					setSupportActionBar(toolbar);
+				}
 				getSupportFragmentManager().beginTransaction().add(R.id.container, AddTripFragment.newInstance(lngUserId)).commit();
 			}
 			Intent serviceIntent=new Intent(this, SyncIntentService.class);
@@ -75,11 +88,13 @@ public class ExpenseActivity extends ActionBarActivity {
 		
 		SharedPreferences prefs = getSharedPreferences(Constants.STR_PREFERENCE, MODE_PRIVATE);
 		boolean isPurchased=prefs.getBoolean(Constants.STR_PURCHASED, false);
-		if(isPurchased){
-			adView.setVisibility(View.GONE);
-		} else{
-			adView.setVisibility(View.VISIBLE);
-			adView.loadAd(adRequest);
+		if(adView!=null){
+			if(isPurchased){
+				adView.setVisibility(View.GONE);
+			} else{
+				adView.setVisibility(View.VISIBLE);
+				adView.loadAd(adRequest);
+			}
 		}
 	}
 	

@@ -437,7 +437,7 @@ public class LocalDB{
 		}
 		return lngDevId;
 	}
-
+	
 	public boolean update(String strColumn, String strValue, String strUsername) {
 		try {
 			SQLiteDatabase database=open();

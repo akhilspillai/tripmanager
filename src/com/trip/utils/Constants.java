@@ -111,5 +111,12 @@ public class Constants {
 	public static final String STR_LAYOUT = "layout";
 	public static final String STR_TEXT = "text";
 	public static final String STR_AMOUNT = "amount";
+	public static final int AUTH_CODE_REQUEST_CODE = 1000;
+	public static final String STR_ERR_NO_ACCTS = "Seems like you don't have an account associated with this phone. Please add an account and continue.";
+	public static final String STR_ERR_FETCH_ACCT = "Seems like we are unable to create an account for you.:(\nPlease try again after some time.";
+
+	public static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
+	public static final int REQUEST_CODE_RECOVER_FROM_AUTH_ERROR = 1001;
+	public static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1002;
 	
 }

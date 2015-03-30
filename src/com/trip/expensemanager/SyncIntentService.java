@@ -572,7 +572,7 @@ public class SyncIntentService extends IntentService{
 								if(strChanger!=null){
 									sendNotification(toSyncTemp.getSyncType(), "EG Deleted", "Expense-group "+tripBean.getName()+" deleted by "+strChanger+"!!", new Intent(this, UpdatesActivity.class), Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
 								} else{
-									sendNotification(toSyncTemp.getSyncType(), "EG Deleted", "Expense-group "+tripBean.getName()+" deleted!!", new Intent(this, ExpenseActivity.class), Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
+									sendNotification(toSyncTemp.getSyncType(), "EG Deleted", "Expense-group "+tripBean.getName()+" deleted!!", new Intent(this, UpdatesActivity.class), Constants.NOTIFICATION_ID_TRIP, Constants.STR_GROUP, tripBean.getId());
 								}
 							}
 							sendResult(RESULT_SYNC);

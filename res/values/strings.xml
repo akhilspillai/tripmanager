@@ -74,5 +74,6 @@
     <string name="settle_expenses">Settle</string>
     <string name="unsettled">Unsettled</string>
     <string name="upgrade_features">If you upgrade to premium you will have the following features:\n 1. No ads!\n 2. Add unlimited EGs!\n 3. Add unlimited number of people to your EGs!\n 4. Access across all your devices.</string>
+    <string name="setup">Just a Sec...</string>
 	
 </resources>

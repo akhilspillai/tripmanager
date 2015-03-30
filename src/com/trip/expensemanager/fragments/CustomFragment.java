@@ -1,8 +1,10 @@
 package com.trip.expensemanager.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -154,5 +156,26 @@ public class CustomFragment extends Fragment {
 	protected boolean isPurchased() {
 		SharedPreferences prefs = getActivity().getSharedPreferences(Constants.STR_PREFERENCE, Activity.MODE_PRIVATE);
 		return prefs.getBoolean(Constants.STR_PURCHASED, false);
+	}
+	
+	protected void showGMSNotFoundDialog() {
+		ConfirmDialogListener listener=new ConfirmDialogListener() {
+
+			@Override
+			public void onDialogPositiveClick(DialogFragment dialog) {
+				try {
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.gms")));
+				} catch (android.content.ActivityNotFoundException anfe) {
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=com.google.android.gms")));
+				}
+				dialog.dismiss();
+			}
+
+			@Override
+			public void onDialogNegativeClick(DialogFragment dialog) {
+				dialog.dismiss();
+			}
+		};
+		ConfirmationFragment.newInstance("No Google Play Services", "Oops!! Seems like you don't have google play services installed. Please install and try again!!", "Install", R.layout.fragment_dialog_confirm, listener).show(getActivity().getSupportFragmentManager(), "dialog");
 	}
 }

@@ -655,7 +655,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 	}
 
 	
-	private void showGMSNotFoundDialog() {
+	protected void showGMSNotFoundDialog() {
 		ConfirmDialogListener listener=new ConfirmDialogListener() {
 
 			@Override
