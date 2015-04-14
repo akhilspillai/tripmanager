@@ -26,6 +26,10 @@
     <string name="add_trip_name">Type EG name</string>
     <string name="add_screen_name">Type Screen name</string>
     <string name="trip_name">EG name</string>
+    <string name="your_name">Screen name:</string>
+    <string name="email">Email ID:</string>
+    <string name="exit">Exit</string>
+    <string name="next">Continue</string>
     <string name="screen_name">Enter a screen name:</string>
     <string name="add">Add</string>
     <string name="update">Update</string>
@@ -74,6 +78,7 @@
     <string name="settle_expenses">Settle</string>
     <string name="unsettled">Unsettled</string>
     <string name="upgrade_features">If you upgrade to premium you will have the following features:\n 1. No ads!\n 2. Add unlimited EGs!\n 3. Add unlimited number of people to your EGs!\n 4. Access across all your devices.</string>
-    <string name="setup">Just a Sec...</string>
+    <string name="setup">Just a Sec&#8230;</string>
+    <string name="done">Almost Done&#8230;</string>
 	
 </resources>

@@ -9,22 +9,29 @@
     android:paddingStart="20dp"
     android:paddingTop="10dp" >
 
-    <TextView
-        android:id="@+id/txt_trip_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20sp" />
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <ImageView
-        android:id="@+id/iv_edit_trip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_edit" />
+        <TextView
+            android:id="@+id/txt_trip_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_edit_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_edit" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/txt_expenses"
@@ -32,11 +39,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/txt_trip_name"
+        android:layout_below="@+id/rl"
         android:layout_marginTop="20dp"
         android:text="@string/expenses"
         android:textColor="@color/app_color"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/v_view_expenses"
@@ -54,7 +61,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:text="@string/no_expenses"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
 
     <LinearLayout
         android:id="@+id/ll_chart_container"
@@ -78,7 +85,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/distribution"
         android:textColor="@color/app_color"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/v_view_distribution"
@@ -96,16 +103,17 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/v_view_distribution"
         android:layout_marginTop="10dp"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
 
     <RadioGroup
         android:id="@+id/rg"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_below="@+id/txt_trip_amount"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/txt_trip_amount"
+        android:textSize="16sp"
         android:weightSum="2" >
 
         <RadioButton
@@ -118,8 +126,9 @@
             android:button="@null"
             android:checked="true"
             android:gravity="center"
+            android:text="@string/unsettled"
             android:textColor="@android:color/white"
-            android:text="@string/unsettled" />
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/btn_settled"
@@ -130,8 +139,9 @@
             android:background="@drawable/custom_button_tab"
             android:button="@null"
             android:gravity="center"
+            android:text="@string/settled"
             android:textColor="@android:color/white"
-            android:text="@string/settled" />
+            android:textSize="16sp" />
     </RadioGroup>
 
 </RelativeLayout>

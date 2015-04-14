@@ -25,7 +25,6 @@ import com.trip.utils.billing.IabResult;
 import com.trip.utils.billing.Purchase;
 
 public class CustomFragment extends Fragment {
-	private static final int ORDER_ID = 1001;
 
 	private IabHelper mHelper;
 	private boolean isPurchaseReady=false;
@@ -63,7 +62,7 @@ public class CustomFragment extends Fragment {
 		}
 	}
 
-	protected void continuePurchase(){
+	private void continuePurchase(){
 		IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener 
 		= new IabHelper.OnIabPurchaseFinishedListener() {
 			public void onIabPurchaseFinished(IabResult result, Purchase purchase) 
@@ -91,7 +90,7 @@ public class CustomFragment extends Fragment {
 		};
 		strUniqueString=Global.randomString(25);
 		if (mHelper != null) mHelper.flagEndAsync();
-		mHelper.launchPurchaseFlow(getActivity(), Constants.STR_SKU_PREMIUM, ORDER_ID,   
+		mHelper.launchPurchaseFlow(getActivity(), Constants.STR_SKU_PREMIUM, Constants.ORDER_ID,   
 				mPurchaseFinishedListener, strUniqueString);
 	}
 

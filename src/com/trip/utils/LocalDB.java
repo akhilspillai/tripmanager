@@ -438,12 +438,28 @@ public class LocalDB{
 		return lngDevId;
 	}
 	
-	public boolean update(String strColumn, String strValue, String strUsername) {
+	public boolean update(String strUsername, long lngUserId) {
 		try {
 			SQLiteDatabase database=open();
 			ContentValues args = new ContentValues();
-			args.put(strColumn, strValue); 
-			database.update(SQLiteHelper.TABLE_LOGIN, args, SQLiteHelper.COLUMN_USERNAME+"="+ strUsername, null);
+			args.put(SQLiteHelper.COLUMN_USERNAME, strUsername); 
+			database.update(SQLiteHelper.TABLE_LOGIN, args, SQLiteHelper.COLUMN_USER_ID+"=?", new String[]{String.valueOf(lngUserId)});
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}finally{
+			close();
+		}
+		return false;
+	}
+
+	public boolean updatePerson(String strNewUsername, long lngUserId) {
+		try {
+			SQLiteDatabase database=open();
+			ContentValues args = new ContentValues();
+			args.put(SQLiteHelper.COLUMN_USERNAME, strNewUsername); 
+			database.update(SQLiteHelper.TABLE_USERS, args, SQLiteHelper.COLUMN_USER_ID+"=?", new String[]{String.valueOf(lngUserId)});
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

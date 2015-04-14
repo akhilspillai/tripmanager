@@ -37,6 +37,7 @@ public class UpdateLoginTask extends AsyncTask<Void, Void, Void>{
 						retLogin.setPurchaseId(strArrPurchases[1]);
 						endpoint.updateLogIn(retLogin).execute();
 					}
+					localDb.updatePurchaseToSynced();
 				}
 			}
 

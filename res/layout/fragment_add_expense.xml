@@ -19,7 +19,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/expense_name"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
@@ -34,8 +34,9 @@
             android:layout_marginStart="5dp"
             android:hint="@string/add_expense_name"
             android:inputType="textCapWords"
-            android:maxLength="50" 
-            android:textColor="@drawable/disable_color"/>
+            android:maxLength="50"
+            android:textColor="@drawable/disable_color"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/txt_expense_detail"
@@ -48,7 +49,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/expense_detail"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
@@ -64,8 +65,9 @@
             android:hint="@string/add_expense_detail"
             android:inputType="textCapSentences"
             android:lines="3"
-            android:maxLength="100" 
-            android:textColor="@drawable/disable_color"/>
+            android:maxLength="100"
+            android:textColor="@drawable/disable_color"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/txt_expense_amount"
@@ -78,7 +80,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/spent_amount"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
@@ -93,8 +95,9 @@
             android:layout_marginStart="5dp"
             android:hint="@string/add_expense_amount"
             android:inputType="numberDecimal"
-            android:maxLength="20" 
-            android:textColor="@drawable/disable_color"/>
+            android:maxLength="20"
+            android:textColor="@drawable/disable_color"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/txt_expense_admin"
@@ -107,7 +110,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/expense_admin"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
@@ -121,8 +124,9 @@
             android:layout_marginRight="5dp"
             android:layout_marginStart="5dp"
             android:enabled="false"
-            android:inputType="textCapWords" 
-            android:textColor="@drawable/disable_color"/>
+            android:inputType="textCapWords"
+            android:textColor="@drawable/disable_color"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/txt_expense_creation_date"
@@ -135,7 +139,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/expense_creation_date"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <EditText
@@ -149,10 +153,11 @@
             android:layout_marginRight="5dp"
             android:layout_marginStart="5dp"
             android:enabled="false"
-            android:inputType="datetime" 
-            android:textColor="@drawable/disable_color"/>
-        
-         <TextView
+            android:inputType="datetime"
+            android:textColor="@drawable/disable_color"
+            android:textSize="15sp" />
+
+        <TextView
             android:id="@+id/txt_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -163,41 +168,40 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:text="@string/select"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
-         
-         <TextView
+
+        <TextView
             android:id="@+id/txt_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/etxt_expense_creation_date"
-            android:layout_toRightOf="@+id/txt_select"
-            android:layout_toEndOf="@+id/txt_select"
             android:layout_marginEnd="5dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="5dp"
             android:layout_marginStart="50dp"
             android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/txt_select"
+            android:layout_toRightOf="@+id/txt_select"
             android:text="@string/all"
-            android:textSize="18sp"
-            android:textColor="@color/app_color" />
-         
-         <TextView
+            android:textColor="@color/app_color"
+            android:textSize="15sp" />
+
+        <TextView
             android:id="@+id/txt_none"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/etxt_expense_creation_date"
-            android:layout_toRightOf="@+id/txt_all"
-            android:layout_toEndOf="@+id/txt_all"
             android:layout_marginEnd="5dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="5dp"
             android:layout_marginStart="50dp"
             android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/txt_all"
+            android:layout_toRightOf="@+id/txt_all"
             android:text="@string/none"
-            android:textSize="18sp"
-            android:textColor="@color/app_color" />
-
+            android:textColor="@color/app_color"
+            android:textSize="15sp" />
     </RelativeLayout>
 
 </RelativeLayout>

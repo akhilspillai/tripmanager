@@ -204,6 +204,10 @@ public class AddExpenseFragment extends CustomFragment implements OnClickListene
 			String username;
 			Date date;
 			TripBean trip=localDb.retrieveTripDetails(lngTripId);
+			if(trip==null){
+				getActivity().finish();
+				return null;
+			}
 			ExpenseBean expense=null;
 			if(opcode==Constants.I_OPCODE_ADD_EXPENSE){
 				username=localDb.retrievePrefferedName(lngUserId);

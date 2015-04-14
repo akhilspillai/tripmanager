@@ -594,7 +594,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 						long lngUserId=data.getLongExtra(Constants.STR_USER_ID,0L);
 						if(lngUserId!=0L){
 							context.getSupportFragmentManager().popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
-							context.getSupportFragmentManager().beginTransaction().replace(R.id.container, AddTripFragment.newInstance(lngUserId)).commit();
+							context.getSupportFragmentManager().beginTransaction().replace(R.id.container, AddTripFragment.newInstance(lngUserId, false)).commit();
 						} else {
 							showMessage("Something went wrong!!");
 						}
@@ -619,7 +619,7 @@ public class LoginFragment extends CustomFragment implements OnClickListener, An
 						long lngUserId = data.getLongExtra(Constants.STR_USER_ID, 0L);
 						if(lngUserId!=0L){
 							context.getSupportFragmentManager().popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
-							context.getSupportFragmentManager().beginTransaction().replace(R.id.container, AddTripFragment.newInstance(lngUserId)).commit();
+							context.getSupportFragmentManager().beginTransaction().replace(R.id.container, AddTripFragment.newInstance(lngUserId, false)).commit();
 						} else{
 							showMessage("Something went wrong!!");
 						}

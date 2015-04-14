@@ -103,6 +103,10 @@ public class TripPeopleFragment extends CustomFragment implements OnItemClickLis
 		arrColors.removeAll(arrColors);
 		try {
 			TripBean trip=localDb.retrieveTripDetails(lngTripId);
+			if(trip==null){
+				getActivity().finish();
+				return;
+			}
 			lngTripId=trip.getId();
 			strTripName=trip.getName();
 			lngAdminId=trip.getAdminId();

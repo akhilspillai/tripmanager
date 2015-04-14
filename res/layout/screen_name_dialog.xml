@@ -9,33 +9,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-        <TextView 
+        <TextView
             android:id="@+id/tv_screen_name"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/screen_name"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:textStyle="bold"/>
-        
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/screen_name"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etxt_trip_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_screen_name"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:hint="@string/add_screen_name"
-            android:layout_below="@+id/tv_screen_name"
             android:inputType="textCapWords"
-            android:textColor="@drawable/disable_color" />
-
+            android:textColor="@drawable/disable_color"
+            android:textSize="15sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -53,7 +53,6 @@
             android:layout_weight="1.0"
             android:background="@drawable/custom_button"
             android:text="@string/ok" />
-
     </LinearLayout>
 
 </RelativeLayout>

@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
+
 import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -18,6 +20,8 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.util.Patterns;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -246,6 +250,7 @@ public class SyncIntentService extends IntentService{
 		long userId=localDb.retrieve();
 		long devId=localDb.retrieveDeviceId();
 		CollectionResponseToSync entities=null;
+		Pattern emailPattern = Patterns.EMAIL_ADDRESS;
 		try {
 			entities = endpoint.listToSync().setUserId(devId).execute();
 		} catch (IOException e) {
@@ -273,7 +278,10 @@ public class SyncIntentService extends IntentService{
 
 			for(ToSync toSyncTemp:entities.getItems()){
 				try {
-					if(toSyncTemp.getSyncType().equals(Constants.STR_ITEM_PURCHASED)){
+					if(toSyncTemp.getSyncType().equals(Constants.STR_LOG_OUT)){
+						localDb.clearAllTables();
+						sendResult(RESULT_SYNC);
+					} else if(toSyncTemp.getSyncType().equals(Constants.STR_ITEM_PURCHASED)){
 						LogIn login=loginEndpoint.getLogIn(lngUserId).execute();
 						if(login!=null){
 							String strPurchaseId=login.getPurchaseId();
@@ -299,7 +307,7 @@ public class SyncIntentService extends IntentService{
 							if(!oldTripName.equals(newTripName)){
 								String username=localDb.retrievePrefferedName(changerId);
 								LogIn login=null;
-								if(username==null){
+								if(username==null || !emailPattern.matcher(username).matches()){
 									try {
 										login=loginEndpoint.getLogIn(changerId).execute();
 									} catch (IOException e) {
@@ -308,8 +316,11 @@ public class SyncIntentService extends IntentService{
 									}
 								}
 								if(login!=null){
-									username=login.getPrefferedName();
-									localDb.insertPerson(login.getId(), username, login.getPrefferedName());
+									if(username==null){
+										localDb.insertPerson(login.getId(), login.getPrefferedName(), login.getPrefferedName());
+									} else{
+										localDb.updatePerson(login.getPrefferedName(), login.getId());
+									}
 								}
 								localDb.updateTrip(tripTemp.getId(), tripTemp.getName(), Constants.STR_SYNCHED);
 								if(changerId!=userId){
@@ -380,7 +391,7 @@ public class SyncIntentService extends IntentService{
 									StringBuffer sbUsers=new StringBuffer();
 									for(Long userIdTemp:users){
 										username=localDb.retrievePrefferedName(userIdTemp);
-										if(username==null){
+										if(username==null || !emailPattern.matcher(username).matches()){
 											try {
 												login=loginEndpoint.getLogIn(userIdTemp).execute();
 											} catch (IOException e) {
@@ -388,8 +399,11 @@ public class SyncIntentService extends IntentService{
 												continue;
 											}
 											if(login!=null){
-												username=login.getPrefferedName();
-												localDb.insertPerson(login.getId(), username, login.getPrefferedName());
+												if(username==null){
+													localDb.insertPerson(login.getId(), login.getPrefferedName(), login.getPrefferedName());
+												} else{
+													localDb.updatePerson(login.getPrefferedName(), login.getId());
+												}
 											}
 										}
 										sbUsers.append(userIdTemp).append(',');
@@ -437,7 +451,7 @@ public class SyncIntentService extends IntentService{
 								LogIn login=null;
 								String username=null;
 								username=localDb.retrievePrefferedName(changerId);
-								if(username==null){
+								if(username==null || !emailPattern.matcher(username).matches()){
 									try {
 										login=loginEndpoint.getLogIn(changerId).execute();
 									} catch (IOException e) {
@@ -445,8 +459,11 @@ public class SyncIntentService extends IntentService{
 										continue;
 									}
 									if(login!=null){
-										username=login.getPrefferedName();
-										localDb.insertPerson(login.getId(), username, login.getPrefferedName());
+										if(username==null){
+											localDb.insertPerson(login.getId(), login.getPrefferedName(), login.getPrefferedName());
+										} else{
+											localDb.updatePerson(login.getPrefferedName(), login.getId());
+										}
 									}
 								}
 								long[] userIdsOfTrip=tripBean.getUserIds();
@@ -463,7 +480,7 @@ public class SyncIntentService extends IntentService{
 									StringBuffer sbUsers=new StringBuffer();
 									for(Long userIdTemp:users){
 										username=localDb.retrievePrefferedName(userIdTemp);
-										if(username==null){
+										if(username==null || !emailPattern.matcher(username).matches()){
 											try {
 												login=loginEndpoint.getLogIn(userIdTemp).execute();
 											} catch (IOException e) {
@@ -471,8 +488,11 @@ public class SyncIntentService extends IntentService{
 												continue;
 											}
 											if(login!=null){
-												username=login.getPrefferedName();
-												localDb.insertPerson(login.getId(), username, login.getPrefferedName());
+												if(username==null){
+													localDb.insertPerson(login.getId(), login.getPrefferedName(), login.getPrefferedName());
+												} else{
+													localDb.updatePerson(login.getPrefferedName(), login.getId());
+												}
 											}
 										}
 										sbUsers.append(userIdTemp).append(',');
@@ -599,7 +619,7 @@ public class SyncIntentService extends IntentService{
 
 									String username=localDb.retrievePrefferedName(expenseTemp.getUserId());
 									LogIn login=null;
-									if(username==null){
+									if(username==null || !emailPattern.matcher(username).matches()){
 										try {
 											login=loginEndpoint.getLogIn(expenseTemp.getUserId()).execute();
 										} catch (IOException e) {
@@ -609,8 +629,11 @@ public class SyncIntentService extends IntentService{
 									}
 									Intent intentToCall=new Intent(this, UpdatesActivity.class);
 									if(login!=null){
-										username=login.getPrefferedName();
-										localDb.insertPerson(login.getId(), username, login.getPrefferedName());
+										if(username==null){
+											localDb.insertPerson(login.getId(), login.getPrefferedName(), login.getPrefferedName());
+										} else{
+											localDb.updatePerson(login.getPrefferedName(), login.getId());
+										}
 									}
 									long expenseUserId=expenseTemp.getUserId();
 									if(expenseUserId!=userId){
@@ -650,7 +673,7 @@ public class SyncIntentService extends IntentService{
 
 								String username=localDb.retrievePrefferedName(expenseTemp.getUserId());
 								LogIn login=null;
-								if(username==null){
+								if(username==null || !emailPattern.matcher(username).matches()){
 									try {
 										login=loginEndpoint.getLogIn(expenseTemp.getUserId()).execute();
 									} catch (IOException e) {
@@ -660,8 +683,11 @@ public class SyncIntentService extends IntentService{
 								}
 								Intent intentToCall=new Intent(this, UpdatesActivity.class);
 								if(login!=null){
-									username=login.getPrefferedName();
-									localDb.insertPerson(login.getId(), username, login.getPrefferedName());
+									if(username==null){
+										localDb.insertPerson(login.getId(), login.getPrefferedName(), login.getPrefferedName());
+									} else{
+										localDb.updatePerson(login.getPrefferedName(), login.getId());
+									}
 								}
 								if(expenseTemp.getUserId()!=lngUserId){
 									if(username!=null){
@@ -680,7 +706,7 @@ public class SyncIntentService extends IntentService{
 							localDb.deleteExpense(expenseBean.getId());
 							String username=localDb.retrievePrefferedName(expenseBean.getUserId());
 							LogIn login=null;
-							if(username==null){
+							if(username==null || !emailPattern.matcher(username).matches()){
 								try {
 									login=loginEndpoint.getLogIn(expenseBean.getUserId()).execute();
 								} catch (IOException e) {
@@ -690,8 +716,11 @@ public class SyncIntentService extends IntentService{
 							}
 							Intent intentToCall=new Intent(this, UpdatesActivity.class);
 							if(login!=null){
-								username=login.getPrefferedName();
-								localDb.insertPerson(login.getId(), username, login.getPrefferedName());
+								if(username==null){
+									localDb.insertPerson(login.getId(), login.getPrefferedName(), login.getPrefferedName());
+								} else{
+									localDb.updatePerson(login.getPrefferedName(), login.getId());
+								}
 							}
 							if(expenseBean.getUserId()!=userId){
 								if(username!=null){

@@ -20,8 +20,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.util.LongSparseArray;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -98,8 +96,6 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 	private TextView txtTripAmount;
 	private RadioButton btnUnsettled;
 	private RadioGroup rgDist;
-	private Button btnYes;
-//	private String strAmount;
 
 
 	@Override
@@ -113,6 +109,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			TripBean trip = new LocalDB(getActivity()).retrieveTripDetails(lngTripId);
 			if(trip==null){
 				getActivity().finish();
+				return null;
 			}
 			lngTripId=trip.getId();
 			strTripName=trip.getName();
@@ -405,7 +402,7 @@ public class TripDetailsFragment extends CustomFragment implements OnClickListen
 			DefaultRenderer defaultRenderer  = new DefaultRenderer();
 			ArrayList<Integer> arrColors=Global.generateColor(size);
 			DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
-			float val = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, metrics);
+			float val = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 15, metrics);
 			for(int i = 0 ;i<size;i++){
 
 				// Instantiating a render for the slice

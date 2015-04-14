@@ -28,7 +28,9 @@ public class Constants {
 	public static final String STR_ERROR = "error";
 	public static final String DATABASE = "expense.db";
 	public static final String STR_SUCCESS = "success";
+	public static final String STR_INVALIDATE ="invalidate";
 	public static final String STR_FAILURE ="failure";
+	public static final String STR_AUTH ="auth";
 	public static final String USER_ID = "userid";
 	public static final String STR_TRIP_NAME = "trip_name";
 	public static final String STR_DATE = "date";
@@ -112,11 +114,25 @@ public class Constants {
 	public static final String STR_TEXT = "text";
 	public static final String STR_AMOUNT = "amount";
 	public static final int AUTH_CODE_REQUEST_CODE = 1000;
-	public static final String STR_ERR_NO_ACCTS = "Seems like you don't have an account associated with this phone. Please add an account and continue.";
-	public static final String STR_ERR_FETCH_ACCT = "Seems like we are unable to create an account for you.:(\nPlease try again after some time.";
+	public static final String STR_ERR_NO_ACCTS = "Seems like you don't have an account associated with this "
+			+ "phone. Please add an account and continue.";
+	public static final String STR_ERR_FETCH_ACCT = "Seems like we are unable to create an account for you."
+			+ ":(\nPlease try again after some time.";
 
 	public static final int REQUEST_CODE_PICK_ACCOUNT = 1000;
 	public static final int REQUEST_CODE_RECOVER_FROM_AUTH_ERROR = 1001;
 	public static final int REQUEST_CODE_RECOVER_FROM_PLAY_SERVICES_ERROR = 1002;
+	public static final String STR_SYNC_NEEDED = "sync";
+	public static final String STR_NOT_PURCHASED = "not_purchased";
+	public static final String STR_LOG_OUT = "LO";
+	public static final String STR_NEEDS_SYNC = "need_sync";
+	public static final String STR_SYNC_PROBLEM = "The sync was incomplete. Seems "
+			+ "like there is a problem with your internet connection. Please fix "
+			+ "it and swipe down to try again.";
+	public static final String STR_LOGIN_DIFF_DEV = "Seems like you are trying to log in using another device"
+			+ "with the same email id. If you do so your other device will be logged out. In order to avoid "
+			+ "that please upgrade and support this application.\n";
+
+	public static final int ORDER_ID = 1001;
 	
 }

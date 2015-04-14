@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -24,6 +25,7 @@ import com.trip.utils.LocalDB;
 public class ExpenseActivity extends ActionBarActivity {
 
 	private BroadcastReceiver receiver;
+	private TextView txtTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +42,13 @@ public class ExpenseActivity extends ActionBarActivity {
 		LocalDB localDb=new LocalDB(this);
 		if (savedInstanceState == null) {
 			long lngUserId=localDb.retrieve();
+//			localDb.update("test", lngUserId);
 			String strUsername=localDb.retrieveUsername();
 			Pattern emailPattern = Patterns.EMAIL_ADDRESS;
-			boolean isEmail=emailPattern.matcher(strUsername).matches();
-			if(!isEmail || lngUserId==0L){
+			if(lngUserId==0L || !emailPattern.matcher(strUsername).matches()){
 				setContentView(R.layout.activity_new_user);
 				Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+				txtTitle=(TextView) findViewById(R.id.toolbar_title);
 				if (toolbar != null) {
 					setSupportActionBar(toolbar);
 				}
@@ -59,7 +61,7 @@ public class ExpenseActivity extends ActionBarActivity {
 				if (toolbar != null) {
 					setSupportActionBar(toolbar);
 				}
-				getSupportFragmentManager().beginTransaction().add(R.id.container, AddTripFragment.newInstance(lngUserId)).commit();
+				getSupportFragmentManager().beginTransaction().add(R.id.container, AddTripFragment.newInstance(lngUserId, false)).commit();
 			}
 			Intent serviceIntent=new Intent(this, SyncIntentService.class);
 			startService(serviceIntent);
@@ -67,6 +69,10 @@ public class ExpenseActivity extends ActionBarActivity {
 		}
 	}
 
+	public void setCustomTitle(int resource) {
+		txtTitle.setText(resource);
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

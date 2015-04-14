@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:text="@string/no_people"
         android:layout_margin="20dp"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:layout_centerInParent="true"/>
     
     <ListView 

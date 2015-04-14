@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:text="@string/no_expense"
         android:layout_margin="20dp"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:layout_centerInParent="true"/>
     
     <ListView 

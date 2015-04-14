@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/action_add_trip"
         android:textColor="@android:color/black"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
@@ -34,7 +34,8 @@
         android:layout_marginTop="5dp"
         android:hint="@string/add_trip_name"
         android:inputType="textCapWords"
-        android:textColor="@drawable/disable_color" />
+        android:textColor="@drawable/disable_color"
+        android:textSize="15sp" />
 
     <RelativeLayout
         android:id="@+id/Footer"

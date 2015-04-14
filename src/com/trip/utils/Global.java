@@ -273,7 +273,7 @@ public class Global {
 			ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 			connected = cm.getActiveNetworkInfo().isConnectedOrConnecting();
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			connected = false;
 		}
 		return connected;
